@@ -1,0 +1,687 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Generator: babel-plugin-makepot\n"
+
+#: src/Components/Dashboard/ErrorBoundary.jsx:25
+msgid "Something went wrong"
+msgstr ""
+
+#: src/Components/Dashboard/ErrorBoundary.jsx:31
+msgid " Try again"
+msgstr ""
+
+#: src/Components/Dashboard/Explore.jsx:18
+msgid "Tired of plain old rows that page builder offers?"
+msgstr ""
+
+#: src/Components/Dashboard/Explore.jsx:24
+msgid ""
+"Add stunning parallax effects, video backgrounds, and row separators — just "
+"edit your row and see the magic."
+msgstr ""
+
+#: src/Components/Dashboard/Explore.jsx:37
+msgid "Explore more effects with Ultimate Addons"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsite.jsx:100
+msgid "Retry"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsite.jsx:153
+msgid "No plugins available"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsite.jsx:166
+msgid "Extend Your Website"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsite.jsx:95
+msgid "Error loading plugins"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:125
+msgid "Activating.."
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:138
+msgid "Activated"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:156
+msgid "Activate"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:188
+msgid "Free"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:209
+msgid "Visit Site"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:221
+msgid "Activate Theme"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:225
+msgid "Are you sure you want to switch your current theme to Astra?"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:230
+msgid "Yes"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:233
+msgid "Close"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:73
+msgid "Installing.."
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:81
+msgid "Installed"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:92
+msgid "Install"
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:95
+msgid "Theme Installation failed, Please try again later."
+msgstr ""
+
+#: src/Components/Dashboard/ExtendWebsiteWidget.jsx:96
+msgid "Plugin Installation failed, Please try again later."
+msgstr ""
+
+#: src/Components/Dashboard/Font.jsx:36
+#: src/Components/Elements/ElementsFont.jsx:45
+msgid "Google Fonts / Icons Font"
+msgstr ""
+
+#: src/Components/Dashboard/Font.jsx:47
+#: src/Components/Elements/ElementsFont.jsx:56
+msgid "Access 360 Versatile Fonts With All Ultimate Elements"
+msgstr ""
+
+#: src/Components/Dashboard/Font.jsx:51
+msgid ""
+"Easily use custom icon fonts within WPBakery using the built-in Icon Font "
+"Manager."
+msgstr ""
+
+#: src/Components/Dashboard/Font.jsx:69
+msgid "Check Icon List"
+msgstr ""
+
+#: src/Components/Dashboard/ModuleItem.jsx:144
+msgid "View Demo"
+msgstr ""
+
+#: src/Components/Dashboard/ModuleItem.jsx:158
+msgid "Read Documentation"
+msgstr ""
+
+#: src/Components/Dashboard/Modules.jsx:164
+#: src/Components/Elements/ElementModules.jsx:163
+#: src/Components/NavMenu.js:164
+msgid "Elements"
+msgstr ""
+
+#: src/Components/Dashboard/Modules.jsx:166
+msgid "View All"
+msgstr ""
+
+#: src/Components/Dashboard/QuickAccess.jsx:20
+msgid "Quick Access"
+msgstr ""
+
+#: src/Components/Dashboard/QuickAccess.jsx:52
+msgid "Knowledge Base"
+msgstr ""
+
+#: src/Components/Dashboard/QuickAccess.jsx:73
+msgid "Dedicated Support Team"
+msgstr ""
+
+#: src/Components/Dashboard/QuickAccess.jsx:89
+msgid "Watch & Learn"
+msgstr ""
+
+#: src/Components/Dashboard/QuickSettings.jsx:34
+msgid "Quick Settings"
+msgstr ""
+
+#: src/Components/Dashboard/QuickSettings.jsx:87
+msgid "Configure"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:10
+msgid "Video Tutorial 1"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:16
+msgid "Video Tutorial 2"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:161
+msgid "Video Tutorials"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:22
+msgid "Video Tutorial 3"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:28
+msgid "Video Tutorial 4"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:34
+msgid "Video Tutorial 5"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:40
+msgid "Video Tutorial 6"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:46
+msgid "Video Tutorial 7"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:52
+msgid "Video Tutorial 8"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:58
+msgid "Video Tutorial 9"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:64
+msgid "Video Tutorial 10"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:70
+msgid "Video Tutorial 11"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:76
+msgid "Video Tutorial 12"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:82
+msgid "Video Tutorial 13"
+msgstr ""
+
+#: src/Components/Dashboard/VideoTutorials.jsx:88
+msgid "Video Tutorial 14"
+msgstr ""
+
+#: src/Components/Dashboard/WelcomeContainer.jsx:26
+msgid "Welcome to Ultimate Addons for WPBakery Page Builder!"
+msgstr ""
+
+#: src/Components/Dashboard/WelcomeContainer.jsx:29
+msgid ""
+"You are about to begin with the most powerful addon for WPBakery Page "
+"Builder that add in many advanced features developed with love at "
+"Brainstorm Force."
+msgstr ""
+
+#: src/Components/Dashboard/WelcomeContainer.jsx:65
+msgid "Create New Page"
+msgstr ""
+
+#: src/Components/Elements/ElementModules.jsx:175
+msgid "Search elements..."
+msgstr ""
+
+#: src/Components/Elements/ElementModules.jsx:197
+msgid "Activating..."
+msgstr ""
+
+#: src/Components/Elements/ElementModules.jsx:197
+msgid "Activate All"
+msgstr ""
+
+#: src/Components/Elements/ElementModules.jsx:208
+msgid "Deactivating..."
+msgstr ""
+
+#: src/Components/Elements/ElementModules.jsx:208
+msgid "Deactivate All"
+msgstr ""
+
+#: src/Components/Elements/ElementsFont.jsx:60
+msgid ""
+"Easily use custom google fonts within WPBakery using the built-in Google "
+"Font Manager."
+msgstr ""
+
+#: src/Components/Elements/ElementsFont.jsx:83
+msgid "Check Font List"
+msgstr ""
+
+#: src/Components/NavMenu.js:102
+msgid "What's New?"
+msgstr ""
+
+#: src/Components/NavMenu.js:155
+msgid "Dashboard"
+msgstr ""
+
+#: src/Components/NavMenu.js:176
+msgid "Settings"
+msgstr ""
+
+#: src/Components/NavMenu.js:200
+msgid "Version"
+msgstr ""
+
+#: src/Components/NavMenu.js:209
+msgid "PRO"
+msgstr ""
+
+#: src/Components/NavMenu.js:234
+msgid "Useful Resources"
+msgstr ""
+
+#: src/Components/NavMenu.js:251
+msgid "Getting Started"
+msgstr ""
+
+#: src/Components/NavMenu.js:264
+msgid "How to use Modules"
+msgstr ""
+
+#: src/Components/NavMenu.js:277
+msgid "Contact us"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:100
+msgid "Settings updated successfully!"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:104
+msgid "Failed to save settings"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:228
+#: src/Components/Settings/Settings.jsx:136
+msgid "Advanced Settings"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:231
+msgid "Control and manage debug features for Ultimate VC"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:253
+msgid "Video Fixer"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:254
+msgid ""
+"Ensures compatibility for embedded videos by correcting common shortcode "
+"issues."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:256
+msgid "Ajax"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:257
+msgid "Enables AJAX loading for dynamic content without full page reloads."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:259
+msgid "Theme Support"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:260
+msgid "Enables enhanced support for compatible themes."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:262
+msgid "RTL Support"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:263
+msgid "Adds support for right-to-left languages like Arabic or Hebrew."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:270
+msgid "Custom VC Row Class"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:273
+msgid ""
+"This option lets you add a custom CSS class to a Visual Composer row for "
+"advanced styling and customization."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:278
+msgid "Enter Class"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:295
+msgid "Developer Mode"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:296
+msgid "Shows debug messages and logs for development purposes."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:298
+msgid "Load Scripts Globally"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:299
+msgid "Ensures scripts are loaded across all pages instead of conditional loading."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:301
+msgid "Modal on Menu"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:302
+msgid "Activates modal behavior for menu items."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:304
+msgid "Smooth Scroll - Old library"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:305
+msgid "Fallback compatibility for legacy smooth scroll libraries."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:307
+msgid "Animation Block on Mobile"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:308
+msgid "Disables animations on mobile devices to improve performance."
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:317
+msgid "Enable Access"
+msgstr ""
+
+#: src/Components/Settings/Debug.jsx:344
+#: src/Components/Settings/Editor.jsx:369
+#: src/Components/Settings/MapSettings.jsx:123
+msgid "Save Changes"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:288
+#: src/Components/Settings/Settings.jsx:57
+msgid "General Settings"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:308
+msgid "Smooth Scroll"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:312
+msgid ""
+"The smooth scroll will change the built-in scroll effect of browsers. It is "
+"mostly used in combination with parallax effects."
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:324
+msgid "Step"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:343
+msgid "Scroll Speed"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:408
+msgid "Combined CSS"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:412
+msgid ""
+"If optimized option is set to ON, a combined file for all CSS modules in "
+"our plugin will be loaded on your website. Use this option if you use "
+"Ultimate Addons significantly on your website."
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:447
+msgid "Combined JS"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:451
+msgid ""
+"If optimized option is set to ON, a combined file for all JS modules in our "
+"plugin will be loaded on your website. Use this option if you use Ultimate "
+"Addons significantly on your website."
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:485
+msgid "Help us Improve your experience"
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:488
+msgid ""
+"Collect non-sensitive information from your website, such as the PHP "
+"version and features used, to help us fix bugs faster, make smarter "
+"decisions, and build features that actually matter to you. "
+msgstr ""
+
+#: src/Components/Settings/Editor.jsx:499
+msgid "Learn more"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:103
+msgid "Font Families"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:107
+msgid ""
+"Get over 1500+ Google font options. If this is overwhelming for your "
+"clients, you can use this option to show only limited number of fonts in "
+"the block settings."
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:118
+msgid "Search Fonts"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:144
+msgid "Refreshing"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:144
+msgid "Refresh List"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:175
+msgid "Remove"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:188
+msgid "Add"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:212
+msgid "Select Font Options"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:221
+msgid "Variants"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:238
+msgid "Subsets"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:257
+msgid "Cancel"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:259
+msgid "Add Font"
+msgstr ""
+
+#: src/Components/Settings/GoogleFonts.jsx:99
+#: src/Components/Settings/Settings.jsx:97
+msgid "Google Fonts"
+msgstr ""
+
+#: src/Components/Settings/IconManager.jsx:104
+msgid "Search icons"
+msgstr ""
+
+#: src/Components/Settings/IconManager.jsx:135
+msgid "Upload Icons"
+msgstr ""
+
+#: src/Components/Settings/IconManager.jsx:59
+msgid "Select Icon Font Zip"
+msgstr ""
+
+#: src/Components/Settings/IconManager.jsx:60
+msgid "Use this file"
+msgstr ""
+
+#: src/Components/Settings/IconManager.jsx:74
+msgid "Delete font?"
+msgstr ""
+
+#: src/Components/Settings/IconManager.jsx:94
+#: src/Components/Settings/Settings.jsx:92
+msgid "Icon Manager"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:128
+msgid "Unable to deactivate license"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:134
+msgid "Error connecting to the server. Please try again."
+msgstr ""
+
+#: src/Components/Settings/License.jsx:172
+msgid "Checking license status..."
+msgstr ""
+
+#: src/Components/Settings/License.jsx:195
+#: src/Components/Settings/Settings.jsx:37
+msgid "Product License"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:222
+msgid "Activate Your License"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:267
+msgid "Congratulations!"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:274
+msgid "Your License is Active"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:286
+msgid ""
+"You now have access to premium features, direct plugin updates, template "
+"library and official support."
+msgstr ""
+
+#: src/Components/Settings/License.jsx:309
+msgid "Deactivate License"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:316
+msgid ""
+"Receive all benefits of Ultimate Addons for WPBakery Page Builder. Get "
+"access to direct plugin updates, template library and official support"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:339
+msgid "Processing"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:339
+msgid "Activate License "
+msgstr ""
+
+#: src/Components/Settings/License.jsx:342
+msgid "Don't have a license yet?"
+msgstr ""
+
+#: src/Components/Settings/License.jsx:350
+msgid "Purchase Ultimate Addons license here"
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:127
+msgid "Get your API Key"
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:129
+msgid "here"
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:131
+msgid "or"
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:133
+msgid "read this article"
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:135
+msgid "for more information."
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:30
+msgid "API key is missing."
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:45
+msgid "API key validated successfully."
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:50
+msgid "Failed to validate API key."
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:84
+#: src/Components/Settings/Settings.jsx:116
+msgid "Google Maps"
+msgstr ""
+
+#: src/Components/Settings/MapSettings.jsx:89
+msgid "API Key"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:131
+msgid "Debug"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:135
+msgid "Configuration Options"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:36
+msgid "License"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:52
+msgid "Custom SVG"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:56
+msgid "Editor"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:76
+msgid "Icons"
+msgstr ""
+
+#: src/Components/Settings/Settings.jsx:96
+msgid "Google"
+msgstr ""

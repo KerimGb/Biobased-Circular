@@ -1,0 +1,37 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: gpt-po v1.2.0\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-12-06T17:50:23+00:00\n"
+"PO-Revision-Date: 2024-12-06T17:50:23+00:00\n"
+"Language: \n"
+
+#. Plugin Name of the plugin
+#: Ultimate_VC_Addons.php
+msgid "Ultimate Addons for WPBakery Page Builder"
+msgstr "Ultimate Addons voor WPBakery Page Builder"
+
+#. Plugin URI of the plugin
+#: Ultimate_VC_Addons.php
+msgid "https://brainstormforce.com/demos/ultimate/"
+msgstr "https://brainstormforce.com/demos/ultimate/"
+
+#. Description of the plugin
+#: Ultimate_VC_Addons.php
+msgid "Includes WPBakery Page Builder premium addon elements like Icon, Info Box, Interactive Banner, Flip Box, * Info List & Counter. Best of all - provides A Font Icon Manager allowing users to upload / delete custom icon fonts."
+msgstr "Bevat premium addon-elementen voor WPBakery Page Builder zoals Pictogram, Informatiebox, Interactieve Banner, Flip Box, * Informatie Lijst & Teller. Het beste van alles - biedt een Font Icon Manager waarmee gebruikers aangepaste pictogramlettertypen kunnen uploaden / verwijderen."
+
+#. Author of the plugin
+#: Ultimate_VC_Addons.php
+msgid "Brainstorm Force"
+msgstr "Brainstorm Force"
+
+#. Author URI of the plugin
+#: Ultimate_VC_Addons.php
+msgid "https://www.brainstormforce.com"
+msgstr "https://www.brainstormforce.com"

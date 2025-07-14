@@ -1,0 +1,1515 @@
+# Translation of Plugins - Admin and Site Enhancements (ASE) - Stable (latest release) in Dutch
+# This file is distributed under the same license as the Plugins - Admin and Site Enhancements (ASE) - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-07-07 06:51:05+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: nl\n"
+"Project-Id-Version: Plugins - Admin and Site Enhancements (ASE) - Stable (latest release)\n"
+
+#: classes/class-settings-sections-fields.php:2145
+msgid "Return 404 (Not Found) error when trying to load author archives. Remove or disable links to author archives. Remove authors archives from the sitemap."
+msgstr "Geef een 404 (Niet Gevonden) fout wanneer u probeert auteur archieven te laden. Verwijder of schakel links naar auteur archieven uit. Verwijder auteur archieven uit de sitemap."
+
+#: classes/class-settings-sections-fields.php:2132
+msgid "Disable Author Archives"
+msgstr "Auteur archief uitschakelen"
+
+#: classes/class-settings-sections-fields.php:1668
+msgid "Do not remove backslashes from the code output on the frontend"
+msgstr "Verwijder geen backslashes uit de code-output op de front-end"
+
+#: classes/class-settings-sections-fields.php:263
+msgid "Disable adding timestamp URL parameter on newly replaced images for busting the browser cache."
+msgstr "Schakel het toevoegen van tijdstempel URL parameter op nieuw vervangen afbeeldingen uit om de browser cache te breken."
+
+#: classes/class-settings-sections-fields.php:1271
+msgid "e.g. dashboard"
+msgstr "bijv. dashboard"
+
+#: classes/class-settings-sections-fields.php:1270
+msgid "Enter one path per line"
+msgstr "Voer één pad per regel in"
+
+#: classes/class-settings-sections-fields.php:1258
+msgid "Allow login from:"
+msgstr "Sta login toe vanaf:"
+
+#: classes/class-settings-sections-fields.php:753
+msgid "Always show the admin bar for administrators on the frontend. Useful for when an administrator has multiple user roles, and the admin bar is set to be hidden for the other user role(s)."
+msgstr "Altijd de toolbar weergeven voor beheerders op de front-end. Handig voor als een beheerder meerdere gebruikersrollen heeft en de toolbar is ingesteld om verborgen te zijn voor de andere gebruikersrol(len)."
+
+#: classes/class-settings-sections-fields.php:767
+msgid "The settings above will override the 'Toolbar' settings in the user profile edit screen."
+msgstr "De bovenstaande instellingen overschrijven de instellingen voor de 'Toolbar' in het scherm voor het bewerken van gebruikersprofielen."
+
+#: settings.php:304
+msgid "Search results:"
+msgstr "Zoekresultaten:"
+
+#: settings.php:80
+msgid "Search..."
+msgstr "Zoeken..."
+
+#: classes/class-password-protection.php:170
+msgid "Password can not be empty."
+msgstr "Wachtwoord kan niet leeg zijn."
+
+#: classes/class-password-protection.php:165
+msgid "Incorrect password."
+msgstr "Onjuist wachtwoord."
+
+#. translators: %s is the post type label
+#: classes/class-admin-menu-organizer.php:234
+msgid "No %s found in Trash"
+msgstr "Geen %s gevonden in prullenbak"
+
+#. translators: %s is the post type label
+#: classes/class-admin-menu-organizer.php:229
+msgid "No %s found"
+msgstr "Geen %s gevonden"
+
+#. translators: %s is post type or taxonomy label
+#: classes/class-admin-menu-organizer.php:224
+msgid "Search %s"
+msgstr "Zoeken %s"
+
+#. translators: %s is post type or taxonomy label
+#: classes/class-admin-menu-organizer.php:214
+#: classes/class-admin-menu-organizer.php:250
+#: classes/class-admin-menu-organizer.php:256
+msgid "All %s"
+msgstr "Alle %s"
+
+#. translators: %s is URL to the Admin Menu Organizer settings page
+#: classes/class-settings-sections-fields.php:840
+msgid "Once enabled, you can find the <a href=\"%s\">Admin Menu</a> item under the Settings menu."
+msgstr "Als dit is ingeschakeld, kunt u het item <a href=\"%s\">Beheermenu</a> vinden onder het menu Instellingen."
+
+#: classes/class-admin-menu-organizer.php:22
+msgid "Admin Menu"
+msgstr "Beheermenu"
+
+#: classes/class-admin-menu-organizer.php:20
+msgid "Admin Menu Settings"
+msgstr "Instellingen beheermenu"
+
+#: classes/class-settings-sections-fields.php:2510
+msgid "Only the latest 1,000 entries are kept in the database."
+msgstr "Alleen de laatste 1.000 invoergegevens worden in de database bewaard."
+
+#: classes/class-settings-sections-fields.php:2361
+msgid "Disable <strong>application passwords</strong> that was added since WordPress v5.6."
+msgstr "Schakel <strong>applicatie wachtwoorden</strong> uit die zijn toegevoegd sinds WordPress v5.6."
+
+#: classes/class-settings-sections-fields.php:2492
+msgid "For example, if your site is behind a trusted proxy, it's a good idea to use the <code>HTTP_X_FORWARDED_FOR</code> header. Leave empty to use the default detection method."
+msgstr "Als uw site bijvoorbeeld achter een vertrouwde proxy zit, is het een goed idee om de <code>HTTP_X_FORWARDED_FOR</code> header te gebruiken. Laat leeg om de standaard detectiemethode te gebruiken."
+
+#: classes/class-settings-sections-fields.php:2467
+msgid "<span class=\"field-sublabel sublabel-wide\">Detect IP address from the following header first:</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Detecteer eerst het IP-adres uit de volgende header:</span>"
+
+#: classes/class-settings-sections-fields.php:506
+msgid "Remove home icon and site name"
+msgstr "Verwijder home icoon en site naam"
+
+#: settings.php:276
+msgid "Log In/Out | Register"
+msgstr "Log in/uit | Registreer"
+
+#: classes/class-settings-sections-fields.php:1416
+msgid "Display the registration date and time in the users list table."
+msgstr "Toon de registratiedatum en tijd in de gebruikers lijst tabel."
+
+#: classes/class-settings-sections-fields.php:1403
+msgid "Registration Date Column"
+msgstr "Registratiedatum kolom"
+
+#: classes/class-registration-date-column.php:17
+msgid "Registered"
+msgstr "Geregistreerd"
+
+#: settings.php:381
+msgid "Currently on YEAR-END SALE. <a href=\"https://www.wpase.com/promo-ndg\" target=\"_blank\">20% discount</a>."
+msgstr "Momenteel in JAARAFSLUITING VERKOOP. <a href=\"https://www.wpase.com/promo-ndg\" target=\"_blank\">20% korting</a>."
+
+#: settings.php:153
+msgid "Get It Now"
+msgstr "Krijg het nu"
+
+#: settings.php:150
+msgid "ASE Pro YEAR-END SALE! 20% DISCOUNT. Lifetime Deal (LTD) available."
+msgstr "ASE Pro JAARAFSLUITING VERKOOP! 20% KORTING. Levenslange Deal (LTD) beschikbaar."
+
+#: settings.php:164
+msgid "Lifetime Deal (LTD) is available for the Pro version of ASE."
+msgstr "Lifetime deal (LTD) is beschikbaar voor de Pro versie van ASE."
+
+#: classes/class-settings-sections-fields.php:2373
+msgid "Disable the <strong>plugin and theme editor</strong>. <span class=\"warning-text\">Note that wp-config.php in this site is not writeable and <code>DISALLOW_FILE_EDIT</code> constant is already defined there. You either need to make it writeable to make this setting functional, or, you need to manually change the value of <code>DISALLOW_FILE_EDIT</code> there.</span>"
+msgstr "Schakel de <strong>plugin en thema editor</strong> uit. <span class=\"warning-text\">Let alstublieft op dat wp-config.php in deze site niet schrijfbaar is en de <code>DISALLOW_FILE_EDIT</code> constante daar al is gedefinieerd. U moet het ofwel schrijfbaar maken om deze instelling functioneel te maken, of u moet handmatig de waarde van <code>DISALLOW_FILE_EDIT</code> daar wijzigen.</span>"
+
+#: classes/class-settings-sections-fields.php:2370
+#: classes/class-settings-sections-fields.php:2375
+msgid "Disable the <strong>plugin and theme editor</strong>."
+msgstr "Schakel de <strong>plugin en thema editor</strong> uit."
+
+#: classes/class-settings-sections-fields.php:1009
+msgid "Remove date column"
+msgstr "Verwijderen datum kolom"
+
+#: classes/class-settings-sections-fields.php:941
+msgid "Show last modified column"
+msgstr "Toon kolom laatst gewijzigd"
+
+#: classes/class-enhance-list-tables.php:314
+msgid "File Size"
+msgstr "Bestand grootte"
+
+#: classes/class-enhance-list-tables.php:179
+msgid "Last Modified"
+msgstr "Laatst geüpdatet"
+
+#: classes/class-enhance-list-tables.php:117
+msgid "Excerpt"
+msgstr "Samenvatting"
+
+#: classes/class-enhance-list-tables.php:54
+msgid "Product Image"
+msgstr "Product afbeelding"
+
+#: classes/class-enhance-list-tables.php:50
+msgid "Featured Image"
+msgstr "Uitgelichte afbeelding"
+
+#: classes/class-settings-sections-fields.php:2201
+msgid "Disable the <strong>&lt;generator&gt; tag</strong> in RSS feed &lt;channel&gt;, which discloses the WordPress version number. Older versions(s) might contain unpatched security loophole(s)."
+msgstr "Schakel de <strong>&lt;generator&gt; tag</strong> uit in RSS feed &lt;channel&gt;, die het WordPress versie nummer onthult. Oudere versie(s) kunnen ongepatchte beveiligingslek(ken) bevatten."
+
+#: classes/class-settings-sections-fields.php:2345
+msgid "Disable <strong>lazy loading of images</strong> that was natively added since WordPress v5.5."
+msgstr "Schakel <strong>lazy-loading van afbeeldingen</strong> uit, die standaard is toegevoegd sinds WordPress v5.5."
+
+#: classes/class-last-login-column.php:32
+msgid "Last Login"
+msgstr "Laatste login"
+
+#: classes/class-content-order.php:31 classes/class-content-order.php:48
+#: classes/class-content-order.php:50 classes/class-content-order.php:66
+#: classes/class-content-order.php:68 classes/class-content-order.php:84
+#: classes/class-content-order.php:131
+msgid "Order"
+msgstr "Volgorde"
+
+#: classes/class-change-login-url.php:360
+#: classes/class-limit-login-attempts.php:222
+#: classes/class-limit-login-attempts.php:329
+msgid "Invalid username/email or incorrect password."
+msgstr "Ongeldige gebruikersnaam/e-mail of onjuist wachtwoord."
+
+#: classes/class-change-login-url.php:360
+#: classes/class-limit-login-attempts.php:222
+#: classes/class-limit-login-attempts.php:329
+msgid "Error:"
+msgstr "Fout:"
+
+#: includes/password-protected-login.php:6
+msgid "View Content"
+msgstr "Bekijk inhoud"
+
+#: includes/password-protected-login.php:5
+msgid "Password"
+msgstr "Wachtwoord"
+
+#. translators: %s is URL to the Customizer
+#: classes/class-settings-sections-fields.php:1348
+msgid "Use the site icon and URL to replace the default WordPress logo with link to wordpress.org on the login page. Go to <a href=\"%1$s\">General Settings</a> or the <a href=\"%2$s\">Customizer</a> to set or change your site icon."
+msgstr "Gebruik het site icoon en de URL om het standaard WordPress logo te vervangen door een link naar WordPress.org op de login pagina. Ga naar <a href=\"%1$s\">Algemene instellingen</a> of de <a href=\"%2$s\">Customizer</a> om uw site icoon in te stellen of te wijzigen."
+
+#: classes/class-settings-sections-fields.php:1063
+msgid "Various, smaller enhancements for different parts of the admin interface."
+msgstr "Diverse, kleinere verbeteringen voor verschillende delen van de beheerinterface."
+
+#: classes/class-settings-sections-fields.php:1050
+msgid "Various Admin UI Enhancements"
+msgstr "Diverse beheer UI verbeteringen"
+
+#: classes/class-settings-sections-fields.php:327
+msgid "Enable uploading <a href=\"https://www.smashingmagazine.com/2021/09/modern-image-formats-avif-webp/\" target=\"_blank\">AVIF</a> files in the Media Library. You can convert your existing PNG, JPG and GIF files using a tool like <a href=\"https://squoosh.app/\" target=\"_blank\">Squoosh</a>."
+msgstr "Inschakelen van het uploaden van <a href=\"https://www.smashingmagazine.com/2021/09/modern-image-formats-avif-webp/\" target=\"_blank\">AVIF</a> bestanden in de mediabibliotheek. U kunt uw bestaande PNG, JPG en GIF bestanden converteren met een gereedschap zoals <a href=\"https://squoosh.app/\" target=\"_blank\">Squoosh</a>."
+
+#: classes/class-settings-sections-fields.php:314
+msgid "AVIF Upload"
+msgstr "AVIF upload"
+
+#: classes/class-settings-sections-fields.php:1975
+msgid "Disable the Gutenberg block editor for some or all applicable post types."
+msgstr "Schakel de Gutenberg blok-editor uit voor sommige of alle toepasselijke berichttypen."
+
+#: classes/class-last-login-column.php:55
+msgid "Never"
+msgstr "Nooit"
+
+#: classes/class-admin-menu-organizer.php:221
+msgid "View"
+msgstr "Bekijken"
+
+#: classes/class-admin-menu-organizer.php:219
+msgid "Edit"
+msgstr "Bewerken"
+
+#: classes/class-admin-menu-organizer.php:217
+#: classes/class-admin-menu-organizer.php:218
+msgid "Add New"
+msgstr "Nieuwe toevoegen"
+
+#: settings.php:1094
+msgid "Configure"
+msgstr "Configureren"
+
+#: classes/class-settings-sections-fields.php:851
+msgid "Show Custom Taxonomy Filters"
+msgstr "Toon aangepaste taxonomie filters"
+
+#: classes/class-settings-sections-fields.php:664
+msgid "Welcome to WordPress"
+msgstr "Welkom bij WordPress"
+
+#: classes/class-password-protection.php:37
+msgid "Password protection is currently enabled for this site."
+msgstr "Wachtwoordbescherming is momenteel ingeschakeld voor deze site."
+
+#: classes/class-maintenance-mode.php:140
+msgid "Maintenance mode is currently enabled for this site."
+msgstr "Onderhoudsmodus is momenteel ingeschakeld voor deze site."
+
+#: classes/class-hide-admin-notices.php:68
+msgid "Click to view hidden admin notices"
+msgstr "Klik om verborgen beheerberichten te bekijken"
+
+#: classes/class-hide-admin-notices.php:64
+msgid "Notices"
+msgstr "Berichten"
+
+#: classes/class-hide-admin-notices.php:32
+msgid "Admin Notices"
+msgstr "Beheerder berichten"
+
+#. translators: %s is the singular label for the post type
+#: classes/class-content-duplication.php:252
+msgid "Duplicate %s"
+msgstr "Dupliceer %s"
+
+#: classes/class-content-duplication.php:222
+msgid "Duplicate"
+msgstr "Dupliceren"
+
+#: classes/class-content-duplication.php:222
+msgid "Duplicate this as draft"
+msgstr "Dupliceer dit concept"
+
+#: classes/class-admin-menu-organizer.php:349
+#: classes/class-admin-menu-organizer.php:350
+msgid "Show Less"
+msgstr "Toon minder"
+
+#: classes/class-admin-menu-organizer.php:338
+#: classes/class-admin-menu-organizer.php:339
+msgid "Show All"
+msgstr "Toon alles"
+
+#: classes/class-content-duplication.php:138
+msgid "DUPLICATE"
+msgstr "DUPLICEREN"
+
+#: settings.php:692
+msgid "Perform Replacement"
+msgstr "Vervanging uitvoeren"
+
+#: settings.php:220
+msgid "YouTube"
+msgstr "YouTube"
+
+#: settings.php:217
+msgid "X / Twitter"
+msgstr "X/Twitter"
+
+#: settings.php:210
+msgid "Facebook"
+msgstr "Facebook"
+
+#: settings.php:204
+msgid "Share about ASE on:"
+msgstr "Deel over ASE op:"
+
+#: classes/class-settings-sections-fields.php:1908
+msgid "<strong>Your app-ads.txt content:</strong>"
+msgstr "<strong>De inhoud van uw app-ads.txt:</strong>"
+
+#. translators: %s is the default login URL
+#: classes/class-settings-sections-fields.php:1226
+msgid "Default is %s"
+msgstr "Standaard is %s"
+
+#: classes/class-search-engines-visibility.php:47
+msgid "Search engines are discouraged from indexing this site. Click to change the settings."
+msgstr "Zoekmachines worden ontmoedigd om deze site te indexeren. Klik om de instellingen te wijzigen."
+
+#: classes/class-search-engines-visibility.php:44
+msgid "SE Visibility: OFF"
+msgstr "SE zichtbaarheid: UIT"
+
+#: classes/class-media-replacement.php:76
+msgid "The current file will be replaced with the uploaded / selected file (of the same type) while retaining the current ID, publish date and file name. Thus, no existing links will break."
+msgstr "Het huidige bestand wordt vervangen door het geüploade/geselecteerde bestand (van hetzelfde type) met behoud van de huidige ID, publicatiedatum en bestandsnaam. Bestaande links worden dus niet verbroken."
+
+#: classes/class-media-replacement.php:74 settings.php:691
+msgid "Select New Media File"
+msgstr "Selecteer nieuw mediabestand"
+
+#: classes/class-media-replacement.php:71
+msgid "Replace Media"
+msgstr "Vervang media"
+
+#: settings.php:652
+msgid "Previous"
+msgstr "Vorige"
+
+#: settings.php:651
+msgid "Next"
+msgstr "Volgende"
+
+#: settings.php:650
+msgid "Last"
+msgstr "Laatste"
+
+#: settings.php:649
+msgid "First"
+msgstr "Eerste"
+
+#: settings.php:647
+msgid "No matching records found"
+msgstr "Geen overeenkomende records gevonden"
+
+#: settings.php:646
+msgid "Search:"
+msgstr "Zoeken:"
+
+#: settings.php:645
+msgid "Show _MENU_ entries"
+msgstr "Toon _MENU_ items"
+
+#: settings.php:644
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(gefilterd uit _MAX_ totale vermeldingen)"
+
+#: settings.php:643
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Toont 0 tot 0 van 0 invoeren"
+
+#: settings.php:642
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Tonen van _START_ tot _END_ van _TOTAL_ invoergegevens"
+
+#: settings.php:641
+msgid "No data available in table"
+msgstr "Geen gegevens beschikbaar in tabel"
+
+#: settings.php:639
+msgid "Collapse"
+msgstr "Invouwen"
+
+#: classes/class-settings-fields-render.php:34 settings.php:638
+msgid "Expand"
+msgstr "Uitvouwen"
+
+#: settings.php:634
+msgid "Use Selected Image"
+msgstr "Geselecteerde afbeelding gebruiken"
+
+#: classes/class-settings-fields-render.php:575 settings.php:633
+msgid "Select an Image"
+msgstr "Selecteer een afbeelding"
+
+#: settings.php:234
+msgid "Dismiss"
+msgstr "Negeren"
+
+#: settings.php:228
+msgid "Help others discover ASE and maybe <a href=\"https://www.wpase.com/trnslt-plgnndg\" target=\"_blank\">translate</a> to your language."
+msgstr "Help anderen ASE te ontdekken en <a href=\"https://www.wpase.com/trnslt-plgnndg\" target=\"_blank\">vertaal</a> het mischien naar uw taal."
+
+#: settings.php:223
+msgid "I've shared"
+msgstr "Ik heb gedeeld"
+
+#: settings.php:199
+msgid "Or, help improve ASE by <a href=\"https://wordpress.org/support/plugin/admin-site-enhancements/\" target=\"_blank\">providing feedback</a>."
+msgstr "Of help ASE te verbeteren door <a href=\"https://wordpress.org/support/plugin/admin-site-enhancements/\" target=\"_blank\">feedback te geven</a>."
+
+#: settings.php:195
+msgid "I've reviewed"
+msgstr "Ik heb beoordeeld"
+
+#: settings.php:192
+msgid "Add Your Review"
+msgstr "Voeg uw beoordeling toe"
+
+#: settings.php:188
+msgid "Write a quick, 5-star review for ASE"
+msgstr "Schrijf een korte 5-sterren beoordeling voor ASE"
+
+#: classes/class-settings-sections-fields.php:2863
+msgid "<span class=\"faded\">(Default is 15 seconds)</span>"
+msgstr "<span class=\"faded\">(Standaard is 15 seconden)</span>"
+
+#: classes/class-settings-sections-fields.php:866
+msgid "Show additional filter(s) on list tables for hierarchical, custom taxonomies."
+msgstr "Toon extra filter(s) op lijsttabellen voor hiërarchische, aangepaste taxonomieën."
+
+#: classes/class-login-id-type.php:74
+msgid "Email"
+msgstr "E-mail"
+
+#: classes/class-login-id-type.php:56
+msgid "<strong>Error:</strong> Invalid email or incorrect password."
+msgstr "<strong>Fout:</strong> ongeldig e-mailadres of onjuist wachtwoord."
+
+#: classes/class-login-id-type.php:22 classes/class-login-id-type.php:39
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: settings.php:378
+msgid "Do more with <a href=\"https://www.wpase.com/upgrade-ndg-btm\" target=\"_blank\">ASE Pro</a>. Lifetime deal (LTD) <a href=\"https://www.wpase.com/upgrade-ndg-btm-prc\" target=\"_blank\">available</a>."
+msgstr "Doe meer met <a href=\"https://www.wpase.com/upgrade-ndg-btm\" target=\"_blank\">ASE Pro</a>. Lifetime deal (LTD) <a href=\"https://www.wpase.com/upgrade-ndg-btm-prc\" target=\"_blank\">beschikbaar</a>."
+
+#: settings.php:301
+msgid "Utilities"
+msgstr "Utilities"
+
+#: settings.php:296
+msgid "Optimizations"
+msgstr "Optimalisaties"
+
+#: settings.php:291
+msgid "Security"
+msgstr "Beveiliging"
+
+#: settings.php:286
+msgid "Disable Components"
+msgstr "Componenten uitschakelen"
+
+#: settings.php:281
+msgid "Custom Code"
+msgstr "Aangepaste code"
+
+#: settings.php:271
+msgid "Admin Interface"
+msgstr "Beheer interface"
+
+#: settings.php:266
+msgid "Content Management"
+msgstr "Inhoudsbeheer"
+
+#: settings.php:183
+msgid "Please consider supporting ASE."
+msgstr "Overweeg ASE te ondersteunen."
+
+#: settings.php:180
+msgid "Looks like some of these free enhancements have been useful for your site?"
+msgstr "Het lijkt erop dat sommige van deze gratis verbeteringen nuttig zijn geweest voor uw site?"
+
+#: settings.php:167
+msgid "Find Out More"
+msgstr "Meer Informatie"
+
+#: classes/class-admin-menu-organizer.php:52 settings.php:122 settings.php:359
+msgid "Save Changes"
+msgstr "Wijzigingen opslaan"
+
+#: settings.php:117
+msgid "Get ASE Pro"
+msgstr "Verkrijg ASE Pro"
+
+#: settings.php:46
+msgid "Enhancements"
+msgstr "Verbeteringen"
+
+#: classes/class-settings-sections-fields.php:3517
+msgid "Show admin bar status when search engines are set to be discouraged from indexing the site. This is set through a \"Search engine visibility\" checkbox in Settings >> Reading."
+msgstr "Toon toolbar status wanneer zoekmachines zijn ingesteld om te worden ontmoedigd om de site te indexeren. Dit wordt ingesteld via het selectievakje “Zoekmachine zichtbaarheid” onder Instellingen >> Lezen."
+
+#: classes/class-settings-sections-fields.php:3502
+msgid "Search Engines Visibility Status"
+msgstr "Zoekmachines zichtbaarheidsstatus"
+
+#: classes/class-settings-sections-fields.php:3481
+msgid "Show quick summary of the system the site is running on to admins, in the \"At a Glance\" dashboard widget. This includes the web server software, the PHP version, the database software and server IP address."
+msgstr "Laat beheerders een snel overzicht zien van het systeem waarop de site draait, in de dashboard widget \"In één oogopslag\". Dit omvat de webserver software, de PHP versie, de databasesoftware en het IP-adres van de server."
+
+#: classes/class-settings-sections-fields.php:3480
+msgid "Display System Summary"
+msgstr "Toon systeemoverzicht"
+
+#: classes/class-settings-sections-fields.php:3455
+msgid "Perform 301 (permanent) redirect to the homepage for all 404 (not found) pages."
+msgstr "Voer een 301 (permanente) omleiding naar de homepage uit voor alle 404 (niet gevonden) pagina's."
+
+#: classes/class-settings-sections-fields.php:3454
+msgid "Redirect 404 to Homepage"
+msgstr "404 omleiden naar homepage"
+
+#: classes/class-settings-sections-fields.php:3447
+msgid "Please clear your cache</strong> after enabling or disabling maintenance mode. This ensures site visitors see either the maintenance page or the actual content of each page."
+msgstr "Leeg uw cache</strong> nadat u de onderhoudsmodus hebt in- of uitgeschakeld. Dit zorgt ervoor dat sitebezoekers de onderhoudspagina of de werkelijke inhoud van elke pagina te zien krijgen."
+
+#: classes/class-settings-sections-fields.php:3424
+msgid "Background"
+msgstr "Achtergrond"
+
+#: classes/class-settings-sections-fields.php:3420
+msgid "Lines"
+msgstr "Regels"
+
+#: classes/class-settings-sections-fields.php:3419
+msgid "Curves"
+msgstr "Bochten"
+
+#: classes/class-settings-sections-fields.php:3418
+msgid "Stripes"
+msgstr "Strepen"
+
+#: classes/class-settings-sections-fields.php:3411
+msgid "This site is undergoing maintenance for an extended period today. Thanks for your patience."
+msgstr "Deze site is vandaag voor langere tijd in onderhoud. Bedankt voor uw geduld."
+
+#: classes/class-settings-sections-fields.php:3398
+msgid "Description"
+msgstr "Beschrijving"
+
+#: classes/class-settings-sections-fields.php:3390
+msgid "We'll be back soon."
+msgstr "We komen snel weer terug."
+
+#: classes/class-settings-sections-fields.php:3378
+msgid "Heading"
+msgstr "Koptekst"
+
+#: classes/class-settings-sections-fields.php:3356
+msgid "Show a customizable maintenance page on the frontend while performing a brief maintenance to your site. Logged-in administrators can still view the site as usual."
+msgstr "Toon een aanpasbare onderhoudspagina op de front-end terwijl u een korte onderhoudsbeurt aan uw site uitvoert. Ingelogde beheerders kunnen de site nog steeds gewoon bekijken."
+
+#: classes/class-settings-sections-fields.php:3343
+msgid "Maintenance Mode"
+msgstr "Onderhoudsmodus"
+
+#: classes/class-settings-sections-fields.php:3335
+msgid "(Default is 'secret')"
+msgstr "(Standaard is ‘secret’)"
+
+#: classes/class-settings-sections-fields.php:3325
+msgid "Set the password:"
+msgstr "Stel het wachtwoord in:"
+
+#: classes/class-settings-sections-fields.php:3315
+msgid "Password-protect the entire site to hide the content from public view and search engine bots / crawlers. Logged-in administrators can still access the site as usual."
+msgstr "Bescherm de gehele site met een wachtwoord om de inhoud te verbergen voor publieke weergave en zoekmachine bots/crawlers. Ingelogde beheerders hebben nog steeds toegang tot de site zoals gewoonlijk."
+
+#: classes/class-settings-sections-fields.php:3302
+msgid "Password Protection"
+msgstr "Wachtwoordbeveiliging"
+
+#. translators: %s is URL of the role reset link
+#: classes/class-settings-sections-fields.php:3293
+msgid "If something goes wrong</strong> and you need to regain access to your account as an administrator, please visit the following URL: <br /><strong>%s</strong><br /><br />If you use <strong>Ninja Firewall</strong>, please uncheck \"Block attempts to gain administrative privileges\" in the Firewall Policies settings before you try to view as a non-admin user role to <strong>prevent being locked out</strong> of your admin account."
+msgstr "Als er iets misgaat op</strong> en u moet weer toegang krijgen  tot uw account als beheerder, ga dan naar de volgende URL: <br /><strong>%s</strong><br /><br />Als u <strong>Ninja Firewall</strong> gebruikt, schakel dan “Pogingen om beheerdersrechten te verkrijgen blokkeren” uit in de instellingen voor Firewall beleid voordat u probeert te bekijken als een niet beheerdersrol om te <strong>voorkomen dat u wordt afgesloten</strong> van uw beheerdersaccount."
+
+#: classes/class-settings-sections-fields.php:3272
+msgid "View admin pages and the site (logged-in) as one of the non-administrator user roles."
+msgstr "Bekijk beheerpagina's en de site (ingelogd) als een van de gebruikersrollen die geen beheerder zijn."
+
+#: classes/class-settings-sections-fields.php:3259
+msgid "View Admin as Role"
+msgstr "Beheerder als rol bekijken"
+
+#: classes/class-settings-sections-fields.php:3251
+msgid "Display a panel showing and linking to all available sizes when viewing an image in the media library. Especially useful to quickly get the URL of a particular image size."
+msgstr "Toon een paneel met een link naar alle beschikbare formaten  wanneer u een afbeelding bekijkt in de mediabibliotheek. Vooral handig om snel de URL van een bepaald afbeeldingsformat te krijgen."
+
+#: classes/class-settings-sections-fields.php:3238
+msgid "Image Sizes Panel"
+msgstr "Afbeeldingsformaten paneel"
+
+#: classes/class-settings-sections-fields.php:3230
+msgid "Enable assignment of multiple roles during user account creation and editing. This maybe useful for working with roles not defined in WordPress core, e.g. from e-commerce or LMS plugins."
+msgstr "Schakel toewijzing van meerdere rollen in tijdens het aanmaken en bewerken van gebruikersaccounts. Dit kan handig zijn voor het werken met rollen die niet in WordPress core zijn gedefinieerd, bijvoorbeeld van e-commerce of LMS plugins."
+
+#: classes/class-settings-sections-fields.php:3217
+msgid "Multiple User Roles"
+msgstr "Meerdere gebruikersrollen"
+
+#: classes/class-settings-sections-fields.php:3210
+msgid "Oops, something went wrong</span>.<br />Please double check your settings and the destination email address."
+msgstr "Er ging iets mis</span>.<br />Controleer uw instellingen en het bestemming e-mailadres."
+
+#: classes/class-settings-sections-fields.php:3209
+msgid "Test email was successfully processed</span>.<br />Please check the destination email's inbox to verify successful delivery."
+msgstr "Test e-mail is succesvol verwerkt</span>.<br />Controleer de inbox van de bestemmings e-mail om de succesvolle aflevering te controleren."
+
+#: classes/class-settings-sections-fields.php:3208
+msgid "Sending test email..."
+msgstr "Een test e-mail aan het verzenden…"
+
+#: classes/class-settings-sections-fields.php:3193
+msgid "Send Now"
+msgstr "Nu verzenden"
+
+#: classes/class-settings-sections-fields.php:3188
+msgid "<span class=\"field-sublabel sublabel-wide\">Send a test email to</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Verzend een test e-mail naar</span>"
+
+#: classes/class-settings-sections-fields.php:3180
+msgid "After saving the settings above, check if everything is configured properly below."
+msgstr "Controleer na het opslaan van de bovenstaande instellingen of alles hieronder goed is geconfigureerd."
+
+#: classes/class-settings-sections-fields.php:3166
+msgid "Enable debug mode and output the debug info into WordPress debug.log file."
+msgstr "Schakel de debug modus in en voer de debug info uit in het debug.log bestand van WordPress."
+
+#: classes/class-settings-sections-fields.php:3150
+msgid "Bypass verification of SSL certificate. This would be insecure if mail is delivered across the internet but could help in certain local and/or containerized WordPress scenarios."
+msgstr "Omzeil verificatie van SSL certificaat. Dit zal onveilig zijn als mail over het internet wordt afgeleverd, maar zou kunnen helpen in bepaalde lokale en/of containerized WordPress scenario's."
+
+#: classes/class-settings-sections-fields.php:3123
+msgid "<span class=\"field-sublabel sublabel-wide\">Password</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Wachtwoord</span>"
+
+#: classes/class-settings-sections-fields.php:3104
+msgid "<span class=\"field-sublabel sublabel-wide\">Username</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Gebruikersnaam</span>"
+
+#: classes/class-settings-sections-fields.php:3094
+msgid "TLS"
+msgstr "TLS"
+
+#: classes/class-settings-sections-fields.php:3093
+msgid "SSL"
+msgstr "SSL"
+
+#: classes/class-settings-sections-fields.php:3092
+msgid "None"
+msgstr "Geen"
+
+#: classes/class-settings-sections-fields.php:3083
+msgid "<span class=\"field-sublabel sublabel-wide\">Security</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Beveiliging</span>"
+
+#: classes/class-settings-sections-fields.php:3061
+msgid "<span class=\"field-sublabel sublabel-wide\">Port</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Poort</span>"
+
+#: classes/class-settings-sections-fields.php:3042
+msgid "<span class=\"field-sublabel sublabel-wide\">Host</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Host</span>"
+
+#: classes/class-settings-sections-fields.php:3034
+msgid "If set, the following SMTP service/account wil be used to deliver your emails."
+msgstr "Indien ingesteld, wordt de volgende SMTP dienst/account gebruikt om uw e-mails af te leveren."
+
+#: classes/class-settings-sections-fields.php:3020
+msgid "Force the usage of the sender name/email defined above. It will override those set by other plugins."
+msgstr "Forceer het gebruik van de afzendernaam/e-mail die hierboven is gedefinieerd. Deze worden overschreven door andere plugins."
+
+#: classes/class-settings-sections-fields.php:2993
+msgid "<span class=\"field-sublabel sublabel-wide\">Sender email</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">E-mail afzender</span>"
+
+#: classes/class-settings-sections-fields.php:2974
+msgid "<span class=\"field-sublabel sublabel-wide\">Sender name</span>"
+msgstr "<span class=\"field-sublabel sublabel-wide\">Naam afzender</span>"
+
+#: classes/class-settings-sections-fields.php:2966
+msgid "If set, the following sender name/email overrides WordPress core defaults but can still be overridden by other plugins that enables custom sender name/email, e.g. form plugins."
+msgstr "Als dit is ingesteld, overschrijft de volgende afzendernaam/e-mail de standaardinstellingen van WordPress core, maar kan deze nog steeds worden overschreven door andere plugins die een aangepaste afzender naam/e-mail mogelijk maken, bijvoorbeeld formulier plugins."
+
+#: classes/class-settings-sections-fields.php:2950
+msgid "Set custom sender name and email. Optionally use external SMTP service to ensure notification and transactional emails from your site are being delivered to inboxes."
+msgstr "Stel aangepaste afzendernaam en e-mail in. Gebruik optioneel een externe SMTP dienst om ervoor te zorgen dat melding en transactionele e-mails van uw site worden afgeleverd in inboxen."
+
+#: classes/class-settings-sections-fields.php:2937
+msgid "Email Delivery"
+msgstr "E-mail bezorging"
+
+#: classes/class-settings-sections-fields.php:2883
+msgid "On the frontend"
+msgstr "Op de front-end"
+
+#: classes/class-settings-sections-fields.php:2870
+msgid "120 seconds"
+msgstr "120 seconden"
+
+#: classes/class-settings-sections-fields.php:2869
+msgid "90 seconds"
+msgstr "90 seconden"
+
+#: classes/class-settings-sections-fields.php:2868
+msgid "60 seconds"
+msgstr "60 seconden"
+
+#: classes/class-settings-sections-fields.php:2867
+msgid "45 seconds"
+msgstr "45 seconden"
+
+#: classes/class-settings-sections-fields.php:2832
+msgid "On post creation and edit screens"
+msgstr "Bij het maken en bewerken van berichten"
+
+#: classes/class-settings-sections-fields.php:2819
+#: classes/class-settings-sections-fields.php:2922
+msgid "10 minutes"
+msgstr "10 minuten"
+
+#: classes/class-settings-sections-fields.php:2818
+#: classes/class-settings-sections-fields.php:2921
+msgid "5 minutes"
+msgstr "5 minuten"
+
+#: classes/class-settings-sections-fields.php:2817
+#: classes/class-settings-sections-fields.php:2920
+msgid "3 minutes"
+msgstr "3 minuten"
+
+#: classes/class-settings-sections-fields.php:2816
+#: classes/class-settings-sections-fields.php:2919
+msgid "2 minutes"
+msgstr "2 minuten"
+
+#: classes/class-settings-sections-fields.php:2815
+#: classes/class-settings-sections-fields.php:2918
+msgid "1 minute"
+msgstr "1 minuut"
+
+#: classes/class-settings-sections-fields.php:2814
+#: classes/class-settings-sections-fields.php:2866
+#: classes/class-settings-sections-fields.php:2917
+msgid "30 seconds"
+msgstr "30 seconden"
+
+#: classes/class-settings-sections-fields.php:2813
+#: classes/class-settings-sections-fields.php:2865
+#: classes/class-settings-sections-fields.php:2916
+msgid "15 seconds"
+msgstr "15 seconden"
+
+#: classes/class-settings-sections-fields.php:2811
+msgid "<span class=\"faded\">(Default is 1 minute)</span>"
+msgstr "<span class=\"faded\">(Standaard is 1 minuut)</span>"
+
+#: classes/class-settings-sections-fields.php:2810
+#: classes/class-settings-sections-fields.php:2862
+#: classes/class-settings-sections-fields.php:2913
+msgid "Set interval to once every"
+msgstr "Stel interval in op eens per"
+
+#: classes/class-settings-sections-fields.php:2791
+#: classes/class-settings-sections-fields.php:2843
+#: classes/class-settings-sections-fields.php:2894
+msgid "Disable"
+msgstr "Uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2790
+#: classes/class-settings-sections-fields.php:2842
+#: classes/class-settings-sections-fields.php:2893
+msgid "Modify"
+msgstr "Aanpassen"
+
+#: classes/class-settings-sections-fields.php:2789
+#: classes/class-settings-sections-fields.php:2841
+#: classes/class-settings-sections-fields.php:2892
+msgid "Keep as is"
+msgstr "Behoud zoals het is"
+
+#: classes/class-settings-sections-fields.php:2780
+msgid "On admin pages"
+msgstr "Op beheerpagina's"
+
+#: classes/class-settings-sections-fields.php:2770
+msgid "Modify the interval of the WordPress heartbeat API or disable it on admin pages, post creation/edit screens and/or the frontend. This will help reduce CPU load on the server."
+msgstr "Wijzig de interval van de WordPress heartbeat API of schakel deze uit op beheerpagina's, schermen voor het maken/bewerken van berichten en/of de front-end. Dit zal de CPU-belasting op de server helpen verminderen."
+
+#: classes/class-settings-sections-fields.php:2757
+msgid "Heartbeat Control"
+msgstr "Heatbeat instellen"
+
+#: classes/class-settings-sections-fields.php:2720
+msgid "revisions for:"
+msgstr "revisies voor:"
+
+#: classes/class-settings-sections-fields.php:2719
+msgid "Limit to"
+msgstr "Beperken tot"
+
+#: classes/class-settings-sections-fields.php:2700
+msgid "Prevent bloating the database by limiting the number of revisions to keep for some or all post types supporting revisions."
+msgstr "Voorkom het vollopen van de database door het aantal revisies te beperken voor sommige of alle berichttypen die revisies ondersteunen."
+
+#: classes/class-settings-sections-fields.php:2687
+msgid "Revisions Control"
+msgstr "Revisiesbeheer"
+
+#: classes/class-settings-sections-fields.php:2671
+msgid "To exclude an image from conversion and resizing, append '-nr' suffix to the file name, e.g. bird-photo-4k-nr.jpg"
+msgstr "Om een afbeelding uit te sluiten van conversie en verkleining, voeg u het achtervoegsel '-nr' toe aan de bestandsnaam, bijv. bird-photo-4k-nr.jpg"
+
+#: classes/class-settings-sections-fields.php:2661
+msgid "pixels <span class=\"faded\">(Default is 1920 pixels)</span>"
+msgstr "pixels <span class=\"faded\">(standaard is 1920 pixels)</span>"
+
+#: classes/class-settings-sections-fields.php:2660
+msgid "Max height:"
+msgstr "Max. hoogte:"
+
+#: classes/class-settings-sections-fields.php:2638
+msgid "pixels. <span class=\"faded\">(Default is 1920 pixels)</span>"
+msgstr "pixels. <span class=\"faded\">(Standaard is 1920 pixels)</span>"
+
+#: classes/class-settings-sections-fields.php:2637
+msgid "Max width:"
+msgstr "Max. breedte:"
+
+#: classes/class-settings-sections-fields.php:2618
+msgid "Resize newly uploaded, large images to a smaller dimension and delete originally uploaded files. BMPs and non-transparent PNGs will be converted to JPGs and resized."
+msgstr "Verklein nieuw geüploade, grote afbeeldingen naar een kleiner format en verwijder oorspronkelijk geüploade bestanden. BMP's en niet-transparante PNG's worden geconverteerd naar JPG's en aangepast in grootte."
+
+#: classes/class-settings-sections-fields.php:2605
+msgid "Image Upload Control"
+msgstr "Afbeelding upload beheer"
+
+#: classes/class-settings-sections-fields.php:2594
+msgid "Protect your site from brute force, DOS and DDOS attacks via <a href=\"https://kinsta.com/blog/xmlrpc-php/#what-is-xmlrpcphp\" target=\"_blank\">XML-RPC</a>. Also disables trackbacks and pingbacks."
+msgstr "Bescherm uw site tegen brute force, DOS en DDOS aanvallen via <a href=\"https://kinsta.com/blog/xmlrpc-php/#what-is-xmlrpcphp\" target=\"_blank\">XML-RPC</a>. Schakelt ook trackbacks en pingbacks uit."
+
+#: classes/class-settings-sections-fields.php:2581
+msgid "Disable XML-RPC"
+msgstr "XML-RPC uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2561
+msgid ""
+"Use a shortcode like the following examples to display an email address on the frontend of your site: \n"
+"        \t\t<ul>\n"
+"        \t\t\t<li><strong>[obfuscate email=\"john@example.com\"]</strong> to display the email on it's own line</li>\n"
+"        \t\t\t<li><strong>[obfuscate email=\"john@example.com\" display=\"inline\"]</strong> to show the email inline</li>\n"
+"        \t\t</ul>"
+msgstr ""
+"Gebruik een shortcode zoals de volgende voorbeelden om een e-mailadres te tonen op de front-end van uw site: \n"
+"        \t\t<ul>\n"
+"        \t\t\t<li><strong>[obfuscate e-mail=\"john@example.com\"]</strong> om de e-mail op een eigen regel te tonen</li>\n"
+"        \t\t\t<li><strong>[obfuscate e-mail=\"john@example.com\" display=\"inline\"]</strong> om de e-mail inline te tonen</li>\n"
+"        \t\t</ul>"
+
+#: classes/class-settings-sections-fields.php:2553
+msgid "Obfuscate email address to prevent spam bots from harvesting them, but make it readable like a regular email address for human visitors."
+msgstr "Verberg het e-mailadres om te voorkomen dat spam bots het verzamelen, maar maak het leesbaar als een normaal e-mailadres voor menselijke bezoekers."
+
+#: classes/class-settings-sections-fields.php:2540
+msgid "Email Address Obfuscator"
+msgstr "E-mailadres verberger"
+
+#: classes/class-settings-sections-fields.php:2532
+msgid "Obfuscate publicly exposed author page URLs that shows the user slugs / usernames, e.g. <em>sitename.com/author/username1/</em> into <em>sitename.com/author/a6r5b8ytu9gp34bv/</em>, and output 404 errors for the original URLs. Also obfuscates in /wp-json/wp/v2/users/ REST API endpoint."
+msgstr "Obfuscate publiekelijk toegankelijke auteurspagina URL's die de gebruiker slugs/gebruikersnamen toont, bijvoorbeeld <em>sitename.com/author/username1/</em> in <em>sitename.com/author/a6r5b8ytu9gp34bv/</em>, en geef 404 fouten weer voor de originele URL's. Maakt ook /wp-json/wp/v2/users/ REST API endpoint onleesbaar."
+
+#: classes/class-settings-sections-fields.php:2519
+msgid "Obfuscate Author Slugs"
+msgstr "Verberg auteur slugs"
+
+#: classes/class-settings-sections-fields.php:2512
+msgid "Failed Login Attempts Log"
+msgstr "Mislukte login pogingen log"
+
+#: classes/class-settings-sections-fields.php:2500
+msgid "Failed login attempts:"
+msgstr "Mislukte login pogingen:"
+
+#: classes/class-settings-sections-fields.php:2454
+msgid "lockout(s) will block further login attempts for 24 hours"
+msgstr "uitsluiting(en) blokkeren verdere login pogingen gedurende 24 uur"
+
+#: classes/class-settings-sections-fields.php:2431
+msgid "failed login attempts allowed before 15 minutes lockout"
+msgstr "mislukte login pogingen toegestaan vóór 15 minuten uitsluiting"
+
+#: classes/class-settings-sections-fields.php:2411
+msgid "Prevent brute force attacks by limiting the number of failed login attempts allowed per IP address."
+msgstr "Voorkom brute force aanvallen door het aantal toegestane mislukte login pogingen per IP-adres te beperken."
+
+#: classes/class-settings-sections-fields.php:2398
+msgid "Limit Login Attempts"
+msgstr "Loginpogingen beperken"
+
+#: classes/class-settings-sections-fields.php:2329
+msgid "Disable <strong>block-based widgets settings screen</strong>. Restores the classic widgets settings screen when using a classic (non-block) theme. This has no effect on block themes."
+msgstr "Schakel het <strong>instellingenscherm voor blok-gebaseerde widgets</strong> uit. Zet het klassieke widgets instellingenscherm terug, bij het gebruik van een klassiek (niet-blok) thema. Dit heeft geen effect op blok thema's."
+
+#: classes/class-settings-sections-fields.php:2313
+msgid "Disable <strong>jQuery Migrate</strong> script on the frontend, which should no longer be needed if your site uses modern theme and plugins."
+msgstr "Schakel <strong>jQuery Migrate</strong> script op de front-end uit, dat niet langer nodig zou moeten zijn als uw site moderne thema's en plugins gebruikt."
+
+#: classes/class-settings-sections-fields.php:2297
+msgid "Disable <strong>emoji support for pages, posts and custom post types</strong> on the admin and frontend. The support is primarily useful for older browsers that do not have native support for it. Most modern browsers across different OSes and devices now have native support for it."
+msgstr "Schakel <strong>emoji-ondersteuning uit voor pagina's, berichten en extra berichttypen</strong> in beheer en op de front-end. De ondersteuning is vooral nuttig voor oudere browsers die er geen native ondersteuning voor hebben. De meeste moderne browsers op verschillende besturingssystemen en apparaten hebben nu native ondersteuning."
+
+#: classes/class-settings-sections-fields.php:2281
+msgid "Disable loading of <strong>Dashicons CSS and JS files</strong> on the front-end for public site visitors. This might break the layout or design of custom forms, including custom login forms, if they depend on Dashicons. Make sure to check those forms after disabling."
+msgstr "Schakel laden van <strong>Dashicons CSS en JS bestanden</strong> uit op de front-end voor publieke sitebezoekers. Dit kan de lay-out of het ontwerp van aangepaste formulieren verstoren, waaronder aangepaste login formulieren, als die afhankelijk zijn van Dashicons. Controleer deze formulieren na het uitschakelen."
+
+#: classes/class-settings-sections-fields.php:2265
+msgid "Disable the default <strong>WordPress shortlink &lt;link&gt; tag</strong> in &lt;head&gt;. Ignored by search engines and has minimal practical use case. Usually, a dedicated shortlink plugin or service is preferred that allows for nice names in the short links and tracking of clicks when sharing the link on social media."
+msgstr "Schakel de standaard <strong>WordPress shortlink &lt;link&gt; tag</strong> in &lt;head&gt; uit. Wordt genegeerd door zoekmachines en heeft minimale praktische bruikbaarheid. Meestal wordt de voorkeur gegeven aan een speciale shortlink plugin of dienst die het mogelijk maakt om mooie namen te geven aan de shortlinks en kliks te volgen bij het delen van de link op sociale media."
+
+#: classes/class-settings-sections-fields.php:2249
+msgid "Disable the <strong>Really Simple Discovery (RSD) &lt;link&gt; tag</strong> in &lt;head&gt;. It's not needed if your site is not using pingback or remote (XML-RPC) client to manage posts."
+msgstr "Schakel de <strong>Really Simple Discovery (RSD) &lt;link&gt; tag</strong> in &lt;head&gt; uit. Deze is niet nodig als uw site geen pingback of remote (XML-RPC) client gebruikt om berichten te beheren."
+
+#: classes/class-settings-sections-fields.php:2233
+msgid "Disable the <strong>Windows Live Writer (WLW) manifest &lt;link&gt; tag</strong> in &lt;head&gt;. The WLW app was discontinued in 2017."
+msgstr "Schakel het <strong>Windows Live Writer (WLW) manifest &lt;link&gt; tag</strong> in &lt;head&gt; uit. De WLW app is in 2017 stopgezet."
+
+#: classes/class-settings-sections-fields.php:2217
+msgid "Disable <strong>version number</strong> on static resource URLs referenced in &lt;head&gt;, which can disclose WordPress version number. Older versions(s) might contain unpatched security loophole(s). Applies to non-logged-in view of pages. This will also increase cacheability of static assets, but may have unintended consequences. Make sure you know what you are doing."
+msgstr "Schakel het <strong>versienummer</strong> uit op statische bron URL's die worden verwezen in &lt;head&gt;, wat het WordPress versienummer kan onthullen. Oudere versie(s) kunnen ongepatchte beveiligingslek(ken) bevatten. Van toepassing op de niet ingelogde weergave van pagina's. Dit zal ook de cache mogelijkheid van statische bronnen verhogen, maar kan onbedoelde gevolgen hebben. Zorg ervoor dat u weet wat u doet."
+
+#: classes/class-settings-sections-fields.php:2185
+msgid "Disable the <strong>generator &lt;meta&gt; tag</strong> in &lt;head&gt;, which discloses the WordPress version number. Older versions(s) might contain unpatched security loophole(s)."
+msgstr "Schakel de <strong>generator &lt;meta&gt; tag</strong> in &lt;head&gt; uit, die het versienummer van WordPress onthult. Oudere versies kunnen niet gepatchte beveiligingslek(ken) bevatten."
+
+#: classes/class-settings-sections-fields.php:2167
+msgid "Prevent smaller components from running or loading. Make the site more secure, load slightly faster and be more optimized for crawling by search engines."
+msgstr "Voorkomen dat kleinere onderdelen worden uitgevoerd of geladen. Maak de site veiliger, laad iets sneller en optimaliseer hem beter voor crawling door zoekmachines."
+
+#: classes/class-settings-sections-fields.php:2154
+msgid "Disable Smaller Components"
+msgstr "Kleinere onderdelen uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2123
+msgid "Completely disable core, theme and plugin updates and auto-updates. Will also disable update checks, notices and emails."
+msgstr "Schakel core-, thema-, plugin  en auto-updates volledig uit. Ook update controles, berichten en e-mails worden uitgeschakeld."
+
+#: classes/class-settings-sections-fields.php:2110
+msgid "Disable All Updates"
+msgstr "Alle updates uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2101
+msgid "Disable all RSS, Atom and RDF feeds. This includes feeds for posts, categories, tags, comments, authors and search. Also removes traces of feed URLs from &lt;head&gt;."
+msgstr "Schakel alle RSS, Atom en RDF feeds uit. Dit omvat feeds voor berichten, categorieën, tags, reacties, auteurs en zoeken. Verwijdert ook sporen van feed URL's uit &lt;head&gt;."
+
+#: classes/class-settings-sections-fields.php:2088
+msgid "Disable Feeds"
+msgstr "Feeds uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2079
+msgid "Disable REST API access for non-authenticated users and remove URL traces from &lt;head&gt;, HTTP headers and WP RSD endpoint."
+msgstr "Schakel REST API toegang uit voor niet-geauthenticeerde gebruikers en verwijder URL sporen uit &lt;head&gt;, HTTP headers en WP RSD endpoint."
+
+#: classes/class-settings-sections-fields.php:2066
+msgid "Disable REST API"
+msgstr "REST API uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2035
+msgid "Disable comments for some or all public post types. When disabled, existing comments will also be hidden on the frontend."
+msgstr "Schakel reacties uit voor sommige of alle openbare berichttypen. Als dit is uitgeschakeld, worden bestaande reacties ook verborgen op de front-end."
+
+#: classes/class-settings-sections-fields.php:2022
+msgid "Disable Comments"
+msgstr "Reacties uitschakelen"
+
+#: classes/class-settings-sections-fields.php:2015
+msgid "Also disable frontend block styles / CSS files for the selected post types."
+msgstr "Ook front-end blok stijlen/CSS bestanden uitschakelen voor de geselecteerde berichttypes."
+
+#: classes/class-settings-sections-fields.php:1962
+msgid "Disable Gutenberg"
+msgstr "Gutenberg uitschakelen"
+
+#: classes/class-settings-sections-fields.php:1929
+msgid "Easily edit and validate your <a href=\"/robots.txt\" target=\"_blank\">robots.txt</a> content."
+msgstr "Bewerk en valideer eenvoudig de inhoud van uw <a href=\"/robots.txt\" target=\"_blank\">robots.txt</a>."
+
+#: classes/class-settings-sections-fields.php:1916
+msgid "Manage robots.txt"
+msgstr "Beheer robots.txt"
+
+#: classes/class-settings-sections-fields.php:1887
+#: classes/class-settings-sections-fields.php:1909
+#: classes/class-settings-sections-fields.php:1952
+msgid "Validate with:"
+msgstr "Valideer met:"
+
+#: classes/class-settings-sections-fields.php:1886
+msgid "<strong>Your ads.txt content:</strong>"
+msgstr "<strong>Uw ads.txt inhoud:</strong>"
+
+#: classes/class-settings-sections-fields.php:1863
+msgid "Easily edit and validate your <a href=\"/ads.txt\" target=\"_blank\">ads.txt</a> and <a href=\"/app-ads.txt\" target=\"_blank\">app-ads.txt</a> content."
+msgstr "Bewerk en valideer eenvoudig u <a href=\"/ads.txt\" target=\"_blank\">ads.txt</a> en <a href=\"/app-ads.txt\" target=\"_blank\">app-ads.txt</a> inhoud."
+
+#: classes/class-settings-sections-fields.php:1850
+msgid "Manage ads.txt and app-ads.txt"
+msgstr "Beheer ads.txt en app-ads.txt"
+
+#: classes/class-settings-sections-fields.php:1817
+msgid "Add custom &lt;body&gt; class(es) on the singular view of some or all public post types. Compatible with classes already added using <a href=\"https://wordpress.org/plugins/wp-custom-body-class\" target=\"_blank\">Custom Body Class plugin</a>."
+msgstr "Voeg aangepaste &lt;body&gt; klasse(n) toe aan de enkelvoudige weergave van sommige of alle openbare berichttypen. Compatibel met klassen die al zijn toegevoegd met de <a href=\"https://wordpress.org/plugins/wp-custom-body-class\" target=\"_blank\">Custom Body Class plugin</a>."
+
+#: classes/class-settings-sections-fields.php:1804
+msgid "Custom Body Class"
+msgstr "Aangepaste body klasse"
+
+#: classes/class-settings-sections-fields.php:1777
+msgid "Default is 10. Larger number insert code closer to &lt;/body&gt;"
+msgstr "Standaard is 10. Grotere getallen voegen code dichter in bij &lt;/body&gt;"
+
+#: classes/class-settings-sections-fields.php:1771
+msgid "<strong>Code to insert in footer section before &lt;/body&gt; with the priority of</strong>"
+msgstr "<strong>Code om in de footer sectie in te voegen vóór &lt;/body&gt; met de prioriteit van</strong>"
+
+#: classes/class-settings-sections-fields.php:1734
+msgid "Default is 10. Smaller number insert code closer to &lt;body&gt;"
+msgstr "Standaard is 10. Kleinere getallen voegen code dichter in bij &lt;body&gt;"
+
+#: classes/class-settings-sections-fields.php:1728
+msgid "<strong>Code to insert after &lt;body&gt; with the priority of</strong>"
+msgstr "<strong>Code om in te voegen ná &lt;body&gt; met de prioriteit van</strong>"
+
+#: classes/class-settings-sections-fields.php:1691
+msgid "Default is 10. Larger number insert code closer to &lt;/head&gt;"
+msgstr "Standaard is 10. Grotere getallen voegen code dichter in bij &lt;/head&gt;"
+
+#: classes/class-settings-sections-fields.php:1685
+msgid "<strong>Code to insert before &lt;/head&gt; with the priority of</strong>"
+msgstr "<strong>Code om in te voegen vóór &lt;/head&gt; met de prioriteit van</strong>"
+
+#: classes/class-settings-sections-fields.php:1650
+msgid "Easily insert &lt;meta&gt;, &lt;link&gt;, &lt;script&gt; and &lt;style&gt; tags, Google Analytics, Tag Manager, AdSense, Ads Conversion and Optimize code, Facebook, TikTok and Twitter pixels, etc."
+msgstr "Voeg eenvoudig &lt;meta&gt;, &lt;link&gt;, &lt;script&gt; en &lt;style&gt; tags, Google Analytics, Tag Manager, AdSense, Ads Conversion en Optimize code, Facebook, TikTok en Twitter pixels, enz. in."
+
+#: classes/class-settings-sections-fields.php:1636
+msgid "Insert &lt;head&gt;, &lt;body&gt; and &lt;footer&gt; Code"
+msgstr "Voeg &lt;head&gt;, &lt;body&gt; en &lt;footer&gt; code in"
+
+#: classes/class-settings-sections-fields.php:1607
+msgid "Add custom CSS on all frontend pages for all user roles."
+msgstr "Aangepaste CSS toevoegen op alle front-end pagina's voor alle gebruikersrollen."
+
+#: classes/class-settings-sections-fields.php:1594
+msgid "Custom Frontend CSS"
+msgstr "Aangepaste front-end CSS"
+
+#: classes/class-settings-sections-fields.php:1565
+msgid "Add custom CSS on all admin pages for all user roles."
+msgstr "Aangepaste CSS toevoegen op alle beheerpagina's voor alle gebruikersrollen."
+
+#: classes/class-settings-sections-fields.php:1552
+msgid "Custom Admin CSS"
+msgstr "Aangepaste beheer CSS"
+
+#: classes/class-settings-sections-fields.php:1502
+msgid "Set custom redirect URL for all or some user roles after logout."
+msgstr "Stel een aangepaste omleiding URL in voor alle of sommige gebruikersrollen na het uitloggen."
+
+#: classes/class-settings-sections-fields.php:1489
+msgid "Redirect After Logout"
+msgstr "Omleiden na uitloggen"
+
+#: classes/class-settings-sections-fields.php:1458
+#: classes/class-settings-sections-fields.php:1522
+msgid "for:"
+msgstr "voor:"
+
+#: classes/class-settings-sections-fields.php:1448
+#: classes/class-settings-sections-fields.php:1512
+msgid "Redirect to:"
+msgstr "Omleiden naar:"
+
+#: classes/class-settings-sections-fields.php:1438
+msgid "Set custom redirect URL for all or some user roles after login."
+msgstr "Stel aangepaste omleiding URL in voor alle of sommige gebruikersrollen na login."
+
+#: classes/class-settings-sections-fields.php:1425
+msgid "Redirect After Login"
+msgstr "Omleiden na login"
+
+#: classes/class-settings-sections-fields.php:1394
+msgid "Log when users on the site last logged in and display the date and time in the users list table."
+msgstr "Log wanneer gebruikers op de site voor het laatst hebben ingelogd en toon de datum en tijd in de gebruikerslijst tabel."
+
+#: classes/class-settings-sections-fields.php:1381
+msgid "Last Login Column"
+msgstr "Laatste login kolom"
+
+#: classes/class-settings-sections-fields.php:1372
+msgid "Enable log in, log out and dynamic log in/out menu item for addition to any menu."
+msgstr "Schakel in-/uitloggen en dynamisch in-/uitloggen menu-item in om toe te voegen aan elk menu."
+
+#: classes/class-settings-sections-fields.php:1359
+msgid "Log In/Out Menu"
+msgstr "In-/uitloggen menu"
+
+#: classes/class-settings-sections-fields.php:1333
+msgid "Site Identity on Login Page"
+msgstr "Site identiteit op login pagina"
+
+#: classes/class-settings-sections-fields.php:1324
+msgid "Email address only"
+msgstr "Alléén e-mailadres"
+
+#: classes/class-settings-sections-fields.php:1323
+msgid "Username only"
+msgstr "Alléén gebruikersnaam"
+
+#: classes/class-settings-sections-fields.php:1305
+msgid "Restrict login ID to username or email address only."
+msgstr "Login ID beperken tot alleen gebruikersnaam of e-mailadres."
+
+#: classes/class-settings-sections-fields.php:1292
+msgid "Login ID Type"
+msgstr "Type login ID"
+
+#: classes/class-settings-sections-fields.php:1285
+msgid "<div class=\"asenha-warning\">\"New login URL\" <strong>only works for/with the default WordPress login page</strong>. If you have a login page you manually created with a page builder or with another plugin, please add them to the \"Allow login from\" section.<br /><br />This module is <strong>not yet compatible with two-factor authentication (2FA) methods</strong>. If you use a 2FA plugin, please use the change login URL feature bundled in that plugin, or use another plugin that is compatible with it.<br /><br />And obviously, to improve security, please <strong>use something other than 'login'</strong> for the custom login slug.</div>"
+msgstr "<div class=\"asenha-warning\">\"Nieuwe login URL\" <strong>werkt alleen voor/met de standaard WordPress login pagina</strong>. Als u een login pagina heeft die u handmatig hebt gemaakt met een pagina bouwer of met een andere plugin, voeg deze dan toe aan de \"Toestaan login van\" sectie.<br /><br />Deze module is <strong>nog niet compatibel met twee-factor authenticatie (2FA) methoden</strong>. Als u een 2FA plugin gebruikt, gebruik dan de verander login URL functie gebundeld in die plugin, of gebruik een andere plugin die hiermee compatibel is.<br /><br />En natuurlijk, om de veiligheid te verbeteren, <strong>gebruik iets anders dan 'login'</strong> voor de aangepaste login slug.</div>}"
+
+#: classes/class-settings-sections-fields.php:1238
+msgid "New login URL:"
+msgstr "Nieuwe login URL:"
+
+#: classes/class-settings-sections-fields.php:1211
+msgid "Change Login URL"
+msgstr "Login URL wijzigen"
+
+#. translators: %s is the WordPress version number
+#: classes/class-settings-sections-fields.php:1197
+msgid "Default text is: <em>Version %s</em>"
+msgstr "Standaardtekst is: <em>Versie %s</em>"
+
+#: classes/class-settings-sections-fields.php:1183
+msgid "Right Side"
+msgstr "Rechterkant"
+
+#: classes/class-settings-sections-fields.php:1158
+msgid "Default text is: <em>Thank you for creating with <a href=\"https://wordpress.org/\">WordPress</a></em>."
+msgstr "Standaardtekst is: <em>Bedankt voor het gebruiken van <a href=\"https://wordpress.org/\">WordPress</a></em>."
+
+#: classes/class-settings-sections-fields.php:1147
+msgid "Left Side"
+msgstr "Linkerkant"
+
+#: classes/class-settings-sections-fields.php:1119
+msgid "Customize the text you see on the footer of wp-admin pages other than this ASE settings page."
+msgstr "Pas de tekst aan die u ziet op de footer van wp-beheer pagina's anders dan op deze ASE instellingenpagina aan."
+
+#: classes/class-settings-sections-fields.php:1106
+msgid "Custom Admin Footer Text"
+msgstr "Aangepaste beheer footer tekst"
+
+#: classes/class-settings-sections-fields.php:1099
+msgid "Display active / activated plugins at the top of the Installed Plugins list. Useful when your site has many deactivated plugins for testing or development purposes."
+msgstr "Toon actieve/geactiveerde plugins bovenaan de lijst met geïnstalleerde plugins. Handig als uw site veel gedeactiveerde plugins heeft voor test- of ontwikkelingsdoeleinden."
+
+#: classes/class-settings-sections-fields.php:1099
+msgid "Display Active Plugins First"
+msgstr "Actieve plugins eerst tonen"
+
+#: classes/class-settings-sections-fields.php:1043
+msgid "Remove tags column (for posts)"
+msgstr "Tags kolom (voor berichten) verwijderen"
+
+#: classes/class-settings-sections-fields.php:1026
+msgid "Remove comments column"
+msgstr "Reactie kolom verwijderen"
+
+#: classes/class-settings-sections-fields.php:992
+msgid "Show ID in action rows along with links for Edit, View, etc."
+msgstr "Toon ID in actierijen samen met links voor Bewerken, Bekijken, enz."
+
+#: classes/class-settings-sections-fields.php:975
+msgid "Show file size column in media library"
+msgstr "Toon bestandsgrootte kolom in mediabibliotheek"
+
+#: classes/class-settings-sections-fields.php:958
+msgid "Show ID column"
+msgstr "Toon ID kolom"
+
+#: classes/class-settings-sections-fields.php:924
+msgid "Show excerpt column"
+msgstr "Toon samenvatting kolom"
+
+#: classes/class-settings-sections-fields.php:907
+msgid "Show featured image column"
+msgstr "Toon uitgelichte afbeelding kolom"
+
+#: classes/class-settings-sections-fields.php:888
+msgid "Improve the usefulness of listing pages for various post types and taxonomies, media, comments and users by adding / removing columns and elements."
+msgstr "Verbeter de bruikbaarheid van vermelding pagina's voor verschillende berichttypen en taxonomieën, media, reacties en gebruikers door kolommen en elementen toe te voegen/te verwijderen."
+
+#: classes/class-settings-sections-fields.php:875
+msgid "Enhance List Tables"
+msgstr "Lijsttabellen verbeteren"
+
+#: classes/class-settings-sections-fields.php:838
+msgid "Customize the order of the admin menu and optionally change menu item title or hide some items."
+msgstr "Pas de volgorde van het beheermenu aan en wijzig optioneel de titel van menu-items of verberg sommige items."
+
+#: classes/class-admin-menu-organizer.php:42
+#: classes/class-settings-sections-fields.php:826
+msgid "Admin Menu Organizer"
+msgstr "Beheermenu organisator"
+
+#: classes/class-settings-sections-fields.php:806
+msgid "(Default is 160px)"
+msgstr "(Standaard is 160px)"
+
+#: classes/class-settings-sections-fields.php:805
+msgid "Set width to"
+msgstr "Stel breedte in op"
+
+#: classes/class-settings-sections-fields.php:787
+msgid "Give the admin menu more room to better accommodate wider items."
+msgstr "Geef het beheermenu meer ruimte voor bredere items."
+
+#: classes/class-settings-sections-fields.php:774
+msgid "Wider Admin Menu"
+msgstr "Breder beheermenu"
+
+#: classes/class-settings-sections-fields.php:698
+msgid "Hide Admin Bar"
+msgstr "Toolbar verbergen"
+
+#: classes/class-settings-sections-fields.php:699
+msgid "Hide admin bar on the frontend for all or some user roles."
+msgstr "Verberg toolbar op de front-end voor alle of sommige gebruikersrollen."
+
+#: classes/class-settings-sections-fields.php:646
+msgid "Clean up and speed up the dashboard by completely disabling some or all widgets. Disabled widgets won't load any assets nor show up under Screen Options."
+msgstr "Ruim het dashboard op en versnel het door sommige of alle widgets volledig uit te schakelen. Uitgeschakelde widgets laden geen onderdelen en verschijnen niet onder scherminstellingen."
+
+#: classes/class-settings-sections-fields.php:633
+msgid "Disable Dashboard Widgets"
+msgstr "Dashboard widgets uitschakelen"
+
+#: classes/class-settings-sections-fields.php:624
+msgid "Clean up admin pages by moving notices into a separate panel easily accessible via the admin bar."
+msgstr "Opschonen van beheerspagina's door berichten te verplaatsen naar een apart paneel dat eenvoudig toegankelijk is via de toolbar."
+
+#: classes/class-settings-sections-fields.php:609
+msgid "Hide Admin Notices"
+msgstr "Beheerberichten verbergen"
+
+#: classes/class-settings-sections-fields.php:602
+msgid "Remove the Help tab and drawer"
+msgstr "Hulp tab en lade verwijderen"
+
+#: classes/class-settings-sections-fields.php:586
+msgid "Remove 'Howdy'"
+msgstr "‘Hallo’ verwijderen"
+
+#: classes/class-settings-sections-fields.php:570
+msgid "Remove new content menu"
+msgstr "Nieuwe inhoudsmenu verwijderen"
+
+#: classes/class-settings-sections-fields.php:554
+msgid "Remove comments counter/link"
+msgstr "Reactie teller/link verwijderen"
+
+#: classes/class-settings-sections-fields.php:538
+msgid "Remove updates counter/link"
+msgstr "Updates teller/link verwijderen"
+
+#: classes/class-settings-sections-fields.php:522
+msgid "Remove customize menu"
+msgstr "Customizer menu verwijderen"
+
+#: classes/class-settings-sections-fields.php:490
+msgid "Remove WordPress logo/menu"
+msgstr "WordPress logo/menu verwijderen"
+
+#: classes/class-settings-sections-fields.php:472
+msgid "Remove various elements from the admin bar."
+msgstr "Verwijder diverse elementen uit de toolbar."
+
+#: classes/class-settings-sections-fields.php:463
+msgid "Clean Up Admin Bar"
+msgstr "Toolbar opruimen"
+
+#: classes/class-settings-sections-fields.php:451
+msgid "Trigger publishing of scheduled posts of all types marked with \"missed schedule\", anytime the site is visited."
+msgstr "Trigger het publiceren van geplande berichten van alle types die zijn gemarkeerd met \"gemiste planning\", elk moment dat de site wordt bezocht."
+
+#: classes/class-settings-sections-fields.php:438
+msgid "Auto-Publish Posts with Missed Schedule"
+msgstr "Berichten automatisch publiceren met gemiste planning"
+
+#: classes/class-settings-sections-fields.php:429
+msgid "Allow custom navigation menu items to have links that open in new browser tab via target=\"_blank\" attribute. The rel=\"noopener noreferrer nofollow\" attribute will also be added for enhanced security and SEO benefits."
+msgstr "Toestaan dat aangepaste navigatiemenu-items links kunnen hebben die openen in een nieuwe browser tab via het attribuut target=\"_blank\". Het rel=\"noopener noreferrer nofollow\" attribuut zal ook worden toegevoegd voor verbeterde beveiliging en SEO voordelen."
+
+#: classes/class-settings-sections-fields.php:416
+msgid "Allow Custom Navigation Menu Items to Open in New Tab"
+msgstr "Toestaan dat aangepaste navigatiemenu-items openen in een nieuwe tab"
+
+#: classes/class-settings-sections-fields.php:407
+msgid "Force all links to external sites in post content, where <a href=\"https://developer.wordpress.org/reference/hooks/the_content/\" target=\"_blank\">the_content</a> hook is used, to open in new browser tab via target=\"_blank\" attribute. The rel=\"noopener noreferrer nofollow\" attribute will also be added for enhanced security and SEO benefits."
+msgstr "Forceer alle links naar externe sites in de berichtinhoud, waar <a href=\"https://developer.wordpress.org/reference/hooks/the_content/\" target=\"_blank\">the_content</a> hook is gebruikt, om te openen in een nieuw browser tab via het target=\"_blank\" attribuut. Het rel=\"noopener noreferrer nofollow\" attribuut zal ook worden toegevoegd voor verbeterde beveiliging en SEO voordelen."
+
+#: classes/class-settings-sections-fields.php:394
+msgid "Open All External Links in New Tab"
+msgstr "Alle externe links in nieuwe tab openen"
+
+#: classes/class-settings-sections-fields.php:361
+msgid "Enable pages, posts and/or custom post types to have permalinks that point to external URLs. The rel=\"noopener noreferrer nofollow\" attribute will also be added for enhanced security and SEO benefits. Compatible with links added using <a href=\"https://wordpress.org/plugins/page-links-to/\" target=\"_blank\">Page Links To</a>."
+msgstr "Maak het mogelijk dat pagina's, berichten en/of aangepaste berichttypes permalinks hebben die verwijzen naar externe URL's. Het rel=\"noopener noreferrer nofollow\" attribuut zal ook worden toegevoegd voor verbeterde beveiliging en SEO voordelen. Compatibel met links die zijn toegevoegd met <a href=\"https://wordpress.org/plugins/page-links-to/\" target=\"_blank\">Pagina links naar</a>."
+
+#: classes/class-settings-sections-fields.php:348
+msgid "External Permalinks"
+msgstr "Externe permalinks"
+
+#: classes/class-settings-sections-fields.php:283
+msgid "Allow some or all user roles to upload SVG files, which will then be sanitized to keep things secure."
+msgstr "Toestaan dat sommige of alle gebruikersrollen SVG bestanden kunnen uploaden, die dan worden gezuiverd om alles veilig te houden."
+
+#: classes/class-settings-sections-fields.php:270
+msgid "SVG Upload"
+msgstr "SVG uploaden"
+
+#: classes/class-settings-sections-fields.php:1082
+msgid "Re-enable infinite scrolling in the grid view of the media library. Useful for scrolling through a large library."
+msgstr "Schakel oneindig scrollen opnieuw in in de rasterweergave van de mediabibliotheek. Handig voor het scrollen door een grote bibliotheek."
+
+#: classes/class-settings-sections-fields.php:1082
+msgid "Media Library Infinite Scrolling"
+msgstr "Mediabibliotheek oneindig scrollen"
+
+#: classes/class-settings-sections-fields.php:245
+msgid "Easily replace any type of media file with a new one while retaining the existing media ID, publish date and file name. So, no existing links will break."
+msgstr "Vervang eenvoudig elk type mediabestand door een nieuwe met behoud van het bestaande media ID, publicatiedatum en bestandsnaam. Bestaande links worden dus niet verbroken."
+
+#: classes/class-settings-sections-fields.php:232
+msgid "Media Replacement"
+msgstr "Mediavervanging"
+
+#: classes/class-settings-sections-fields.php:197
+msgid "Enable custom ordering of various \"hierarchical\" content types or those supporting \"page attributes\". A new 'Order' sub-menu will appear for enabled content type(s). The \"All {Posts}\" list page for enabled post types in wp-admin will automatically use the custom order."
+msgstr "Schakel aangepaste rangschikking in van verschillende \"hiërarchische\" inhoudstypen of inhoudstypen die \"pagina attributen\" ondersteunen. Er verschijnt een nieuw submenu ‘Volgorde’ voor ingeschakelde inhoudstype(n). De \"Alle {Berichten}\" vermelding pagina voor ingeschakelde berichttypen in wp-beheer zal automatisch de aangepaste volgorde gebruiken."
+
+#: classes/class-settings-sections-fields.php:184
+msgid "Content Order"
+msgstr "Inhoud rangschikking"
+
+#: classes/class-settings-sections-fields.php:175
+msgid "List view"
+msgstr "Lijstweergave"
+
+#: classes/class-settings-sections-fields.php:174
+msgid "Edit screen"
+msgstr "Bewerkingsscherm"
+
+#: classes/class-settings-sections-fields.php:165
+msgid "After duplication, redirect to:"
+msgstr "Na dupliceren, omleiden naar:"
+
+#: classes/class-settings-sections-fields.php:155
+msgid "Enable one-click duplication of pages, posts and custom posts. The corresponding taxonomy terms and post meta will also be duplicated."
+msgstr "Schakel één klik duplicatie van pagina's, berichten en aangepaste berichten in. De bijbehorende taxonomie termen en bericht meta worden ook gedupliceerd."
+
+#: classes/class-settings-sections-fields.php:142
+msgid "Content Duplication"
+msgstr "Inhoud duplicatie"
+
+#: classes/class-settings-fields-render.php:1152
+msgid "Full AVIF support requires that your server / hosting has <a href=\"https://php.watch/versions/8.1/gd-avif\" target=\"_blank\">GD extension</a> compiled with AVIF support in PHP 8.1 or greater, or, <a href=\"https://web.archive.org/web/20240104012918/https://avif.io/blog/tutorials/imagemagick/\" target=\"_blank\">ImageMagick 7.0.25 or greater</a> installed. Without either, you can still upload AVIF files but without auto-generation of the smaller thumbnail sizes. A majority of <a href=\"https://web.archive.org/web/20231207174740/https://avif.io/blog/articles/avif-browser-support/\" target=\"_blank\">modern desktop and mobile browsers</a> support the display of AVIF files."
+msgstr "Volledige AVIF ondersteuning vereist dat uw server/hosting de <a href=\"https://php.watch/versions/8.1/gd-avif\" target=\"_blank\">GD extensie</a> heeft gecompileerd met AVIF ondersteuning in PHP 8.1 of hoger, of, <a href=\"https://web.archive.org/web/20240104012918/https://avif.io/blog/tutorials/imagemagick/\" target=\"_blank\">ImageMagick 7.0.25 of hoger</a> geïnstalleerd. Zonder een van beide kunt u nog steeds AVIF bestanden uploaden, maar zonder automatische generatie van de kleinere thumbnail maten. Een meerderheid van de <a href=\"https://web.archive.org/web/20231207174740/https://avif.io/blog/articles/avif-browser-support/\" target=\"_blank\">moderne desktop en mobiele browsers</a> ondersteunen de weergave van AVIF bestanden."
+
+#: classes/class-settings-fields-render.php:1146
+msgid "AVIF Support Status"
+msgstr "Status AVIF ondersteuning"
+
+#: classes/class-settings-fields-render.php:1122
+#: classes/class-settings-fields-render.php:1143
+msgid "Not available"
+msgstr "Niet beschikbaar"
+
+#: classes/class-settings-fields-render.php:1117
+msgid "without AVIF support"
+msgstr "zónder AVIF ondersteuning"
+
+#: classes/class-settings-fields-render.php:1115
+msgid "with AVIF support"
+msgstr "mét AVIF ondersteuning"
+
+#: classes/class-settings-fields-render.php:1053
+msgid "Last Attempt On"
+msgstr "Laatste poging op"
+
+#: classes/class-settings-fields-render.php:1050
+msgid "Attempts<br />Lockouts"
+msgstr "Pogingen<br />Uitsluitingen"
+
+#: classes/class-settings-fields-render.php:1047
+msgid "IP Address<br />Last Username"
+msgstr "IP-adres<br />Laatste gebruikersnaam"
+
+#: classes/class-settings-fields-render.php:757
+#: classes/class-settings-fields-render.php:870
+#: classes/class-settings-fields-render.php:960
+msgid "Hide until toggled"
+msgstr "Verberg totdat het wordt omgeschakeld"
+
+#: classes/class-settings-fields-render.php:652
+msgid "Drag and drop menu items to the desired position. Optionally change 3rd party plugin/theme's menu item titles or hide some items until toggled by clicking \"Show All\" at the bottom of the admin menu."
+msgstr "Versleep menu-items naar de gewenste positie. Verander optioneel de titels van menu-items van plugin/thema's van derden of verberg sommige items totdat u ze aanklikt door te klikken op \"Alles tonen” onderaan het beheermenu."
+
+#: classes/class-settings-sections-fields.php:1249
+msgid "e.g. backend"
+msgstr "bijv. back-end"
+
+#. Author URI of the plugin
+#: admin-site-enhancements.php
+msgid "https://www.wpase.com/author-uri"
+msgstr "https://www.wpase.com/author-uri"
+
+#. Author of the plugin
+#: admin-site-enhancements.php
+msgid "wpase.com"
+msgstr "wpase.com"
+
+#. Plugin URI of the plugin
+#: admin-site-enhancements.php
+msgid "https://www.wpase.com/plugin-uri"
+msgstr "https://www.wpase.com/plugin-uri"
+
+#. Plugin Name of the plugin
+#: admin-site-enhancements.php
+msgid "Admin and Site Enhancements (ASE)"
+msgstr "Admin and Site Enhancements (ASE)"
+
+#: settings.php:108
+msgid "Translate"
+msgstr "Vertalen"
+
+#: settings.php:105
+msgid "Feedback"
+msgstr "Feedback"
+
+#: settings.php:102
+msgid "Review"
+msgstr "Beoordeling"
+
+#. Description of the plugin
+#: admin-site-enhancements.php
+msgid "Easily enable enhancements and features that usually require multiple plugins."
+msgstr "Schakel eenvoudig verbeteringen en functies in waarvoor meestal meerdere plugins nodig zijn."

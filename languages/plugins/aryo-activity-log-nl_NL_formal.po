@@ -1,0 +1,900 @@
+# Translation of Plugins - Activity Log &#8211; Monitor &amp; Record User Changes - Stable (latest release) in Dutch
+# This file is distributed under the same license as the Plugins - Activity Log &#8211; Monitor &amp; Record User Changes - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2024-11-06 11:16:07+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: nl\n"
+"Project-Id-Version: Plugins - Activity Log &#8211; Monitor &amp; Record User Changes - Stable (latest release)\n"
+
+#: classes/class-aal-activity-log-list-table.php:310
+msgid "Install Plugin"
+msgstr "Plugin installeren"
+
+#: classes/class-aal-activity-log-list-table.php:307
+msgid "Activate Plugin"
+msgstr "Activeer plugin"
+
+#: classes/class-aal-activity-log-list-table.php:280
+msgid "Reduce image sizes without losing quality and improve your site speed."
+msgstr "Verklein de grootte van afbeeldingen zonder kwaliteit te verliezen en verbeter de snelheid van uw site."
+
+#: classes/class-aal-activity-log-list-table.php:279
+msgid "Optimize Your Images for a Faster Website!"
+msgstr "Optimaliseer uw afbeeldingen voor een snellere site!"
+
+#: classes/class-aal-activity-log-list-table.php:259
+msgid "Use Site Mailer for improved email deliverability, detailed email logs, and an easy setup."
+msgstr "Gebruik Site Mailer voor verbeterde e-mail bezorging, gedetailleerde e-mail logs en een eenvoudige installatie."
+
+#: classes/class-aal-activity-log-list-table.php:258
+msgid "Ensure your emails avoid the spam folder!"
+msgstr "Zorg ervoor dat uw e-mails niet in de spam map terechtkomen!"
+
+#: classes/class-aal-activity-log-list-table.php:228
+msgid "Dismiss"
+msgstr "Negeren"
+
+#: i18n/strings.php:61
+msgid "All New Versions"
+msgstr "Alle nieuwe versies"
+
+#: i18n/strings.php:39
+msgid "auto_update_enabled"
+msgstr "auto_update_enabled"
+
+#: i18n/strings.php:38
+msgid "auto_update_disabled"
+msgstr "auto_update_disabled"
+
+#: classes/class-aal-settings.php:134
+msgid "Don't Keep"
+msgstr "Niet bewaren"
+
+#: classes/class-aal-settings.php:124
+msgid "Keep Email Logs"
+msgstr "Bewaar e-mail logs"
+
+#: i18n/strings.php:66
+msgid "failed"
+msgstr "mislukt"
+
+#: i18n/strings.php:65
+msgid "sent"
+msgstr "verzonden"
+
+#: i18n/strings.php:64
+msgid "Emails"
+msgstr "E-mails"
+
+#. Description of the plugin
+#: aryo-activity-log.php
+msgid "This top rated Activity Log plugin helps you monitor & log all changes and actions on your WordPress site, so you can remain secure and organized."
+msgstr "Deze best beoordeelde activiteiten log plugin helpt u bij het monitoren en loggen van alle wijzigingen en acties op uw WordPress site, zodat u veilig en georganiseerd kunt blijven."
+
+#: classes/class-aal-settings.php:163
+msgid "<strong>Please note:</strong> if you choose \"Do not collect IP\", the IP column will be hidden in the log."
+msgstr "<strong>Let op:</strong> als u \"Verzamel geen IP\" kiest, wordt de IP kolom verborgen in de log."
+
+#: classes/class-aal-settings.php:159
+msgid "Do not collect IP"
+msgstr "Verzamel geen IP's"
+
+#: classes/class-aal-settings.php:161
+msgid "Select the source of the visitor IP address. For example, if you are using Cloudflare, select <code>HTTP_CF_CONNECTING_IP</code>."
+msgstr "Selecteer de gegevensbron van het IP-adres van de bezoeker. Als u bijvoorbeeld Cloudflare gebruikt, selecteer dan <code>HTTP_CF_CONNECTING_IP</code>."
+
+#: classes/class-aal-settings.php:141
+msgid "Visitor IP Detected"
+msgstr "Bezoeker IP gedetecteerd"
+
+#: i18n/strings.php:152
+msgid "wp_page_for_privacy_policy"
+msgstr "wp_page_for_privacy_policy"
+
+#: i18n/strings.php:85
+msgid "WPLANG"
+msgstr "WPLANG"
+
+#: i18n/strings.php:55
+msgid "Taxonomies"
+msgstr "Taxonomieën"
+
+#: i18n/strings.php:52
+msgid "Menus"
+msgstr "Menu's"
+
+#: i18n/strings.php:46
+msgid "Widgets"
+msgstr "Widgets"
+
+#: i18n/strings.php:42
+msgid "Themes"
+msgstr "Thema's"
+
+#: i18n/strings.php:20
+msgid "Attachments"
+msgstr "Bijlagen"
+
+#: i18n/strings.php:12
+msgid "Posts"
+msgstr "Berichten"
+
+#: classes/class-aal-activity-log-list-table.php:690
+msgid "Reset Filters"
+msgstr "Filters resetten"
+
+#: classes/class-aal-activity-log-list-table.php:652
+msgid "All Topics"
+msgstr "Alle onderwerpen"
+
+#: classes/class-aal-activity-log-list-table.php:452
+msgid "Username:"
+msgstr "Gebruikersnaam:"
+
+#: classes/class-aal-activity-log-list-table.php:410
+#: classes/class-aal-activity-log-list-table.php:429
+#: classes/class-aal-activity-log-list-table.php:438
+#: classes/class-aal-activity-log-list-table.php:448
+msgid "Edit"
+msgstr "Bewerken"
+
+#: classes/class-aal-activity-log-list-table.php:409
+#: classes/class-aal-activity-log-list-table.php:423
+msgid "View"
+msgstr "Bekijken"
+
+#: classes/class-aal-activity-log-list-table.php:176
+#: classes/class-aal-privacy.php:76
+msgid "Meta"
+msgstr "Meta"
+
+#: classes/class-aal-activity-log-list-table.php:175
+#: classes/class-aal-privacy.php:72
+msgid "Context"
+msgstr "Context"
+
+#: classes/class-aal-activity-log-list-table.php:174
+#: classes/class-aal-privacy.php:68
+msgid "Topic"
+msgstr "Onderwerp"
+
+#: classes/class-aal-settings.php:117
+msgid "Don't Keep (Not recommended)"
+msgstr "Niet behouden (niet aanbevolen)"
+
+#: classes/class-aal-settings.php:116 classes/class-aal-settings.php:133
+msgid "Keep"
+msgstr "Behouden"
+
+#: classes/class-aal-settings.php:107
+msgid "Keep Failed Login Logs"
+msgstr "Bewaar mislukte login logs"
+
+#: i18n/strings.php:29
+msgid "removed"
+msgstr "verwijderd"
+
+#: i18n/strings.php:28
+msgid "registered"
+msgstr "geregistreerd"
+
+#: i18n/strings.php:27
+msgid "failed_login"
+msgstr "failed_login"
+
+#: i18n/strings.php:21
+msgid "uploaded"
+msgstr "geüpload"
+
+#: classes/class-aal-settings.php:330
+msgid "Attention: We are going to DELETE ALL ACTIVITIES from the database. Are you sure you want to do that?"
+msgstr "Let op: we gaan ALLE ACTIVITEITEN VERWIJDEREN uit de database. Weet u zeker dat u dat wilt doen?"
+
+#. Author URI of the plugin
+#: aryo-activity-log.php
+msgid "https://activitylog.io/?utm_source=wp-plugins&utm_campaign=author-uri&utm_medium=wp-dash"
+msgstr "https://activitylog.io/?utm_source=wp-plugins&utm_campaign=author-uri&utm_medium=wp-dash"
+
+#. Author of the plugin
+#: aryo-activity-log.php
+msgid "Activity Log Team"
+msgstr "Activity Log Team"
+
+#. Plugin URI of the plugin
+#: aryo-activity-log.php
+msgid "https://activitylog.io/?utm_source=wp-plugins&utm_campaign=plugin-uri&utm_medium=wp-dash"
+msgstr "https://activitylog.io/?utm_source=wp-plugins&utm_campaign=plugin-uri&utm_medium=wp-dash"
+
+#: classes/class-aal-privacy.php:106
+msgid "If you are a registered user, we save your content activity like create/update/delete posts and comments."
+msgstr "Als u een geregistreerde gebruiker bent, dan slaan we uw inhoud activiteiten op zoals aanmaak/updaten/verwijderen berichten en reacties."
+
+#: classes/class-aal-privacy.php:60
+msgid "Time"
+msgstr "Tijd"
+
+#: classes/class-aal-privacy.php:19
+msgid "Activity Log Plugin"
+msgstr "Plugin activiteiten log"
+
+#: classes/class-aal-activity-log-list-table.php:533
+msgid "Export as %s"
+msgstr "Exporteer als %s"
+
+#: classes/class-aal-activity-log-list-table.php:531
+msgid "Export filtered records as %s"
+msgstr "Exporteer gefilterde records als %s"
+
+#: classes/class-aal-activity-log-list-table.php:514
+msgid "Export File Format"
+msgstr "Format export bestand"
+
+#: classes/class-aal-settings.php:563
+msgid "and"
+msgstr "en"
+
+#: classes/class-aal-admin-ui.php:16 classes/class-aal-admin-ui.php:26
+msgctxt "Page and Menu Title"
+msgid "Activity Log"
+msgstr "Activiteit log"
+
+#: i18n/strings.php:17
+msgid "restored"
+msgstr "teruggezet"
+
+#: i18n/strings.php:24
+msgid "Users"
+msgstr "Gebruikers"
+
+#: i18n/strings.php:32
+msgid "Plugins"
+msgstr "Plugins"
+
+#: notifications/class-aal-notification-email.php:69
+msgid "Customize the message using the following placeholders: %s"
+msgstr "Personaliseer het bericht door gebruik te maken van de volgende plaatshouders: %s"
+
+#: notifications/class-aal-notification-email.php:69
+msgid "Message"
+msgstr "Bericht"
+
+#: notifications/class-aal-notification-email.php:68
+msgid "The Email address notifications will be sent to"
+msgstr "Het e-mailadres waar de meldingen naar verzonden worden"
+
+#: notifications/class-aal-notification-email.php:68
+msgid "To Email"
+msgstr "Aan e-mail"
+
+#: notifications/class-aal-notification-email.php:67
+msgid "The source Email address"
+msgstr "De bron e-mailadres"
+
+#: notifications/class-aal-notification-email.php:67
+msgid "From Email"
+msgstr "Van e-mail"
+
+#: notifications/class-aal-notification-email.php:65
+msgid ""
+"Hi there!\n"
+"\n"
+"A notification condition on [sitename] was matched. Here are the details:\n"
+"\n"
+"[action-details]\n"
+"\n"
+"Sent by ARYO Activity Log"
+msgstr ""
+"Hallo! \n"
+"\n"
+"Een melding [sitename] was gematched. Hier zijn de details: \n"
+"\n"
+"[action-details] \n"
+"\n"
+"Verzonden door ARYO activity log"
+
+#: notifications/class-aal-notification-email.php:49
+msgid "New notification from Activity Log"
+msgstr "Nieuwe melding van activity log"
+
+#: notifications/class-aal-notification-email.php:16
+msgid "Get notified by Email."
+msgstr "Verkrijg bericht per e-mail."
+
+#: notifications/class-aal-notification-email.php:15
+msgid "Email"
+msgstr "E-mail"
+
+#: classes/class-aal-activity-log-list-table.php:374
+#: classes/class-aal-activity-log-list-table.php:617
+#: notifications/abstract-class-aal-notification-base.php:121
+msgid "N/A"
+msgstr "N.V.T"
+
+#: notifications/abstract-class-aal-notification-base.php:102
+msgid "IP Address"
+msgstr "IP-adres"
+
+#: notifications/abstract-class-aal-notification-base.php:100
+msgid "Object Name"
+msgstr "Object naam"
+
+#: notifications/abstract-class-aal-notification-base.php:99
+msgid "Object Type"
+msgstr "Object type"
+
+#: i18n/strings.php:156
+msgid "downloaded"
+msgstr "gedownload"
+
+#: i18n/strings.php:155
+msgid "Export"
+msgstr "Exporteren"
+
+#: i18n/strings.php:149
+msgid "tag_base"
+msgstr "tag_base"
+
+#: i18n/strings.php:148
+msgid "category_base"
+msgstr "category_base"
+
+#: i18n/strings.php:147
+msgid "permalink_structure"
+msgstr "permalink_structure"
+
+#: i18n/strings.php:144
+msgid "uploads_use_yearmonth_folders"
+msgstr "uploads_use_yearmonth_folders"
+
+#: i18n/strings.php:143
+msgid "large_size_h"
+msgstr "large_size_h"
+
+#: i18n/strings.php:142
+msgid "large_size_w"
+msgstr "large_size_w"
+
+#: i18n/strings.php:141
+msgid "medium_size_h"
+msgstr "medium_size_h"
+
+#: i18n/strings.php:140
+msgid "medium_size_w"
+msgstr "medium_size_w"
+
+#: i18n/strings.php:139
+msgid "thumbnail_crop"
+msgstr "thumbnail_crop"
+
+#: i18n/strings.php:138
+msgid "thumbnail_size_h"
+msgstr "thumbnail_size_h"
+
+#: i18n/strings.php:137
+msgid "thumbnail_size_w"
+msgstr "thumbnail_size_w"
+
+#: i18n/strings.php:134
+msgid "avatar_default"
+msgstr "avatar_default"
+
+#: i18n/strings.php:133
+msgid "avatar_rating"
+msgstr "avatar_rating"
+
+#: i18n/strings.php:132
+msgid "show_avatars"
+msgstr "show_avatars"
+
+#: i18n/strings.php:131
+msgid "blacklist_keys"
+msgstr "blacklist_keys"
+
+#: i18n/strings.php:130
+msgid "moderation_keys"
+msgstr "moderation_keys"
+
+#: i18n/strings.php:129
+msgid "comment_max_links"
+msgstr "comment_max_links"
+
+#: i18n/strings.php:128
+msgid "comment_whitelist"
+msgstr "comment_toegestane lijst"
+
+#: i18n/strings.php:127
+msgid "comment_moderation"
+msgstr "comment_moderation"
+
+#: i18n/strings.php:126
+msgid "moderation_notify"
+msgstr "moderation_notify"
+
+#: i18n/strings.php:125
+msgid "comments_notify"
+msgstr "comments_notify"
+
+#: i18n/strings.php:124
+msgid "comment_order"
+msgstr "comment_order"
+
+#: i18n/strings.php:123
+msgid "default_comments_page"
+msgstr "default_reacties_page"
+
+#: i18n/strings.php:122
+msgid "comments_per_page"
+msgstr "comments_per_page"
+
+#: i18n/strings.php:121
+msgid "page_comments"
+msgstr "page_comments"
+
+#: i18n/strings.php:120
+msgid "thread_comments_depth"
+msgstr "thread_comments_depth"
+
+#: i18n/strings.php:119
+msgid "thread_comments"
+msgstr "thread_comments"
+
+#: i18n/strings.php:118
+msgid "close_comments_days_old"
+msgstr "close_comments_days_old"
+
+#: i18n/strings.php:117
+msgid "close_comments_for_old_posts"
+msgstr "close_comments_for_old_posts"
+
+#: i18n/strings.php:116
+msgid "comment_registration"
+msgstr "comment_registration"
+
+#: i18n/strings.php:115
+msgid "require_name_email"
+msgstr "require_name_email"
+
+#: i18n/strings.php:114
+msgid "default_comment_status"
+msgstr "default_comment_status"
+
+#: i18n/strings.php:113
+msgid "default_ping_status"
+msgstr "default_ping_status"
+
+#: i18n/strings.php:112
+msgid "default_pingback_flag"
+msgstr "default_pingback_flag"
+
+#: i18n/strings.php:109
+msgid "blog_public"
+msgstr "blog_public"
+
+#: i18n/strings.php:108
+msgid "rss_use_excerpt"
+msgstr "rss_use_excerpt"
+
+#: i18n/strings.php:107
+msgid "posts_per_rss"
+msgstr "posts_per_rss"
+
+#: i18n/strings.php:106
+msgid "posts_per_page"
+msgstr "posts_per_page"
+
+#: i18n/strings.php:105
+msgid "page_for_posts"
+msgstr "page_for_posts"
+
+#: i18n/strings.php:104
+msgid "page_on_front"
+msgstr "page_on_front"
+
+#: i18n/strings.php:103
+msgid "show_on_front"
+msgstr "show_on_front"
+
+#: i18n/strings.php:100
+msgid "ping_sites"
+msgstr "ping_sites"
+
+#: i18n/strings.php:99
+msgid "default_email_category"
+msgstr "default_email_category"
+
+#: i18n/strings.php:98
+msgid "mailserver_pass"
+msgstr "mailserver_pass"
+
+#: i18n/strings.php:97
+msgid "mailserver_login"
+msgstr "mailserver_login"
+
+#: i18n/strings.php:96
+msgid "mailserver_url"
+msgstr "mailserver_url"
+
+#: i18n/strings.php:95
+msgid "default_post_format"
+msgstr "default_post_format"
+
+#: i18n/strings.php:94
+msgid "default_category"
+msgstr "default_category"
+
+#: i18n/strings.php:93
+msgid "use_balanceTags"
+msgstr "use_balanceTags"
+
+#: i18n/strings.php:92
+msgid "use_smilies"
+msgstr "use_smilies"
+
+#: i18n/strings.php:89
+msgid "start_of_week"
+msgstr "start_of_week"
+
+#: i18n/strings.php:88
+msgid "time_format"
+msgstr "time_format"
+
+#: i18n/strings.php:87
+msgid "date_format"
+msgstr "date_format"
+
+#: i18n/strings.php:86
+msgid "timezone_string"
+msgstr "timezone_string"
+
+#: i18n/strings.php:84
+msgid "default_role"
+msgstr "default_role"
+
+#: i18n/strings.php:83
+msgid "users_can_register"
+msgstr "users_can_register"
+
+#: i18n/strings.php:82
+msgid "admin_email"
+msgstr "admin_email"
+
+#: i18n/strings.php:81
+msgid "home"
+msgstr "home"
+
+#: i18n/strings.php:80
+msgid "siteurl"
+msgstr "siteurl"
+
+#: i18n/strings.php:79
+msgid "blogdescription"
+msgstr "blog beschrijving"
+
+#: i18n/strings.php:78
+msgid "blogname"
+msgstr "blognaam"
+
+#: i18n/strings.php:75
+msgid "unspammed"
+msgstr "niet gespamd"
+
+#: i18n/strings.php:74
+msgid "spammed"
+msgstr "gespamd"
+
+#: i18n/strings.php:73
+msgid "untrashed"
+msgstr "uit prullenbak gehaald"
+
+#: i18n/strings.php:16
+msgid "trashed"
+msgstr "naar prullenbak verplaatst"
+
+#: i18n/strings.php:72
+msgid "unapproved"
+msgstr "geweigerd"
+
+#: i18n/strings.php:71
+msgid "approved"
+msgstr "goedgekeurd"
+
+#: i18n/strings.php:70
+msgid "pending"
+msgstr "in afwachting van"
+
+#: i18n/strings.php:69
+msgid "Comments"
+msgstr "Reacties"
+
+#: i18n/strings.php:60
+msgid "WordPress Auto Updated"
+msgstr "WordPress automatisch geüpdatet"
+
+#: i18n/strings.php:59
+msgid "WordPress Updated"
+msgstr "WordPress geüpdatet"
+
+#: i18n/strings.php:58
+msgid "Core"
+msgstr "Core"
+
+#: i18n/strings.php:166
+msgid "Taxonomy"
+msgstr "Taxonomie"
+
+#: i18n/strings.php:165
+msgid "Menu"
+msgstr "Menu"
+
+#: i18n/strings.php:49
+msgid "Options"
+msgstr "Opties"
+
+#: i18n/strings.php:164
+msgid "Widget"
+msgstr "Widget"
+
+#: i18n/strings.php:43
+msgid "Theme Customizer"
+msgstr "Thema customizer"
+
+#: i18n/strings.php:163
+msgid "Theme"
+msgstr "Thema"
+
+#: i18n/strings.php:36
+msgid "File Updated"
+msgstr "Bestand geüpdatet"
+
+#: i18n/strings.php:35
+msgid "installed"
+msgstr "geïnstalleerd"
+
+#: i18n/strings.php:34
+msgid "deactivated"
+msgstr "gedeactiveerd"
+
+#: i18n/strings.php:33
+msgid "activated"
+msgstr "geactiveerd"
+
+#: i18n/strings.php:162
+msgid "Plugin"
+msgstr "Plugin"
+
+#: i18n/strings.php:26
+msgid "logged_in"
+msgstr "logged_in"
+
+#: i18n/strings.php:25
+msgid "logged_out"
+msgstr "logged_out"
+
+#: i18n/strings.php:160
+msgid "Attachment"
+msgstr "Bijlage"
+
+#: i18n/strings.php:15 i18n/strings.php:37
+msgid "deleted"
+msgstr "verwijderd"
+
+#: i18n/strings.php:14
+msgid "updated"
+msgstr "geüpdatet"
+
+#: i18n/strings.php:13
+msgid "created"
+msgstr "gecreëerd"
+
+#: i18n/strings.php:159
+msgid "Post"
+msgstr "Bericht"
+
+#: i18n/strings.php:9
+msgid "Editor"
+msgstr "Editor"
+
+#: i18n/strings.php:8
+msgid "Administrator"
+msgstr "Beheerder"
+
+#: i18n/strings.php:6
+msgid "Get aware of any activities that are taking place on your dashboard! Imagine it like a black-box for your WordPress site. e.g. post was deleted, plugin was activated, user logged in or logged out - it's all these for you to see."
+msgstr "Verkrijg inzicht in alle activiteiten die plaatsvinden op uw dashboard! Stel het u voor als een black-box voor uw WordPress site. Bijv. bericht is verwijderd, plugin is geactiveerd, gebruiker heeft in- of uitgelogd - het is allemaal voor u te zien."
+
+#: hooks/class-aal-hook-posts.php:10
+msgid "(no title)"
+msgstr "(geen titel)"
+
+#: classes/class-aal-settings.php:538
+msgid "A notification will be sent upon a successful match with the following conditions:"
+msgstr "Er wordt een melding verzonden bij een succesvolle match met de volgende voorwaarden:"
+
+#: classes/class-aal-settings.php:528
+msgid "not equals to"
+msgstr "niet gelijk aan"
+
+#: classes/class-aal-settings.php:527
+msgid "equals to"
+msgstr "gelijk aan"
+
+#: classes/class-aal-settings.php:523
+msgid "Action Performed"
+msgstr "Uitgevoerde actie"
+
+#: classes/class-aal-settings.php:522
+#: notifications/abstract-class-aal-notification-base.php:101
+msgid "Action Type"
+msgstr "Actietype"
+
+#: classes/class-aal-activity-log-list-table.php:172
+#: classes/class-aal-settings.php:521 i18n/strings.php:161
+#: notifications/abstract-class-aal-notification-base.php:98
+msgid "User"
+msgstr "Gebruiker"
+
+#: classes/class-aal-settings.php:504
+msgid "No"
+msgstr "Nee"
+
+#: classes/class-aal-settings.php:503
+msgid "Yes"
+msgstr "Ja"
+
+#: classes/class-aal-settings.php:404
+msgid "Serve yourself with custom-tailored notifications. First, define your conditions. Then, choose how the notifications will be sent."
+msgstr "Bedien uzelf met aangepaste meldingen. Definieer eerst uw voorwaarden. Kies vervolgens hoe de meldingen verzonden worden."
+
+#: classes/class-aal-settings.php:398
+msgid "These are some basic settings for Activity Log."
+msgstr "Dit zijn enkele basisinstellingen voor Activity log."
+
+#: classes/class-aal-settings.php:341
+msgid "You do not have sufficient permissions to access this page."
+msgstr "U heeft onvoldoende rechten voor toegang van deze pagina."
+
+#: classes/class-aal-settings.php:319
+msgid "All activities have been successfully deleted."
+msgstr "Alle activiteiten zijn met succes verwijderd."
+
+#: classes/class-aal-settings.php:260
+msgid "General"
+msgstr "Algemeen"
+
+#: classes/class-aal-settings.php:224
+msgid "Enable?"
+msgstr "Inschakelen?"
+
+#: classes/class-aal-settings.php:196
+msgid "Notification Events"
+msgstr "Melding gebeurtenissen"
+
+#: classes/class-aal-settings.php:179
+msgid "Warning: Clicking this will delete all activities from the database."
+msgstr "Waarschuwing: als u hier op klikt zullen alle activiteiten uit de database verwijderd worden."
+
+#: classes/class-aal-settings.php:175
+msgid "<a href=\"%s\" id=\"%s\">Reset Database</a>"
+msgstr "<a href=\"%s\" id=\"%s\">Database leegmaken</a>"
+
+#: classes/class-aal-settings.php:170
+msgid "Delete Log Activities"
+msgstr "Verwijder log activiteiten"
+
+#: classes/class-aal-settings.php:101 classes/class-aal-settings.php:203
+msgid "Maximum number of days to keep activity log. Leave blank to keep activity log forever (not recommended)."
+msgstr "Maximum aantal dagen om activiteiten log te bewaren. Laat leeg om alle activiteiten logs te bewaren (niet aangeraden)."
+
+#: classes/class-aal-settings.php:100
+msgid "days."
+msgstr "dagen."
+
+#: classes/class-aal-settings.php:91
+msgid "Keep logs for"
+msgstr "Logs bijhouden voor"
+
+#: classes/class-aal-settings.php:84
+msgid "Display Options"
+msgstr "Weergave opties"
+
+#: classes/class-aal-settings.php:43 classes/class-aal-settings.php:300
+msgid "Activity Log Settings"
+msgstr "Activiteit log instellingen"
+
+#: classes/class-aal-settings.php:29 classes/class-aal-settings.php:44
+msgid "Settings"
+msgstr "Instellingen"
+
+#: classes/class-aal-notifications.php:299
+msgid "The AAL notification handler you are trying to register does not exist."
+msgstr "De AAL melding handler die u probeert te registeren bestaat niet."
+
+#: classes/class-aal-settings.php:189 classes/class-aal-settings.php:267
+msgid "Notifications"
+msgstr "Meldingen"
+
+#. Plugin Name of the plugin
+#: aryo-activity-log.php classes/class-aal-privacy.php:53
+#: classes/class-aal-privacy.php:109 classes/class-aal-settings.php:26
+#: i18n/strings.php:5
+msgid "Activity Log"
+msgstr "Activity Log"
+
+#: classes/class-aal-activity-log-list-table.php:590
+msgid "Filter"
+msgstr "Filter"
+
+#: classes/class-aal-activity-log-list-table.php:583
+msgid "Month"
+msgstr "Maand"
+
+#: classes/class-aal-activity-log-list-table.php:582
+msgid "Week"
+msgstr "Week"
+
+#: classes/class-aal-activity-log-list-table.php:581
+msgid "Yesterday"
+msgstr "Gisteren"
+
+#: classes/class-aal-activity-log-list-table.php:580
+msgid "Today"
+msgstr "Vandaag"
+
+#: classes/class-aal-activity-log-list-table.php:579
+msgid "All Time"
+msgstr "Alles"
+
+#: classes/class-aal-activity-log-list-table.php:675
+msgid "All Actions"
+msgstr "Alle acties"
+
+#: classes/class-aal-activity-log-list-table.php:628
+msgid "All Users"
+msgstr "Alle gebruikers"
+
+#: classes/class-aal-activity-log-list-table.php:604
+msgid "All Roles"
+msgstr "Alle rollen"
+
+#: classes/class-aal-activity-log-list-table.php:490
+msgid "Search"
+msgstr "Zoeken"
+
+#: classes/class-aal-activity-log-list-table.php:458
+msgid "All"
+msgstr "Alles"
+
+#: classes/class-aal-activity-log-list-table.php:368
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: classes/class-aal-activity-log-list-table.php:334
+msgid "%s ago"
+msgstr "%s geleden"
+
+#: classes/class-aal-activity-log-list-table.php:177
+#: classes/class-aal-privacy.php:64
+msgid "Action"
+msgstr "Actie"
+
+#: classes/class-aal-activity-log-list-table.php:173
+#: classes/class-aal-privacy.php:80
+msgid "IP"
+msgstr "IP"
+
+#: classes/class-aal-activity-log-list-table.php:171
+msgid "Date"
+msgstr "Datum"
+
+#: classes/class-aal-activity-log-list-table.php:160
+msgid "Activities"
+msgstr "Activiteiten"
+
+#: aryo-activity-log.php:123 aryo-activity-log.php:134
+msgid "Cheatin&#8217; huh?"
+msgstr "Valsspelen, hè?"

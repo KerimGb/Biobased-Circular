@@ -1,0 +1,4459 @@
+parameters:
+	reportUnmatchedIgnoredErrors: false
+	ignoreErrors:
+
+		#common errors
+
+		- '#type has no value type specified in iterable type array\.$#'
+		- '#with no value type specified in iterable type array\.$#'
+		- "#^While loop condition is always true\\.$#"
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/about.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 7
+			path: admin/admin.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 6
+			path: admin/admin.php
+
+		-
+			message: "#^Function UAVC_product_license_redirect_to_modal_popup\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function bsf_core_admin_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function bsf_core_check\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function bsf_dismiss_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function bsf_get_option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function bsf_update_option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function ult_generate_rand_id\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function ultimate_bsf_core_frosty_hooks\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function ultimate_bsf_core_style_hooks\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Function ultimate_remote_get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:__construct\\(\\) with return type void returns false but should not return anything\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:bsf_admin_scripts_updater\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:can_access_admin\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:debug_link\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:display_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_about\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_dashboard\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_debug_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_modules\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_opn\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_scripts_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:load_smoothscroll\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:product_license\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:register_brainstorm_menu\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:ultimate_google_maps_dashboard\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:ultimate_icon_manager_menu\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:ultimate_resources\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:update_css_options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:update_debug_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:update_modules\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Method Ultimate_Admin_Area\\:\\:update_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 128$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Undefined variable\\: \\$reg_link$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Variable \\$bsf_ultimate_roles in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: admin/admin.php
+
+		-
+			message: "#^Property BSF_Analytics_Loader\\:\\:\\$analytics_version \\(float\\) does not accept default value of type string\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-loader.php
+
+		-
+			message: "#^Property BSF_Analytics_Loader\\:\\:\\$analytics_version \\(float\\) does not accept mixed\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-loader.php
+
+		-
+			message: "#^Property BSF_Analytics_Loader\\:\\:\\$entities type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-loader.php
+
+		-
+			message: "#^Cannot cast mixed to float\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Function wp_timezone_string\\(\\) should return string but returns mixed\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Method BSF_Analytics_Stats\\:\\:format_plugin\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Method BSF_Analytics_Stats\\:\\:get_active_plugins\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Method BSF_Analytics_Stats\\:\\:get_default_stats\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Method BSF_Analytics_Stats\\:\\:get_php_version\\(\\) should return float but returns string\\.$#"
+			count: 2
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Method BSF_Analytics_Stats\\:\\:get_stats\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Property BSF_Analytics_Stats\\:\\:\\$plugins type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics-stats.php
+
+		-
+			message: "#^Constant BSF_ANALYTICS_URI not found\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Constant BSF_ANALYTICS_VERSION not found\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:__construct\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:add_analytics_option_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:add_option_to_network\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:get_analytics_install_time\\(\\) should return string but returns mixed\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:handle_optin_optout\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:includes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:maybe_track_analytics\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:optin\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:option_notice\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:optout\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:register_usage_tracking_setting\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:render_settings_field_html\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:render_settings_field_html\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:sanitize_option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:send\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:set_actions\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Method BSF_Analytics\\:\\:update_analytics_option_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Property BSF_Analytics\\:\\:\\$entities type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-analytics/class-bsf-analytics.php
+
+		-
+			message: "#^Action callback returns bool but should not return anything\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 6
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_get_current_name\\(\\) should return string but returns false\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_get_current_version\\(\\) should return float but returns false\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_get_current_version\\(\\) should return float but returns string\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_get_free_menu_position\\(\\) should return int but returns float\\|int\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_get_option\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_get_option\\(\\) should return array but returns mixed\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Function bsf_notices\\(\\) should return bool but return statement is missing\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Part \\$product\\['id'\\] \\(mixed\\) of encapsed string cannot be cast to string\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Variable \\$menus_positions might not be defined\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Variable \\$name might not be defined\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Variable \\$version might not be defined\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/admin-functions.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 2
+			path: admin/bsf-core/auto-update/updater.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/updater.php
+
+		-
+			message: "#^Function bsf_get_remote_version\\(\\) has parameter \\$products with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/updater.php
+
+		-
+			message: "#^Function bsf_get_remote_version\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/updater.php
+
+		-
+			message: "#^Function bsf_get_remote_version\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/updater.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: admin/bsf-core/auto-update/updater.php
+
+		-
+			message: "#^Call to sprintf contains 0 placeholders, 1 value given\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Default value of the parameter \\#1 \\$product_id \\(string\\) of method BSF_Envato_Activate\\:\\:get_redirect_url\\(\\) is incompatible with type int\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Function bsf_envato_register\\(\\) has invalid return type envato_register\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:alternate_method_link\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:create_token\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:envato_activation_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:envato_activation_url\\(\\) has parameter \\$form_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:envato_register\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:envato_register\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:get_message\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:get_redirect_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:inline_alternate_method_link\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:instance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:process_envato_activation\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:set_message\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Method BSF_Envato_Activate\\:\\:set_message\\(\\) has parameter \\$message with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$content\\.\\)\\: Unexpected token \"\\$content\", expected type at offset 88$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$current_url\\.\\)\\: Unexpected token \"\\$current_url\", expected type at offset 85$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$envato_activation_url\\.\\)\\: Unexpected token \"\\$envato_activation_url\", expected type at offset 90$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$html\\.\\)\\: Unexpected token \"\\$html\", expected type at offset 135$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$mesage\\)\\: Unexpected token \"\\$mesage\", expected type at offset 69$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$token\\.\\)\\: Unexpected token \"\\$token\", expected type at offset 81$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Property BSF_Envato_Activate\\:\\:\\$message_box type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-envato-activate.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 2
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Function bsf_license_activation_form\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Function bsf_license_activation_form\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Function get_bsf_inline_license_form\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Function get_bsf_inline_license_form\\(\\) has parameter \\$bsf_product_id with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Function get_bsf_inline_license_form\\(\\) has parameter \\$links with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:admin_css\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:bsf_activate_license\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:bsf_deactivate_license\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:bsf_get_product_info\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:bsf_is_active_license\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:bsf_update_product_info\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:bsf_update_product_info\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:get_bsf_inline_license_form\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:get_bsf_inline_license_form\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:get_bsf_inline_license_form\\(\\) has parameter \\$links with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:get_remote_license_status\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:includes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:instance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:is_edd\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:is_product_free\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:license_activation_form\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:license_activation_form\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:refresh_products_on_license_activae\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Method BSF_License_Manager\\:\\:render_popup_form_markup\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$inline_form_products Inline form products\\.\\)\\: Unexpected token \"\\$inline_form_products\", expected type at offset 71$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$instance Class instance\\.\\)\\: Unexpected token \"\\$instance\", expected type at offset 65$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Property BSF_License_Manager\\:\\:\\$inline_form_products has no type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Property BSF_License_Manager\\:\\:\\$instance has no type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-license-manager.php
+
+		-
+			message: "#^Action callback returns array but should not return anything\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 5
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:add_beta_update_message\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:add_beta_update_message\\(\\) has parameter \\$plugin_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:add_beta_update_message\\(\\) has parameter \\$response with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:beta_version_normalized\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:beta_version_normalized\\(\\) has parameter \\$beta with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:brainstorm_all_products\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:brainstorm_update_plugins_transient\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:brainstorm_update_themes_transient\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_add_registration_message\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_add_registration_message\\(\\) has parameter \\$plugin_data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_add_registration_message\\(\\) has parameter \\$response with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_allow_beta_updates\\(\\) has parameter \\$product_id with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_get_plugin_information\\(\\) should return object but returns mixed\\.$#"
+			count: 2
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_get_plugin_slug\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_get_plugin_slug\\(\\) has parameter \\$template with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_is_product_bundled\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_is_product_bundled\\(\\) has parameter \\$bsf_product with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_update_display_license_link\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:bsf_update_transient_data\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:maybe_force_check_bsf_product_updates\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:plugin_information\\(\\) has parameter \\$brainstrom_products with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:plugin_information\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:prepare_plugins_for_update\\(\\) has parameter \\$plugins with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_Update_Manager\\:\\:prepare_plugins_for_update\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$_transient_data\\.\\)\\: Unexpected token \"\\$_transient_data\", expected type at offset 118$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$_transient_data\\.\\)\\: Unexpected token \"\\$_transient_data\", expected type at offset 119$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$product_parent\\.\\)\\: Unexpected token \"\\$product_parent\", expected type at offset 143$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$slug\\.\\)\\: Unexpected token \"\\$slug\", expected type at offset 88$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$update_required\\.\\)\\: Unexpected token \"\\$update_required\", expected type at offset 104$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$version\\.\\)\\: Unexpected token \"\\$version\", expected type at offset 86$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Part \\$product_id \\(array\\) of encapsed string cannot be cast to string\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Undefined variable\\: \\$plugin_name$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Variable \\$template might not be defined\\.$#"
+			count: 7
+			path: admin/bsf-core/class-bsf-update-manager.php
+
+		-
+			message: "#^Method BSF_WP_CLI_Command\\:\\:license\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-wp-cli-command.php
+
+		-
+			message: "#^Method BSF_WP_CLI_Command\\:\\:license\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-wp-cli-command.php
+
+		-
+			message: "#^Method BSF_WP_CLI_Command\\:\\:license\\(\\) has parameter \\$assoc_args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-wp-cli-command.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$license_manager\\)\\: Unexpected token \"\\$license_manager\", expected type at offset 54$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-wp-cli-command.php
+
+		-
+			message: "#^Property BSF_WP_CLI_Command\\:\\:\\$license_manager \\(BSF_License_Manager\\) does not accept default value of type string\\.$#"
+			count: 1
+			path: admin/bsf-core/class-bsf-wp-cli-command.php
+
+		-
+			message: "#^Method BSF_Core_Update\\:\\:get_instance\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/classes/class-bsf-core-update.php
+
+		-
+			message: "#^Method BSF_Core_Update\\:\\:init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/classes/class-bsf-core-update.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$instance Class instance\\.\\)\\: Unexpected token \"\\$instance\", expected type at offset 65$#"
+			count: 1
+			path: admin/bsf-core/classes/class-bsf-core-update.php
+
+		-
+			message: "#^Property BSF_Core_Update\\:\\:\\$instance has no type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/classes/class-bsf-core-update.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 4
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Call to function sprintf\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Else branch is unreachable because previous condition is always true\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function brainstorm_get_all_products\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function brainstorm_get_all_products\\(\\) should return array but returns mixed\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_convert_core_path_to_relative\\(\\) has parameter \\$path with no type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_core_url\\(\\) should return string but returns false\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_extension_nag\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_get_api_site\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_get_api_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_get_loaded_bsf_core_name\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_nag_brainstorm_updater_multisite\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function bsf_time_since_last_versioncheck\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function get_brainstorm_product\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Function get_brainstorm_product\\(\\) should return array but return statement is missing\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$bsf_api_site\\.\\)\\: Unexpected token \"\\$bsf_api_site\", expected type at offset 92$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$url\\.\\)\\: Unexpected token \"\\$url\", expected type at offset 145$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^PHPDoc tag @return has invalid value \\(\\$url\\.\\)\\: Unexpected token \"\\$url\", expected type at offset 91$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Variable \\$product_slug might not be defined\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/helpers.php
+
+		-
+			message: "#^Cannot call method get_error_message\\(\\) on array\\<string, array\\<int\\|string, int\\|string\\|WP_Http_Cookie\\>\\|string\\|WP_HTTP_Requests_Response\\|WpOrg\\\\Requests\\\\Utility\\\\CaseInsensitiveDictionary\\|null\\>\\|WP_Error\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/system-info.php
+
+		-
+			message: "#^Constant WP_MEMORY_LIMIT not found\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/system-info.php
+
+		-
+			message: "#^Function bsf_systeminfo\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/system-info.php
+
+		-
+			message: "#^Function get_bsf_systeminfo\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/includes/system-info.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 6
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on WP_Theme\\|false\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Default value of the parameter \\#1 \\$product_id \\(string\\) of function brainstrom_product_name\\(\\) is incompatible with type int\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Default value of the parameter \\#1 \\$product_id \\(string\\) of function bsf_bundled_plugins\\(\\) is incompatible with type int\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Default value of the parameter \\#2 \\$product_id \\(string\\) of function bsf_registration_page_url\\(\\) is incompatible with type int\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function brainstrom_product_id_by_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function brainstrom_product_id_by_name\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function brainstrom_product_name\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_bundled_plugins\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_core_debug_link\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_dismiss_extension_nag\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_envato_redirect_url_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_extensions_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_extract_product_id\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_flush_bundled_products\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_flush_skip_registration\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_get_brainstorm_products\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_get_brainstorm_products\\(\\) should return array but returns mixed\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_registration_page_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function bsf_set_options\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function init_bsf_core\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function init_bsf_plugin_installer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function print_bsf_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function register_bsf_core_admin_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function register_bsf_core_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function register_bsf_extension_page\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function register_bsf_extension_page_network\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Function set_bsf_core_constant\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Result of \\|\\| is always false\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between 'BSF_REG_MENU_TO…' and 'true' will always evaluate to false\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between 'BSF_REG_MENU_TO…' and true will always evaluate to false\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: admin/bsf-core/index.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 8
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Function bsf_render_bundled_products\\(\\) should return string but returns string\\|false\\.$#"
+			count: 3
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Function check_bsf_product_status\\(\\) should return bool but returns mixed\\.$#"
+			count: 1
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 2
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between 'true' and 0\\|0\\.0\\|''\\|'0'\\|array\\{\\}\\|false\\|null will always evaluate to false\\.$#"
+			count: 1
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Undefined variable\\: \\$request_product_id$#"
+			count: 2
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Undefined variable\\: \\$reset_bundled_url$#"
+			count: 1
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Variable \\$button might not be defined\\.$#"
+			count: 1
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Variable \\$installer_url might not be defined\\.$#"
+			count: 1
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Variable \\$request_product_id in isset\\(\\) is never defined\\.$#"
+			count: 2
+			path: admin/bsf-core/plugin-installer/admin-functions.php
+
+		-
+			message: "#^Call to an undefined static method Ultimate_Admin_Area\\:\\:upgradeFromMarketplace\\(\\)\\.$#"
+			count: 1
+			path: admin/dashboard.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/debug.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 3
+			path: admin/debug.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/map-settings.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/modules.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/product-license.php
+
+		-
+			message: "#^Constant __ULTIMATE_ROOT__ not found\\.$#"
+			count: 1
+			path: admin/product-license.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/script-styles.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: admin/smooth-scroll-setting.php
+
+		-
+			message: "#^Callback expects 0\\-2 parameters, \\$accepted_args is set to 3\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Default value of the parameter \\#2 \\$opacity \\(int\\) of function uavc_hex2rgb\\(\\) is incompatible with type string\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function bsf_get_option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function bsf_update_option\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function get_ultimate_vc_responsive_media_css\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function get_ultimate_vc_responsive_media_css\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function uavc_get_box_shadow\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function uavc_get_image_squere_size\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function uavc_get_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function uavc_hex2rgb\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Function uavc_img_single_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Undefined variable\\: \\$img_id$#"
+			count: 2
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Undefined variable\\: \\$img_size$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Variable \\$tmvav_array in empty\\(\\) always exists and is not falsy\\.$#"
+			count: 1
+			path: classes/ultimate_helper.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_animation.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Animation\\:\\:animate_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_animation.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Animation\\:\\:animate_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_animation.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Animation\\:\\:animate_shortcode_mapper\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_animation.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 128$#"
+			count: 1
+			path: modules/ultimate_animation.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Buttons\\:\\:advanced_button_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Buttons\\:\\:button_admin_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Buttons\\:\\:init_buttons\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Buttons\\:\\:ult_buttons_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Buttons\\:\\:ult_buttons_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t\\\\t\\\\t \", expected '\\(' at offset 132$#"
+			count: 1
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_buttons.php
+
+		-
+			message: "#^Argument of an invalid type array\\|object supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 3
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Function ultimate_override_shortcodes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Function ultimate_restore_shortcodes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Function ultimate_wrap_shortcode_in_div\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Function ultimate_wrap_shortcode_in_div\\(\\) has parameter \\$attr with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Carousel\\:\\:custom_param_styles\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Carousel\\:\\:init_carousel_addon\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Carousel\\:\\:ultimate_admin_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Carousel\\:\\:ultimate_carousel_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Carousel\\:\\:ultimate_carousel_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Carousel\\:\\:ultimate_front_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 127$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and 'true' will always evaluate to false\\.$#"
+			count: 1
+			path: modules/ultimate_carousel.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Content_Box\\:\\:ult_content_box_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_content_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Content_Box\\:\\:ult_content_box_callback\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_content_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Content_Box\\:\\:ult_content_box_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_content_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Content_Box\\:\\:ult_content_box_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_content_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 131$#"
+			count: 1
+			path: modules/ultimate_content_box.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 3
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_CountDown\\:\\:admin_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_CountDown\\:\\:count_down_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_CountDown\\:\\:countdown_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_CountDown\\:\\:countdown_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_CountDown\\:\\:countdown_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t\\\\t\\\\t \", expected '\\(' at offset 134$#"
+			count: 1
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_countdown.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 3
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Expression \"\\$ult_db_settings\\['btn1_padding'\\]\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Expression \"\\$ult_db_settings\\['btn_hover_style'\\]\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Expression \"\\$ult_db_settings\\['dual_resp'\\]\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Expression \"\\$ult_db_settings\\['icon_align'\\]\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Button\\:\\:dualbutton_backend_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Button\\:\\:dualbutton_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Button\\:\\:ultimate_dual_button\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Button\\:\\:ultimate_dualbtn_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Button\\:\\:ultimate_dualbtn_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 128$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Variable \\$text might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_dual_button.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Colors\\:\\:register_dual_colors_module_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Colors\\:\\:ultimate_dual_colors_module_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Colors\\:\\:ultimate_dual_colors_module_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Dual_Colors\\:\\:ultimate_dual_colors_module_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 121$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_dual_colors_module_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 101$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_dual_colors_module_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 78$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_dual_colors_module_shortcode\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 184$#"
+			count: 1
+			path: modules/ultimate_dual_colors.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 2
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 3
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Exp_Section\\:\\:ultimate_exp_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Exp_Section\\:\\:ultimate_exp_section_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Exp_Section\\:\\:ultimate_exp_section_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Exp_Section\\:\\:ultimate_ultimate_exp_section\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 128$#"
+			count: 1
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Undefined variable\\: \\$icnhvrborder$#"
+			count: 1
+			path: modules/ultimate_expandable_section.php
+
+		-
+			message: "#^Array has 2 duplicate keys with value 'group' \\('group', 'group'\\)\\.$#"
+			count: 3
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 2
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_FancyText\\:\\:register_fancytext_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_FancyText\\:\\:ultimate_fancytext_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_FancyText\\:\\:ultimate_fancytext_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_FancyText\\:\\:ultimate_fancytext_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 129$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Variable \\$fancy_trans might not be defined\\.$#"
+			count: 2
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Variable \\$fancyt_trans might not be defined\\.$#"
+			count: 2
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Variable \\$strings might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_fancy_text.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Flip_Box\\:\\:block_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Flip_Box\\:\\:block_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Flip_Box\\:\\:block_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Flip_Box\\:\\:flip_box_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 118$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(block_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 95$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(flip_box_scripts\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 109$#"
+			count: 1
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_flip_box.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 14
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Function enquque_ultimate_google_fonts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Function enquque_ultimate_google_fonts_optimzed\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Function get_ultimate_font_family\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Function get_ultimate_font_style\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:add_selected_google_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:admin_google_font_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:delete_selected_google_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:enqueue_selected_ultimate_google_fonts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:get_font_variants_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:get_google_fonts_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:google_font_manager_menu\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:refresh_google_fonts_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:ultimate_font_manager_dashboard\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Font_Manager\\:\\:update_selected_google_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 120$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Right side of \\|\\| is always true\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Undefined variable\\: \\$subset_string$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Variable \\$fonts in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 1
+			path: modules/ultimate_font_manager.php
+
+		-
+			message: "#^Function ult_getBrowser\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Function ult_prepareAtts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Function ult_prepareAtts\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Function ultimate_get_animation_json\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Function ultimate_get_banner2_json\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Function ultimate_get_icon_position_json\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_getBrowser\\)\\: Unexpected token \"\\\\r\\\\n \", expected '\\(' at offset 58$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_prepareAtts\\)\\: Unexpected token \"\\\\r\\\\n \", expected '\\(' at offset 122$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_get_animation_json\\)\\: Unexpected token \"\\\\r\\\\n\\\\t \", expected '\\(' at offset 116$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_get_banner2_json\\)\\: Unexpected token \"\\\\r\\\\n \", expected '\\(' at offset 103$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_get_icon_position_json\\)\\: Unexpected token \"\\\\r\\\\n\\\\t \", expected '\\(' at offset 113$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Variable \\$bname might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Variable \\$return might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_functions.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Maps\\:\\:display_ultimate_map\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Maps\\:\\:display_ultimate_map\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Maps\\:\\:google_maps_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Maps\\:\\:ultimate_google_map_script\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 130$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(google_maps_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 113$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_google_map_script\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 131$#"
+			count: 1
+			path: modules/ultimate_google_maps.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_google_trends.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Trends\\:\\:display_ultimate_trends\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_google_trends.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Trends\\:\\:display_ultimate_trends\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_google_trends.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Google_Trends\\:\\:google_trends_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_google_trends.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 132$#"
+			count: 1
+			path: modules/ultimate_google_trends.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(google_trends_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 117$#"
+			count: 1
+			path: modules/ultimate_google_trends.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Headings\\:\\:register_headings_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Headings\\:\\:ultimate_heading_spacer\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Headings\\:\\:ultimate_headings_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Headings\\:\\:ultimate_headings_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Headings\\:\\:ultimate_headings_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 126$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_headings_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 125$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_headings_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 115$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$add_plugin_script\\.\\)\\: Unexpected token \"\\$add_plugin_script\", expected type at offset 64$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Headings\\:\\:\\$add_plugin_script has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Variable \\$wrap_width might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_headings.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Highlight_Box\\:\\:call_to_action_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Highlight_Box\\:\\:call_to_action_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Highlight_Box\\:\\:ctaction_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Highlight_Box\\:\\:register_cta_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 123$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ctaction_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 103$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_cta_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 117$#"
+			count: 1
+			path: modules/ultimate_hightlight_box.php
+
+		-
+			message: "#^Binary operation \"/\" between string and 2 results in an error\\.$#"
+			count: 2
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 3
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:enqueue_admin_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:enqueue_admin_assets\\(\\) has parameter \\$hook with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ult_hotspot_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ult_hotspot_callback\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ult_hotspot_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ult_hotspot_items_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ult_hotspot_items_callback\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ult_hotspot_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ultimate_hotspot_param_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_HotSpot\\:\\:ultimate_hotspot_param_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 126$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(enqueue_admin_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 163$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_hotspot_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 109$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_hotspot_items_callback\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 230$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_hotspot_scripts\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 120$#"
+			count: 1
+			path: modules/ultimate_hotspot.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
+			count: 6
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 4
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 4
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Constant WP_MAX_MEMORY_LIMIT not found\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Function smile_backend_create_folder\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:AIO_move_fonts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:add_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:add_zipped_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:admin_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:create_config\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:delete_all_fonts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:delete_folder\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:find_json\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:find_svg\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:get_font_manager\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:get_font_set\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:get_icon_manager\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:get_icon_manager\\(\\) has parameter \\$input_name with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:icon_manager_dashboard\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:icon_manager_menu\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:load_iconfont_list\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:re_write_css\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:remove_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:remove_zipped_font\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:rename_files\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:rename_folder\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:write_config\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager\\:\\:zip_flatten\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 124$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$admin_css Icons Admin CSS\\.\\)\\: Unexpected token \"\\$admin_css\", expected type at offset 65$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$admin_js Icons Admin js\\.\\)\\: Unexpected token \"\\$admin_js\", expected type at offset 64$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$assets_css Icons Assets CSS\\.\\)\\: Unexpected token \"\\$assets_css\", expected type at offset 66$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$assets_js Icons Assets js\\.\\)\\: Unexpected token \"\\$assets_js\", expected type at offset 65$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$charlist Class instance\\.\\)\\: Unexpected token \"\\$charlist\", expected type at offset 64$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$charlist_fallback Class instance\\.\\)\\: Unexpected token \"\\$charlist_fallback\", expected type at offset 64$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$font_name fonts Name\\.\\)\\: Unexpected token \"\\$font_name\", expected type at offset 60$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$iconlist Class instance\\.\\)\\: Unexpected token \"\\$iconlist\", expected type at offset 64$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$json_config Json config\\.\\)\\: Unexpected token \"\\$json_config\", expected type at offset 61$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$json_file holds json files\\)\\: Unexpected token \"\\$json_file\", expected type at offset 65$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$paths Holds the paths\\.\\)\\: Unexpected token \"\\$paths\", expected type at offset 65$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$svg_config svg config\\.\\)\\: Unexpected token \"\\$svg_config\", expected type at offset 60$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$svg_file Class instance\\.\\)\\: Unexpected token \"\\$svg_file\", expected type at offset 69$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$unicode Fonts Unicode\\.\\)\\: Unexpected token \"\\$unicode\", expected type at offset 63$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$vc_fonts VC fonts\\.\\)\\: Unexpected token \"\\$vc_fonts\", expected type at offset 58$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^PHPDoc tag @var has invalid value \\(\\$vc_fonts_dir fonts directory\\.\\)\\: Unexpected token \"\\$vc_fonts_dir\", expected type at offset 65$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$admin_css has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$admin_js has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$assets_css has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$assets_js has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$charlist has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$charlist_fallback has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$font_name has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$iconlist has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$json_config has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$json_file has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$paths has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$svg_config has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$svg_file has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$unicode has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$vc_fonts has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Property Ultimate_VC_Addons_Icon_Manager\\:\\:\\$vc_fonts_dir has no type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Undefined variable\\: \\$id$#"
+			count: 6
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Variable \\$count might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Variable \\$icon_set in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 2
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Variable \\$icons in empty\\(\\) always exists and is always falsy\\.$#"
+			count: 2
+			path: modules/ultimate_icon_manager.php
+
+		-
+			message: "#^Binary operation \"\\*\" between non\\-empty\\-string and 2 results in an error\\.$#"
+			count: 2
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Call to function is_numeric\\(\\) with '' will always evaluate to false\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:add_icon_timeline\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline_feat\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline_feat\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline_item\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline_sep\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Timeline\\:\\:icon_timeline_sep\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 127$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Strict comparison using \\!\\=\\= between '' and '' will always evaluate to false\\.$#"
+			count: 4
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Undefined variable\\: \\$ult_timeline_item_settings$#"
+			count: 2
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Variable \\$ult_timeline_feat_settings might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Variable \\$url might not be defined\\.$#"
+			count: 3
+			path: modules/ultimate_icon_timeline.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons\\:\\:single_icon_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons\\:\\:ultimate_icon_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons\\:\\:ultimate_icons_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 121$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_icon_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 106$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^Variable \\$css_trans might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_icons.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:common_structure\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:common_structure\\(\\) has parameter \\$ult_ihover_settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:ult_ihover_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:ult_ihover_callback\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:ult_ihover_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:ult_ihover_item_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_IHover\\:\\:ult_ihover_item_callback\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 125$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_ihover_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 107$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_ihover_scripts\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 131$#"
+			count: 1
+			path: modules/ultimate_ihover.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_image_separator.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Image_Separator\\:\\:ultimate_img_separator_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_image_separator.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Image_Separator\\:\\:ultimate_img_separator_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_image_separator.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 125$#"
+			count: 1
+			path: modules/ultimate_image_separator.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_easy_separator_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 130$#"
+			count: 1
+			path: modules/ultimate_image_separator.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_img_separator_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 119$#"
+			count: 1
+			path: modules/ultimate_image_separator.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Banner\\:\\:banner_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Banner\\:\\:banner_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 133$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(banner_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 57$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_info_banner_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 75$#"
+			count: 1
+			path: modules/ultimate_info_banner.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_info_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons_Box\\:\\:icon_box_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons_Box\\:\\:icon_box_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons_Box\\:\\:icon_boxes\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_box.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icons_Box\\:\\:icon_boxes\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_info_box.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 121$#"
+			count: 1
+			path: modules/ultimate_info_box.php
+
+		-
+			message: "#^Binary operation \"\\*\" between string and 3 results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Binary operation \"\\-\" between 100 and string results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Binary operation \"/\" between string and 2 results in an error\\.$#"
+			count: 2
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 2
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Circle\\:\\:add_info_circle\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Circle\\:\\:info_circle\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Circle\\:\\:info_circle\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Circle\\:\\:register_info_circle_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_circle.php
+
+		-
+			message: "#^Constant __ULTIMATE_ROOT__ not found\\.$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Table\\:\\:info_table_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Table\\:\\:ultimate_it_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Table\\:\\:ultimate_it_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Info_Table\\:\\:ultimate_it_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 132$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(info_table_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 76$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_it_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 115$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_it_shortcode\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 75$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^Trying to invoke non\\-falsy\\-string but it might not be a callable\\.$#"
+			count: 1
+			path: modules/ultimate_info_tables.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banner\\:\\:banner_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banner\\:\\:banner_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banner\\:\\:banner_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banner\\:\\:register_ib2_banner_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 122$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(banner_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 57$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_ib_banner_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 94$#"
+			count: 1
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_interactive_banner_2.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banners\\:\\:banner_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banners\\:\\:banner_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banners\\:\\:banner_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Interactive_Banners\\:\\:register_ib_banner_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 122$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(banner_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 57$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_ib_banner_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 92$#"
+			count: 1
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_interactive_banners.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Just_Icon\\:\\:just_icon_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Just_Icon\\:\\:just_icon_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Just_Icon\\:\\:just_icon_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 119$#"
+			count: 1
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(just_icon_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 100$#"
+			count: 1
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_just_icon.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_creative_link\\:\\:ult_createlink_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_creative_link\\:\\:ult_createlink_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_creative_link\\:\\:ultimate_createlink\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 132$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Variable \\$span_style1 might not be defined\\.$#"
+			count: 1
+			path: modules/ultimate_link.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_List_Icon\\:\\:icon_list_item_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_List_Icon\\:\\:icon_list_item_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_List_Icon\\:\\:list_icon_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_List_Icon\\:\\:ultimate_icon_list_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_List_Icon\\:\\:ultimate_icon_list_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 131$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(list_icon_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 60$#"
+			count: 1
+			path: modules/ultimate_list_icon.php
+
+		-
+			message: "#^Array has 2 duplicate keys with value 'group' \\('group', 'group'\\)\\.$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Binary operation \"/\\=\" between non\\-empty\\-string and 100 results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 6
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Modals\\:\\:modal_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Modals\\:\\:modal_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Modals\\:\\:ultimate_modal_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 122$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(modal_shortcode\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 150$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_modal_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 85$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(uavc_is_medium_device\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 70$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_modal_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 76$#"
+			count: 1
+			path: modules/ultimate_modals.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Binary operation \"/\" between string and 100 results in an error\\.$#"
+			count: 2
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Cannot call method settings\\(\\) on mixed\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 11
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 9
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Function hex2rgbUltParallax\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Function vc_theme_after_vc_row\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Function vc_theme_after_vc_row\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Parallax\\:\\:admin_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Parallax\\:\\:execute_ultimate_vc_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Parallax\\:\\:front_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Parallax\\:\\:parallax_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Parallax\\:\\:parallax_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 120$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and 'true' will always evaluate to false\\.$#"
+			count: 1
+			path: modules/ultimate_parallax.php
+
+		-
+			message: "#^Constant __ULTIMATE_ROOT__ not found\\.$#"
+			count: 1
+			path: modules/ultimate_pricing_tables.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Pricing_Table\\:\\:ultimate_pricing_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_pricing_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 124$#"
+			count: 1
+			path: modules/ultimate_pricing_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(price_table_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 117$#"
+			count: 1
+			path: modules/ultimate_pricing_tables.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_pricing_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 112$#"
+			count: 1
+			path: modules/ultimate_pricing_tables.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 3
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^Binary operation \"/\" between non\\-empty\\-string and 2 results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 3
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Range_Slider\\:\\:ult_range_slider_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 122$#"
+			count: 1
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(init_range_slider\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 106$#"
+			count: 1
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(range_slider_scripts\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 117$#"
+			count: 1
+			path: modules/ultimate_range_slider.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_ribbons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Ribbons\\:\\:ultimate_ribbons_module_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_ribbons.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 125$#"
+			count: 1
+			path: modules/ultimate_ribbons.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_ribbons_module_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 130$#"
+			count: 1
+			path: modules/ultimate_ribbons.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_ribbons_module_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 120$#"
+			count: 1
+			path: modules/ultimate_ribbons.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Spacer\\:\\:ultimate_spacer_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_spacer.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 125$#"
+			count: 1
+			path: modules/ultimate_spacer.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_spacer_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 112$#"
+			count: 1
+			path: modules/ultimate_spacer.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Stats_Counter\\:\\:counter_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 123$#"
+			count: 1
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(counter_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 102$#"
+			count: 1
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_counter_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 121$#"
+			count: 1
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^Undefined variable\\: \\$content$#"
+			count: 2
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^Undefined variable\\: \\$counter_icon_bg_color$#"
+			count: 3
+			path: modules/ultimate_stats_counter.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 2
+			path: modules/ultimate_sticky_section.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Sticky_Section\\:\\:sticky_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_sticky_section.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Sticky_Section\\:\\:sticky_shortcode_mapper\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_sticky_section.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 124$#"
+			count: 1
+			path: modules/ultimate_sticky_section.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(sticky_shortcode_mapper\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 96$#"
+			count: 1
+			path: modules/ultimate_sticky_section.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ult_sticky_section_scripts\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 125$#"
+			count: 1
+			path: modules/ultimate_sticky_section.php
+
+		-
+			message: "#^Binary operation \"\\.\" between string and array\\|string\\|null results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 4
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 2
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Empty array passed to foreach\\.$#"
+			count: 2
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Expression \"\\$ult_advanced_tab_settings\\['icon_size'\\]\" on a separate line does not do anything\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Function ultimate_tabs_admin\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_TAB_ELEMENT\\:\\:ult_tab_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_TAB_ELEMENT\\:\\:ultimate_main_tab\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_TAB_ELEMENT\\:\\:ultimate_main_tab\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_TAB_ELEMENT\\:\\:ultimate_main_tab\\(\\) has parameter \\$content with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_TAB_ELEMENT\\:\\:ultimate_single_tab\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_TAB_ELEMENT\\:\\:ultimate_single_tab\\(\\) has parameter \\$content with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_SINGLE_TAB\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_SINGLE_TAB\\:\\:getColumnControls\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_SINGLE_TAB\\:\\:getColumnControls\\(\\) has parameter \\$controls with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_ULT_TAB_ELEMENT\\:\\:__construct\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_ULT_TAB_ELEMENT\\:\\:contentAdmin\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_ULT_TAB_ELEMENT\\:\\:contentAdmin\\(\\) has parameter \\$content with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Method WPBakeryShortCode_ULT_TAB_ELEMENT\\:\\:setCustomTabId\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Property WPBakeryShortCode_SINGLE_TAB\\:\\:\\$controls_list type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Property WPBakeryShortCode_SINGLE_TAB\\:\\:\\$predefined_atts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Property WPBakeryShortCode_ULT_TAB_ELEMENT\\:\\:\\$controls_list type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^WPBakeryShortCode_SINGLE_TAB\\:\\:__construct\\(\\) calls parent\\:\\:__construct\\(\\) but WPBakeryShortCode_SINGLE_TAB does not extend any class\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^WPBakeryShortCode_ULT_TAB_ELEMENT\\:\\:__construct\\(\\) calls parent\\:\\:__construct\\(\\) but WPBakeryShortCode_ULT_TAB_ELEMENT does not extend any class\\.$#"
+			count: 1
+			path: modules/ultimate_tab.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 3
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Array has 2 duplicate keys with value 'dependency' \\('dependency', 'dependency'\\)\\.$#"
+			count: 2
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Binary operation \"/\" between string and 2 results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 2
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Team\\:\\:admin_scripts\\(\\) has parameter \\$hook with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Team\\:\\:ult_team_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Team\\:\\:ult_team_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 121$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(admin_scripts\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 158$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(init_team\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 97$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_team_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 116$#"
+			count: 1
+			path: modules/ultimate_team.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_video_banner.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_video_banner.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Video_Banner\\:\\:ultimate_video_banner_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_video_banner.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 126$#"
+			count: 1
+			path: modules/ultimate_video_banner.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_video_banner_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 129$#"
+			count: 1
+			path: modules/ultimate_video_banner.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_video_banner_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \\* \", expected '\\(' at offset 119$#"
+			count: 1
+			path: modules/ultimate_video_banner.php
+
+		-
+			message: "#^Binary operation \"\\.\" between '\\.ult\\-video\\.' and array results in an error\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_embed_params\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_embed_params\\(\\) has parameter \\$setting with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_header_wrap\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_header_wrap\\(\\) has parameter \\$setting with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_url\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_url\\(\\) has parameter \\$params with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_url\\(\\) has parameter \\$setting with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_embed\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_embed\\(\\) has parameter \\$setting with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_embed\\(\\) has parameter \\$uid with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_id\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_id\\(\\) has parameter \\$setting with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_thumb\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:get_video_thumb\\(\\) has parameter \\$setting with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:register_videos_module_assets\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:ultimate_videos_module_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:ultimate_videos_module_shortcode\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Videos\\:\\:ultimate_videos_module_shortcode\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(__construct\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 126$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(register_videos_module_assets\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 130$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^PHPDoc tag @method has invalid value \\(ultimate_videos_module_init\\)\\: Unexpected token \"\\\\r\\\\n\\\\t\\\\t \", expected '\\(' at offset 120$#"
+			count: 1
+			path: modules/ultimate_videos.php
+
+		-
+			message: "#^Variable \\$controls might not be defined\\.$#"
+			count: 1
+			path: modules/utlimate-tab-backend.php
+
+		-
+			message: "#^Variable \\$name might not be defined\\.$#"
+			count: 5
+			path: modules/utlimate-tab-backend.php
+
+		-
+			message: "#^Variable \\$position might not be defined\\.$#"
+			count: 1
+			path: modules/utlimate-tab-backend.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: params/Ultimate_Animator.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Animator_Param\\:\\:animator_param\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Animator.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Animator_Param\\:\\:animator_param\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Animator.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Border\\:\\:ultimate_border_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Border\\:\\:ultimate_border_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Border\\:\\:ultimate_border_param_item\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Border\\:\\:ultimate_border_param_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Border\\:\\:ultimate_border_radius_item\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Variable \\$default_value might not be defined\\.$#"
+			count: 2
+			path: params/Ultimate_Border.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_BoxShadow\\:\\:get_units\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_BoxShadow\\:\\:ultimate_boxshadow_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_BoxShadow\\:\\:ultimate_boxshadow_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_BoxShadow\\:\\:ultimate_boxshadow_param_item\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_BoxShadow\\:\\:ultimate_boxshadow_param_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_BoxShadow.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: params/Ultimate_Button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Button_Param\\:\\:button_prev_param\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Button_Param\\:\\:button_prev_param\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Button_Param\\:\\:button_prev_param\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Button.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_ColorPicker_Param\\:\\:colorpicker_alpha_gen\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_ColorPicker.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_ColorPicker_Param\\:\\:colorpicker_alpha_gen\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_ColorPicker.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: params/Ultimate_DateTime_Picker.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_DateTime_Picker_Param\\:\\:datetimepicker\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_DateTime_Picker.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_DateTime_Picker_Param\\:\\:datetimepicker\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_DateTime_Picker.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: params/Ultimate_Font_Manager_Param.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: params/Ultimate_Font_Manager_Param.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Font_Manager_Param\\:\\:ultimate_google_fonts_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Font_Manager_Param.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Font_Manager_Param\\:\\:ultimate_google_fonts_settings\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Font_Manager_Param.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Font_Manager_Param\\:\\:ultimate_google_fonts_style_settings\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Font_Manager_Param.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Font_Manager_Param\\:\\:ultimate_google_fonts_style_settings\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Font_Manager_Param.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Gradient_Param\\:\\:gradient_picker\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Gradient.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Gradient_Param\\:\\:gradient_picker\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Gradient.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager_Param\\:\\:icon_manager\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Icon_Manager_Param.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Icon_Manager_Param\\:\\:icon_manager\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Icon_Manager_Param.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: params/Ultimate_Image_Single.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: params/Ultimate_Image_Single.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Image_Single\\:\\:get_attachment_url_init\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Image_Single.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Image_Single\\:\\:image_single_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Image_Single.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Image_Single\\:\\:ult_img_single_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Image_Single.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Image_Single\\:\\:ult_img_single_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Image_Single.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 2
+			path: params/Ultimate_Margin.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Margin_Param\\:\\:ultimate_margins_param\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Margin.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Margin_Param\\:\\:ultimate_margins_param\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Margin.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Navigation\\:\\:icon_settings_field\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Navigation.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Navigation\\:\\:icon_settings_field\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Navigation.php
+
+		-
+			message: "#^Variable \\$icons might not be defined\\.$#"
+			count: 1
+			path: params/Ultimate_Navigation.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Number_Param\\:\\:number_settings_field\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Number.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Number_Param\\:\\:number_settings_field\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Number.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_ParamHeading_Param\\:\\:ult_param_heading_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_ParamHeading.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_ParamHeading_Param\\:\\:ult_param_heading_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_ParamHeading.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Radio_Image_Param\\:\\:radio_image_settings_field\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Radio_Image.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Radio_Image_Param\\:\\:radio_image_settings_field\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Radio_Image.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: params/Ultimate_Responsive.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Responsive\\:\\:get_units\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Responsive.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Responsive\\:\\:ultimate_admin_responsive_param_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Responsive.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Responsive\\:\\:ultimate_responsive_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Responsive.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Responsive\\:\\:ultimate_responsive_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Responsive.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Responsive\\:\\:ultimate_responsive_param_media\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Responsive.php
+
+		-
+			message: "#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: params/Ultimate_Select.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Select_Param\\:\\:select2_param\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Select.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Select_Param\\:\\:select2_param\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Select.php
+
+		-
+			message: "#^Constant UAVC_URL not found\\.$#"
+			count: 3
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Constant ULTIMATE_VERSION not found\\.$#"
+			count: 1
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Spacing\\:\\:get_units\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Spacing\\:\\:ultimate_spacing_callback\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Spacing\\:\\:ultimate_spacing_callback\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Spacing\\:\\:ultimate_spacing_param_item\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Spacing\\:\\:ultimate_spacing_param_scripts\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Spacing.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Switch_Param\\:\\:checkbox_param\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: params/Ultimate_Switch.php
+
+		-
+			message: "#^Method Ultimate_VC_Addons_Switch_Param\\:\\:checkbox_param\\(\\) has parameter \\$settings with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: params/Ultimate_Switch.php
+
+		-
+			message: "#^Variable \\$key might not be defined\\.$#"
+			count: 1
+			path: params/Ultimate_Switch.php
+
+		-
+			message: "#^Variable \\$uid might not be defined\\.$#"
+			count: 6
+			path: params/Ultimate_Switch.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design01.php
+
+		-
+			message: "#^Function ult_info_table_generate_design01\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design01.php
+
+		-
+			message: "#^Function ult_info_table_generate_design01\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design01.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design02.php
+
+		-
+			message: "#^Function ult_info_table_generate_design02\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design02.php
+
+		-
+			message: "#^Function ult_info_table_generate_design02\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design02.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design03.php
+
+		-
+			message: "#^Function ult_info_table_generate_design03\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design03.php
+
+		-
+			message: "#^Function ult_info_table_generate_design03\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design03.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design04.php
+
+		-
+			message: "#^Function ult_info_table_generate_design04\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design04.php
+
+		-
+			message: "#^Function ult_info_table_generate_design04\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design04.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design05.php
+
+		-
+			message: "#^Function ult_info_table_generate_design05\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design05.php
+
+		-
+			message: "#^Function ult_info_table_generate_design05\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design05.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design06.php
+
+		-
+			message: "#^Function ult_info_table_generate_design06\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design06.php
+
+		-
+			message: "#^Function ult_info_table_generate_design06\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/info-tables/info-table-design06.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design01.php
+
+		-
+			message: "#^Function ult_price_generate_design01\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design01.php
+
+		-
+			message: "#^Function ult_price_generate_design01\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design01.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design02.php
+
+		-
+			message: "#^Function ult_price_generate_design02\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design02.php
+
+		-
+			message: "#^Function ult_price_generate_design02\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design02.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design03.php
+
+		-
+			message: "#^Function ult_price_generate_design03\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design03.php
+
+		-
+			message: "#^Function ult_price_generate_design03\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design03.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design04.php
+
+		-
+			message: "#^Function ult_price_generate_design04\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design04.php
+
+		-
+			message: "#^Function ult_price_generate_design04\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design04.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design05.php
+
+		-
+			message: "#^Function ult_price_generate_design05\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design05.php
+
+		-
+			message: "#^Function ult_price_generate_design05\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design05.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design06.php
+
+		-
+			message: "#^Function ult_price_generate_design06\\(\\) has parameter \\$atts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: templates/pricing/pricing-design06.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/ult_tab/single_tab.php
+
+		-
+			message: "#^Variable \\$atts might not be defined\\.$#"
+			count: 2
+			path: templates/ult_tab/single_tab.php
+
+		-
+			message: "#^Variable \\$content might not be defined\\.$#"
+			count: 5
+			path: templates/ult_tab/single_tab.php
+
+		-
+			message: "#^Variable \\$icon_margin might not be defined\\.$#"
+			count: 1
+			path: templates/ult_tab/single_tab.php
+
+		-
+			message: "#^Variable \\$this might not be defined\\.$#"
+			count: 2
+			path: templates/ult_tab/single_tab.php
+
+		-
+			message: "#^Constant VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG not found\\.$#"
+			count: 1
+			path: templates/ult_tab/ult_tab_element.php
+
+		-
+			message: "#^Empty array passed to foreach\\.$#"
+			count: 2
+			path: templates/ult_tab/ult_tab_element.php
+
+		-
+			message: "#^Variable \\$atts might not be defined\\.$#"
+			count: 2
+			path: templates/ult_tab/ult_tab_element.php
+
+		-
+			message: "#^Variable \\$content might not be defined\\.$#"
+			count: 3
+			path: templates/ult_tab/ult_tab_element.php
+
+		-
+			message: "#^Variable \\$this might not be defined\\.$#"
+			count: 1
+			path: templates/ult_tab/ult_tab_element.php
