@@ -131,14 +131,18 @@
 			$( '.owl-next', $carouselContainer ).attr( 'aria-label', carouselOptions.aria_labels.next );
 		}
 
-		// Toggle class 'autoheight' for responsive
-		let currentOwlResponsiveValue = $carouselContainer.attr( 'class' ).match( /owl-responsive-(\d+)/ )[1];
-		let carouselOptionsResponsive = carouselOptions.responsive || {};
+		const currentOwlResponsiveValue = $carouselContainer.attr( 'class' ).match( /owl-responsive-(\d+)/ )[1];
+		const carouselOptionsResponsive = carouselOptions.responsive || {};
+		const currentOptionsResponsive = carouselOptionsResponsive[ currentOwlResponsiveValue ];
 
-		if ( carouselOptionsResponsive[currentOwlResponsiveValue] && carouselOptionsResponsive[currentOwlResponsiveValue].items === 1 ) {
-			$carouselContainer.toggleClass(
-				'autoheight', carouselOptionsResponsive[currentOwlResponsiveValue].autoHeight
-			)
+		// Toggle classes for responsive
+		if ( currentOptionsResponsive ) {
+			// 'autoheight' class
+			if ( currentOptionsResponsive.items === 1 ) {
+				$carouselContainer.toggleClass( 'autoheight', currentOptionsResponsive.autoHeight );
+			}
+			// 'with_dots' class
+			$carouselContainer.toggleClass( 'with_dots', currentOptionsResponsive.dots );
 		}
 	}
 

@@ -181,6 +181,38 @@ if (
 	}
 }
 
+if (
+	us_get_option( 'skip_to_content_btn' )
+	AND $skip_to_content_btn_label = us_get_option( 'skip_to_content_btn_label' )
+	AND US_Layout::instance()->header_show != 'never'
+) {
+	$skip_to_content_btn_atts = array(
+		'class' => 'w-skip-btn to_content',
+		'href' => '#page-content',
+		'role' => 'button',
+	);
+	if ( $skip_to_content_btn_style = us_get_option( 'skip_to_content_btn_style' ) ) {
+		$skip_to_content_btn_atts['class'] .= ' ' . us_get_btn_class( $skip_to_content_btn_style );
+	}
+	echo '<a' . us_implode_atts( $skip_to_content_btn_atts ) . '>' . esc_html( $skip_to_content_btn_label ) . '</a>';
+}
+
+if (
+	us_get_option( 'skip_to_footer_btn' )
+	AND $skip_to_footer_btn_label = us_get_option( 'skip_to_footer_btn_label' )
+	AND us_get_page_area_id( 'footer' )
+) {
+	$skip_to_footer_btn_atts = array(
+		'class' => 'w-skip-btn to_footer',
+		'href' => '#page-footer',
+		'role' => 'button',
+	);
+	if ( $skip_to_footer_btn_style = us_get_option( 'skip_to_footer_btn_style' ) ) {
+		$skip_to_footer_btn_atts['class'] .= ' ' . us_get_btn_class( $skip_to_footer_btn_style );
+	}
+	echo '<a' . us_implode_atts( $skip_to_footer_btn_atts ) . '>' . esc_html( $skip_to_footer_btn_label ) . '</a>';
+}
+
 do_action( 'us_before_canvas' ) ?>
 
 <div class="l-canvas type_<?php echo us_get_option( 'canvas_layout', 'wide' ) ?>">

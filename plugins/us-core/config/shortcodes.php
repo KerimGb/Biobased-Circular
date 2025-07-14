@@ -49,6 +49,7 @@ return array(
 		'gallery',
 		'image_slider',
 		'counter',
+		'countdown_timer',
 		'flipbox',
 		'ibanner',
 		'itext',

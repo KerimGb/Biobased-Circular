@@ -54,7 +54,7 @@ return array(
 				),
 			),
 			'message' => array(
-				'title' => us_translate( 'Message' ),
+				'title' => __( 'Message', 'us' ),
 				'type' => 'textarea',
 				'std' => us_translate( 'If you have shopped with us before, please enter your details below. If you are a new customer, please proceed to the Billing section.', 'woocommerce' ),
 			),

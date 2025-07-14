@@ -35,7 +35,7 @@ return array(
 				),
 			),
 			'content' => array(
-				'title' => __( 'Message Text', 'us' ),
+				'title' => __( 'Message', 'us' ),
 				'type' => 'textarea',
 				'show_ai_icon' => TRUE,
 				'holder' => 'div',

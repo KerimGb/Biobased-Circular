@@ -7,7 +7,7 @@
 	padding: 0;
 	}
 	.w-text.has_text_color a {
-		color: inherit;
+		color: inherit !important;
 		}
 	.w-text i {
 		display: inline-block;

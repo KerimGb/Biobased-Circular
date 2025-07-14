@@ -13,6 +13,8 @@ $acf_format = TRUE;
 // Set the field type for specific meta keys
 $image_fields = array( 'us_tile_additional_image' );
 $repeater_fields = array();
+$checkbox_fields = array();
+
 if ( function_exists( 'us_acf_get_fields' ) ) {
 	foreach( us_acf_get_fields( 'image', TRUE ) as $group_id => $fields ) {
 		if ( us_arr_path( $fields, '__group_label__' ) ) {
@@ -26,6 +28,12 @@ if ( function_exists( 'us_acf_get_fields' ) ) {
 		}
 		$repeater_fields = array_merge( $repeater_fields, array_keys( $fields ) );
 	}
+	foreach( us_acf_get_fields( 'checkbox', TRUE ) as $group_id => $fields ) {
+		if ( us_arr_path( $fields, '__group_label__' ) ) {
+			unset( $fields['__group_label__'] );
+		}
+		$checkbox_fields = array_merge( $checkbox_fields, array_keys( $fields ) );
+	}
 }
 
 if ( in_array( $key, $image_fields ) ) {
@@ -38,6 +46,8 @@ if ( in_array( $key, $image_fields ) ) {
 	$type = 'repeater';
 } elseif ( in_array( $key, array( 'us_tile_icon', 'us_testimonial_rating' ) ) ) {
 	$type = 'icon';
+} elseif ( in_array( $key, $checkbox_fields ) ) {
+	$type = 'checkbox';
 } else {
 	$type = 'text';
 }
@@ -129,6 +139,58 @@ if ( is_array( $value ) ) {
 
 		$_value_html .= '</div>';
 		$value = $_value_html;
+
+		// Generate HTML for ACF Checkbox field
+	} elseif ( $type === 'checkbox' ) {
+
+		// Flatten two-dimensional array when ACF returns both value and label, leave only labels
+		if ( isset( $value[0] ) AND is_array( $value[0] ) ) {
+			$values_and_labels_flat = array();
+			foreach ( $value as $checkbox ) {
+				$values_and_labels_flat[] = $checkbox['label'];
+			}
+			$value = $values_and_labels_flat;
+		}
+
+		if ( $list_display_options == 'comma_separated' ) {
+			$value = esc_html( implode( ', ', $value ) );
+			$type = 'text';
+
+		} else {
+
+			if ( $list_display_options == 'unordered_list' ) {
+				$list_tag = 'ul';
+				$list_items_tag = 'li';
+			} elseif ( $list_display_options == 'ordered_list' ) {
+				$list_tag = 'ol';
+				$list_items_tag = 'li';
+			} else {
+				$list_tag = 'div';
+				$list_items_tag = 'div';
+			}
+
+			$_value_html = "<$list_tag class='w-post-elm-value'>";
+			for ( $i = 0; $i < count( $value ); $i++ ) {
+				$list_item_class = '';
+
+				// Validate value to use as class
+				if ( $list_display_options === 'separate_divs' ) {
+					// leading digits, digit-only values and leading double dashes are not allowed in CSS class names, delete them
+					$list_item_class = preg_replace( '/^[0-9]+|[^\w\-]+|^[\-\-]+/u', '', $value[ $i ] );
+
+					// leading digits after dash are not valid either, replace them with dashes only
+					$list_item_class = preg_replace( '/\-[0-9]+/', '-', $list_item_class );
+
+					// if after validation no valid characters left use field key and list item index as class name
+					$list_item_class = empty( $list_item_class ) ? $key . "_$i" : $list_item_class;
+					$list_item_class = "class='$list_item_class'";
+				}
+
+				$_value_html .= "<$list_items_tag $list_item_class>" . esc_html( $value[ $i ] ) . "</$list_items_tag>";
+			}
+			$_value_html .= "</$list_tag>";
+			$value = $_value_html;			
+		}
 
 		// In other cases try to get a string value
 	} else {

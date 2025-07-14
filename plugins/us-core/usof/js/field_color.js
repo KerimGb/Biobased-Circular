@@ -1187,7 +1187,7 @@
 			var isBeforeField = bottomPosition > _window.innerHeight;
 
 			// Fix in WPBakery window context
-			if ( self.isVCParamValue() ) {
+			if ( self.isWPBakeryParamValue() ) {
 				const contextRect = $ush.$rect( $node.closest( '.vc_ui-panel-content-container' )[0] );
 				isBeforeField = bottomPosition > ( contextRect.top + contextRect.height )
 			}

@@ -60,10 +60,6 @@
 .usof-form-wrapper.change_colors_start > .usof-form-wrapper-content {
 	display: block;
 	}
-.usof-form-wrapper.force_right {
-	max-width: none;
-	width: auto;
-	}
 .type_check_table .usof-checkbox-list {
 	margin-left: 0 !important;
 	margin-right: 0 !important;

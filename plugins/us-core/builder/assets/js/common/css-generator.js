@@ -7,15 +7,13 @@
  *
  */
 ! function( $, undefined ) {
-	var _window = window,
-		isPlainObject = $.isPlainObject,
-		isEmptyObject = $.isEmptyObject;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 
 	/**
@@ -49,18 +47,19 @@
 	 * }`
 	 */
 	function CSSGenerator( collections ) {
-		if ( ! isPlainObject( collections ) ) {
+		const self = this;
+		if ( ! $.isPlainObject( collections ) ) {
 			return '';
 		}
-		var self = this, result = '';
+		var result = '';
 		for ( var screen in collections ) {
-			if ( isEmptyObject( collections[ screen ] ) ) {
+			if ( $.isEmptyObject( collections[ screen ] ) ) {
 				continue;
 			}
 			var collection = collections[ screen ],
 				styles = ''; // final css styles
 			for ( var name in collection ) {
-				if ( ! name || ! isPlainObject( collection[ name ] ) ) {
+				if ( ! name || ! $.isPlainObject( collection[ name ] ) ) {
 					continue;
 				}
 				var props = collection[ name ];
@@ -95,14 +94,14 @@
 				}
 			}
 			// Check for a breakpoint
-			var breakpoint = $usb.config( 'breakpoints.' + screen + '.media', /* default */'' );
+			const breakpoint = $usb.config( `breakpoints.${screen}.media`, '' );
 			if ( screen !== 'default' && breakpoint ) {
 				result += '@media '+ breakpoint + '{' + styles + '}';
 			} else {
 				result += styles;
 			}
 		}
-		return result + ''; // to string
+		return result + '';
 	}
 
 	// Export API

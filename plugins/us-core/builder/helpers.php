@@ -235,7 +235,11 @@ if ( ! function_exists( 'usb_get_edit_link' ) ) {
 }
 
 if ( ! function_exists( 'usb_disable_query_monitor_on_preview_page' ) ) {
-	add_filter( 'plugins_loaded', 'usb_disable_query_monitor_on_preview_page', /* before init QM */1 );
+
+	if ( ! defined( 'US_DEV_ENABLE_QM_IN_LIVE_BUILDER' ) ) {
+		add_filter( 'plugins_loaded', 'usb_disable_query_monitor_on_preview_page', /* before init QM */1 );
+	}
+
 	/**
 	 * Disable QueryMonitor on preview page
 	 */

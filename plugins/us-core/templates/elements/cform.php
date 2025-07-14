@@ -40,6 +40,13 @@ if ( $us_cform_prev_post_id AND $us_cform_prev_post_id != $post_id ) {
 	$us_cform_index = 0;
 }
 
+$us_cform_index = apply_filters(
+	'us_cform_index',
+	$us_cform_index,
+	$us_cform_prev_post_id,
+	$post_id
+);
+
 // Form indexes start from 1
 $us_cform_index = $us_cform_index ? ( $us_cform_index + 1 ) : 1;
 $us_cform_prev_post_id = $post_id;

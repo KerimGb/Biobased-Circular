@@ -957,7 +957,7 @@ if ( ! function_exists( 'us_grid_pre_get_posts' ) ) {
 			}
 
 			// If the archive page has a "current_query" grid, then apply filters to all grids on the page
-			$page_content = (string) us_get_page_content( us_get_current_id() );
+			$page_content = (string) us_get_page_content_for_grid( us_get_current_id() );
 			if ( strpos( $page_content, 'post_type="current_query"' ) !== FALSE ) {
 				us_apply_grid_filters( $query->query_vars );
 
@@ -999,7 +999,7 @@ if ( ! function_exists( 'us_get_grid_filter_from_page' ) ) {
 			$us_get_grid_filter_atts = array();
 
 			if (
-				$page_content = us_get_page_content( us_get_current_id() )
+				$page_content = us_get_page_content_for_grid( us_get_current_id() )
 				AND preg_match( '/' . get_shortcode_regex( array( 'us_grid_filter' ) ) . '/', $page_content, $matches )
 			) {
 				$us_get_grid_filter_atts = shortcode_parse_atts( $matches[ /*atts*/3 ] );
@@ -1702,5 +1702,151 @@ if ( ! function_exists( 'us_process_grid_layout_dynamic_values' ) ) {
 		}
 
 		return $result;
+	}
+}
+
+
+if ( ! function_exists( 'us_get_nested_content_for_grid' ) ) {
+	/**
+	 * Get post content including nested template blocks
+	 *
+	 * @param int|WP_Post $post The post ID or post object
+	 * @param bool $get_nested_blocks Recursively get nested template blocks content
+	 * @param int $current_level Current nested recursion call level (private variable)
+	 *
+	 * @return string|null Returns the content of the entire post if successful, otherwise null
+	 */
+	function us_get_nested_content_for_grid( $post, $get_nested_blocks = TRUE, $used_post_ids = array(), $current_level = 1 ) {
+
+		if ( $current_level >= 15 ) {
+			return '';
+		}
+
+		if ( is_numeric( $post ) ) {
+			$post = get_post( $post );
+		}
+
+		if ( ! ( $post instanceof WP_Post ) ) {
+			return '';
+		}
+
+		$post_content = $post->post_content;
+
+		// #4759 Exclude looping for "[us_post_content]"
+		if ( in_array( $post->ID, $used_post_ids ) ) {
+			return $post_content;
+		}
+		$used_post_ids[] = $post->ID;
+
+		// Recursively check for templates and get the contents
+		if ( $get_nested_blocks AND ! empty( $post_content ) ) {
+
+			// Get shortcode content
+			$func_get_content = function( $matches ) use ( $current_level, $used_post_ids ) {
+
+				$current_id = 0;
+				$tagname = $matches[2];
+				$shortcode_atts = $matches[3];
+
+				// Get current post id for 'full_content'
+				if ( $tagname == 'us_post_content' AND strpos( $shortcode_atts, 'type="full_content"' ) !== FALSE ) {
+					$current_id = us_get_current_id(); // Note: The function is context sensitive
+
+				} elseif ( $tagname == 'us_page_block' ) {
+					$shortcode_atts = shortcode_parse_atts( $shortcode_atts );
+					$current_id = (int) us_arr_path( $shortcode_atts, 'id' );
+				}
+
+				if ( $current_id > 0 ) {
+					return us_get_nested_content_for_grid( $current_id, /* get_nested_blocks */TRUE, $used_post_ids, ++$current_level );
+				}
+
+				return '';
+			};
+
+			$shortcode_names = array(
+				'us_post_content',
+				'us_page_block'
+			);
+
+			$post_content = preg_replace_callback( '/' . get_shortcode_regex( $shortcode_names ) . '/', $func_get_content, $post_content );
+		}
+
+		return $post_content;
+	}
+}
+
+if ( ! function_exists( 'us_get_page_content_for_grid' ) ) {
+	/**
+	 * Get the whole page content for Grid work
+	 *
+	 * @param array|int $page_args Array with arguments describing site page or page id
+	 *
+	 * @return string Returns the content of the entire page if successful, otherwise an empty string
+	 */
+	function us_get_page_content_for_grid( $page_args = array() ) {
+
+		// If the arguments are a number, then post_id is passed
+		if ( is_numeric( $page_args ) ) {
+			$page_args = array( 'post_ID' => (int) $page_args );
+		}
+
+		$page_content = '';
+
+		// Note: The sequence of obtaining `$area` is important in this order titlebar, content, sidebar, footer
+		foreach( array( 'titlebar', 'content', 'sidebar', 'footer' ) as $area ) {
+
+			// Get value of specified area ID for current / given page
+			$area_id = us_get_page_area_id( $area, $page_args );
+
+			$post_type = get_post_type( $area_id );
+
+			if ( $post_type === FALSE ) {
+				$area_id = '';
+			}
+
+			// If `titlebar` or `sidebar` are not `us_page_block` then skip get content for them
+			if ( in_array( $area, array( 'titlebar', 'sidebar' ) ) AND $post_type !== 'us_page_block' ) {
+				continue;
+			}
+
+			/**
+			 * Note: For archives from `content` where 'show results via grid elements with
+			 * defaults' is indicated, skip this for now and return an empty result
+			 */
+			if ( $area == 'content' AND empty( $area_id ) ) {
+
+				// Get public taxonomies EXCEPT Products
+				$public_taxonomies = array_keys( us_get_taxonomies( TRUE, FALSE, 'woocommerce_exclude' ) );
+
+				// Get Products taxonomies ONLY
+				$product_taxonomies = array_keys( us_get_taxonomies( TRUE, FALSE, 'woocommerce_only' ) );
+
+				// Archive
+				if (
+					us_arr_path( $page_args, 'page_type' ) == 'archive'
+					OR is_archive()
+					OR is_tax( $public_taxonomies )
+					OR (
+						! empty( $product_taxonomies )
+						AND is_tax( $product_taxonomies )
+					)
+				) {
+					continue;
+				}
+
+				// If the arguments contain `post_ID` and no page template, get the content by post_id
+				if ( $post_id = us_arr_path( $page_args, 'post_ID' ) ) {
+					$area_id = (int) $post_id;
+				}
+			}
+
+			// Add the received content to the general output
+			if ( $content = us_get_nested_content_for_grid( $area_id ) ) {
+				$page_content .= shortcode_unautop( $content );
+			}
+		}
+
+		return shortcode_unautop( $page_content );
 	}
 }

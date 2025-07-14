@@ -1151,6 +1151,7 @@ if ( us_is_asset_used( 'buttons' ) AND $btn_styles = us_get_option( 'buttons' ) 
 			}
 			echo '.us-btn-style_' . $btn_style['id'] . '{';
 			echo 'overflow: hidden;';
+			echo 'position: relative;'; // fix for gradients in inline containers
 			echo '-webkit-transform: translateZ(0);'; // fix for Safari
 			echo '}';
 
@@ -1177,7 +1178,7 @@ if ( us_is_asset_used( 'buttons' ) AND $btn_styles = us_get_option( 'buttons' ) 
 				echo '.no-touch .woocommerce .button.add_to_cart_button:after,';
 			}
 			echo '.no-touch .us-btn-style_' . $btn_style['id'] . ':after {';
-			echo 'content: ""; position: absolute; top: 0; left: 0; right: 0;';
+			echo 'content: ""; position: absolute; top: 0; left: 0; right: 0; border-radius: inherit;';
 			if ( $btn_style['hover'] == 'slide' ) {
 				echo 'height: 0; transition: height 0.3s;';
 			} else {

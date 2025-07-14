@@ -18,32 +18,27 @@
 
 	const _window = window;
 	const _document = document;
+	const parent = _window.parent || {};
+
+	if ( ! parent.$usb ) {
+		return;
+	}
 
 	const abs = Math.abs;
 	const pow = Math.pow;
 	const ceil = Math.ceil;
 	const floor = Math.floor;
 
-	// Get parent window
-	var parent = _window.parent || {};
+	const $usb = parent.$usb;
+	const $usof = parent.$usof || {};
+	const $usbcore = parent.$usbcore || {}; // get $usbcore helpers
 
-	// If there is no parent window object, we will complete the execute script
-	if ( ! parent.$usb ) {
-		return;
-	}
-	var $usb = parent.$usb,
-		$usof = parent.$usof || {},
-		$usbcore = parent.$usbcore || {}; // get $usbcore helpers
-
-	// Check for is set availability objects
 	_window.$us = _window.$us || {};
 	_window.usGlobalData = _window.usGlobalData || {};
 	_window.$ush = _window.$ush || parent.$ush || {};
 	_window.usofColorAPI = _window.usofColorAPI || parent.usofColorAPI || {};
 
-	/**
-	 * @type {{}} Direction constants
-	 */
+	// Direction constants
 	const _DIRECTION_ = {
 		BOTTOM: 'bottom',
 		LEFT: 'left',
@@ -80,7 +75,7 @@
 	/**
 	 * @type {{}} Default data
 	 */
-	let _$$default = {
+	var _$$default = {
 		customPrefix: 'us_custom_' // for design options
 	}
 
@@ -111,7 +106,6 @@
 			maybeDrag: self._maybeDrag.bind( self ),
 			maybeStartDrag: self._maybeStartDrag.bind( self ),
 
-			// Other handlers
 			DOMContentLoaded: self._DOMContentLoaded.bind( self ),
 			elmAnimationEnd: self._elmAnimationEnd.bind( self ),
 			elmAnimationStart: self._elmAnimationStart.bind( self ),
@@ -123,7 +117,6 @@
 			elmSelected: self._elmSelected.bind( self ),
 			linkClickHandler: self._linkClickHandler.bind( self ),
 			saveToFavorites: self._saveToFavorites.bind( self ),
-			stop: self._stop.bind( self ),
 
 			// Alias for call on events
 			autoSetHighlightsPosition: $ush.debounce( self.setHighlightsPosition.bind( self ), self.fps )
@@ -135,7 +128,7 @@
 		// When leave the window with the cursor
 		_window.onmouseout = $ush.debounce( ( e ) => {
 			e = e || _window.event;
-			var node = e.relatedTarget || e.toElement;
+			const node = e.relatedTarget || e.toElement;
 			if ( ! node || $ush.toLowerCase( node.nodeName ) === 'html' ) {
 				self._mouseLeavesIframe.call( self, e );
 			}
@@ -145,7 +138,6 @@
 		_window.onresize = self._events.autoSetHighlightsPosition;
 		_document.onscroll = self._events.autoSetHighlightsPosition;
 
-		// Disable Drag & Drop on body
 		self.$body.attr( 'draggable', 'false' );
 
 		// Events
@@ -170,7 +162,7 @@
 			.on( 'mouseup', $ush.debounce( self._events.endDrag, 2 ) ) // call after `_events.elmSelected`
 			// Other events
 			.on( 'mouseup', '[data-usbid]', $ush.debounce( self._events.elmSelected, 1 ) ) // call before `_events.endDrag`
-			.on( 'mousemove', $ush.debounce( self._events.elmMove, self.fps ) )
+			.on( 'mousemove', $ush.debounce( self._events.elmMove, 5 ) )
 			.on( 'mouseleave', $ush.debounce( self._events.elmLeave, self.fps ) )
 			// Handlers for css animation in elements
 			.on( 'animationstart', '[data-usbid]', $ush.debounce( self._events.elmAnimationStart, 1 ) )
@@ -181,13 +173,9 @@
 			.on( 'contentChange', '.l-canvas:first', self._events.autoSetHighlightsPosition );
 
 		self.$body
-			// Handler for all link clicks
 			.on( 'click', 'a', self._events.linkClickHandler );
 
-		/**
-		 * Private events
-		 * The events that can come from the main collector window
-		 */
+		// Private events
 		for ( const handler in self._$events ) {
 			if ( typeof self._$events[ handler ] === 'function' ) {
 				self.on( handler, self._$events[ handler ].bind( self ) );
@@ -212,7 +200,7 @@
 		 * @chainable
 		 */
 		postMessage: function( eventType, extraParams ) {
-			parent.postMessage( JSON.stringify( [ /* namespace */'usb', eventType, extraParams ] ) );
+			parent.postMessage( JSON.stringify( [ 'usb', eventType, extraParams ] ) );
 		}
 	} );
 
@@ -221,6 +209,7 @@
 	 * All the necessary methods that are somehow involved in this approach
 	 */
 	$.extend( prototype, {
+
 		// The number of pixels when drag after which the movement will be initialized
 		_dragStartDistance: $usb.builder._dragStartDistance || 8,
 
@@ -247,8 +236,8 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_clickedControlsHoverPanel: function( e ) {
-			var self = this,
-				elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
+			const self = this;
+			const elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
 			if ( ! elmId ) {
 				return;
 			}
@@ -270,8 +259,9 @@
 		 * @param {Number} pageY [optional] The coordinate at which the mouse was clicked, relative to the top edge of the document
 		 */
 		_maybeStartDrag: function( e, pageX, pageY ) {
+			const self = this;
+
 			e.stopPropagation();
-			var self = this;
 
 			if (
 				// Stop process for preview mode
@@ -309,8 +299,10 @@
 			// Note: Firefox has problems using the `mousemove` event where it is not possible to
 			// get the element that is under the cursor if it has `overflow: hidden`
 			if ( $ush.isFirefox ) {
-				[ target ].concat( $ush.toArray( target.getElementsByTagName( '*' ) ) ).map( function( node ) {
-					if ( ! $ush.isNode( node ) || $usbcore.$hasClass( node, 'usb_firefox_clip' ) ) return;
+				[ target ].concat( $ush.toArray( target.getElementsByTagName( '*' ) ) ).map( ( node ) => {
+					if ( ! $ush.isNode( node ) || $usbcore.$hasClass( node, 'usb_firefox_clip' ) ) {
+						return;
+					}
 					if ( _window.getComputedStyle( node, /* pseudoElt */null ).getPropertyValue( 'overflow' ) === 'hidden' ) {
 						$usbcore.$addClass( node, 'usb_firefox_clip' );
 					}
@@ -328,8 +320,9 @@
 		 * TODO: Improve id structure consider aliases
 		 */
 		_maybeDrag: function( e ) {
-			var self = this,
-				target = e.target,
+			const self = this;
+
+			var target = e.target,
 				currentPreviewOffset = $usb.preview.getCurrentOffset(),
 				// Get offset for transit
 				transit = {
@@ -352,8 +345,8 @@
 			}
 
 			// Get ffsets from origin along axis X and Y
-			var diffX = abs( dragData.startX - e.pageX ),
-				diffY = abs( dragData.startY - e.pageY );
+			const diffX = abs( dragData.startX - e.pageX );
+			const diffY = abs( dragData.startY - e.pageY );
 
 			// The check the distance of the germinated mouse and if it is more than
 			// the specified one, then activate all the necessary methods
@@ -431,7 +424,7 @@
 		 * @param {{}} data The data from event
 		 */
 		_maybeDrop: function( data ) {
-			var self = this;
+			const self = this;
 			if (
 				! data
 				|| ! data.target
@@ -558,7 +551,7 @@
 			}
 
 			// Strict mode is a hard dependency between elements!
-			var strictMode = (
+			const strictMode = (
 				// The check if the moved element is a tab, accordion, tour or vc_column(_inner), if so, then enable strict mode
 				$usb.builder.isChildElmContainer( baseCurrentId )
 				// Allow add any non-row element to the container only if there is no content
@@ -596,7 +589,7 @@
 			// If there is an alias and it is a tab button then add an alias to all children,
 			// this is necessary to determine the position of the tab buttons
 			if ( aliasId && aliasId === $usb.config( 'aliases.tab' ) ) {
-				children = children.map( function( id ) {
+				children = children.map( ( id ) => {
 					return $usb.builder.addAliasToElmId( aliasId, id );
 				} );
 			}
@@ -770,7 +763,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_endDrag: function( e ) {
-			var self = this;
+			const self = this;
 
 			// Check if the mode is correct
 			if ( ! $usb.builder.isMode( 'drag:add', 'drag:move', /* for FF mode `drag:add` */'editor' ) ) {
@@ -783,7 +776,8 @@
 			 * all due to the peculiarities of the FF and Safari 17+ from work the iframe
 			 */
 			if ( ! ( $ush.isFirefox || $ush.safariVersion() >= 17 ) ) {
-				self._events.stop( e );
+				e.preventDefault();
+				e.stopPropagation();
 			}
 
 			// Reset the hover element, this will cancel the open of mode
@@ -861,16 +855,15 @@
 		 * Clear all asset and cache data to move
 		 */
 		clearDragAssets: function() {
-			var self = this;
+			const self = this;
 
 			// Get drag data
-			var dragData = $usbcore.cache( 'iframeDrag' ).data();
+			const dragData = $usbcore.cache( 'iframeDrag' ).data();
 			if ( $.isEmptyObject( dragData ) ) {
 				return;
 			}
 
 			$usbcore
-				// Remove classes
 				.$removeClass( dragData.target, 'usb_transit' )
 				.$removeClass( dragData.lastFoundContainer, 'usb_dropcontainer' )
 				.$removeClass( _document.body, 'usb_dragging' );
@@ -881,8 +874,8 @@
 				$usbcore.$remove( dragData.place );
 			}
 
-			$usb.builder.hideTransit(); // hide the transit
-			$usbcore.cache( 'iframeDrag' ).flush() // flush data
+			$usb.builder.hideTransit();
+			$usbcore.cache( 'iframeDrag' ).flush();
 
 			// When the element is moved and the cursor leaves the preview area,
 			// the text may be captured, so when clear the data, clear the buffer
@@ -943,13 +936,13 @@
 				{ scrollTop: scrollTo },
 				{
 					// Duration with acceleration
-					duration: floor( duration / ( acceleration || /* default */1 ) ),
+					duration: floor( duration / ( acceleration || 1 ) ),
 					// After the animation is complete, call the scroll completion handler
 					complete: $usb.builder.stopDragScrolling.bind( $usb )
 				}
 			);
 
-			self.hideHighlight(); // hide the highlight
+			self.hideHighlight();
 		}, 1 )
 	} );
 
@@ -962,8 +955,9 @@
 		 * Show the highlight
 		 * This method is called many times, so the implementation should be Vanilla JS
 		 */
-		showHighlight: function() {
-			var self = this;
+		showHighlight: $ush.throttle( function() {
+			const self = this;
+
 			if (
 				! $usb.builder.isMode( 'editor' )
 				|| ! $usb.builder.isValidId( self.hoveredElmId )
@@ -972,51 +966,47 @@
 			}
 			var parentId = self.hoveredElmId,
 				iteration = 0;
-			// Get base parentId without alias
+
 			if ( $usb.builder.isAliasElmId( parentId ) ) {
 				parentId = $usb.builder.removeAliasFromId( parentId );
 			}
+
 			while ( parentId !== $usb.builder.mainContainer && parentId !== null ) {
-				if ( iteration++ >= /* max number of iterations */1000 ) {
+				if ( iteration++ >= 1000 ) {
 					break;
 				}
 
-				// Add a clone for the new found element
 				self._createHighlight( parentId );
 
-				// Show highlight
-				var item = self._highlights[ parentId ];
+				const item = self._highlights[ parentId ];
+				// TODO: Optimize ".is( ':visible' )"
 				if ( $( self.getElmNode( parentId ) ).is( ':visible' ) ) {
 					item.active = true;
 					item.highlight.style.display = 'block';
 				}
 
-				/**
-				 * @type {String|null} Get next parent elm
-				 */
 				parentId = $usb.builder.getElmParentId( parentId );
 			}
-			// Set the highlight position
+
 			self.setHighlightsPosition.call( self );
-		},
+		}, 1 ),
 
 		/**
 		 * Hide the highlight
-		 * This method is called many times, so the implementation should be Vanilla JS
 		 */
-		hideHighlight: function() {
-			var self = this;
+		hideHighlight: $ush.throttle( function() {
+			const self = this;
 			if ( $.isEmptyObject( self._highlights ) ) {
 				return;
 			}
-			for ( var elmId in self._highlights ) {
-				var item = self._highlights[ elmId ];
+			for ( const elmId in self._highlights ) {
+				const item = self._highlights[ elmId ];
 				item.active = false;
 				item.highlight.style.display = 'none';
 			}
 			self.hoveredElm = null;
 			self.hoveredElmId = null;
-		},
+		}, 1 ),
 
 		/**
 		 * Set the highlights position
@@ -1024,10 +1014,8 @@
 		 */
 		setHighlightsPosition: function() {
 			const self = this;
-			if (
-				! $usb.builder.isMode( 'editor' )
-				|| $.isEmptyObject( self._highlights )
-			) {
+
+			if ( ! $usb.builder.isMode( 'editor' ) || $.isEmptyObject( self._highlights ) ) {
 				return;
 			}
 
@@ -1035,11 +1023,10 @@
 				if ( ! $usb.builder.isValidId( elmId ) ) {
 					continue;
 				}
-				var item = self._highlights[ elmId ],
-					// Receive at this stage is necessary because the elements can be completely rebooted
-					elm = self.getElmNode( elmId );
+				const item = self._highlights[ elmId ];
+				const element = self.getElmNode( elmId );
 				if (
-					! $ush.isNode( elm )
+					! $ush.isNode( element )
 					|| (
 						! item.active
 						&& ! item.editable
@@ -1048,17 +1035,15 @@
 					continue;
 				}
 
-				var // If there are negative margins, we will take this into account when highlighting
-					negativeTop = elm.offsetTop < 0 ? abs( elm.offsetTop ) : 0,
-					negativeLeft = elm.offsetLeft < 0 ? abs( elm.offsetLeft ) : 0,
-
-					elmRect = $ush.$rect( elm ),
-					cssProps = {
-						height: elmRect.height - negativeTop,
-						left: elmRect.left + negativeLeft + ( _window.pageXOffset || elm.scrollLeft ),
-						top: elmRect.top + negativeTop + ( _window.pageYOffset || elm.scrollTop ),
-						width: elmRect.width - negativeLeft
-					};
+				const negativeTop = element.offsetTop < 0 ? abs( element.offsetTop ) : 0;
+				const negativeLeft = element.offsetLeft < 0 ? abs( element.offsetLeft ) : 0;
+				const elmRect = $ush.$rect( element );
+				const cssProps = {
+					height: elmRect.height - negativeTop,
+					left: elmRect.left + negativeLeft + ( _window.pageXOffset || element.scrollLeft ),
+					top: elmRect.top + negativeTop + ( _window.pageYOffset || element.scrollTop ),
+					width: elmRect.width - negativeLeft
+				};
 
 				// Hide highlighting for elements outside the window,
 				// such as the element at the end of a owl-carousel
@@ -1066,7 +1051,6 @@
 					continue;
 				}
 
-				// Set css props
 				$( item.highlight ).css( cssProps );
 
 				// UX improvement when the element width is less then hover panel
@@ -1080,15 +1064,15 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		showEditableHighlight: function( id ) {
-			var self = this;
+			const self = this;
+
 			if ( ! $usb.builder.isValidId( id ) ) {
 				return;
 			}
-			// Hide highlight for editable element
+
 			self.hideEditableHighlight();
-			// Get highlight object
+
 			var item = self._highlights[ id ];
-			// Create new highlight
 			if ( ! item ) {
 				self.hideHighlight();
 				item = self._createHighlight( id );
@@ -1097,7 +1081,7 @@
 				}
 				self.setHighlightsPosition();
 			}
-			// Show editable mode
+
 			if ( item ) {
 				item.editable = true;
 				$usbcore.$addClass( item.highlight, 'usb_editable' );
@@ -1109,23 +1093,24 @@
 		 *
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1" (Optional parameter)
 		 */
-		hideEditableHighlight: function() {
-			var self = this;
+		hideEditableHighlight: function( id ) {
+			const self = this;
+
 			if ( $.isEmptyObject( self._highlights ) ) {
 				return;
 			}
-			var id = '' + arguments[ 0 ],
-				highlights = self._highlights;
-			// We update the list where we leave the highlights by the passed id
-			if ( !! id && self.hasEditableHighlight( id ) ) {
+			var highlights = self._highlights;
+
+			if ( id && self.hasEditableHighlight( id ) ) {
 				highlights = [ highlights[ id ] ];
 			}
-			for ( var elmId in highlights ) {
-				var item = highlights[ elmId ];
+
+			for ( const elmId in highlights ) {
+				const item = highlights[ elmId ];
 				if ( ! item.editable ) {
 					continue;
 				}
-				// Remove the class that includes the highlight of the editable element
+
 				$usbcore.$removeClass( item.highlight, 'usb_editable' );
 			}
 			self.selectedElmId = null;
@@ -1149,14 +1134,15 @@
 		 * @return {MutationObserver|undefined}
 		 */
 		_getMutationObserver: function( id ) {
-			var target, self = this;
+			const self = this;
+			var target;
 			if (
 				! $usb.builder.isValidId( id )
 				|| ! ( target = self.getElmNode( id ) )
 			) {
 				return;
 			}
-			var observer = new MutationObserver( $ush.debounce( self.setHighlightsPosition.bind( self ), 1 ) );
+			const observer = new MutationObserver( $ush.debounce( self.setHighlightsPosition.bind( self ), 1 ) );
 			observer.observe( target, {
 				characterData: true,
 				childList: true,
@@ -1172,7 +1158,8 @@
 		 * @return {{}|null} The highlight object
 		 */
 		_createHighlight: function( id ) {
-			var self = this;
+			const self = this;
+
 			if (
 				! $usb.builder.isValidId( id )
 				|| self._highlights[ id ]
@@ -1182,39 +1169,37 @@
 				return null;
 			}
 
-			// Clone an element from a template
 			var highlightElm = self.highlight.cloneNode( true ),
-				node = self.getElmNode( id ),
-				// Get settings and data for highlight
-				dataHighlight = $ush.toPlainObject( $usbcore.$attr( node, 'data-usb-highlight' ) );
+				dataHighlight = $ush.toPlainObject( $usbcore.$attr( self.getElmNode( id ), 'data-usb-highlight' ) );
+
 			if ( ! $.isPlainObject( dataHighlight ) ) {
 				dataHighlight = {};
 			}
-			// Add a title for highlighting
+
 			highlightElm
 				.querySelector( '.usb-hover-panel-name' )
 				.innerText = $usb.builder.getElmTitle( id );
-			// Add Edit link if set
+
 			if ( dataHighlight.edit_permalink && dataHighlight.edit_label ) {
-				var node = highlightElm.querySelector( '.usb-hover-panel-edit' );
+				const node = highlightElm.querySelector( '.usb-hover-panel-edit' );
 				if ( node ) {
 					node.innerText = dataHighlight.edit_label;
 					$usbcore.$attr( node, 'href', dataHighlight.edit_permalink );
 				}
 			}
-			// Add all the necessary settings
+
 			$usbcore
 				.$attr( highlightElm, 'data-elmid', id )
 				.$addClass( highlightElm, 'elm_' + $usb.builder.getElmType( id ) )
 				.$toggleClass( highlightElm, 'usb_disable_controls', !! dataHighlight.disable_controls );
-			self.highlight
-				.after( highlightElm );
+
+			self.highlight.after( highlightElm );
 
 			/**
 			 * Definition and purpose of zIndex for highlight only
 			 * Note: Necessary for correct display on mobile responsive mode
 			 */
-			var zIndex = 9999; // the default zIndex
+			var zIndex = 9999;
 			if ( $usb.builder.isChildElmContainer( id ) ) {
 				zIndex -= 1;
 			} else if ( $usb.builder.isRootElmContainer( id ) ) {
@@ -1222,7 +1207,6 @@
 			}
 			highlightElm.style.zIndex = zIndex;
 
-			// Add nodes to a temporary variable
 			return self._highlights[ id ] = {
 				active: false,
 				editable: false,
@@ -1238,6 +1222,7 @@
 		 */
 		removeHighlights: function( force ) {
 			const self = this;
+
 			if ( $.isEmptyObject( self._highlights ) ) {
 				return;
 			}
@@ -1245,13 +1230,9 @@
 				if ( ! $usb.builder.isValidId( elmId ) ) {
 					continue;
 				}
-				if ( !! force || null === self.getElmNode( elmId ) ) {
-					// Get current highlight data
-					let data = self._highlights[ elmId ];
-					/**
-					 * Disconnect from watch mutations
-					 * @see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
-					 */
+				if ( force || self.getElmNode( elmId ) === null ) {
+					const data = self._highlights[ elmId ];
+					// @see https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/disconnect
 					if ( data.MutationObserver instanceof MutationObserver ) {
 						data.MutationObserver.disconnect();
 					}
@@ -1266,16 +1247,6 @@
 	 * Functionality for handle events
 	 */
 	$.extend( prototype, {
-		/**
-		 * Kill current event.
-		 *
-		 * @event handler
-		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
-		 */
-		_stop: function( e ) {
-			e.preventDefault();
-			e.stopPropagation();
-		},
 
 		/**
 		 * The event fires when the initial HTML document has been completely loaded and parsed,
@@ -1292,13 +1263,13 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_linkClickHandler: function( e ) {
-			var self = this,
-				$target = $( e.currentTarget ),
-				href = $ush.toLowerCase( $target.attr( 'href' ) || '' );
+			const self = this;
+			const $target = $( e.currentTarget );
+			const href = $ush.toLowerCase( $target.attr( 'href' ) || '' );
 
 			// Anyth to exclude from open in a new window
 			if (
-				href.charAt( 0 ) == '#'
+				href.charAt(0) == '#'
 				|| href.substr( 0, 'javascript:'.length ) == 'javascript:'
 				|| $target.is( '[ref=magnificPopup]' )
 				|| $target.hasClass( '.w-tabs-item' ) // exclude all TTA buttons
@@ -1306,7 +1277,9 @@
 				return;
 			}
 
-			self._events.stop( e );
+			e.preventDefault();
+			e.stopPropagation();
+
 			_window.open( href, '_blank' );
 		},
 
@@ -1317,7 +1290,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmAnimationStart: function( e ) {
-			var self = this;
+			const self = this;
 			if ( ! $usbcore.$attr( e.target, 'data-usbid' ) ) {
 				return;
 			}
@@ -1336,7 +1309,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmAnimationEnd: function( e ) {
-			var self = this;
+			const self = this;
 			if ( ! $usbcore.$attr( e.target, 'data-usbid' ) ) {
 				return;
 			}
@@ -1368,7 +1341,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmSelected: function( e ) {
-			var self = this;
+			const self = this;
 
 			// Check the `editor` mode (Only in mode we can select elements to change)
 			if (
@@ -1379,20 +1352,20 @@
 				return;
 			}
 
-			var node = self._getNearestNode( e.target );
+			const node = self._getNearestNode( e.target );
 			if ( ! $ush.isNode( node ) ) {
 				return;
 			}
-			var id = $usb.builder.getElmId( node );
-			// Get base selectedElmId without alias
-			if ( $usb.builder.isAliasElmId( id ) ) {
-				id = $usb.builder.removeAliasFromId( id );
+
+			var elmId = $usb.builder.getElmId( node );
+			if ( $usb.builder.isAliasElmId( elmId ) ) {
+				elmId = $usb.builder.removeAliasFromId( elmId );
 			}
-			self.selectedElmId = id;
-			// Open in the edit panel
-			self.postMessage( 'builder.elmSelected', id );
-			self.postMessage( 'navigator.scrollTo', id );
-			self.showEditableHighlight( id );
+			self.selectedElmId = elmId;
+
+			self.postMessage( 'builder.elmSelected', elmId );
+			self.postMessage( 'navigator.scrollTo', elmId );
+			self.showEditableHighlight( elmId );
 		},
 
 		/**
@@ -1402,15 +1375,16 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmMove: function( e ) {
-			var self = this;
+			const self = this;
 			if ( ! $usb.panel.isShow() ) {
 				return;
 			}
-			var elm = self._getNearestNode( e.target );
-			if ( elm && elm !== self.hoveredElm ) {
+
+			const element = self._getNearestNode( e.target );
+			if ( element && element !== self.hoveredElm ) {
 				self.hideHighlight();
-				self.hoveredElm = elm;
-				self.hoveredElmId = $usb.builder.getElmId( elm );
+				self.hoveredElm = element;
+				self.hoveredElmId = $usb.builder.getElmId( element );
 				self.showHighlight();
 			}
 		},
@@ -1421,7 +1395,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmLeave: function( e ) {
-			var self = this;
+			const self = this;
 			if ( ! $usb.panel.isShow() ) {
 				return;
 			}
@@ -1438,9 +1412,9 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmDuplicate: function( e ) {
-			var self = this,
-				$highlight = $( e.currentTarget ).closest( '.usb-hover' ),
-				elmId = $highlight.data( 'elmid' );
+			const self = this;
+			const $highlight = $( e.currentTarget ).closest( '.usb-hover' );
+			const elmId = $highlight.data( 'elmid' );
 			if ( ! elmId ) {
 				return;
 			}
@@ -1455,7 +1429,7 @@
 		 * @param {Function} fn The function to be executed
 		 * @type debounced
 		 */
-		__removeClassInCopiedElm: $ush.debounce( $ush.fn, 1000 * 4 /* 4 second */ ),
+		__removeClassInCopiedElm: $ush.debounce( $ush.fn, 1000 * 4 ),
 
 		/**
 		 * Copy shortcode to clipboard.
@@ -1464,18 +1438,17 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmCopy: function( e ) {
-			var self = this,
-				$target = $( e.currentTarget ),
-				elmId = $target.closest( '.usb-hover' ).data( 'elmid' );
+			const self = this;
+			const $target = $( e.currentTarget );
+			const elmId = $target.closest( '.usb-hover' ).data( 'elmid' );
 			if ( ! elmId ) {
 				return;
 			}
 			self.postMessage( 'builder.elmCopy', elmId );
-			// Temporary class to formalize the action
+
 			$target.addClass( 'copied' );
-			self.__removeClassInCopiedElm( function() {
-				$target.removeClass( 'copied' );
-			} );
+
+			self.__removeClassInCopiedElm( () => $target.removeClass( 'copied' ) );
 		},
 
 		/**
@@ -1485,10 +1458,9 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmPaste: function( e ) {
-			var self = this,
-				elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
+			const elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
 			if ( elmId ) {
-				self.postMessage( 'builder.elmPaste', elmId );
+				this.postMessage( 'builder.elmPaste', elmId );
 			}
 		},
 
@@ -1499,8 +1471,8 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_elmDelete: function( e ) {
-			var self = this,
-				elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
+			const self = this;
+			const elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
 			if ( elmId ) {
 				$usbcore.$remove( self._highlights[ elmId ].highlight || null );
 				delete self._highlights[ elmId ];
@@ -1515,10 +1487,9 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_saveToFavorites: function( e ) {
-			var self = this,
-				elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
+			const elmId = $( e.currentTarget ).closest( '.usb-hover' ).data( 'elmid' );
 			if ( elmId ) {
-				self.postMessage( 'favorites.saveToFavorites', elmId );
+				this.postMessage( 'favorites.saveToFavorites', elmId );
 			}
 		}
 	});
@@ -1546,31 +1517,26 @@
 		 * @param {{}} specificClasses List of specific classes that will be added if there is a value by key name
 		 */
 		_addDesignOptions: function( id, jsoncss, specificClasses ) {
-			var self = this,
-				$style;
+			const self = this;
+
+			var $style;
+
 			if ( ! $usb.builder.isValidId( id ) ) {
 				return;
 			}
 
-			jsoncss += ''; // jsoncss to string
+			jsoncss += '';
 
 			// Find element of styles for shortcode
-			_document.querySelectorAll( 'style[data-for="'+ id +'"][data-classname]' )
-				.forEach( function( style, i ) {
-					if ( i === 0 ) {
-						return $style = style;
-					}
-					// Delete all unnecessary if any
-					$usbcore.$remove( style );
-				} );
+			_document.querySelectorAll( `style[data-for="${id}"][data-classname]` ).forEach( ( style, i ) => {
+				if ( i === 0 ) {
+					return $style = style;
+				}
+				$usbcore.$remove( style );
+			} );
 
-			/**
-			 * Get animated properties in one line
-			 *
-			 * @param {Node} node
-			 * @return {String|undefinded}
-			 */
-			var getAnimateProps = function( node ) {
+			// Get animated properties in one line
+			const getAnimateProps = ( node ) => {
 				if ( ! $ush.isNode( node ) ) {
 					return;
 				}
@@ -1597,7 +1563,9 @@
 					// Generate unique class name
 					className = $ush.uniqid( customPrefix );
 				// If the element is absent then we will complete the action
-				if ( ! $ush.isNode( node ) ) return;
+				if ( ! $ush.isNode( node ) ) {
+					return;
+				}
 				$style = $( '<style data-for="'+ id +'" data-classname="'+ className +'"></style>' )[0];
 				// Add a new style element to the page
 				node.before( $style );
@@ -1608,7 +1576,7 @@
 						''
 					);
 				}
-				// Add a new class for custom styles
+
 				$usbcore.$addClass( node, className );
 			}
 
@@ -1636,6 +1604,7 @@
 					// Delayed start of CSS animation
 					self.__startAnimation( node );
 				}
+
 			} else if ( $usbcore.$hasClass( node, 'us_animate_this' ) ) {
 				$usbcore.$removeClass( node, 'us_animate_this start' );
 			}
@@ -1648,14 +1617,13 @@
 		 * Remove design styles for elements that do not exist
 		 */
 		_removeDesignForElmsNotExist: function() {
-			var self = this;
-			_document.querySelectorAll( 'style[data-for]' )
-				.forEach( function( style ) {
-					var id = $usbcore.$attr( style, 'data-for' );
-					if ( id && null === self.getElmNode( id ) ) {
-						$usbcore.$remove( style );
-					}
-				} );
+			const self = this;
+			_document.querySelectorAll( 'style[data-for]' ).forEach( ( style ) => {
+				const id = $usbcore.$attr( style, 'data-for' );
+				if ( id && self.getElmNode( id ) === null ) {
+					$usbcore.$remove( style );
+				}
+			} );
 		},
 
 		/**
@@ -1664,10 +1632,9 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		_removeDesignById: function( id ) {
-			_document.querySelectorAll( 'style[data-for="'+ id +'"]' )
-				.forEach( function( style ) {
-					$usbcore.$remove( style );
-				} );
+			_document.querySelectorAll( `style[data-for="${id}"]` ).forEach( ( style ) => {
+				$usbcore.$remove( style );
+			} );
 		},
 
 		/**
@@ -1678,26 +1645,31 @@
 		 * @return {String} Compiled css string
 		 */
 		setDesignStyles: function( className, jsoncss ) {
-			var self = this, collections = {};
+			const self = this;
+			const collections = {};
+
 			jsoncss = $ush.toPlainObject( jsoncss );
 			if ( $.isEmptyObject( jsoncss ) ) {
 				return '';
 			}
+
 			// Create a collection for different screens
-			$usb.config( 'responsiveStates', [] ).map( function( screen ) {
+			$usb.config( 'responsiveStates', [] ).map( ( screen ) => {
 				if ( !! jsoncss[ screen ] ) {
 					collections[ screen ] = self._normalizeJsoncss( jsoncss[ screen ] );
 				}
 			} );
+
 			var result = '';
+
 			// Generates result
-			for ( var screen in collections ) {
+			for ( const screen in collections ) {
 				if ( $.isEmptyObject( collections[ screen ] ) ) {
 					continue;
 				}
 				var inlineCss = '', // final inline css
 					collection = self._buildBackground( collections[ screen ] ),
-					breakpoint = $usb.config( 'designOptions.breakpoints.' + screen, /* default */'' );
+					breakpoint = $usb.config( `designOptions.breakpoints.${screen}`, '' );
 				// Collection to inline css
 				for ( var prop in collection ) {
 					var value = collection[ prop ];
@@ -1729,7 +1701,7 @@
 		 * @return {{}}
 		 */
 		_normalizeJsoncss: function( options ) {
-			var self = this;
+			const self = this;
 
 			if ( $.isEmptyObject( options ) ) {
 				return options;
@@ -1737,9 +1709,9 @@
 
 			// For background-image get an image URL by attachment ID (Preliminary check)
 			if ( !! options[ 'background-image' ] ) {
-				var url = $usb.getAttachmentUrl( options[ 'background-image' ] );
+				const url = $usb.getAttachmentUrl( options[ 'background-image' ] );
 				if ( !! url ) {
-					options[ 'background-image' ] = 'url('+ url +')';
+					options[ 'background-image' ] = `url(${url})`;
 				}
 			}
 
@@ -1767,7 +1739,7 @@
 
 				// Generate correct font-family value
 				if ( prop === 'font-family' ) {
-					var font_name = $usb.config( 'designOptions.fontVars.' + value, /* default */value );
+					var font_name = $usb.config( `designOptions.fontVars.${value}`, value );
 
 					// Add quotes, if custom font is uploaded
 					if ( value.indexOf( ' ' ) > -1 && value.indexOf( ',' ) == -1 ) {
@@ -1777,13 +1749,12 @@
 				}
 				// border-style to border-{position}-style provided that there is a width of this border
 				if ( prop === 'border-style' ) {
-					[ 'left', 'top', 'right', 'bottom' ] // list of possible positions
-						.map( function( position ) {
-							var borderWidth = options[ 'border-'+ position +'-width' ];
-							if ( ! $ush.isUndefined( borderWidth ) && borderWidth !== '' ) {
-								options[ 'border-'+ position +'-style' ] = '' + value;
-							}
-						} );
+					[ 'left', 'top', 'right', 'bottom' ].map( ( position ) => {
+						var borderWidth = options[ `border-${position}-width` ];
+						if ( ! $ush.isUndefined( borderWidth ) && borderWidth !== '' ) {
+							options[ `border-${position}-style` ] = '' + value;
+						}
+					} );
 					delete options[ prop ];
 				}
 				// Check for line space
@@ -1808,15 +1779,15 @@
 				var _boxShadow = [];
 				// Value map for `box-shadow` this map is needed to turn the list into a string,
 				// the order is also very important here!
-				[ 'h-offset', 'v-offset', 'blur', 'spread', 'color' ].map( function( key ) {
-					var value = options[ 'box-shadow-' + key ];
+				[ 'h-offset', 'v-offset', 'blur', 'spread', 'color' ].map( ( key ) => {
+					var value = options[ `box-shadow-${key}` ];
 					if ( $ush.isUndefined( value ) ) {
 						value = ( key === 'color' )
 							? 'currentColor' // the default color
 							: '0';
 					}
 					_boxShadow.push( value );
-					delete options[ 'box-shadow-' + key ];
+					delete options[ `box-shadow-${key}` ];
 				} );
 				if ( _boxShadow.length ) {
 					options[ 'box-shadow' ] = _boxShadow.join( ' ' );
@@ -1835,15 +1806,15 @@
 				var _textShadow = [];
 				// Value map for `text-shadow` this map is needed to turn the list into a string,
 				// the order is also very important here!
-				[ 'h-offset', 'v-offset', 'blur', 'color' ].map( function( key ) {
-					var value = options[ 'text-shadow-' + key ];
+				[ 'h-offset', 'v-offset', 'blur', 'color' ].map( ( key ) => {
+					var value = options[ `text-shadow-${key}` ];
 					if ( $ush.isUndefined( value ) ) {
 						value = ( key === 'color' )
 							? 'currentColor' // the default color
 							: '0';
 					}
 					_textShadow.push( value );
-					delete options[ 'text-shadow-' + key ];
+					delete options[ `text-shadow-${key}` ];
 				} );
 				if ( _textShadow.length ) {
 					options[ 'text-shadow' ] = _textShadow.join( ' ' );
@@ -1862,7 +1833,7 @@
 		 * @return {{}} Returns a collection of properties.
 		 */
 		_buildBackground: function( collection ) {
-			var self = this;
+			const self = this;
 			collection = $ush.toPlainObject( collection );
 			// Note: do not change the order!
 			var names = [ 'color', 'image', 'repeat', 'attachment', 'position', 'size' ],
@@ -1911,10 +1882,10 @@
 		 * @param {{}} specificClasses List of specific classes that will be added if there is a value by key name
 		 */
 		_toggleDesignSpecificClasses: function( id, jsoncss, specificClasses ) {
-			var self = this,
-				toggleClasses = {};
+			const self = this;
+
 			if ( ! $.isPlainObject( specificClasses ) ) {
-				return toggleClasses;
+				return {};
 			}
 
 			var node = self.getElmNode( id );
@@ -1928,8 +1899,8 @@
 				jsoncss = unescape( '' + jsoncss ) || '{}';
 			}
 
-			for ( var prop in specificClasses ) {
-				var state = ( jsoncss.indexOf( '"'+ prop +'"' ) > -1 );
+			for ( const prop in specificClasses ) {
+				const state = ( jsoncss.indexOf( '"'+ prop +'"' ) > -1 );
 				$usbcore.$toggleClass( node, specificClasses[ prop ], state );
 			}
 		},
@@ -1950,7 +1921,7 @@
 		 * @return {String} Returns the mouse positions on the virtual border
 		 */
 		_getBorderContainerToCursor: function( target, clientX, clientY, borderAround ) {
-			var self = this;
+			const self = this;
 			if (
 				! $ush.isNode( target )
 				|| target === self.elmMainContainer
@@ -1973,7 +1944,7 @@
 
 			// If the value is not a number, then set the default value
 			if ( typeof borderAround !== 'number' ) {
-				borderAround = 5; // default border around
+				borderAround = 5;
 			}
 
 			// Top border
@@ -2099,12 +2070,14 @@
 		 * @return {*} Returns the node or `null` on failure
 		 */
 		_getNearestNode: function( node, asContainer ) {
-			var self = this,
-				args = arguments,
-				foundId;
+			const self = this;
+			const args = arguments;
+
 			if ( ! $ush.isNode( node ) ) {
 				return null;
 			}
+
+			var foundId;
 
 			// Finds the first ID in the node tree
 			while ( ! ( foundId = $usbcore.$attr( node, 'data-usbid' ) ) ) {
@@ -2122,20 +2095,16 @@
 				$usb.log( 'Error: The asContainer value is invalid:', args );
 				return null;
 			}
-			/**
-			 * Get the id of the element that matches the filters
-			 *
-			 * @param {String} currentId id of the currently found element.
-			 * @return {*} If successful, returns the desired id by filter, otherwise null
-			 */
-			var _filter = function( currentId ) {
-				var args = arguments,
-					parentId = $usb.builder.getElmParentId( currentId );
+
+			// Get the id of the element that matches the filters
+			const _filter = function( currentId ) {
+				const args = arguments;
+				const parentId = $usb.builder.getElmParentId( currentId );
 				if ( ! parentId ) {
 					return null;
 				}
-				var recursionLevel = $ush.parseInt( args[ /* current recursion level */1 ] );
-				if ( recursionLevel >= /* max number of levels when recursin */20 ) {
+				var recursionLevel = $ush.parseInt( args[1] );
+				if ( recursionLevel >= 20 ) {
 					$usb.log( 'Notice: Exceeded number of levels in recursion:', args );
 					return null;
 				}
@@ -2153,8 +2122,7 @@
 				return _filter( parentId, recursionLevel++ );
 			};
 
-			var foundId = _filter( foundId ) || $usb.builder.mainContainer;
-			return self.getElmNode( foundId );
+			return self.getElmNode( _filter( foundId ) || $usb.builder.mainContainer );
 		},
 
 		/**
@@ -2214,11 +2182,13 @@
 		 * @return {null|Node|[Node...]}
 		 */
 		getElmNode: function( id ) {
+			const self = this;
+
 			if ( ! id ) {
 				return;
 			}
-			var self = this,
-				ids = id;
+
+			var ids = id;
 
 			// The convert to a single type to data
 			if ( ! Array.isArray( ids ) ) {
@@ -2226,28 +2196,25 @@
 			}
 
 			// Check if the ID's is correct
-			ids = ids.filter( function( id ) {
-				// We will leave everyth that passes the validation, and delete the rest
+			ids = ids.filter( ( id ) => {
 				return $usb.builder.isValidId( id ) || $usb.builder.isMainContainer( id );
 			} );
 
 			// Convert ID's to selectors
-			ids = ids.map( function( id ) {
-				return '[data-usbid="'+ id +'"]';
+			ids = ids.map( ( id ) => {
+				return `[data-usbid="${id}"]`;
 			} );
 
 			// The get one node
 			if ( $.type( id ) === 'string' && ids.length === 1 ) {
-				return _document.querySelector( ids[ 0 ] );
+				return _document.querySelector( ids[0] );
 
 			}
 			// The get an array of nodes
 			if ( Array.isArray( id ) && ids.length ) {
-				var nodes =_document.querySelectorAll( ids.join( ',' ) );
-				return $ush.toArray( nodes );
+				return $ush.toArray( _document.querySelectorAll( ids.join( ',' ) ) );
 			}
 
-			// If there is noth, return `null`
 			return null;
 		},
 
@@ -2258,9 +2225,9 @@
 		 * @return {String}
 		 */
 		getElmOuterHtml: function( id ) {
-			var node = this.getElmNode( id );
+			const node = this.getElmNode( id );
 			if ( $ush.isNode( node ) ) {
-				return ( ( _document.querySelector( 'style[data-for="'+ id +'"]' ) || {} ).outerHTML || '' ) + node.outerHTML;
+				return ( ( _document.querySelector( `style[data-for="${id}"]` ) || {} ).outerHTML || '' ) + node.outerHTML;
 			}
 			return '';
 		},
@@ -2272,8 +2239,7 @@
 		 * @return {Boolean} True if the specified identifier is hidden tab, False otherwise.
 		 */
 		tabIsHidden: function( id ) {
-			var self = this;
-			return $usb.builder.isElmSection( id ) && ! $( '.w-tabs-section-content:first', self.getElmNode( id ) ).is( ':visible' );
+			return $usb.builder.isElmSection( id ) && ! $( '.w-tabs-section-content:first', this.getElmNode( id ) ).is( ':visible' );
 		},
 
 		/**
@@ -2282,10 +2248,9 @@
 		 * @param {String} id The id e.g. "vc_tta_section:1"
 		 */
 		openSectionById: function( id ) {
-			var self = this;
+			const self = this;
 			if ( self.tabIsHidden( id ) ) {
-				$( '.w-tabs-section-header:first', self.getElmNode( id ) )
-					.trigger( 'click' ); // the open accordion or tab
+				$( '.w-tabs-section-header:first', self.getElmNode( id ) ).trigger( 'click' );
 			}
 		},
 
@@ -2295,7 +2260,7 @@
 		 * @param {String} id The id e.g. "vc_row:1"
 		 */
 		scrollToOutsideElm: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! $usb.builder.isValidId( id ) ) {
 				return;
 			}
@@ -2305,7 +2270,7 @@
 				return;
 			}
 			// If the element is not outside the view, then exit
-			var rect = $ush.$rect( node );
+			const rect = $ush.$rect( node );
 			if (
 				! ( rect.top < 0 || rect.bottom > ( _window.innerHeight || rect.height ) )
 			) {
@@ -2348,8 +2313,7 @@
 			 * @event handler
 			 */
 			changeSwitchPanel: function() {
-				var self = this;
-				self.$body.toggleClass( 'usb_preview', $usb.panel.isShow() );
+				this.$body.toggleClass( 'usb_preview', $usb.panel.isShow() );
 			},
 
 			/**
@@ -2362,7 +2326,7 @@
 			 * @param {String} newTargetId [optional]
 			 */
 			showPreloader: function( targetId, position, isContainer, newTargetId ) {
-				var self = this;
+				const self = this;
 
 				// The replace element
 				if ( $ush.isUndefined( position ) ) {
@@ -2383,7 +2347,6 @@
 					// If a container is added to the tucked place, then we add a class to be able to customize the display
 					.toggleClass( 'usb-loading-container', !! isContainer );
 
-				// Adds preloader to active list
 				self.activePreloaders[ newTargetId || targetId ] = $preloader.get(0);
 
 				self.trigger( 'insertElm', [ targetId, position, $preloader ] );
@@ -2396,10 +2359,9 @@
 			 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 			 */
 			hidePreloader: function( id ) {
-				var self = this;
+				const self = this;
 				if ( !! id && self.activePreloaders[ id ] ) {
-					$usbcore
-						.$remove( self.activePreloaders[ id ] );
+					$usbcore.$remove( self.activePreloaders[ id ] );
 					delete self.activePreloaders[ id ];
 				}
 			},
@@ -2411,21 +2373,21 @@
 			 * @param {String|[]} id The element that is being removed, e.g. "us_btn:1"
 			 */
 			removeHtmlById: function ( removeId ) {
-				var self = this;
+				const self = this;
+
 				if ( ! removeId ) {
 					return;
 				}
 				if ( ! Array.isArray( removeId ) ) {
 					removeId = [ removeId ];
 				}
-				// Get all nodes to remove
-				var nodes = self.getElmNode( removeId ) || [];
+
+				const nodes = self.getElmNode( removeId ) || [];
 				if ( ! nodes.length ) {
 					return;
 				}
 
-				// Remove all nodes
-				nodes.map( function( node ) {
+				nodes.map( ( node ) => {
 					if ( ! $ush.isNode( node ) ) {
 						return;
 					}
@@ -2462,19 +2424,22 @@
 			 * @param {Boolean} scrollIntoView If the True are set, then after add the scroll to the new node
 			 */
 			insertElm: function( parent, position, html, scrollIntoView ) {
-				var self = this,
-					// Definition based on `usbid` and position
-					$parentElm = ! $ush.isNode( parent )
-						? self._getTargetElm( parent, position )
-						: $( parent ); // if explicitly passed node to `parent`
+				const self = this;
+
+				// Definition based on `usbid` and position
+				var $parentElm = ! $ush.isNode( parent )
+					? self._getTargetElm( parent, position )
+					: $( parent );
+
 				// TODO: This code is often called when move or add a new item, so you need to implement in VanillaJS
 				if ( $parentElm instanceof $ ) {
 					var $html = $( html );
+
 					$( '.us_animate_this:not(.start)', $html ).addClass( 'start' );
 					$parentElm[ position ]( $html );
 
 					// Init its JS if needed
-					$( '[data-usbid]', $html ).each( function( _, node ) {
+					$( '[data-usbid]', $html ).each( ( _, node ) => {
 						self.trigger( 'maybeInitElmJS', [ $usbcore.$attr( node, 'data-usbid' ) ] );
 					} );
 
@@ -2483,9 +2448,9 @@
 
 					// Scrolls the current container of the parent of the element so that the new element is visible to the user
 					if ( scrollIntoView ) {
-						var $firstNode = $( '*:first:not(style)', $html );
+						const $firstNode = $( '*:first:not(style)', $html );
 						if ( $firstNode.length ) {
-							$ush.timeout( function() {
+							$ush.timeout( () => {
 								$firstNode[0].scrollIntoView();
 							}, 100 );
 						}
@@ -2502,14 +2467,14 @@
 			 * @param {String} elmId Shortcode's usbid, e.g. "us_btn:1"
 			 */
 			moveElm: function( parent, position, elmId ) {
-				var self = this,
-					$parentElm = self._getTargetElm( parent, position ),
+				const self = this;
+				var $parentElm = self._getTargetElm( parent, position ),
 					$elm = $( self.getElmNode( elmId ) );
 				if ( $parentElm instanceof $ && $elm.length ) {
 					$parentElm[ position ]( $elm );
 					// Since we always have custom styles after the elements, when we
 					// move the element, we will move the styles if any
-					var $style = $( 'style[data-for="' + elmId + '"]:first', self.$body );
+					var $style = $( `style[data-for="${elmId}"]:first`, self.$body );
 					if ( $style.length ) {
 						$elm.before( $style );
 					}
@@ -2535,11 +2500,13 @@
 			 * 				   if necessary, the styles in a separate tag after the element
 			 */
 			updateSelectedElm: function( id, html ) {
+				const self = this;
+
 				if ( ! id ) {
 					return;
 				}
-				var self = this,
-					node = self.getElmNode( id );
+
+				const node = self.getElmNode( id );
 				if ( ! $ush.isNode( node ) ) {
 					return;
 				}
@@ -2554,7 +2521,6 @@
 				// Init its JS if needed
 				self.trigger( 'maybeInitElmJS', [ id ] );
 
-				// Update highlight for the element
 				self.__setHighlightsPosition();
 			},
 
@@ -2564,16 +2530,15 @@
 			 * @param {String} css The css
 			 */
 			updatePageCustomCss: function( css ) {
-				var self = this,
-					// Meta key for post custom css
-					keyCustomCss = $usb.config( 'settings.keyCustomCss', /* default */'usb_post_custom_css' );
+				const self = this;
+				const keyCustomCss = $usb.config( 'settings.keyCustomCss', 'usb_post_custom_css' );
 
 				// Note: Since this is outputed inside the WPBakery Page Builder, we can correct it here
-				var $style = $( 'style[data-type="'+ keyCustomCss +'"]', self.$document );
+				const $style = $( `style[data-type="${keyCustomCss}"]`, self.$document );
+
 				if ( ! $style.length ) {
-					$style = $( '<style data-type="'+ keyCustomCss +'">' );
-					$( 'head', self.$document )
-						.append( $style );
+					$style = $( `<style data-type="${keyCustomCss}">` );
+					$( 'head', self.$document ).append( $style );
 				}
 				$style.text( css || '' );
 			},
@@ -2587,7 +2552,7 @@
 			 * @param {String} method Method to be used
 			 */
 			updateElmContent: function( selector, content, method ) {
-				if ( $usbcore.indexOf( method, ['text', 'html'] ) < 0 ) {
+				if ( ! [ 'text', 'html' ].includes( method ) ) {
 					method = 'text';
 				}
 				$( selector, this.$document )[ method ]( '' + content );
@@ -2599,18 +2564,18 @@
 			 * @param {String} targetId Shortcode's usbid, e.g. "vc_row:1"
 			 */
 			maybeInitElmJS: function( targetId ) {
-				var self = this,
-					initMethods = $.isPlainObject( _window.usGlobalData.elmsInitJSMethods )
-						? _window.usGlobalData.elmsInitJSMethods
-						: {},
-					elmType = $usb.builder.getElmType( targetId );
+				const self = this;
+				const initMethods = $.isPlainObject( _window.usGlobalData.elmsInitJSMethods )
+					? _window.usGlobalData.elmsInitJSMethods
+					: {};
+				const elmType = $usb.builder.getElmType( targetId );
 				if (
 					! $ush.isUndefined( initMethods[ elmType ] )
 					&& typeof initMethods[ elmType ] === 'function'
 				) {
 					var $node = $( self.getElmNode( targetId ) );
 				 	// If an element has a common wrapper, then we get the element node, not the wrapper
-					if ( $node.length && $usbcore.indexOf( elmType, $usb.config( 'shortcode.with_wrappers', /* default */[] ) ) > -1 ) {
+					if ( $node.length && $usbcore.indexOf( elmType, $usb.config( 'shortcode.with_wrappers', [] ) ) > -1 ) {
 						$node = $( ':first-child', $node );
 					}
 					initMethods[ elmType ]( $node );
@@ -2662,7 +2627,7 @@
 			onPreviewParamChange: function( targetId, instructions, value, fieldType, isResponsiveValue ) {
 				const self = this;
 
-				let $target = $( self.getElmNode( targetId ) );
+				var $target = $( self.getElmNode( targetId ) );
 				if ( ! $target.length ) {
 					return;
 				}
@@ -2682,7 +2647,7 @@
 				for ( const i in instructions ) {
 					const instruction = instructions[ i ];
 
-					let $node = $target;
+					var $node = $target;
 					if ( ! $ush.isUndefined( instruction[ 'elm' ] ) ) {
 						$node = $target.find( instruction[ 'elm' ] );
 
@@ -2763,9 +2728,9 @@
 								break;
 							case 'tag':
 								$node.replaceWith( function() {
-									let that = this,
+									var that = this,
 										$tag = $( '<' + value + '>' ).html( $( that ).html() );
-									for ( let i = that.attributes.length - 1; i >= 0; -- i ) {
+									for ( var i = that.attributes.length - 1; i >= 0; -- i ) {
 										const item = that.attributes[ i ];
 										$tag.attr( item.name, item.value );
 									}
@@ -2889,7 +2854,7 @@
 				$( columns.map( ( usbid ) => { return `[data-usbid="${usbid}"]` } ).join(','), self.$body )
 					.each( ( i, column ) => {
 						// Get width depend on mesh type Grid/Flex
-						let width = '' + $usb.builder.getElmValue( columns[i], 'width' );
+						var width = '' + $usb.builder.getElmValue( columns[i], 'width' );
 						if ( /(\d+)\/(\d+)/.test( width ) ) {
 							const isGridColumnsLayout = $usb.config( 'isGridColumnsLayout', /* default */false );
 							if ( ! isGridColumnsLayout && width.indexOf( '/5') != -1 ) { // specific to classes 1/5, 2/5, N/5
@@ -2902,8 +2867,8 @@
 						if ( ! width ) {
 							return;
 						}
-						for ( let i = 3; i > -1; i-- ) {
-							let prefix = [ 'xs', 'sm', 'md', 'lg' ][ i ],
+						for ( var i = 3; i > -1; i-- ) {
+							var prefix = [ 'xs', 'sm', 'md', 'lg' ][ i ],
 								matches = ( new RegExp( '(vc_col)-('+ prefix +')-[0-9\\/]+' ) ).exec( column.className );
 							if ( ! matches ) {
 								continue;
@@ -2917,8 +2882,6 @@
 	} );
 
 	// Get nodes after the document is ready
-	$( () => {
-		_window.$usbp = new USBPreview;
-	} );
+	$( () => _window.$usbp = new USBPreview );
 
 }( jQuery );

@@ -440,12 +440,26 @@ if ( ! function_exists( 'us_is_elm_editing_page' ) ) {
 		global $pagenow;
 		if (
 			in_array( $pagenow, array( 'post.php', 'post-new.php' ) )
-			OR wp_doing_ajax()
+			OR us_doing_ajax_in_admin() // required for correct work in WPBakery
 			OR usb_is_builder_page()
 		) {
 			return TRUE;
 		}
 		return FALSE;
+	}
+}
+
+if ( ! function_exists( 'us_doing_ajax_in_admin' ) ) {
+	function us_doing_ajax_in_admin() {
+		global $us_ajax_list_pagination;
+		if ( $us_ajax_list_pagination ) {
+			return FALSE;
+		}
+		return (
+			wp_doing_ajax()
+			AND $referrer = wp_get_referer()
+			AND strpos( $referrer, admin_url() ) !== FALSE
+		);
 	}
 }
 
@@ -2069,159 +2083,7 @@ if ( ! function_exists( 'us_get_custom_field' ) ) {
 			$value = get_metadata_raw( $current_meta_type, $current_id, $name, /* single */TRUE );
 		}
 
-		return $acf_format
-			? apply_filters( 'us_get_custom_field', $value, $name, $current_id, $current_meta_type )
-			: $value;
-	}
-}
-
-if ( ! function_exists( 'us_get_post_content' ) ) {
-	/**
-	 * Get post content including nested template blocks
-	 *
-	 * @param int|WP_Post $post The post ID or post object
-	 * @param bool $get_nested_blocks Recursively get nested template blocks content
-	 * @param int $current_level Current nested recursion call level (private variable)
-	 * @return string|null Returns the content of the entire post if successful, otherwise null
-	 */
-	function us_get_post_content( $post, $get_nested_blocks = TRUE, $current_level = 1 ) {
-
-		// Check if the current recursion level exceeds the limit
-		if ( $current_level > /* limit */15 ) {
-			return '';
-		}
-
-		// Get post ID
-		$post_ID = $post;
-		if ( $post instanceof WP_Post ) {
-			$post_ID = $post->ID;
-		}
-		if ( ! is_numeric( $post_ID ) ) {
-			return '';
-		}
-
-		// Get post object
-		if ( is_numeric( $post ) ) {
-			$post = get_post( $post );
-		}
-		if ( ! ( $post instanceof WP_Post ) ) {
-			return '';
-		}
-
-		$post_content = $post->post_content;
-
-		// Recursively check for template blocks present and get their content
-		if ( $get_nested_blocks AND ! empty( $post_content ) ) {
-			/**
-			 * Get shortcode content
-			 *
-			 * @param array $matches The matches
-			 * @return string Return post content
-			 */
-			$func_get_shortcode_content = function( $matches ) use ( $current_level ) {
-				$tagname = $matches[/* tagname */2];
-				$atts = $matches[/* shortcode atts */3];
-
-				// Get current post id for 'full_content'
-				$current_id = 0;
-				if ( $tagname == 'us_post_content' AND strpos( $atts, 'type="full_content"' ) !== FALSE ) {
-					$current_id = us_get_current_id(); // Note: The function is context sensitive
-
-					// Get reusable block id
-				} elseif ( $tagname == 'us_page_block' ) {
-					$atts = shortcode_parse_atts( $atts );
-					$current_id = (int) us_arr_path( $atts, 'id', /* default */0 );
-				}
-
-				// Get post content by id
-				if ( $current_id > 0 ) {
-					return us_get_post_content( $current_id, /* get_nested_blocks */TRUE, ++$current_level );
-				}
-
-				return '';
-			};
-
-			// Get content for given tagnames
-			$pattern = get_shortcode_regex( array( 'us_post_content', 'us_page_block' ) );
-			$post_content = preg_replace_callback( '/' . $pattern . '/', $func_get_shortcode_content, $post_content );
-		}
-
-		return $post_content;
-	}
-}
-
-if ( ! function_exists( 'us_get_page_content' ) ) {
-	/**
-	 * Get page content
-	 *
-	 * @param array|int $page_args Array with arguments describing site page or page id
-	 * @return string Returns the content of the entire page if successful, otherwise an empty string
-	 */
-	function us_get_page_content( $page_args = array() ) {
-
-		// If the arguments are a number, then post_id is passed
-		if ( is_numeric( $page_args ) ) {
-			$page_args = array( 'post_ID' => (int) $page_args );
-		}
-		$page_content = '';
-
-		// Note: The sequence of obtaining `$area` is important in this order titlebar, content, sidebar, footer
-		foreach( array( 'titlebar', 'content', 'sidebar', 'footer' ) as $area ) {
-
-			// Get value of specified area ID for current / given page
-			$area_id = us_get_page_area_id( $area, $page_args );
-
-			// Check the presence of the post in the database
-			if ( ( $post_type = get_post_type( $area_id ) ) === FALSE ) {
-				$area_id = '';
-			}
-
-			// If `titlebar` or `sidebar` are not `us_page_block` then skip get content for them
-			if (
-				in_array( $area, array( 'titlebar', 'sidebar' ) )
-				AND $post_type !== 'us_page_block'
-			) {
-				continue;
-			}
-
-			/**
-			 * Note: For archives from `content` where 'show results via grid elements with
-			 * defaults' is indicated, skip this for now and return an empty result
-			 */
-			if ( $area == 'content' AND empty( $area_id ) ) {
-
-				// Get public taxonomies EXCEPT Products
-				$public_taxonomies = array_keys( us_get_taxonomies( TRUE, FALSE, 'woocommerce_exclude' ) );
-
-				// Get Products taxonomies ONLY
-				$product_taxonomies = array_keys( us_get_taxonomies( TRUE, FALSE, 'woocommerce_only' ) );
-
-				// Archive
-				if (
-					us_arr_path( $page_args, 'page_type' ) == 'archive'
-					OR is_archive()
-					OR is_tax( $public_taxonomies )
-					OR (
-						! empty( $product_taxonomies )
-						AND is_tax( $product_taxonomies )
-					)
-				) {
-					continue;
-				}
-
-				// If the arguments contain `post_ID` and no page template, get the content by post_id
-				if ( $post_id = us_arr_path( $page_args, 'post_ID' ) ) {
-					$area_id = (int) $post_id;
-				}
-			}
-
-			// Add the received content to the general output
-			if ( $post_content = us_get_post_content( $area_id ) ) {
-				$page_content .= shortcode_unautop( $post_content );
-			}
-		}
-
-		return shortcode_unautop( $page_content );
+		return apply_filters( 'us_get_custom_field', $value, $name, $current_id, $current_meta_type, $acf_format );
 	}
 }
 
@@ -2262,8 +2124,6 @@ if ( ! function_exists( 'us_get_current_page_block_content' ) ) {
 				'nopaging' => TRUE,
 				'post__in' => $page_block_ids,
 				'post_type' => array( 'us_page_block', 'us_content_template' ),
-				'update_post_meta_cache' => FALSE,
-				'update_post_term_cache' => FALSE,
 			);
 			foreach ( get_posts( $query_args ) as $post ) {
 				if ( ! empty( $post->post_content ) ) {
@@ -2911,7 +2771,6 @@ if ( ! function_exists( 'us_sanitize_font_family' ) ) {
 if ( ! function_exists( 'us_output_design_css' ) ) {
 	/**
 	 * Prepares all custom styles for page output
-	 * TODO: Implement get styles based on `us_get_page_content()`
 	 *
 	 * @return string
 	 */
@@ -2984,7 +2843,14 @@ if ( ! function_exists( 'us_output_design_css' ) ) {
 							if ( $menu === FALSE ) {
 								continue;
 							}
-							$menu_items = wp_get_nav_menu_items( $menu->term_id, array( 'update_post_term_cache' => FALSE ) );
+							$menu_items = wp_get_nav_menu_items(
+								$menu->term_id,
+								array(
+									'update_menu_item_cache' => FALSE,
+									'update_post_meta_cache' => FALSE,
+									'update_post_term_cache' => FALSE,
+								)
+							);
 							foreach ( $menu_items as $menu_item ) {
 								if ( $menu_item->object === 'us_page_block' ) {
 									$posts[] = get_post( (int) $menu_item->object_id );
@@ -3051,8 +2917,6 @@ if ( ! function_exists( 'us_output_design_css' ) ) {
 				array(
 					'include' => array_map( 'intval', $include_ids ),
 					'post_type' => array_keys( get_post_types() ),
-					'update_post_meta_cache' => FALSE,
-					'update_post_term_cache' => FALSE,
 				)
 			);
 			$posts = array_merge( $include_posts, $posts );
@@ -3077,8 +2941,6 @@ if ( ! function_exists( 'us_output_design_css' ) ) {
 				$query_args = array(
 					'include' => $matches[1], // match ids
 					'post_type' => array_keys( get_post_types() ),
-					'update_post_meta_cache' => FALSE,
-					'update_post_term_cache' => FALSE,
 				);
 				foreach ( get_posts( $query_args ) as $page_block ) {
 					if ( in_array( $page_block->ID, $walked_post_ids ) ) {
@@ -3156,8 +3018,6 @@ if ( ! function_exists( 'us_output_design_css' ) ) {
 			$args = array(
 				'include' => array_unique( $use_page_block_ids ),
 				'post_type' => array_keys( get_post_types() ),
-				'update_post_meta_cache' => FALSE,
-				'update_post_term_cache' => FALSE,
 			);
 			foreach ( get_posts( $args ) as $post ) {
 				$func_acc_posts( $post );
@@ -4043,7 +3903,7 @@ if ( ! function_exists( 'us_replace_dynamic_value' ) ) {
 			}, $string );
 		}
 
-		return $string;
+		return apply_filters( 'us_replace_dynamic_value', $string );
 	}
 }
 
@@ -4681,12 +4541,14 @@ if ( ! function_exists( 'us_conditions_are_met' ) ) {
 
 				// Get the custom field value of the current user
 				if ( $condition_param == 'user_custom_field' ) {
+
 					// Determine if current user selected or current post author
 					$meta_value = ( us_arr_path( $condition, 'user_source' ) == 'current_post_author' ) ? get_the_author_meta( $meta_key ) : get_user_option( $meta_key );
 
 					// Get the custom field value of the current post/term object
 				} else {
-					$meta_value = us_get_custom_field( $meta_key );
+					$acf_format = apply_filters( 'us_conditions_custom_field_acf_format', TRUE, $meta_key, $current_id );
+					$meta_value = us_get_custom_field( $meta_key, $acf_format );
 				}
 
 				// Transform array, object, null variables into strings

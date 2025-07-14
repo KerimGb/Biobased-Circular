@@ -73,7 +73,7 @@ $_button_html .= '</button>';
 	?>
 
 	<div id="payment" class="woocommerce-checkout-payment">
-		<?php if ( WC()->cart->needs_payment() ) : ?>
+		<?php if ( WC()->cart AND WC()->cart->needs_payment() ) : ?>
 			<ul class="wc_payment_methods payment_methods methods">
 				<?php
 				if ( ! empty( $available_gateways ) ) {

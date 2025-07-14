@@ -1,8 +1,6 @@
 
-// Private variables that are used only in the context of this function, it is necessary to optimize the code.
 const _window = window;
 const _document = document;
-const _undefined = undefined;
 
 _window.$ush = _window.$ush || {};
 _window.$usof = _window.$usof || {};
@@ -45,8 +43,11 @@ jQuery.fn.usMod = function( mod, value ) {
 	}
 };
 
-// Fields
-! function( $ ) {
+// USOF Core
+! function( $, _undefined ) {
+	"use strict";
+
+	$usof.ajaxUrl = $( '.usof-container' ).data( 'ajaxurl' ) || /* wp variable */ ajaxurl;
 
 	if ( $ush.isUndefined( $usof.mixins ) ) {
 		$usof.mixins = {};
@@ -62,11 +63,11 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Function} handler A function to execute each time the event is triggered
 		 */
 		on: function( eventType, handler ) {
-			var self = this;
+			const self = this;
 			if ( $ush.isUndefined( self.$$events ) ) {
 				self.$$events = {};
 			}
-			( eventType + '' ).split( /\p{Zs}/u ).map( function( _eventType ) {
+			( eventType + '' ).split( /\p{Zs}/u ).map( ( _eventType ) => {
 				if ( $ush.isUndefined( self.$$events[ _eventType ] ) ) {
 					self.$$events[ _eventType ] = [];
 				}
@@ -87,7 +88,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @chainable
 		 */
 		off: function( eventType, handler ) {
-			var self = this;
+			const self = this;
 			if (
 				$ush.isUndefined( self.$$events )
 				|| $ush.isUndefined( self.$$events[ eventType ] )
@@ -110,8 +111,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Boolean}
 		 */
 		has: function( eventType ) {
-			var self = this;
-			return ! $ush.isUndefined( self.$$events[ eventType ] ) && self.$$events[ eventType ].length;
+			return ! $ush.isUndefined( this.$$events[ eventType ] ) && this.$$events[ eventType ].length > 0;
 		},
 
 		/**
@@ -122,7 +122,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @chainable
 		 */
 		trigger: function( eventType, extraParameters ) {
-			var self = this;
+			const self = this;
 			if (
 				$ush.isUndefined( self.$$events )
 				|| $ush.isUndefined( self.$$events[ eventType ] )
@@ -130,8 +130,8 @@ jQuery.fn.usMod = function( mod, value ) {
 			) {
 				return self;
 			}
-			var args = arguments,
-				params = ( args.length > 2 || ! Array.isArray( extraParameters ) )
+			const args = arguments;
+			const params = ( args.length > 2 || ! Array.isArray( extraParameters ) )
 				? Array.prototype.slice.call( args, 1 )
 				: extraParameters;
 			// First argument is the current class instance
@@ -140,6 +140,464 @@ jQuery.fn.usMod = function( mod, value ) {
 				self.$$events[ eventType ][ i ].apply( self.$$events[ eventType ][ i ], params );
 			}
 			return self;
+		}
+	};
+
+	// TODO: Need to refactor and get rid of dependencies, the object must provide an API!
+	$usof.mixins.Fieldset = {
+		/**
+		 * Initialize fields inside of a container
+		 *
+		 * @param {jQuery} $container
+		 */
+		initFields: function( $container ) {
+			const self = this;
+
+			// Check variables
+			[ '$fields', 'fields', 'groups', 'showIf', 'showIfDeps' ].map( ( prop ) => {
+				if ( ! $.isPlainObject( self[ prop ] ) ) {
+					self[ prop ] = {};
+				}
+			} );
+
+			$( '.usof-form-row, .usof-form-wrapper, .usof-form-group', $container ).each( ( _, node ) => {
+				var $field = $( node ),
+					name = $field.data( 'name' ),
+					isRow = $field.hasClass( 'usof-form-row' ),
+					isGroup = $field.hasClass( 'usof-form-group' ),
+					isInGroup = $field.parents( '.usof-form-group' ).length,
+					$showIf = $field.find(
+						( isRow || isGroup )
+							? '> .usof-form-row-showif'
+							: '> .usof-form-wrapper-content > .usof-form-wrapper-showif'
+					);
+
+				// If the element is in the prototype, then we will ignore the init
+				if ( $field.closest( '.usof-form-group-prototype' ).length ) {
+					return;
+				}
+
+				// Exclude fields for `design_options` as they have their own group
+				if (
+					isRow
+					&& $field.closest( '.usof-design-options' ).length
+					&& ! $container.is( '[data-responsive-state-content]' )
+				) {
+					return;
+				}
+
+				// Fix eliminates re-initialization of fields for Live Builder, which leads to loss of events.
+				// If you comment out this line, then the Content Carousel element will not apply
+				// the settings in the preview, for example "Number of Items to Show".
+				if ( ! $ush.isUndefined( self.$fields[ name ] ) && isInGroup ) {
+					return;
+				}
+
+				self.$fields[ name ] = $field;
+				if ( $showIf.length > 0 ) {
+					self.showIf[ name ] = $showIf[0].onclick() || [];
+					// Writing dependencies
+					const showIfVars = self._getShowIfVariables( self.showIf[ name ] );
+					for ( var i = 0; i < showIfVars.length; i ++ ) {
+						if ( $ush.isUndefined( self.showIfDeps[ showIfVars[ i ] ] ) ) {
+							self.showIfDeps[ showIfVars[ i ] ] = [];
+						}
+						self.showIfDeps[ showIfVars[ i ] ].push( name );
+					}
+				}
+				if ( isRow && ( ! isInGroup || self.isGroupParams ) ) {
+					self.fields[ name ] = $field.usofField();
+					self.fields[ name ].getParent = () => {
+						return self;
+					};
+
+				} else if ( isGroup ) {
+					self.groups[ name ] = $field.usofGroup();
+				}
+			} );
+
+			for ( const fieldName in self.showIfDeps ) {
+				if (
+					! self.showIfDeps.hasOwnProperty( fieldName )
+					|| $ush.isUndefined( self.fields[ fieldName ] )
+				) {
+					continue;
+				}
+				self.fields[ fieldName ].on( 'change', ( field ) => self.updateVisibility( field.name ) );
+
+				// Update displayed fields on initialization
+				if ( !! self.isGroupParams ) {
+					self.updateVisibility( fieldName, /* isAnimated */false, self.getCurrentShown( fieldName ) );
+				}
+			}
+
+			// Get default values for fields
+			if ( $ush.isUndefined( self._defaultValues ) ) {
+				self._defaultValues = self.getValues();
+			}
+		},
+
+		/**
+		 * Show/Hide the field based on its showIf condition
+		 *
+		 * @param {String} fieldName The field name
+		 * @param {Boolean} isAnimated Indicates if animated
+		 * @param {Boolean} isCurrentShown Indicates if parent
+		 */
+		updateVisibility: function( fieldName, isAnimated, isCurrentShown ) {
+			const self = this;
+			if ( ! fieldName || ! self.showIfDeps[ fieldName ] ) {
+				return;
+			}
+
+			if ( $ush.isUndefined( isAnimated ) ) {
+				isAnimated = true;
+			}
+			if ( $ush.isUndefined( isCurrentShown ) ) {
+				isCurrentShown = true;
+			}
+
+			/**
+			 * Get the display conditions for the previous field, if it exists
+			 *
+			 * @type {Boolean|undefined}
+			 */
+			const isPrevShown = self.$fields[ fieldName ].data( 'isShown' );
+
+			self.showIfDeps[ fieldName ].map( ( depFieldName ) => {
+				var field = self.fields[ depFieldName ] || self.groups[ depFieldName ],
+					$field = self.$fields[ depFieldName ],
+					isShown = self.getCurrentShown( depFieldName ),
+					shouldBeShown = self.executeShowIf( self.showIf[ depFieldName ], self.getValue.bind( self ) );
+
+				// Check visible
+				if ( ( ! shouldBeShown && isShown ) || ! isCurrentShown ) {
+					isShown = false;
+
+				} else if ( shouldBeShown && ! isShown ) {
+					isShown = true;
+				}
+
+				if ( ! $ush.isUndefined( isPrevShown ) ) {
+					isShown = isPrevShown && isShown;
+				}
+
+				$field
+					.stop( true, false )
+					.data( 'isShown', isShown );
+
+				if ( isShown ) {
+					self.fireFieldEvent( $field, 'beforeShow' );
+					// TODO: Add css animations is enabled isAnimated
+					$field.show();
+					self.fireFieldEvent( $field, 'afterShow' );
+					if ( field instanceof $usof.field ) {
+						field.trigger( 'change', [ field.getValue() ] );
+					}
+
+				} else {
+					self.fireFieldEvent( $field, 'beforeHide' );
+					// TODO: Add css animations is enabled isAnimated
+					$field.hide();
+					self.fireFieldEvent( $field, 'afterHide' );
+					if ( field instanceof $usof.Group ) {
+						field.setValue( field.getDefaultValue() );
+					}
+				}
+
+				if ( self.showIfDeps[ depFieldName ] ) {
+					self.updateVisibility( depFieldName, isAnimated, isShown );
+				}
+			} );
+		},
+
+		/**
+		 * Get a shown state
+		 *
+		 * @param {String} fieldName The field name
+		 * @return {Boolean} True if the specified field identifier is shown, False otherwise
+		 */
+		getCurrentShown: function( fieldName ) {
+			const self = this;
+			if ( ! fieldName || ! self.$fields[ fieldName ] ) {
+				return true;
+			}
+			var $field = self.$fields[ fieldName ],
+				isShown = $field.data( 'isShow' );
+			if ( $ush.isUndefined( isShown ) ) {
+				isShown = $field.css( 'display' ) !== 'none';
+			}
+			return !! isShown;
+		},
+
+		/**
+		 * Get all field names that affect the given 'show_if' condition
+		 *
+		 * @param {[]} condition
+		 * @returns {[]}
+		 */
+		_getShowIfVariables: function( condition ) {
+			const self = this;
+			if ( ! Array.isArray( condition ) || condition.length < 3 ) {
+				return [];
+
+			} else if ( [ 'and', 'or' ].includes( condition[1].toLowerCase() ) ) {
+				// Complex or / and statement
+				var vars = self._getShowIfVariables( condition[0] ),
+					index = 2;
+				while ( ! $ush.isUndefined( condition[ index ] ) ) {
+					vars = vars.concat( self._getShowIfVariables( condition[ index ] ) );
+					index = index + 2;
+				}
+				return vars;
+
+			} else {
+				return [ condition[0] ];
+			}
+		},
+
+		/**
+		 * Execute 'show_if' condition
+		 *
+		 * @param {[]} condition
+		 * @param {Function} getValue Function to get the needed value
+		 * @returns {Boolean} Should be shown?
+		 */
+		executeShowIf: function( condition, getValue ) {
+			const self = this;
+			var result = true;
+			if ( ! Array.isArray( condition ) || condition.length < 3 ) {
+				return result;
+
+			} else if ( [ 'and', 'or' ].includes( condition[1].toLowerCase() ) ) {
+				// Complex or / and statement
+				result = self.executeShowIf( condition[0], getValue );
+				var index = 2;
+				while ( ! $ush.isUndefined( condition[ index ] ) ) {
+					condition[ index - 1 ] = condition[ index - 1 ].toLowerCase();
+					if ( condition[ index - 1 ] == 'and' ) {
+						result = ( result && self.executeShowIf( condition[ index ], getValue ) );
+
+						// TODO: Conditions are not used and do not work correctly, needs to be fixed!
+					} else if ( condition[ index - 1 ] == 'or' ) {
+						result = ( result || self.executeShowIf( condition[ index ], getValue ) );
+					}
+					index = index + 2;
+				}
+
+			} else {
+				const value = getValue( condition[0] );
+				if ( $ush.isUndefined( value ) ) {
+					return true;
+				}
+				if ( condition[1] == '=' ) {
+					if ( Array.isArray( condition[2] ) ) {
+						result = condition[2].includes( value );
+					} else {
+						result = ( value == condition[2] );
+					}
+
+				} else if ( condition[1] == '!=' ) {
+					if ( Array.isArray( condition[2] ) ) {
+						result = ! condition[2].includes( value );
+					} else {
+						result = ( value != condition[2] );
+					}
+
+				} else if ( condition[1] == '<=' ) {
+					result = ( value <= condition[2] );
+				} else if ( condition[1] == '<' ) {
+					result = ( value < condition[2] );
+				} else if ( condition[1] == '>' ) {
+					result = ( value > condition[2] );
+				} else if ( condition[1] == '>=' ) {
+					result = ( value >= condition[ 2 ] );
+				} else if ( condition[1] == 'str_contains' ) {
+					result = ( '' + value ).indexOf( '' + condition[2] ) > -1;
+				} else {
+					result = true;
+				}
+			}
+			return result;
+		},
+
+		/**
+		 * Find all the fields within $container and fire a certain event there
+		 *
+		 * @param {jQuery} $container
+		 * @param {String} trigger
+		 */
+		fireFieldEvent: function( $container, trigger ) {
+			if ( ! $container.hasClass( 'usof-form-row' ) ) {
+				$( '.usof-form-row', $container ).each( ( _, row ) => {
+					var $row = $( row ),
+						isShown = $row.data( 'isShown' );
+					if ( $ush.isUndefined( isShown ) ) {
+						isShown = $row.css( 'display' ) != 'none';
+					}
+					// The block is not actually shown or hidden in this case
+					// Note: Fields with `class="hidden"` will not be initialized!
+					if ( ! isShown && [ 'beforeShow', 'afterShow', 'beforeHide', 'afterHide' ].includes( trigger ) ) {
+						return;
+					}
+					if ( $ush.isUndefined( $row.data( 'usofField' ) ) ) {
+						return;
+					}
+					$row.data( 'usofField' ).trigger( trigger );
+				} );
+
+			} else if ( $container.data( 'usofField' ) instanceof $usof.field ) {
+				$container.data( 'usofField' ).trigger( trigger );
+			}
+		},
+
+		/**
+		 * Get the value
+		 *
+		 * @param {String} id The id
+		 * @return {*} The value
+		 */
+		getValue: function( id ) {
+			const self = this;
+			if ( $ush.isUndefined( self.fields[ id ] ) ) {
+				return _undefined;
+			}
+			return self.fields[ id ].getValue();
+		},
+
+		/**
+		 * Set some particular field value
+		 *
+		 * @param {String} id
+		 * @param {String} value
+		 * @param {Boolean} quiet Don't fire onchange events
+		 */
+		setValue: function( id, value, quiet ) {
+			const self = this;
+			if ( $ush.isUndefined( self.fields[ id ] ) ) {
+				return;
+			}
+			const shouldFireShow = ! self.fields[ id ].inited;
+			if ( shouldFireShow ) {
+				self.fields[ id ].trigger( 'beforeShow' );
+				self.fields[ id ].trigger( 'afterShow' );
+			}
+			self.fields[ id ].setValue( value, quiet );
+			if ( shouldFireShow ) {
+				self.fields[ id ].trigger( 'beforeHide' );
+				self.fields[ id ].trigger( 'afterHide' );
+			}
+		},
+
+		/**
+		 * Get the values
+		 *
+		 * @return {*} The values
+		 */
+		getValues: function() {
+			const self = this;
+			const values = {};
+
+			// Regular values
+			for ( const fieldId in self.fields ) {
+				if ( ! self.fields.hasOwnProperty( fieldId ) ) {
+					continue;
+				}
+				values[ fieldId ] = self.getValue( fieldId );
+			}
+
+			// Groups values
+			for ( const groupId in self.groups ) {
+				values[ groupId ] = self.groups[ groupId ].getValue();
+			}
+
+			return values;
+		},
+
+		/**
+		 * Set the values
+		 *
+		 * @param {{}} values
+		 * @param {Boolean} quiet Don't fire onchange events, just change the interface
+		 */
+		setValues: function( values, quiet ) {
+			const self = this;
+
+			// Regular values
+			for ( const fieldId in self.fields ) {
+				if ( values.hasOwnProperty( fieldId ) ) {
+					const currentValue = values[ fieldId ];
+					self.setValue( fieldId, currentValue, quiet );
+					if ( ! quiet ) {
+						self.fields[ fieldId ].trigger( 'change', [ currentValue ] );
+					}
+
+					// Set default value
+				} else if ( self._defaultValues.hasOwnProperty( fieldId ) ) {
+					self.setValue( fieldId, self._defaultValues[ fieldId ], quiet );
+				}
+			}
+
+			// Groups values
+			for ( const groupId in self.groups ) if ( ! $ush.isUndefined( values[ groupId ] ) ) {
+				self.groups[ groupId ].setValue( values[ groupId ] );
+			}
+
+			if ( quiet ) {
+				// Update fields visibility anyway
+				for ( const fieldName in self.showIfDeps ) {
+					if (
+						! self.showIfDeps.hasOwnProperty( fieldName )
+						|| $ush.isUndefined( self.fields[ fieldName ] )
+					) {
+						continue;
+					}
+					self.updateVisibility( fieldName, /* isAnimated */false );
+				}
+			}
+		},
+
+		/**
+		 * Get the current values.
+		 *
+		 * @return {{}} Returns the current value given the selected response state, if any.
+		 */
+		getCurrentValues: function() {
+			const self = this;
+			const result = {};
+			for ( const name in self.fields ) {
+				result[ name ] = self.fields[ name ].getCurrentValue();
+			}
+			for ( const name in self.groups ) {
+				result[ name ] = self.groups[ name ].getCurrentValue();
+			}
+			return result;
+		},
+
+		/**
+		 * JavaScript representation of us_prepare_icon_tag helper function + removal of wrong symbols
+		 *
+		 * @param {String} iconClass
+		 * @returns {String}
+		 */
+		prepareIconTag: function( iconValue ) {
+			iconValue = iconValue.trim().split( '|' );
+			if ( iconValue.length != 2 ) {
+				return '';
+			}
+			var iconTag = '';
+			iconValue[0] = iconValue[0].toLowerCase();
+			if ( iconValue[0] == 'material' ) {
+				iconTag = `<i class="material-icons">${iconValue[1]}</i>`;
+			} else {
+				if ( iconValue[1].substr( 0, 3 ) == 'fa-' ) {
+					iconTag = `<i class="${iconValue[0]} ${iconValue[1]}"></i>`;
+				} else {
+					iconTag = `<i class="${iconValue[0]} fa-${iconValue[1]}"></i>`;
+				}
+			}
+
+			return iconTag
 		}
 	};
 
@@ -154,7 +612,7 @@ jQuery.fn.usMod = function( mod, value ) {
 	 * @return {{}} Returns a data object on success, otherwise an empty simple object.
 	 */
 	$usof.getData = function( key ) {
-		var self = this;
+		const self = this;
 		if ( typeof key !== 'string' ) {
 			return {};
 		}
@@ -168,6 +626,12 @@ jQuery.fn.usMod = function( mod, value ) {
 		return $ush.clone( self._$$data[ key ] || {} );
 	};
 
+}( jQuery );
+
+// USOF Field
+! function( $, _undefined ) {
+	"use strict";
+
 	$usof.field = function( row, options ) {
 		const self = this;
 
@@ -176,8 +640,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		self.$row = $( row );
 		self.$responsive = $( '> .usof-form-row-responsive', self.$row );
 
-		// Get field data
-		var data = self.$row.data() || {};
+		const data = self.$row.data() || {};
 
 		// Private "Variables"
 		self.type = self.$row.usMod( 'type' );
@@ -188,7 +651,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		self.relatedOn = data.relatedOn;
 
 		// Get current input by name
-		self.$input = $( '[name="' + data.name + '"]:not(.js_hidden)', self.$row );
+		self.$input = $( `[name="${data.name}"]:not(.js_hidden)`, self.$row );
 
 		if ( self.inited ) {
 			return;
@@ -205,7 +668,7 @@ jQuery.fn.usMod = function( mod, value ) {
 
 		// Overloading selected functions, moving parent functions to "parent" namespace: init => parentInit
 		if ( ! $ush.isUndefined( $usof.field[ self.type ] ) ) {
-			for ( var fn in $usof.field[ self.type ] ) {
+			for ( const fn in $usof.field[ self.type ] ) {
 				if (
 					! $usof.field[ self.type ].hasOwnProperty( fn )
 					|| fn.substr( 0, 2 ) === '_$' // deny access via parent for private methods
@@ -213,29 +676,28 @@ jQuery.fn.usMod = function( mod, value ) {
 					continue;
 				}
 				if ( ! $ush.isUndefined( self[ fn ] ) ) {
-					var parentFn = 'parent' + fn.charAt( 0 ).toUpperCase() + fn.slice( 1 );
+					const parentFn = 'parent' + fn.charAt( 0 ).toUpperCase() + fn.slice( 1 );
 					self[ parentFn ] = self[ fn ];
 				}
 				self[ fn ] = $usof.field[ self.type ][ fn ];
 			}
 		}
 
-		// Events
-		self.$document // Forwarding events through document
-			.on( 'usb.syncResponsiveState', self._usbSyncResponsiveState.bind( self ) );
+		// Forwarding events through document
+		self.$document.on( 'usb.syncResponsiveState', self._usbSyncResponsiveState.bind( self ) );
 
 		// Save current object to row element
 		self.$row.data( 'usofField', self );
 
 		// Init on first show
-		var initEvent = function() {
+		function initEvent() {
 			self.init( options );
 			self.inited = true;
 			self.$row.data( 'inited', self.inited );
 			self.off( 'beforeShow', initEvent );
 			// Remember the default value
 			self._std = data.hasOwnProperty( 'std' )
-				? data.std // NOTE: Used for now only for `type=select`
+				? data.std // NOTE: Used for now only for "type=select"
 				: self.getCurrentValue();
 			// If responsive mode support is enabled for the field, then we initialize the functionality
 			self.initResponsive();
@@ -243,18 +705,15 @@ jQuery.fn.usMod = function( mod, value ) {
 		self.on( 'beforeShow', initEvent );
 	};
 
-	/**
-	 * The main functionality of the field
-	 * Note: When developing or updating a field, pay attention to the basic methods!
-	 */
+	// Field API
 	$.extend( $usof.field.prototype, $usof.mixins.Events, {
 
 		init: function() {
-			var self = this;
+			const self = this;
 			if ( $ush.isUndefined( self._events ) ) {
 				self._events = {};
 			}
-			self._events.change = function() {
+			self._events.change = () => {
 				self.trigger( 'change', [ self.getValue() ] );
 			};
 			self.$input.on( 'change', self._events.change );
@@ -267,14 +726,15 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Boolean} True if Live Builder, False otherwise.
 		 */
 		isLiveBuilder: function() {
-			return !! this.$row.closest( '.usb-panel-fieldset, .usb-panel-body' ).length;
+			return this.$row.closest( '.usb-panel-fieldset, .usb-panel-body' ).length > 0;
 		},
 
 		/**
 		 * Initializes the necessary functionality for responsive mode.
 		 */
 		initResponsive: function() {
-			var self = this;
+			const self = this;
+
 			if ( ! self.hasResponsive() ) {
 				return;
 			}
@@ -283,7 +743,7 @@ jQuery.fn.usMod = function( mod, value ) {
 			self.$switchResponsive = $( '.usof-switch-responsive:first', self.$row );
 			self.$responsiveButtons = $( '[data-responsive-state]', self.$responsive );
 
-			// Variables
+			// Private "Variables"
 			self._currentState = 'default';
 			self._states = [ 'default' ];
 
@@ -307,7 +767,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Boolean} True has responsive, False otherwise.
 		 */
 		hasResponsive: function() {
-			return !! this.$responsive.length;
+			return this.$responsive.length > 0;
 		},
 
 		/**
@@ -316,8 +776,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Boolean} True if responsive, False otherwise.
 		 */
 		isResponsive: function() {
-			var self = this;
-			return self.hasResponsive() && self.$row.hasClass( 'responsive' );
+			return this.hasResponsive() && this.$row.hasClass( 'responsive' );
 		},
 
 		/**
@@ -327,13 +786,13 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Boolean} True if responsive value, False otherwise.
 		 */
 		isResponsiveValue: function( value ) {
-			var self = this;
+			const self = this;
 			if ( value ) {
 				if ( self.isObjectValue( value ) ) {
 					value = $ush.toPlainObject( value );
 				}
 				if ( $.isPlainObject( value ) ) {
-					for ( var i in self._states ) {
+					for ( const i in self._states ) {
 						if ( value.hasOwnProperty( self._states[ i ] ) ) {
 							return true;
 						}
@@ -351,7 +810,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * TODO:Remove here and in the `./field_typography_options.js`.
 		 */
 		isObjectValue: function( value ) {
-			return value && ( '' + value ).indexOf( $ush.rawurlencode( '{' ) ) === 0;
+			return value && $ush.toString( value ).indexOf( $ush.rawurlencode( '{' ) ) === 0;
 		},
 
 		/**
@@ -361,15 +820,15 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Boolean} True if the specified state is valid state, False otherwise.
 		 */
 		isValidState: function( state ) {
-			return state && ( this._states || [] ).indexOf( $ush.toString( state ) ) !== -1;
+			return state && ( this._states || [] ).includes( $ush.toString( state ) );
 		},
 
 		/**
-		 * Determines if a value is a param for Visual Composer.
+		 * Determines if a value is a param for WPBakery.
 		 *
 		 * @return {Boolean}True if vc parameter value, False otherwise.
 		 */
-		isVCParamValue: function() {
+		isWPBakeryParamValue: function() {
 			return this.$input.hasClass( 'wpb_vc_param_value' );
 		},
 
@@ -397,7 +856,8 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {$usof.field|undefined} Returns the related field object, otherwise undefined.
 		 */
 		getRelatedField: function() {
-			var self = this, parent = self.getParent();
+			const self = this;
+			const parent = self.getParent();
 			if (
 				! $ush.isUndefined( self.relatedOn )
 				&& parent instanceof $usof.GroupParams
@@ -414,9 +874,8 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {$usof.field|undefined} Returns a reference to a field object by its name, otherwise undefined.
 		 */
 		getFieldByName: function( name ) {
-			var self = this;
 			if ( name ) {
-				return ( ( self.getParent() || {} )[ 'fields' ] || {} )[ name ];
+				return ( ( this.getParent() || {} )[ 'fields' ] || {} )[ name ];
 			}
 			return;
 		},
@@ -427,7 +886,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {String} The current state.
 		 */
 		getCurrentState: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidState( self._currentState ) ) {
 				self._currentState = 'default';
 			}
@@ -442,8 +901,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {*} The default value.
 		 */
 		getDefaultValue: function() {
-			var self = this;
-			return ! $ush.isUndefined( self._std ) ? self._std : '';
+			return $ush.isUndefined( this._std ) ? '' : this._std;
 		},
 
 		/**
@@ -454,7 +912,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {String} Returns values by state name or default.
 		 */
 		getValueByState: function( state, value ) {
-			var self = this;
+			const self = this;
 			if ( self.isResponsiveValue( value ) ) {
 				if ( ! self.isValidState( state ) ) {
 					state = 'default';
@@ -478,7 +936,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {String} Returns the value from the updated data for the state.
 		 */
 		setValueByState: function( state, input, value ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidState( state ) ) {
 				return '';
 			}
@@ -487,7 +945,6 @@ jQuery.fn.usMod = function( mod, value ) {
 			} else {
 				value = {};
 			}
-			// Set or update values for a state
 			value[ state ] = input;
 			return $ush.toString( value );
 		},
@@ -500,11 +957,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		getCurrentValue: function() {
 			const self = this;
 			var value = self.getValue();
-			// Get the current value in responsive state
 			if ( self.isResponsiveValue( value ) ) {
 				value = self.getValueByState( self._currentState, value );
 			}
-			// Get value if it is string object
 			if ( self.isObjectValue( value ) ) {
 				value = $ush.toPlainObject( value );
 			}
@@ -519,22 +974,19 @@ jQuery.fn.usMod = function( mod, value ) {
 		 */
 		setCurrentValue: function( value, quiet ) {
 			const self = this;
-			// Set the current value in responsive state
 			if ( self.isResponsive() ) {
 				value = self.setValueByState( self._currentState, value, self.getValue() );
 			}
-			// Set value if it is plain object
 			if ( $.isPlainObject( value ) ) {
 				value = $ush.toString( value );
 			}
-			// Set general value
 			// Note: setValue should not be used here since it is intended to be set from outside!
 			self.$input.val( value );
 			if ( ! quiet ) {
 				self.trigger( 'change', value );
 			}
 			// Run events on a hidden field for WPBakery as it is tied to it
-			if ( self.isVCParamValue() && self.$input.is(':hidden') ) {
+			if ( self.isWPBakeryParamValue() && self.$input.is( ':hidden' ) ) {
 				self.$input.trigger( 'change' );
 			}
 		},
@@ -555,7 +1007,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Boolean} quiet The quiet.
 		 */
 		setValue: function( value, quiet ) {
-			var self = this;
+			const self = this;
 			// Responsive mode switch by value
 			if (
 				! self.isResponsive()
@@ -567,9 +1019,9 @@ jQuery.fn.usMod = function( mod, value ) {
 			if ( ! quiet ) {
 				self.trigger( 'change', [ value ] );
 			}
-			// For fields that are bound to the values of the Visual Composer,
-			// we will fire an event for the correct execution of the Visual Composer logic
-			if ( self.isVCParamValue() ) {
+			// For fields that are bound to the values of the WPBakery,
+			// we will fire an event for the correct execution of the WPBakery logic
+			if ( self.isWPBakeryParamValue() ) {
 				self.$input.trigger( 'change' );
 			}
 		},
@@ -583,11 +1035,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {string} state The device type.
 		 */
 		_usbSyncResponsiveState: function( _, state ) {
-			var self = this, state = state || 'default';
-			if (
-				! self.isResponsive()
-				|| ! self.isValidState( state )
-			) {
+			const self = this;
+			state = state || 'default';
+			if ( ! self.isResponsive() || ! self.isValidState( state ) ) {
 				return;
 			}
 			self._$setResponsiveState( state );
@@ -599,25 +1049,22 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {String} state.
 		 */
 		_$setResponsiveState: function( state ) {
-			var self = this;
+			const self = this;
+
 			if ( ! self.hasResponsive() ) {
 				return;
 			}
-			// Set current state
 			if ( ! self.isValidState( state ) ) {
 				state = 'default';
 			}
 
-			// Enable current state button
 			self.$responsiveButtons
 				.removeClass( 'active' )
-				.filter( '[data-responsive-state="'+ state +'"]' )
+				.filter( `[data-responsive-state="${state}"]` )
 				.addClass( 'active' );
 
-			// Save current state
 			self._currentState = state;
 
-			// Send a signal about a responsive state change
 			self.trigger( 'setResponsiveState', state );
 		},
 
@@ -627,27 +1074,24 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @event handler
 		 */
 		_$switchResponsive: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.hasResponsive() ) {
 				return;
 			}
-			// Define next mode
-			var nextMode = ! self.isResponsive();
 
-			// Set or unset responsive mode
-			self.$row
-				.toggleClass( 'responsive', nextMode );
+			const nextMode = ! self.isResponsive();
+
+			self.$row.toggleClass( 'responsive', nextMode );
 
 			var value = self.getCurrentValue();
 			if ( nextMode ) {
 				var responsiveValue = {};
-				self._states.map( function( state ) {
+				self._states.map( ( state ) => {
 					responsiveValue[ state ] = value;
 				} );
 				value = $ush.toString( responsiveValue );
 
 			} else {
-				// Set default state
 				self._$setResponsiveState( 'default' );
 
 				// Set value if it is plain object
@@ -656,7 +1100,6 @@ jQuery.fn.usMod = function( mod, value ) {
 				}
 			}
 
-			// Update the value according to the set mode
 			self.setValue( value );
 		},
 
@@ -667,44 +1110,41 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_$selectResponsiveState: function( e ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isResponsive() ) {
 				return;
 			}
-			// Get selected state
-			var state = $( e.target ).data( 'responsive-state' ) || self._currentState;
 
-			// Set responsive state
+			const state = $( e.target ).data( 'responsive-state' ) || self._currentState;
+
 			self._$setResponsiveState( state );
 
-			// Forward events to other handlers (for example, in the builder)
+			// Forward events to other handlers (for example, in Live Builder)
 			self.trigger( 'syncResponsiveState', state );
+
 			self.$document.trigger( 'field.syncResponsiveState', state );
 		}
 	} );
 
 	/**
 	 * Field initialization.
-	 *
-	 * @param {{}} options The options.
-	 * @returns {$usof.field} Returns USOF field object.
 	 */
 	$.fn.usofField = function( options ) {
 		return new $usof.field( this, options );
 	};
 
-	/**
-	 * USOF Group.
-	 * TODO: Need to refactor and get rid of dependencies, the object must provide an API!
-	 */
+}( jQuery );
+
+// USOF Group
+! function( $, _undefined ) {
+	"use strict";
+
 	$usof.Group = function( row, options ) {
 		this.init( row, options );
 	};
 
-	/**
-	 * @type {{}} Handlers for filters.
-	 */
-	var _filtersHandler = {
+	// Handlers for filters
+	const _filtersHandler = {
 
 		/**
 		 * Sanitize color slug.
@@ -715,15 +1155,14 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {Stringg} Returns a sanitized color slug.
 		 */
 		sanitize_color_slug: function( value ) {
-			// If the first character is not an underscore, then set it
 			if ( value.charAt(0) !== '_' ) {
 				value = '_' + value;
 			}
 
 			return $ush.toLowerCase( value )
-				.replace( /[\p{Zs}|-]+/gu, '_' ) // replace all spaces
-				.replace( /[^a-z\d\_]+/g, '' ) // remove all illegal characters
-				.replace( /[\_]+/g, '_' ); // remove all duplicates
+				.replace( /[\p{Zs}|-]+/gu, '_' )	// replace spaces
+				.replace( /[^a-z\d\_]+/g, '' )		// remove illegal characters
+				.replace( /[\_]+/g, '_' );			// remove duplicates
 		},
 
 		/**
@@ -735,26 +1174,27 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {String} Returns the unique value of a field in a group.
 		 */
 		unique_value: function( value, reserved_values, usofField ) {
-			var self = this,
-				name = usofField.name;
-			// Get all values of this field in a group
-			var values = $ush.toArray( reserved_values );
-			self.groupParams.map( function( groupParams ) {
+			const self = this;
+			const name = usofField.name;
+			const values = $ush.toArray( reserved_values );
+
+			self.groupParams.map( ( groupParams ) => {
 				// Skip current field value
 				if ( groupParams.fields[ name ] === usofField ) {
 					return;
 				}
-				var value = groupParams.fields[ name ].getCurrentValue();
+				const value = groupParams.fields[ name ].getCurrentValue();
 				if ( value ) {
 					values.push( value );
 				}
 			} );
+
 			// If the value is occupied, then find a new one with the number
 			if ( values.indexOf( value ) > -1 ) {
-				// Get head value if there is a number, example: `{head}_{tail}`
+				// Get head value if there is a number, example: "{head}_{tail}"
 				value = ( value.match( /(.*)([-_\p{Zs}]\d+)$/u ) || [] )[1] || value;
 				// Define separator
-				var separator = (
+				const separator = (
 					$ush.toPlainObject( self._filters[ name ] ).sanitize_color_slug
 						? '_'
 						: ' '
@@ -762,7 +1202,7 @@ jQuery.fn.usMod = function( mod, value ) {
 				// Find a unique value
 				var i = 1;
 				while ( i++ <= /* max number of iterations */1000 ) {
-					var newValue = value + separator + i;
+					const newValue = value + separator + i;
 					if ( values.indexOf( newValue ) < 0 ) {
 						value = newValue;
 						break;
@@ -792,8 +1232,8 @@ jQuery.fn.usMod = function( mod, value ) {
 			self.isLiveBuilder = !! self.$container.parents( '.usb-panel-fieldset' ).length;
 			self.isSortable = self.$container.hasClass( 'sortable' );
 			self.isAccordion = self.$container.hasClass( 'type_accordion' );
-			self.isPreviewForButtons = self.$container.hasClass( 'preview_button' );
-			self.isPreviewForInputs = self.$container.hasClass( 'preview_input_fields' );
+			self.isButtonPreview = self.$container.hasClass( 'preview_button' );
+			self.isFieldPreview = self.$container.hasClass( 'preview_input_fields' );
 			self.isCustomColors = self.$container.hasClass( 'for_custom_colors' );
 
 			// Load translations
@@ -837,9 +1277,7 @@ jQuery.fn.usMod = function( mod, value ) {
 				.off( 'click' ) // TODO: Fix double initialization for Live Builder
 				.on( 'click', self.addGroup.bind( self, _undefined ) );
 			self.$container
-				.on( 'change', () => {
-					self.trigger( 'change', self );
-				} )
+				.on( 'change', () => self.trigger( 'change', self ) )
 				.on( 'click', '.ui-icon_duplicate', self.duplicateGroup.bind( self ) )
 				.on( 'click', '.usof-form-group-item-controls > .ui-icon_delete', ( e ) => {
 					e.stopPropagation();
@@ -849,14 +1287,15 @@ jQuery.fn.usMod = function( mod, value ) {
 			// Init accordion
 			if ( self.isAccordion ) {
 				self.$sections = $( '.usof-form-group-item', container );
-				self.$container.on( 'click', '.usof-form-group-item-title', function( e ) {
+				self.$container.on( 'click', '.usof-form-group-item-title', ( e ) => {
 					// Ignores all elements except div (these can be form elements or buttons)
 					if ( $ush.toLowerCase( e.target.tagName ) !== 'div' ) {
 						return;
 					}
 					self.$sections = $( '.usof-form-group-item', container );
-					var $parentSection = $( e.target )
-						.closest( '.usof-form-group-item' );
+
+					const $parentSection = $( e.target ).closest( '.usof-form-group-item' );
+
 					if ( $parentSection.hasClass( 'active' ) ) {
 						$parentSection
 							.removeClass( 'active' )
@@ -880,9 +1319,9 @@ jQuery.fn.usMod = function( mod, value ) {
 
 				// Extend handlers
 				$.extend( self._events, {
-					maybeDragMove: self._maybeDragMove.bind( self ),
-					dragMove: self._dragMove.bind( self ),
-					dragEnd: self._dragEnd.bind( self )
+					maybeDragMove: self.maybeDragMove.bind( self ),
+					dragMove: self.dragMove.bind( self ),
+					dragEnd: self.dragEnd.bind( self )
 				} );
 
 				// Events
@@ -922,12 +1361,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * Note: Here 'change' is not the same 'input:onchange'.
 		 *
 		 * @event handler
-		 * @param {$usof.field} usofField.
-		 * @param {*} value The usofField value.
 		 */
-		_changeGroupParam: function( usofField, value ) {
-			var self = this;
-			self.trigger( 'change', self );
+		_changeGroupParam: function() {
+			this.trigger( 'change', this );
 		},
 
 		/**
@@ -937,25 +1373,24 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {$usof.field} usofField.
 		 */
 		_applyFiltersToParam: function( usofField ) {
-			var self = this,
-				name = usofField.name;
+			const self = this;
+			const name = usofField.name;
 
-			// If there are no filters then exit.
 			if ( ! self._filters[ name ] ) {
 				return
 			}
 
-			var value = usofField.getValue(),
-				newValue = $ush.toString( value ),
-				filters = $ush.toPlainObject( self._filters[ name ] );
+			const filters = $ush.toPlainObject( self._filters[ name ] );
+			const value = usofField.getValue();
+
+			var newValue = $ush.toString( value );
 
 			// The order is important, do not change unless necessary!
 			[
-				'sanitize_color_slug', // sanitize color slug in a group
-				'unique_value', // unique value in a group
+				'sanitize_color_slug',
+				'unique_value',
 			]
-			// Apply filters to current value
-			.map( function( handler ) {
+			.map( ( handler ) => {
 				if ( newValue && filters[ handler ] && typeof _filtersHandler[ handler ] === 'function' ) {
 					newValue = _filtersHandler[ handler ].call( self, newValue, filters[ handler ], usofField );
 				}
@@ -969,10 +1404,10 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * Reinit group params.
 		 */
 		_reInitGroupParams: function() {
-			var self = this;
+			const self = this;
 			self.groupParams = [];
-			$( '.usof-form-group-item', self.$container ).each( function( i, groupParams ) {
-				var $groupParams = $( groupParams );
+			$( '.usof-form-group-item', self.$container ).each( ( i, groupParams ) => {
+				const $groupParams = $( groupParams );
 				if( $groupParams.closest( '.usof-form-group-prototype' ).length ) {
 					return;
 				}
@@ -980,8 +1415,8 @@ jQuery.fn.usMod = function( mod, value ) {
 				if ( $ush.isUndefined( groupParams ) ) {
 					groupParams = new $usof.GroupParams( $groupParams );
 				}
-				for ( var k in groupParams.fields ) {
-					var field = groupParams.fields[ k ];
+				for ( const k in groupParams.fields ) {
+					const field = groupParams.fields[ k ];
 					field
 						.off( 'change', self._events.changeGroupParam )
 						.on( 'change', self._events.changeGroupParam );
@@ -1001,13 +1436,13 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * Reinit global values changed.
 		 */
 		_reInitValuesChanged: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.isBuilder ) {
 				if ( $.isEmptyObject( $usof.instance.valuesChanged ) ) {
 					clearTimeout( $usof.instance.saveStateTimer );
 					$usof.instance.$saveControl.usMod( 'status', 'notsaved' );
 				}
-				var value = self.getValue();
+				const value = self.getValue();
 				$usof.instance.valuesChanged[ self.groupName ] = value;
 				self.$container.trigger( 'change', value );
 			}
@@ -1019,8 +1454,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {*} The default value.
 		 */
 		getDefaultValue: function() {
-			var self = this;
-			return ! $ush.isUndefined( self._std ) ? self._std : '';
+			return $ush.isUndefined( this._std ) ? '' : this._std;
 		},
 
 		/**
@@ -1029,8 +1463,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {[]} Returns the current value given the selected response state, if any.
 		 */
 		getCurrentValue: function() {
-			var self = this, result = [];
-			for ( var i in self.groupParams ) {
+			const self = this;
+			var result = [];
+			for ( const i in self.groupParams ) {
 				result.push( self.groupParams[ i ].getCurrentValues() );
 			}
 			if ( self.hasStringValue ) {
@@ -1050,7 +1485,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {String|[]} value The value.
 		 */
 		setValue: function( value ) {
-			var self = this;
+			const self = this;
 			// If the value came as a string, then we will try to convert it into an object
 			if ( typeof value === 'string' && self.hasStringValue ) {
 				try {
@@ -1061,23 +1496,22 @@ jQuery.fn.usMod = function( mod, value ) {
 				}
 			}
 			self.groupParams = [];
-			$( '.usof-form-group-item', self.$container ).each( function( i, groupParams ) {
-				var $groupParams = $( groupParams );
+			$( '.usof-form-group-item', self.$container ).each( ( i, groupParams ) => {
+				const $groupParams = $( groupParams );
 				if ( ! $groupParams.parent().hasClass( 'usof-form-group-prototype' ) ) {
 					$groupParams.remove();
 				}
 			} );
-			$.each( value, function( index, paramsValues ) {
-				var _groupPrototype = self.$prototype.html();
+			$.each( value, ( index, paramsValues ) => {
+				const $groupParams = $( self.$prototype.html() );
 				if ( self.$btnAddGroup.length ) {
-					self.$btnAddGroup.before( _groupPrototype );
+					self.$btnAddGroup.before( $groupParams );
 				} else {
-					self.$container.append( _groupPrototype );
+					self.$container.append( $groupParams );
 				}
-				var $groupParams = $( '.usof-form-group-item', self.$container ).last();
-				var groupParams = new $usof.GroupParams( $groupParams );
-				groupParams.setValues( paramsValues, 1 );
-				for ( var k in groupParams.fields ) {
+				const groupParams = new $usof.GroupParams( $groupParams );
+				groupParams.setValues( paramsValues, true );
+				for ( const  k in groupParams.fields ) {
 					if ( ! groupParams.fields.hasOwnProperty( k ) ) {
 						continue;
 					}
@@ -1096,10 +1530,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @return {String|[]} The value
 		 */
 		getValue: function() {
-			var self = this, result = [];
-			$.each( self.groupParams, function( i, groupParams ) {
-				result.push( groupParams.getValues() );
-			} );
+			const self = this;
+			var result = [];
+			$.each( self.groupParams, ( _, groupParams ) => result.push( groupParams.getValues() ) );
 			if ( self.hasStringValue ) {
 				if ( result.length ) {
 					try {
@@ -1125,17 +1558,17 @@ jQuery.fn.usMod = function( mod, value ) {
 			const self = this;
 			self.$btnAddGroup.addClass( 'adding' );
 			var $groupPrototype = $( self.$prototype.html() );
-			if ( ( self.isPreviewForButtons || self.isPreviewForInputs ) && ! $ush.isUndefined( index ) ) {
+			if ( ( self.isButtonPreview || self.isFieldPreview ) && ! $ush.isUndefined( index ) ) {
 				self.$btnAddGroup
 					.closest( '.usof-form-group' )
-					.find( ' > .usof-form-group-item:eq(' + parseInt( index ) + ')' )
+					.find( ` > .usof-form-group-item:eq(${parseInt( index )})` )
 					.after( $groupPrototype );
 			} else {
 				self.$btnAddGroup.before( $groupPrototype );
 			}
-			var groupParams = new $usof.GroupParams( $groupPrototype );
+			const groupParams = new $usof.GroupParams( $groupPrototype );
 			for ( const k in groupParams.fields ) {
-				var field = groupParams.fields[ k ];
+				const field = groupParams.fields[ k ];
 				field.on( 'change', self._events.changeGroupParam );
 				// Subscribe filter handlers to events
 				if ( ! $.isEmptyObject( self._filters[ k ] ) ) {
@@ -1144,7 +1577,7 @@ jQuery.fn.usMod = function( mod, value ) {
 						.trigger( 'blur' ); // apply default filters
 				}
 			}
-			if ( ( self.isPreviewForButtons || self.isPreviewForInputs ) && index !== _undefined ) {
+			if ( ( self.isButtonPreview || self.isFieldPreview ) && index !== _undefined ) {
 				self.groupParams.splice( index + 1, 0, groupParams );
 			} else {
 				self.groupParams.push( groupParams )
@@ -1155,22 +1588,22 @@ jQuery.fn.usMod = function( mod, value ) {
 					clearTimeout( $usof.instance.saveStateTimer );
 					$usof.instance.$saveControl.usMod( 'status', 'notsaved' );
 				}
-				var value = self.getValue();
-				$usof.instance.valuesChanged[ this.groupName ] = value;
+				const value = self.getValue();
+				$usof.instance.valuesChanged[ self.groupName ] = value;
 				self.$container.trigger( 'change', value );
 			}
-			// TODO: Need to get rid of the crutch this.isPreviewForButtons
+			// TODO: Need to get rid of the crutch this.isButtonPreview
 			// TODO: Make a universal method to find a unique value
-			if ( self.isPreviewForButtons || self.isPreviewForInputs ) {
+			if ( self.isButtonPreview || self.isFieldPreview ) {
 				var newIndex = self.groupParams.length,
 					newId = 1,
 					newIndexIsUnique;
-				for ( var i in self.groupParams ) {
+				for ( const i in self.groupParams ) {
 					newId = Math.max( ( parseInt( self.groupParams[ i ].fields.id.getValue() ) || 0 ) + 1, newId );
 				}
 				do {
 					newIndexIsUnique = true;
-					for ( var i in self.groupParams ) {
+					for ( const i in self.groupParams ) {
 						if ( self.groupParams[ i ].fields.name.getValue() == self.groupTranslations.style + ' ' + newIndex ) {
 							newIndex ++;
 							newIndexIsUnique = false;
@@ -1185,11 +1618,13 @@ jQuery.fn.usMod = function( mod, value ) {
 				const mainClass = '' + $( '[data-preview-class-format]', groupParams.$container ).data( 'preview-class-format' );
 				$( '.usof-preview-class-main', groupParams.$container ).text( mainClass.replace( '%s', newId ) );
 			}
+
 			// If the group is running in a EditLive context then set the title for accordion
 			// NOTE: This is a forced decision that will be fixed when refactoring the code!
 			if ( self.isLiveBuilder ) {
-				groupParams.setTitleForAccordion();
+				groupParams.setAccordionTitle();
 			}
+
 			self.$btnAddGroup.removeClass( 'adding' );
 			return groupParams;
 		},
@@ -1200,26 +1635,25 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		duplicateGroup: function( e ) {
-			var self = this,
-				$target = $( e.currentTarget ),
-				$group = $target.closest( '.usof-form-group-item' ),
-				index = $group.index() - 1;
+			const self = this;
+			const $target = $( e.currentTarget );
+			const $group = $target.closest( '.usof-form-group-item' );
+			const index = $group.index() - 1;
 			if ( self.groupParams.hasOwnProperty( index ) ) {
 				var $item = self.groupParams[ index ],
 					values = $item.getValues(),
 					number = 0;
 				values.name = values.name.replace( /\s?\(.*\)$/, '' ).trim();
 				// Create new group name
-				for ( var i in self.groupParams ) {
-					var name = self.groupParams[ i ].getValue( 'name' ) || '',
-						copyPattern = new RegExp( values.name + '\\s?\\((\\d+)*', 'm' );
-					var numMatches = name.match( copyPattern );
+				for ( const i in self.groupParams ) {
+					const name = self.groupParams[ i ].getValue( 'name' ) || '';
+					const numMatches = name.match( new RegExp( values.name + '\\s?\\((\\d+)*', 'm' ) );
 					if ( numMatches !== null ) {
-						number = Math.max( number, parseInt( numMatches[ 1 ] || 1 ) );
+						number = Math.max( number, parseInt( numMatches[1] || 1 ) );
 					}
 				}
 				values.name += ' (' + ( ++ number ) + ')';
-				var newGroup = self.addGroup( index );
+				const newGroup = self.addGroup( index );
 				newGroup.setValues( $.extend( values, {
 					id: newGroup.getValue( 'id' )
 				} ) );
@@ -1232,10 +1666,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Node} $group The group.
 		 */
 		deleteGroup: function( $group ) {
-			var self = this;
 			$group.remove();
-			self._reInitGroupParams();
-			self._reInitValuesChanged();
+			this._reInitGroupParams();
+			this._reInitValuesChanged();
 		},
 
 		/**
@@ -1243,8 +1676,8 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_dragStart: function( e ) {
+			const self = this;
 			e.stopPropagation();
-			var self = this;
 			self.$draggedElm = $( e.target ).closest( '.usof-form-group-item' );
 			self.detached = false;
 			self._updateBlindSpot( e );
@@ -1265,7 +1698,7 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_isInBlindSpot: function( e ) {
-			var self = this;
+			const self = this;
 			return (
 				Math.abs( e.pageX - self.blindSpot[0] ) <= 20
 				&& Math.abs( e.pageY - self.blindSpot[1] ) <= 20
@@ -1276,9 +1709,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_maybeDragMove: function( e ) {
+		maybeDragMove: function( e ) {
+			const self = this;
 			e.stopPropagation();
-			var self = this;
 			if ( self._isInBlindSpot( e ) ) {
 				return;
 			}
@@ -1292,10 +1725,10 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_detach: function( e ) {
-			var self = this,
-				offset = self.$draggedElm.offset();
-			self.elmPointerOffset[ 0 ] -= offset.left;
-			self.elmPointerOffset[ 1 ] -= offset.top;
+			const self = this;
+			const offset = self.$draggedElm.offset();
+			self.elmPointerOffset[0] -= offset.left;
+			self.elmPointerOffset[1] -= offset.top;
 			$( '.usof-form-group-item-title', self.$draggedElm ).hide();
 			if ( ! self.isAccordion || self.$draggedElm.hasClass( 'active' ) ) {
 				$( '.usof-form-group-item-content', self.$draggedElm ).hide();
@@ -1321,9 +1754,9 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_dragMove: function( e ) {
+		dragMove: function( e ) {
+			const self = this;
 			e.stopPropagation();
-			var self = this;
 			self.$draggedElm.css( {
 				left: e.pageX - self.elmPointerOffset[0],
 				top: e.pageY - self.elmPointerOffset[1]
@@ -1331,24 +1764,24 @@ jQuery.fn.usMod = function( mod, value ) {
 			if ( self._isInBlindSpot( e ) ) {
 				return;
 			}
-			var elm = e.target;
+			var element = e.target;
 			// Checking two levels up
-			for ( var level = 0; level <= 2; level ++, elm = elm.parentNode ) {
-				if ( self._isShadow( elm ) ) {
+			for ( var level = 0; level <= 2; level ++, element = element.parentNode ) {
+				if ( self._isShadow( element ) ) {
 					return;
 				}
-				if ( self._isSortable( elm ) ) {
+				if ( self._isSortable( element ) ) {
 					// Dropping element before or after sortables based on their relative position in DOM
-					var nextElm = elm.previousSibling,
+					var nextElement = element.previousSibling,
 						shadowAtLeft = false;
-					while ( nextElm ) {
-						if ( nextElm == this.$dragshadow[0] ) {
+					while ( nextElement ) {
+						if ( nextElement == this.$dragshadow[0] ) {
 							shadowAtLeft = true;
 							break;
 						}
-						nextElm = nextElm.previousSibling;
+						nextElement = nextElement.previousSibling;
 					}
-					self.$dragshadow[ shadowAtLeft ? 'insertAfter' : 'insertBefore' ]( elm );
+					self.$dragshadow[ shadowAtLeft ? 'insertAfter' : 'insertBefore' ]( element );
 					self._dragDrop( e );
 					break;
 				}
@@ -1367,8 +1800,8 @@ jQuery.fn.usMod = function( mod, value ) {
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_dragEnd: function( e ) {
-			var self = this;
+		dragEnd: function( e ) {
+			const self = this;
 			self.$body
 				.off( 'mousemove', self._events.maybeDragMove )
 				.off( 'mousemove', self._events.dragMove );
@@ -1404,463 +1837,11 @@ jQuery.fn.usMod = function( mod, value ) {
 
 }( jQuery );
 
-
 /**
- * USOF Core
+ * USOF GroupParams
  */
-! function( $ ) {
-
-	$usof.ajaxUrl = $( '.usof-container' ).data( 'ajaxurl' ) || /* wp variable */ ajaxurl;
-
-	// Prototype mixin for all classes working with fields
-	if ( $ush.isUndefined( $usof.mixins ) ) {
-		$usof.mixins = {};
-	}
-
-	// TODO: Need to refactor and get rid of dependencies, the object must provide an API!
-	$usof.mixins.Fieldset = {
-		/**
-		 * Initialize fields inside of a container
-		 *
-		 * @param {jQuery} $container
-		 */
-		initFields: function( $container ) {
-			const self = this;
-
-			// Check variables
-			[ '$fields', 'fields', 'groups', 'showIf', 'showIfDeps' ].map( ( prop ) => {
-				if ( ! $.isPlainObject( self[ prop ] ) ) {
-					self[ prop ] = {};
-				}
-			} );
-
-			var groupElms = [];
-			$( '.usof-form-row, .usof-form-wrapper, .usof-form-group', $container ).each( ( _, node ) => {
-				var $field = $( node ),
-					name = $field.data( 'name' ),
-					isRow = $field.hasClass( 'usof-form-row' ),
-					isGroup = $field.hasClass( 'usof-form-group' ),
-					isInGroup = $field.parents( '.usof-form-group' ).length,
-					$showIf = $field.find(
-						( isRow || isGroup )
-							? '> .usof-form-row-showif'
-							: '> .usof-form-wrapper-content > .usof-form-wrapper-showif'
-					);
-
-				// If the element is in the prototype, then we will ignore the init
-				if ( $field.closest( '.usof-form-group-prototype' ).length ) {
-					return;
-				}
-
-				// Exclude fields for `design_options` as they have their own group
-				if (
-					isRow
-					&& $field.closest( '.usof-design-options' ).length
-					&& ! $container.is( '[data-responsive-state-content]' )
-				) {
-					return;
-				}
-
-				// Fix eliminates re-initialization of fields for Live Builder, which leads to loss of events.
-				// If you comment out this line, then the Content Carousel element will not apply
-				// the settings in the preview, for example "Number of Items to Show".
-				if ( ! $ush.isUndefined( self.$fields[ name ] ) && isInGroup ) {
-					return;
-				}
-
-				self.$fields[ name ] = $field;
-				if ( $showIf.length > 0 ) {
-					self.showIf[ name ] = $showIf[0].onclick() || [];
-					// Writing dependencies
-					var showIfVars = self._getShowIfVariables( self.showIf[ name ] );
-					for ( var i = 0; i < showIfVars.length; i ++ ) {
-						if ( $ush.isUndefined( self.showIfDeps[ showIfVars[ i ] ] ) ) {
-							self.showIfDeps[ showIfVars[ i ] ] = [];
-						}
-						self.showIfDeps[ showIfVars[ i ] ].push( name );
-					}
-				}
-				if ( isRow && ( ! isInGroup || self.isGroupParams ) ) {
-					self.fields[ name ] = $field.usofField();
-					// Method of get parent object
-					self.fields[ name ].getParent = () => {
-						return self;
-					};
-				} else if ( isGroup ) {
-					self.groups[ name ] = $field.usofGroup();
-				}
-			} );
-
-			for ( const fieldName in self.showIfDeps ) {
-				if (
-					! self.showIfDeps.hasOwnProperty( fieldName )
-					|| $ush.isUndefined( self.fields[ fieldName ] )
-				) {
-					continue;
-				}
-				self.fields[ fieldName ].on( 'change', ( field ) => {
-					self.updateVisibility( field.name );
-				} );
-				// Update displayed fields on initialization
-				if ( !! self.isGroupParams ) {
-					self.updateVisibility( fieldName, /* isAnimated */false, self.getCurrentShown( fieldName ) );
-				}
-			}
-
-			// Get default values for fields
-			if ( $ush.isUndefined( self._defaultValues ) ) {
-				self._defaultValues = self.getValues();
-			}
-		},
-
-		/**
-		 * Show/Hide the field based on its showIf condition
-		 *
-		 * @param {String} fieldName The field name
-		 * @param {Boolean} isAnimated Indicates if animated
-		 * @param {Boolean} isCurrentShown Indicates if parent
-		 */
-		updateVisibility: function( fieldName, isAnimated, isCurrentShown ) {
-			var self = this;
-			if ( ! fieldName || ! self.showIfDeps[ fieldName ] ) return;
-
-			// TODO: Clear code
-			if ( $ush.isUndefined( isAnimated ) ) {
-				isAnimated = true;
-			}
-			if ( $ush.isUndefined( isCurrentShown ) ) {
-				isCurrentShown = true;
-			}
-
-			/**
-			 * Get the display conditions for the previous field, if it exists
-			 *
-			 * @type {Boolean|undefined}
-			 */
-			var isPrevShown = self.$fields[ fieldName ].data( 'isShown' );
-
-			self.showIfDeps[ fieldName ].map( function( depFieldName ) {
-				var field = self.fields[ depFieldName ] || self.groups[ depFieldName ],
-					$field = self.$fields[ depFieldName ],
-					isShown = self.getCurrentShown( depFieldName ),
-					shouldBeShown = self.executeShowIf( self.showIf[ depFieldName ], self.getValue.bind( self ) );
-
-				// Check visible
-				if ( ( ! shouldBeShown && isShown ) || ! isCurrentShown ) {
-					isShown = false;
-				} else if ( shouldBeShown && ! isShown ) {
-					isShown = true;
-				}
-
-				// Check the display of previous fields in chains, if any
-				if ( ! $ush.isUndefined( isPrevShown ) ) {
-					isShown = isPrevShown && isShown;
-				}
-
-				// Set current visibility
-				$field
-					.stop( true, false )
-					.data( 'isShown', isShown );
-
-				if ( isShown ) {
-					self.fireFieldEvent( $field, 'beforeShow' );
-					// TODO: Add css animations is enabled isAnimated
-					$field.show();
-					self.fireFieldEvent( $field, 'afterShow' );
-					if ( field instanceof $usof.field ) {
-						field.trigger( 'change', [ field.getValue() ] );
-					}
-				} else {
-					self.fireFieldEvent( $field, 'beforeHide' );
-					// TODO: Add css animations is enabled isAnimated
-					$field.hide();
-					self.fireFieldEvent( $field, 'afterHide' );
-					if ( field instanceof $usof.Group ) {
-						field.setValue( field.getDefaultValue() );
-					}
-				}
-
-				// Set visibility for tree dependencies
-				if ( !! self.showIfDeps[ depFieldName ] ) {
-					self.updateVisibility( depFieldName, isAnimated, isShown );
-				}
-			} );
-		},
-
-		/**
-		 * Get a shown state
-		 *
-		 * @param {String} fieldName The field name
-		 * @return {Boolean} True if the specified field identifier is shown, False otherwise
-		 */
-		getCurrentShown: function( fieldName ) {
-			var self = this;
-			if ( ! fieldName || ! self.$fields[ fieldName ] ) return true;
-			var $field = self.$fields[ fieldName ],
-				isShown = $field.data( 'isShow' );
-			if ( $ush.isUndefined( isShown ) ) {
-				isShown = $field.css( 'display' ) !== 'none';
-			}
-			return !! isShown;
-		},
-
-		/**
-		 * Get all field names that affect the given 'show_if' condition
-		 *
-		 * @param {[]} condition
-		 * @returns {[]}
-		 */
-		_getShowIfVariables: function( condition ) {
-			var self = this;
-			if ( ! Array.isArray( condition ) || condition.length < 3 ) {
-				return [];
-			} else if ( $.inArray( condition[ 1 ].toLowerCase(), [ 'and', 'or' ] ) != - 1 ) {
-				// Complex or / and statement
-				var vars = self._getShowIfVariables( condition[ 0 ] ),
-					index = 2;
-				while ( ! $ush.isUndefined( condition[ index ] ) ) {
-					vars = vars.concat( self._getShowIfVariables( condition[ index ] ) );
-					index = index + 2;
-				}
-				return vars;
-			} else {
-				return [ condition[ 0 ] ];
-			}
-		},
-
-		/**
-		 * Execute 'show_if' condition
-		 *
-		 * @param {[]} condition
-		 * @param {Function} getValue Function to get the needed value
-		 * @returns {Boolean} Should be shown?
-		 */
-		executeShowIf: function( condition, getValue ) {
-			var self = this,
-				result = true;
-			if ( ! Array.isArray( condition ) || condition.length < 3 ) {
-				return result;
-			} else if ( $.inArray( condition[ 1 ].toLowerCase(), [ 'and', 'or' ] ) != - 1 ) {
-				// Complex or / and statement
-				result = self.executeShowIf( condition[ 0 ], getValue );
-				var index = 2;
-				while ( ! $ush.isUndefined( condition[ index ] ) ) {
-					condition[ index - 1 ] = condition[ index - 1 ].toLowerCase();
-					if ( condition[ index - 1 ] == 'and' ) {
-						result = ( result && self.executeShowIf( condition[ index ], getValue ) );
-
-						// TODO: Conditions are not used and do not work correctly, needs to be fixed!
-					} else if ( condition[ index - 1 ] == 'or' ) {
-						result = ( result || self.executeShowIf( condition[ index ], getValue ) );
-					}
-					index = index + 2;
-				}
-			} else {
-				var value = getValue( condition[ 0 ] );
-				if ( $ush.isUndefined( value ) ) {
-					return true;
-				}
-				if ( condition[ 1 ] == '=' ) {
-					if ( Array.isArray( condition[ 2 ] ) ) {
-						result = ( $.inArray( value, condition[ 2 ] ) != - 1 );
-					} else {
-						result = ( value == condition[ 2 ] );
-					}
-				} else if ( condition[ 1 ] == '!=' ) {
-					if ( Array.isArray( condition[ 2 ] ) ) {
-						result = ( $.inArray( value, condition[ 2 ] ) == - 1 );
-					} else {
-						result = ( value != condition[ 2 ] );
-					}
-				} else if ( condition[ 1 ] == '<=' ) {
-					result = ( value <= condition[ 2 ] );
-				} else if ( condition[ 1 ] == '<' ) {
-					result = ( value < condition[ 2 ] );
-				} else if ( condition[ 1 ] == '>' ) {
-					result = ( value > condition[ 2 ] );
-				} else if ( condition[ 1 ] == '>=' ) {
-					result = ( value >= condition[ 2 ] );
-				} else if ( condition[ 1 ] == 'str_contains' ) {
-					result = ( '' + value ).indexOf( '' + condition[ 2 ] ) > -1;
-				} else {
-					result = true;
-				}
-			}
-			return result;
-		},
-
-		/**
-		 * Find all the fields within $container and fire a certain event there
-		 *
-		 * @param {jQuery} $container
-		 * @param {String} trigger
-		 */
-		fireFieldEvent: function( $container, trigger ) {
-			if ( ! $container.hasClass( 'usof-form-row' ) ) {
-				$( '.usof-form-row', $container ).each( function( _, row ) {
-					var $row = $( row ),
-						isShown = $row.data( 'isShown' );
-					if ( $ush.isUndefined( isShown ) ) {
-						isShown = $row.css( 'display' ) != 'none';
-					}
-					// The block is not actually shown or hidden in this case
-					// Note: Fields with `class="hidden"` will not be initialized!
-					if ( ! isShown && [ 'beforeShow', 'afterShow', 'beforeHide', 'afterHide' ].indexOf( trigger ) !== -1 ) {
-						return;
-					}
-					if ( $ush.isUndefined( $row.data( 'usofField' ) ) ) {
-						return;
-					}
-					$row.data( 'usofField' ).trigger( trigger );
-				} );
-
-			} else if ( $container.data( 'usofField' ) instanceof $usof.field ) {
-				$container.data( 'usofField' ).trigger( trigger );
-			}
-		},
-
-		/**
-		 * Get the value
-		 *
-		 * @param {String} id The id
-		 * @return {*} The value
-		 */
-		getValue: function( id ) {
-			var self = this;
-			if ( $ush.isUndefined( self.fields[ id ] ) ) {
-				return _undefined;
-			}
-			return self.fields[ id ].getValue();
-		},
-
-		/**
-		 * Set some particular field value
-		 *
-		 * @param {String} id
-		 * @param {String} value
-		 * @param {Boolean} quiet Don't fire onchange events
-		 */
-		setValue: function( id, value, quiet ) {
-			var self = this;
-			if ( $ush.isUndefined( self.fields[ id ] ) ) {
-				return;
-			}
-			var shouldFireShow = ! self.fields[ id ].inited;
-			if ( shouldFireShow ) {
-				self.fields[ id ].trigger( 'beforeShow' );
-				self.fields[ id ].trigger( 'afterShow' );
-			}
-			self.fields[ id ].setValue( value, quiet );
-			if ( shouldFireShow ) {
-				self.fields[ id ].trigger( 'beforeHide' );
-				self.fields[ id ].trigger( 'afterHide' );
-			}
-		},
-
-		/**
-		 * Get the values
-		 *
-		 * @return {*} The values
-		 */
-		getValues: function() {
-			var self = this, values = {};
-			// Regular values
-			for ( var fieldId in self.fields ) {
-				if ( ! self.fields.hasOwnProperty( fieldId ) ) {
-					continue;
-				}
-				values[ fieldId ] = self.getValue( fieldId );
-			}
-			// Groups
-			for ( var groupId in self.groups ) {
-				values[ groupId ] = self.groups[ groupId ].getValue();
-			}
-			return values;
-		},
-
-		/**
-		 * Set the values
-		 *
-		 * @param {{}} values
-		 * @param {Boolean} quiet Don't fire onchange events, just change the interface
-		 */
-		setValues: function( values, quiet ) {
-			var self = this;
-			// Regular values
-			for ( fieldId in self.fields ) {
-				if ( values.hasOwnProperty( fieldId ) ) {
-					var currentValue = values[ fieldId ];
-					self.setValue( fieldId, currentValue, quiet );
-					if ( ! quiet ) {
-						self.fields[ fieldId ].trigger( 'change', [ currentValue ] );
-					}
-
-					// Restoring the default value
-				} else if( self._defaultValues.hasOwnProperty( fieldId ) ) {
-					var defaultValue = self._defaultValues[ fieldId ];
-					self.setValue( fieldId, defaultValue, quiet );
-				}
-			}
-			// Groups
-			for ( var groupId in self.groups ) {
-				self.groups[ groupId ].setValue( values[ groupId ] );
-			}
-			if ( quiet ) {
-				// Update fields visibility anyway
-				for ( var fieldName in self.showIfDeps ) {
-					if (
-						! self.showIfDeps.hasOwnProperty( fieldName )
-						|| $ush.isUndefined( self.fields[ fieldName ] )
-					) {
-						continue;
-					}
-					self.updateVisibility( fieldName, /* isAnimated */false );
-				}
-			}
-		},
-
-		/**
-		 * Get the current values.
-		 *
-		 * @return {{}} Returns the current value given the selected response state, if any.
-		 */
-		getCurrentValues: function() {
-			var self = this, result = {};
-			for ( var name in self.fields ) {
-				result[ name ] = self.fields[ name ].getCurrentValue();
-			}
-			for ( var name in self.groups ) {
-				result[ name ] = self.groups[ name ].getCurrentValue();
-			}
-			return result;
-		},
-
-		/**
-		 * JavaScript representation of us_prepare_icon_tag helper function + removal of wrong symbols
-		 *
-		 * @param {String} iconClass
-		 * @returns {String}
-		 */
-		prepareIconTag: function( iconValue ) {
-			iconValue = iconValue.trim().split( '|' );
-			if ( iconValue.length != 2 ) {
-				return '';
-			}
-			var iconTag = '';
-			iconValue[ 0 ] = iconValue[ 0 ].toLowerCase();
-			if ( iconValue[ 0 ] == 'material' ) {
-				iconTag = '<i class="material-icons">' + iconValue[ 1 ] + '</i>';
-			} else {
-				if ( iconValue[ 1 ].substr( 0, 3 ) == 'fa-' ) {
-					iconTag = '<i class="' + iconValue[ 0 ] + ' ' + iconValue[ 1 ] + '"></i>';
-				} else {
-					iconTag = '<i class="' + iconValue[ 0 ] + ' fa-' + iconValue[ 1 ] + '"></i>';
-				}
-			}
-
-			return iconTag
-		}
-	};
+! function( $, _undefined ) {
+	"use strict";
 
 	$usof.GroupParams = function( container ) {
 		const self = this;
@@ -1871,18 +1852,18 @@ jQuery.fn.usMod = function( mod, value ) {
 
 		self.isGroupParams = true;
 		self.isBuilder = self.$container.parents( '.us-bld-window' ).length > 0;
-		self.isPreviewForButtons = self.$group.hasClass( 'preview_button' );
-		self.isPreviewForInputs = self.$group.hasClass( 'preview_input_fields' );
+		self.isButtonPreview = self.$group.hasClass( 'preview_button' );
+		self.isFieldPreview = self.$group.hasClass( 'preview_input_fields' );
 
 		self._events = {
-			setTitleForAccordion: self.setTitleForAccordion.bind( self ),
+			setAccordionTitle: self.setAccordionTitle.bind( self ),
 		};
 
 		self.initFields( self.$container );
 		self.fireFieldEvent( self.$container, 'beforeShow' );
 		self.fireFieldEvent( self.$container, 'afterShow' );
 
-		let accordionTitle = self.$group.data( 'accordion-title' );
+		var accordionTitle = self.$group.data( 'accordion-title' );
 		if ( ! $ush.isUndefined( accordionTitle ) ) {
 			accordionTitle = decodeURIComponent( accordionTitle );
 		}
@@ -1890,17 +1871,17 @@ jQuery.fn.usMod = function( mod, value ) {
 
 		// If the title for the accordion is not empty then we will watch
 		// the changes in the fields in order to correctly update the title
-		if ( ! self.isEmptyAccordionTitle() ) {
+		if ( self.hasAccordionTitle() ) {
 			for ( const fieldId in self.fields ) {
 				if ( ! self.fields.hasOwnProperty( fieldId ) ) {
 					continue;
 				}
-				self.fields[ fieldId ].on( 'change', self._events.setTitleForAccordion );
+				self.fields[ fieldId ].on( 'change', self._events.setAccordionTitle );
 			}
 		}
 
 		// Live Builder extra class for the buttons
-		if ( self.isPreviewForButtons || self.isPreviewForInputs ) {
+		if ( self.isButtonPreview || self.isFieldPreview ) {
 			for ( const fieldId in self.fields ) {
 				if ( fieldId !== 'class' && self.fields.hasOwnProperty( fieldId ) ) {
 					continue;
@@ -1932,47 +1913,48 @@ jQuery.fn.usMod = function( mod, value ) {
 			}
 		}
 
-		// Used in "USOF_ButtonPreview" and "USOF_InputFieldPreview"
+		// Used in "USOF_ButtonPreview" and "USOF_FieldPreview"
 		self.$container.data( 'usof.GroupParams', self );
 
-		if ( self.isPreviewForButtons ) {
+		if ( self.isButtonPreview ) {
 			$( '.usof-btn-preview', self.$container ).USOF_ButtonPreview();
 
-		} else if ( self.isPreviewForInputs ) {
-			$( '.usof-input-preview', self.$container ).USOF_InputFieldPreview()
+		} else if ( self.isFieldPreview ) {
+			$( '.usof-input-preview', self.$container ).USOF_FieldPreview()
 		}
 	};
 
+	// GroupParams API
 	$.extend( $usof.GroupParams.prototype, $usof.mixins.Fieldset, {
 
 		/**
-		 * Determines if empty accordion title
+		 * Determines if accordion title.
 		 *
-		 * @return {Boolean} True if empty accordion title, False otherwise
+		 * @return {Boolean} True if accordion title, False otherwise.
 		 */
-		isEmptyAccordionTitle: function() {
-			return $ush.isUndefined( this.accordionTitle ) || this.accordionTitle === '';
+		hasAccordionTitle: function() {
+			return $ush.toString( this.accordionTitle ) !== '';
 		},
 
 		/**
-		 * Sets the title for accordion
+		 * Set the title for accordion
 		 */
-		setTitleForAccordion: function() {
+		setAccordionTitle: function() {
 			const self = this;
 
-			if ( self.isEmptyAccordionTitle() ) {
+			if ( ! self.hasAccordionTitle() ) {
 				return;
 			}
 
 			self.$title = $( '.usof-form-group-item-title', self.$container );
-			if ( self.isPreviewForButtons ) {
+			if ( self.isButtonPreview ) {
 				self.$title = $( '.usof-btn-label', self.$title );
 			}
-			if ( self.isPreviewForInputs ) {
+			if ( self.isFieldPreview ) {
 				self.$title = $( 'input.usof-input-preview-elm', self.$title );
 			}
 
-			let title = self.accordionTitle;
+			var title = self.accordionTitle;
 			for ( const fieldId in self.fields ) {
 				if (
 					! self.fields.hasOwnProperty( fieldId )
@@ -1981,7 +1963,7 @@ jQuery.fn.usMod = function( mod, value ) {
 					continue;
 				}
 				const field = self.fields[ fieldId ];
-				let value = self.getValue( fieldId );
+				var value = self.getValue( fieldId );
 				if (
 					field.hasOwnProperty( 'type' )
 					&& field.type === 'select'
@@ -1994,7 +1976,7 @@ jQuery.fn.usMod = function( mod, value ) {
 				title = title.replace( fieldId, value );
 			}
 
-			if ( self.isPreviewForInputs ) {
+			if ( self.isFieldPreview ) {
 				self.$title.attr( 'placeholder', title );
 			} else {
 				self.$title.text( title );
@@ -2002,127 +1984,151 @@ jQuery.fn.usMod = function( mod, value ) {
 		}
 	} );
 
-	var USOF_Meta = function( container ) {
-		this.$container = $( container );
-		this.initFields( this.$container );
+}( jQuery );
 
-		this.fireFieldEvent( this.$container, 'beforeShow' );
-		this.fireFieldEvent( this.$container, 'afterShow' );
+/**
+ * USOF Meta
+ */
+! function( $, _undefined ) {
+	"use strict";
 
-		for ( var fieldId in this.fields ) {
-			if ( ! this.fields.hasOwnProperty( fieldId ) ) {
+	$usof.Meta = function( container ) {
+		const self = this;
+
+		_window.USMMSettings = _window.USMMSettings || {};
+
+		self.$container = $( container );
+		self.initFields( self.$container );
+
+		self.fireFieldEvent( self.$container, 'beforeShow' );
+		self.fireFieldEvent( self.$container, 'afterShow' );
+
+		for ( const fieldId in self.fields ) {
+			if ( ! self.fields.hasOwnProperty( fieldId ) ) {
 				continue;
 			}
-			this.fields[ fieldId ].on( 'change', function( field, value ) {
-				USMMSettings = {};
-				for ( var savingFieldId in this.fields ) {
-					USMMSettings[ savingFieldId ] = this.fields[ savingFieldId ].getValue();
+			self.fields[ fieldId ].on( 'change', ( field, value ) => {
+				for ( const savingFieldId in self.fields ) {
+					_window.USMMSettings[ savingFieldId ] = self.fields[ savingFieldId ].getValue();
 				}
 				$( _document.body ).trigger( 'usof_mm_save' );
-			}.bind( this ) );
+			} );
 		}
 
+		self.$container.data( 'usof.Meta', self );
 	};
-	$.extend( USOF_Meta.prototype, $usof.mixins.Fieldset, {} );
 
-	var USOF = function( container ) {
-		$usof.instance = this;
-		this.$container = $( container );
-		this.$title = this.$container.find( '.usof-header-title h2' );
+	// Meta API
+	$.extend( $usof.Meta.prototype, $usof.mixins.Fieldset );
 
-		this.$container.addClass( 'inited' );
+	$( () => {
+		$.each( $( '.usof-container.for_meta' ), ( _, node ) => new $usof.Meta( node ) );
 
-		this.initFields( this.$container );
+		$( _document.body ).off( 'usof_mm_load' ).on( 'usof_mm_load', () => {
+			$( '.us-mm-settings' ).each( ( _, node ) => new $usof.Meta( node ) );
+		} );
+	} );
 
-		this.active = null;
-		this.$sections = {};
-		this.$sectionContents = {};
-		this.sectionFields = {};
-		$.each( this.$container.find( '.usof-section' ), function( index, section ) {
+}( jQuery );
+
+/**
+ * USOF Form
+ */
+! function( $, _undefined ) {
+	"use strict";
+
+	$usof.Form = function( container ) {
+		const self = this;
+
+		self.$container = $( container );
+		self.$title = $( '.usof-header-title h2', self.$container );
+
+		self.$container.addClass( 'inited' );
+
+		$usof.instance = self;
+		self.initFields( self.$container );
+
+		self.active = null;
+		self.$sections = {};
+		self.$sectionContents = {};
+		self.sectionFields = {};
+
+		$.each( $( '.usof-section', self.$container ), ( index, section ) => {
 			var $section = $( section ),
 				sectionId = $section.data( 'id' );
-			this.$sections[ sectionId ] = $section;
-			this.$sectionContents[ sectionId ] = $section.find( '.usof-section-content' );
+			self.$sections[ sectionId ] = $section;
+			self.$sectionContents[ sectionId ] = $( '.usof-section-content', $section );
 			if ( $section.hasClass( 'current' ) ) {
-				this.active = sectionId;
+				self.active = sectionId;
 			}
-			this.sectionFields[ sectionId ] = [];
-			$.each( $section.find( '.usof-form-row' ), function( index, row ) {
-				var $row = $( row ),
-					fieldName = $row.data( 'name' );
+			self.sectionFields[ sectionId ] = [];
+			$.each( $( '.usof-form-row', $section ), ( index, row ) => {
+				const fieldName = $( row ).data( 'name' );
 				if ( fieldName ) {
-					this.sectionFields[ sectionId ].push( fieldName );
+					self.sectionFields[ sectionId ].push( fieldName );
 				}
-			}.bind( this ) );
-		}.bind( this ) );
+			} );
+		} );
 
-		this.sectionTitles = {};
-		$.each( this.$container.find( '.usof-nav-item.level_1' ), function( index, item ) {
-			var $item = $( item ),
-				sectionId = $item.data( 'id' );
-			this.sectionTitles[ sectionId ] = $item.find( '.usof-nav-title' ).html();
-		}.bind( this ) );
+		self.sectionTitles = {};
+		$.each( $( '.usof-nav-item.level_1', self.$container ), ( index, item ) => {
+			const $item = $( item );
+			self.sectionTitles[ $item.data( 'id' ) ] = $( '.usof-nav-title', $item ).html();
+		} );
 
-		this.navItems = this.$container.find( '.usof-nav-item.level_1, .usof-section-header' );
-		this.sectionHeaders = this.$container.find( '.usof-section-header' );
-		this.sectionHeaders.each( function( index, item ) {
-			var $item = $( item ),
-				sectionId = $item.data( 'id' );
-			$item.on( 'click', function() {
-				this.openSection( sectionId );
-			}.bind( this ) );
-		}.bind( this ) );
+		self.navItems = $( '.usof-nav-item.level_1, .usof-section-header', self.$container );
+		self.sectionHeaders = $( '.usof-section-header', self.$container );
+		self.sectionHeaders.each( ( index, item ) => {
+			const $item = $( item );
+			$item.on( 'click', () => self.openSection( $item.data( 'id' ) ) );
+		} );
 
 		// Handling initial document hash
 		if ( _document.location.hash && _document.location.hash.indexOf( '#!' ) == - 1 ) {
-			this.openSection( _document.location.hash.substring( 1 ) );
+			self.openSection( _document.location.hash.substring( 1 ) );
 		}
 
 		// Initializing fields at the shown section
-		if ( ! $ush.isUndefined( this.$sections[ this.active ] ) ) {
-			this.fireFieldEvent( this.$sections[ this.active ], 'beforeShow' );
-			this.fireFieldEvent( this.$sections[ this.active ], 'afterShow' );
+		if ( ! $ush.isUndefined( self.$sections[ self.active ] ) ) {
+			self.fireFieldEvent( self.$sections[ self.active ], 'beforeShow' );
+			self.fireFieldEvent( self.$sections[ self.active ], 'afterShow' );
 		}
 
 		// Save action
-		this.$saveControl = this.$container.find( '.usof-control.for_save' );
-		this.$saveBtn = this.$saveControl.find( '.usof-button' ).on( 'click', this.save.bind( this ) );
-		this.$saveMessage = this.$saveControl.find( '.usof-control-message' );
-		this.valuesChanged = {};
-		this.saveStateTimer = null;
-		for ( var fieldId in this.fields ) {
-			if ( ! this.fields.hasOwnProperty( fieldId ) ) {
+		self.$saveControl = $( '.usof-control.for_save', self.$container );
+		self.$saveBtn = $( '.usof-button', self.$saveControl ).on( 'click', self.save.bind( self ) );
+		self.$saveMessage = $( '.usof-control-message', self.$saveControl );
+		self.valuesChanged = {};
+		self.saveStateTimer = null;
+		for ( const fieldId in self.fields ) {
+			if ( ! self.fields.hasOwnProperty( fieldId ) ) {
 				continue;
 			}
-			this.fields[ fieldId ].on( 'change', function( field, value ) {
-				if ( $.isEmptyObject( this.valuesChanged ) ) {
-					clearTimeout( this.saveStateTimer );
-					this.$saveControl.usMod( 'status', 'notsaved' );
+			self.fields[ fieldId ].on( 'change', ( field, value ) => {
+				if ( $.isEmptyObject( self.valuesChanged ) ) {
+					clearTimeout( self.saveStateTimer );
+					self.$saveControl.usMod( 'status', 'notsaved' );
 				}
-				this.valuesChanged[ field.name ] = value;
-			}.bind( this ) );
+				self.valuesChanged[ field.name ] = value;
+			} );
 		}
 
-		this.$window = $( _window );
-		this.$header = this.$container.find( '.usof-header' );
-		this.$schemeBtn = this.$container.find( '.for_schemes' );
-		this.$schemeBtn.on( 'click', function() {
-			$( '.usof-form-row.type_style_scheme' ).show()
-		}.bind( this ) );
+		self.$window = $( _window );
+		self.$header = $( '.usof-header', self.$container );
+		self.$schemeBtn = $( '.for_schemes', self.$container );
+		self.$schemeBtn.on( 'click', () => $( '.usof-form-row.type_style_scheme' ).show() );
 
-		this._events = {
-			scroll: this.scroll.bind( this ),
-			resize: this.resize.bind( this )
+		self._events = {
+			scroll: self.scroll.bind( self ),
+			resize: self.resize.bind( self )
 		};
 
-		this.resize();
-		this.$window.on( 'resize load', this._events.resize );
-		this.$window.on( 'scroll', this._events.scroll );
-		this.$window.on( 'hashchange', function() {
-			this.openSection( _document.location.hash.substring( 1 ) );
-		}.bind( this ) );
+		self.resize();
+		self.$window.on( 'resize load', self._events.resize );
+		self.$window.on( 'scroll', self._events.scroll );
+		self.$window.on( 'hashchange', () => self.openSection( _document.location.hash.substring( 1 ) ) );
 
-		$( _window ).on( 'keydown', function( event ) {
+		$( _window ).on( 'keydown', ( event ) => {
 			if ( event.ctrlKey || event.metaKey ) {
 				if ( String.fromCharCode( event.which ).toLowerCase() == 's' ) {
 					event.preventDefault();
@@ -2130,52 +2136,59 @@ jQuery.fn.usMod = function( mod, value ) {
 				}
 			}
 		} );
+
+		self.$container.data( 'usof.Form', self );
 	};
-	$.extend( USOF.prototype, $usof.mixins.Fieldset, {
+
+	// From API
+	$.extend( $usof.Form.prototype, $usof.mixins.Fieldset, {
+
 		scroll: function() {
 			this.$container.toggleClass( 'footer_fixed', this.$window.scrollTop() > this.headerAreaSize );
 		},
 
 		resize: function() {
-			if ( ! this.$header.length ) {
+			const self = this;
+			if ( ! self.$header.length ) {
 				return;
 			}
-			this.headerAreaSize = this.$header.offset().top + this.$header.outerHeight();
-			this.scroll();
+			self.headerAreaSize = self.$header.offset().top + self.$header.outerHeight();
+			self.scroll();
 		},
 
 		openSection: function( sectionId ) {
-			if ( sectionId == this.active || $ush.isUndefined( this.$sections[ sectionId ] ) ) {
+			const self = this;
+			if ( sectionId == self.active || $ush.isUndefined( self.$sections[ sectionId ] ) ) {
 				return;
 			}
-			if ( ! $ush.isUndefined( this.$sections[ this.active ] ) ) {
-				this.hideSection();
+			if ( ! $ush.isUndefined( self.$sections[ self.active ] ) ) {
+				self.hideSection();
 			}
-			this.showSection( sectionId );
+			self.showSection( sectionId );
 
-			this.$schemeBtn = this.$container.find( '.for_schemes' );
+			self.$schemeBtn = $( '.for_schemes', self.$container );
 			if ( sectionId == 'colors' ) {
-				this.$schemeBtn.removeClass( 'hidden' );
+				self.$schemeBtn.removeClass( 'hidden' );
 			} else {
-				this.$schemeBtn.addClass( 'hidden' );
+				self.$schemeBtn.addClass( 'hidden' );
 			}
 		},
 
 		showSection: function( sectionId ) {
-			var self = this,
-				curItem = self.navItems.filter( '[data-id="' + sectionId + '"]' );
-			curItem.addClass( 'current' );
+			const self = this;
+			const $curItem = self.navItems.filter( `[data-id="${sectionId}"]` );
+			$curItem.addClass( 'current' );
 			self.fireFieldEvent( self.$sectionContents[ sectionId ], 'beforeShow' );
 			self.$sectionContents[ sectionId ].stop( true, false ).fadeIn();
 			self.$title.html( self.sectionTitles[ sectionId ] );
 			self.fireFieldEvent( self.$sectionContents[ sectionId ], 'afterShow' );
 			// Item popup
-			var itemPopup = curItem.find( '.usof-nav-popup' );
+			const itemPopup = $( '.usof-nav-popup', $curItem );
 			if ( itemPopup.length > 0 ) {
 				// Current usof_visited_new_sections cookie
-				var matches = _document.cookie.match( /(?:^|; )usof_visited_new_sections=([^;]*)/ ),
-					cookieValue = matches ? decodeURIComponent( matches[ 1 ] ) : '',
-					visitedNewSections = ( cookieValue == '' ) ? [] : cookieValue.split( ',' );
+				const matches = _document.cookie.match( /(?:^|; )usof_visited_new_sections=([^;]*)/ );
+				const cookieValue = matches ? decodeURIComponent( matches[1] ) : '';
+				const visitedNewSections = ( cookieValue == '' ) ? [] : cookieValue.split( ',' );
 				if ( visitedNewSections.indexOf( sectionId ) == - 1 ) {
 					visitedNewSections.push( sectionId );
 					_document.cookie = 'usof_visited_new_sections=' + visitedNewSections.join( ',' )
@@ -2186,24 +2199,26 @@ jQuery.fn.usMod = function( mod, value ) {
 		},
 
 		hideSection: function() {
-			this.navItems.filter( '[data-id="' + this.active + '"]' ).removeClass( 'current' );
-			this.fireFieldEvent( this.$sectionContents[ this.active ], 'beforeHide' );
-			this.$sectionContents[ this.active ].stop( true, false ).hide();
-			this.$title.html( '' );
-			this.fireFieldEvent( this.$sectionContents[ this.active ], 'afterHide' );
-			this.active = null;
+			const self = this;
+			self.navItems.filter( `[data-id="${self.active}"]` ).removeClass( 'current' );
+			self.fireFieldEvent( self.$sectionContents[ self.active ], 'beforeHide' );
+			self.$sectionContents[ self.active ].stop( true, false ).hide();
+			self.$title.html( '' );
+			self.fireFieldEvent( self.$sectionContents[ self.active ], 'afterHide' );
+			self.active = null;
 		},
 
 		/**
 		 * Save the new values
 		 */
 		save: function() {
-			if ( $.isEmptyObject( this.valuesChanged ) ) {
+			const self = this;
+			if ( $.isEmptyObject( self.valuesChanged ) ) {
 				return;
 			}
-			clearTimeout( this.saveStateTimer );
-			this.$saveMessage.html( '' );
-			this.$saveControl.usMod( 'status', 'loading' );
+			clearTimeout( self.saveStateTimer );
+			self.$saveMessage.html( '' );
+			self.$saveControl.usMod( 'status', 'loading' );
 
 			$.ajax( {
 				type: 'POST',
@@ -2211,44 +2226,32 @@ jQuery.fn.usMod = function( mod, value ) {
 				dataType: 'json',
 				data: {
 					action: 'usof_save',
-					usof_options: JSON.stringify( this.valuesChanged ),
-					_wpnonce: this.$container.find( '[name="_wpnonce"]' ).val(),
-					_wp_http_referer: this.$container.find( '[name="_wp_http_referer"]' ).val()
+					usof_options: JSON.stringify( self.valuesChanged ),
+					_wpnonce: $( '[name="_wpnonce"]', self.$container ).val(),
+					_wp_http_referer: $( '[name="_wp_http_referer"]', self.$container ).val()
 				},
 				success: function( result ) {
 					if ( result.success ) {
-						this.valuesChanged = {};
-						this.$saveMessage.html( result.data.message );
-						this.$saveControl.usMod( 'status', 'success' );
-						this.saveStateTimer = setTimeout( function() {
-							this.$saveMessage.html( '' );
-							this.$saveControl.usMod( 'status', 'clear' );
-						}.bind( this ), 4000 );
+						self.valuesChanged = {};
+						self.$saveMessage.html( result.data.message );
+						self.$saveControl.usMod( 'status', 'success' );
+						self.saveStateTimer = setTimeout( () => {
+							self.$saveMessage.html( '' );
+							self.$saveControl.usMod( 'status', 'clear' );
+						}, 4000 );
 					} else {
-						this.$saveMessage.html( result.data.message );
-						this.$saveControl.usMod( 'status', 'error' );
-						this.saveStateTimer = setTimeout( function() {
-							this.$saveMessage.html( '' );
-							this.$saveControl.usMod( 'status', 'notsaved' );
-						}.bind( this ), 4000 );
+						self.$saveMessage.html( result.data.message );
+						self.$saveControl.usMod( 'status', 'error' );
+						self.saveStateTimer = setTimeout( () => {
+							self.$saveMessage.html( '' );
+							self.$saveControl.usMod( 'status', 'notsaved' );
+						}, 4000 );
 					}
-				}.bind( this )
+				}
 			} );
 		}
 	} );
 
-	$( () => {
-		new USOF( '.usof-container:not(.inited)' );
-
-		$.each( $( '.usof-container.for_meta' ), ( _, node ) => {
-			new USOF_Meta( node );
-		} );
-
-		$( _document.body ).off( 'usof_mm_load' ).on( 'usof_mm_load', () => {
-			$( '.us-mm-settings' ).each( ( _, node ) => {
-				new USOF_Meta( node );
-			} );
-		} );
-	} );
+	$( () => new $usof.Form( '.usof-container:not(.inited)' ) );
 
 }( jQuery );

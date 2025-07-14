@@ -28,7 +28,6 @@ return array(
 				),
 				'std' => 'none',
 				'group' => us_translate( 'Content' ),
-				'usb_preview' => TRUE,
 			),
 			'title' => array(
 				'title' => us_translate( 'Title' ),
@@ -38,14 +37,12 @@ return array(
 				'holder' => 'div',
 				'show_if' => array( 'use_page_block', '=', 'none' ),
 				'group' => us_translate( 'Content' ),
-				'usb_preview' => TRUE,
 			),
 			'content' => array(
 				'type' => 'editor',
 				'std' => __( 'This content will appear inside a popup...', 'us' ),
 				'show_if' => array( 'use_page_block', '=', 'none' ),
 				'group' => us_translate( 'Content' ),
-				'usb_preview' => TRUE,
 			),
 
 			// Appearance
@@ -60,7 +57,6 @@ return array(
 				),
 				'std' => 'default',
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'animation' => array(
 				'title' => __( 'Animation', 'us' ),
@@ -78,7 +74,6 @@ return array(
 				),
 				'std' => 'fadeIn',
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'closer_pos' => array(
 				'title' => __( 'Close Button Position', 'us' ),
@@ -90,7 +85,6 @@ return array(
 				),
 				'std' => 'outside',
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'popup_width' => array(
 				'title' => __( 'Popup Width', 'us' ),
@@ -99,7 +93,6 @@ return array(
 				'std' => '600px',
 				'show_if' => array( 'layout', '!=', 'fullscreen' ),
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'popup_padding' => array(
 				'title' => __( 'Popup Padding', 'us' ),
@@ -108,7 +101,6 @@ return array(
 				'std' => '5%',
 				'cols' => 2,
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'popup_border_radius' => array(
 				'title' => __( 'Popup Border Radius', 'us' ),
@@ -118,7 +110,6 @@ return array(
 				'cols' => 2,
 				'show_if' => array( 'layout', '=', 'default' ),
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'title_bgcolor' => array(
 				'title' => __( 'Title Background', 'us' ),
@@ -129,7 +120,6 @@ return array(
 				'cols' => 2,
 				'show_if' => array( 'use_page_block', '=', 'none' ),
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'title_textcolor' => array(
 				'title' => __( 'Title Text', 'us' ),
@@ -140,7 +130,6 @@ return array(
 				'cols' => 2,
 				'show_if' => array( 'use_page_block', '=', 'none' ),
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'content_bgcolor' => array(
 				'title' => __( 'Popup Background', 'us' ),
@@ -150,7 +139,6 @@ return array(
 				'std' => '_content_bg',
 				'cols' => 2,
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'content_textcolor' => array(
 				'title' => __( 'Popup Text', 'us' ),
@@ -160,7 +148,6 @@ return array(
 				'std' => '_content_text',
 				'cols' => 2,
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'overlay_bgcolor' => array(
 				'title' => __( 'Background Overlay', 'us' ),
@@ -170,7 +157,6 @@ return array(
 				'std' => 'rgba(0,0,0,0.85)',
 				'cols' => 2,
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 			'closer_color' => array(
 				'title' => __( 'Close Button', 'us' ),
@@ -180,7 +166,6 @@ return array(
 				'std' => '',
 				'cols' => 2,
 				'group' => us_translate( 'Appearance' ),
-				'usb_preview' => TRUE,
 			),
 
 			// Trigger
@@ -251,7 +236,7 @@ return array(
 				'title' => __( 'Image Size', 'us' ),
 				'description' => $misc['desc_img_sizes'],
 				'type' => 'select',
-				'options' => us_get_image_sizes_list(),
+				'options' => us_is_elm_editing_page() ? us_get_image_sizes_list() : array(),
 				'std' => 'large',
 				'cols' => 2,
 				'show_if' => array( 'show_on', '=', 'image' ),

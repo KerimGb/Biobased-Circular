@@ -39,10 +39,10 @@
 			// The value is a string otherwise it will be an object
 			self.hasStringValue = (
 				self.isLiveBuilder()
-				|| self.isVCParamValue()
+				|| self.isWPBakeryParamValue()
 			);
 
-			if ( self.isVCParamValue() ) {
+			if ( self.isWPBakeryParamValue() ) {
 				self.$container
 					.closest( '.edit_form_line' )
 					.addClass( 'usof-not-live' );
@@ -672,7 +672,7 @@
 			}
 
 			// Hide all sections of the accordion
-			if ( ! self.isVCParamValue() ) {
+			if ( ! self.isWPBakeryParamValue() ) {
 				$( '> div', self.$container ).removeClass( 'active' );
 			}
 		},

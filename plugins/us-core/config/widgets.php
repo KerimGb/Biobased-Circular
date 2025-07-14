@@ -139,9 +139,8 @@ return array(
 					'std' => '',
 				),
 				'layout' => array(
-					'type' => 'dropdown',
+					'type' => 'text',
 					'heading' => __( 'Grid Layout', 'us' ),
-					'value' => us_get_grid_layouts_for_selection( array( 'portfolio' ) ),
 					'std' => 'portfolio_compact',
 				),
 				'orderby' => array(
@@ -191,9 +190,8 @@ return array(
 					'std' => '',
 				),
 				'layout' => array(
-					'type' => 'dropdown',
+					'type' => 'text',
 					'heading' => __( 'Grid Layout', 'us' ),
-					'value' => us_get_grid_layouts_for_selection( array( 'blog', 'tile', 'text', 'side' ) ),
 					'std' => 'blog_1',
 				),
 				'orderby' => array(

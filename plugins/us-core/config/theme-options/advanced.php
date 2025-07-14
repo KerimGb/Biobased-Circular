@@ -183,9 +183,10 @@ return array(
 		'grid_columns_layout' => array(
 			'type' => 'switch',
 			'switch_text' => __( 'Columns Layout via CSS grid', 'us' ),
+			'description' => '<a href="' . $help_portal_url . '/' . strtolower( US_THEMENAME ) . '/rows-and-columns/" target="_blank">' . __( 'Learn more', 'us' ) . '</a>',
 			'std' => 1,
 			'show_if' => array( 'live_builder', '=', 1 ),
-			'classes' => 'for_above',
+			'classes' => 'for_above desc_2',
 		),
 		'block_editor' => array(
 			'type' => 'switch',

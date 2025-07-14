@@ -10,9 +10,9 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`
  */
 ! function( $, _undefined ) {
-	var _window = window;
 
-	// Check for is set availability objects
+	const _window = window;
+
 	_window.$ush = _window.$ush || {};
 	_window.usGlobalData = _window.usGlobalData || {};
 
@@ -61,7 +61,7 @@
 	 * @param {String} container The main container
 	 */
 	function USBInit( container ) {
-		var self = this;
+		const self = this;
 
 		// Private "Variables"
 		self.iframe;
@@ -71,9 +71,7 @@
 		// This event is needed to get various data from the iframe
 		_window.onmessage = self._onMessage.bind( self );
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			iframeReady: self._iframeReady.bind( self ),
 			urlManager: self._urlManager.bind( self ),
@@ -88,11 +86,11 @@
 
 			// Elements
 			self.$container = $( container );
-			self.$panel = $( '#usb-panel' ); // Panel base container
+			self.$panel = $( '#usb-panel' );
 			self.$panelBody = $( '.usb-panel-body', self.$panel );
 
 			self.$iframe = $( 'iframe', self.$container );
-			self.iframe = self.$iframe[0]; // set iframe node
+			self.iframe = self.$iframe[0];
 
 			// Note: The object stores all received config from
 			// the backend, this is a single entry point for config
@@ -110,7 +108,6 @@
 
 			// Events
 			self.$iframe
-				// Handler of the ready document iframe
 				.on( 'load', $ush.debounce( self._events.iframeReady, 1 ) );
 
 			self.$document
@@ -121,8 +118,8 @@
 
 			// Set MacOS shortcuts
 			if ( $ush.isMacOS ) {
-				$( '[data-macos-shortcuts]', self.$container ).each( function( _, node ) {
-					var $node = $( node );
+				$( '[data-macos-shortcuts]', self.$container ).each( ( _, node ) => {
+					const $node = $( node );
 					$node.text( $node.data( 'macos-shortcuts' ) || '' );
 				} );
 			}
@@ -139,10 +136,11 @@
 	/**
 	 * @type {Prototype}
 	 */
-	var prototype = USBInit.prototype;
+	const prototype = USBInit.prototype;
 
 	// Private events
 	$.extend( prototype, $ush.mixinEvents, {
+
 		/**
 		 * Handler of change or move event on the history stack
 		 *
@@ -150,9 +148,9 @@
 		 * @param {{}|undefined} state Data object associated with history and current loaction
 		 */
 		_urlManager: function( state ) {
-			var self = this,
-				iframeSrc = self.iframe.src,
-				action = state.setParams.action;
+			const self = this;
+
+			var action = state.setParams.action;
 
 			if ( $usbcore.indexOf( action, self.config( 'actions', [] ) ) === -1 ) {
 				action = self.config( 'actions.site_settings' ); // default as it is always available
@@ -170,14 +168,15 @@
 		* @param void
 		*/
 		_onMessage: function( e ) {
-			var data, self = this;
+			const self = this;
+			var data;
 			try {
 				data = JSON.parse( e.data );
 			} catch ( err ) {
 				return;
 			}
-			if ( data instanceof Array && data[ /* namespace */ 0 ] === 'usb' && data[ /* event */ 1 ] !== _undefined ) {
-				self.trigger( data[ /* event */ 1 ], data[ /* arguments */ 2 ] || [] );
+			if ( data instanceof Array && data[0] === 'usb' && data[1] !== _undefined ) {
+				self.trigger( data[1], data[2] || [] );
 			}
 		},
 
@@ -187,15 +186,15 @@
 		 * @event handler
 		 */
 		_iframeReady: function() {
-			var self = this;
+			const self = this;
 			self.iframeIsReady = true;
 
 			if ( ! self.iframe.contentDocument ) {
 				return;
 			}
 
-			self.preview.hidePreloader(); // remove 'show_preloader' class if installed
-			self.trigger( 'iframeReady' ); // event for react in extensions
+			self.preview.hidePreloader();
+			self.trigger( 'iframeReady' );
 		},
 
 		/**
@@ -206,12 +205,13 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_keydown: function( e ) {
+			const self = this;
+
 			if ( e.type !== 'keydown' ) {
 				return;
 			}
 
-			var self = this,
-				isCmd = ( e.metaKey || e.ctrlKey ),
+			var isCmd = ( e.metaKey || e.ctrlKey ),
 				// Define hotkey states (see https://ss64.com/ascii.html)
 				isUndo = ( isCmd && ! e.shiftKey && e.which === 90 ), // `(command|ctrl)+z` combination
 				isRedo = ( isCmd && e.shiftKey && e.which === 90 ), // `(command|ctrl)+shift+z` combination
@@ -226,9 +226,9 @@
 				} );
 
 				// Trigger an event if the combination is successful
-				for ( var combination in self._hotkeyStates ) {
+				for ( const combination in self._hotkeyStates ) {
 					if ( self._hotkeyStates[ combination ] === true ) {
-						self.trigger( 'hotkeys.' + combination ); // .on( 'hotkeys.ctrl+shift+z', ... )
+						self.trigger( `hotkeys.${combination}` ); // .on( 'hotkeys.ctrl+shift+z', ... )
 					}
 				}
 			}
@@ -255,7 +255,7 @@
 		 * @chainable
 		 */
 		postMessage: function( eventType, extraParams ) {
-			var self = this;
+			const self = this;
 			if ( ! self.iframeIsReady ) {
 				return;
 			}
@@ -286,14 +286,14 @@
 		 * @return {*} Returns a value if successful, otherwise 'undefined'
 		 */
 		find: function( path, defaultValue ) {
-			return path && $usbcore.deepFind( this, path, defaultValue || /* default */_undefined );
+			return path && $usbcore.deepFind( this, path, defaultValue || _undefined );
 		},
 
 		/**
 		 * Reload current preview page
 		 */
 		reloadPreview: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.iframeIsReady ) {
 				return;
 			}
@@ -309,7 +309,7 @@
 		setConfig: function( config ) {
 			if ( $.isPlainObject( config ) ) {
 				_$config = $.extend( true, _$config, config );
-				$usbcore.cache( 'config' ).flush(); // reset cache
+				$usbcore.cache( 'config' ).flush();
 			}
 		},
 
@@ -358,8 +358,8 @@
 		 * @return {Boolean} Returns True if used, otherwise False
 		 */
 		hotkeys: function() {
-			var args = $ush.toArray( arguments );
-			for ( var i in args ) if ( this._hotkeyStates[ '' + args[ i ] ] === true ) {
+			const args = $ush.toArray( arguments );
+			for ( const i in args ) if ( this._hotkeyStates[ '' + args[ i ] ] === true ) {
 				return true;
 			}
 			return false;
@@ -426,7 +426,7 @@
 				pattern += '([A-z\\_\\d]+)';
 				pattern += $ush.escapePcre( $usb.config( 'endSymbol', '%}' ) );
 			// Replace all variables with values
-			return ( '' + template ).replace( new RegExp( pattern, 'gm' ), function( _, varName ) {
+			return ( '' + template ).replace( new RegExp( pattern, 'gm' ), ( _, varName ) => {
 				return '' + ( params[ varName ] || '' );
 			} );
 		},
@@ -464,7 +464,7 @@
 		 * @param {{}} settings A set of key/value pairs that configure the Ajax request
 		 */
 		ajax: function( requestId, settings ) {
-			var self = this;
+			const self = this;
 			if ( ! requestId || $.isEmptyObject( settings ) ) {
 				return;
 			}
@@ -493,13 +493,7 @@
 				type: 'post',
 				url: _window.ajaxurl,
 				cache: false,
-				/**
-				 * Handler to be called if the request succeeds
-				 * @see https://api.jquery.com/jquery.ajax/#jQuery-ajax-settings
-				 *
-				 * @param {{}} res
-				 */
-				success: function( res ) {
+				success: ( res ) => {
 					delete _$tmp.xhr[ requestId ];
 					// Standard output of notifications and errors.
 					if ( ! res.success && $ush.isUndefined( res.data.usb_ignore_standard_notify ) ) {
@@ -514,11 +508,7 @@
 						settings.success.call( self, res );
 					}
 				},
-				/**
-				 * Handler to be called if the request fails
-				 * @see https://api.jquery.com/jquery.ajax/#jQuery-ajax-settings
-				 */
-				error: function( jqXHR, textStatus, errorThrown ) {
+				error: ( jqXHR, textStatus, errorThrown ) => {
 					if ( textStatus === 'abort' ) {
 						return;
 					}
@@ -531,11 +521,7 @@
 					}
 					self.log( 'XHR.error:' + errorThrown, jqXHR, requestId );
 				},
-				/**
-				 * Handler to be called when the request finishes (after success and error callbacks are executed)
-				 * @see https://api.jquery.com/jquery.ajax/#jQuery-ajax-settings
-				 */
-				complete: function( _, textStatus ) {
+				complete: ( _, textStatus ) => {
 					if ( textStatus === 'abort' ) {
 						return;
 					}
@@ -552,10 +538,10 @@
 		 * @param {String} url The path or URL to redirect to
 		 */
 		redirect: function( url ) {
-			var self = this;
+			const self = this;
 			if ( url && typeof url === 'string' ) {
-				self.iframeIsReady = false; // set a false to cancel the functionality associated with the preview
-				location.href = url; // set new url
+				self.iframeIsReady = false;
+				location.href = url;
 			}
 		}
 

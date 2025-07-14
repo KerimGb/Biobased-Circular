@@ -8,13 +8,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -30,11 +30,9 @@
 	 * @param {String} container The container
 	 */
 	function Navigator( container ) {
-		var self = this;
+		const self = this;
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			contentChange: self._contentChange.bind( self ),
 			duplicateElm: self._duplicateElm.bind( self ),
@@ -52,7 +50,7 @@
 			urlManager: self._urlManager.bind( self ),
 		};
 
-		$( function() {
+		$( () => {
 
 			// Elements
 			self.$container = $( container );
@@ -95,13 +93,13 @@
 			.on( 'showPreloader', self._events.showPreloader );
 
 		$usb
-			.on( 'iframeReady', self._events.iframeReady ) // read document in iframe handler
-			.on( 'builder.contentChange', self._events.contentChange ) // сontent change handler
-			.on( 'navigator.scrollTo', self._events.scrollTo ) // handler for scrolling to an element
-			.on( 'navigator.showPreloader', self._events.showPreloader ) // handler for show a preloader
-			.on( 'shortcodeChanged', self._events.shortcodeChanged ) // shortcode change handler
-			.on( 'panel.showMessage', self._events.panelShowMessage ) // handler for show panel messages
-			.on( 'urlManager.changed', self._events.urlManager ); // URL history stack change handler
+			.on( 'iframeReady', self._events.iframeReady )
+			.on( 'builder.contentChange', self._events.contentChange )
+			.on( 'navigator.scrollTo', self._events.scrollTo )
+			.on( 'navigator.showPreloader', self._events.showPreloader )
+			.on( 'shortcodeChanged', self._events.shortcodeChanged )
+			.on( 'panel.showMessage', self._events.panelShowMessage )
+			.on( 'urlManager.changed', self._events.urlManager );
 	}
 
 	// Navigator API
@@ -130,7 +128,7 @@
 		 * @event handler
 		 */
 		_switch: function() {
-			var urlManager = $usb.urlManager;
+			const urlManager = $usb.urlManager;
 			if ( ! this.isShow() ) {
 				urlManager.setParam( 'navigator', 'show' );
 			} else {
@@ -152,23 +150,22 @@
 		 * Show navigator
 		 */
 		show: function() {
-			var self = this;
+			const self = this;
 			if ( $usb.builder.isEmptyContent() ) {
 				return;
 			}
 			self.$container.addClass( 'show' );
 			self.$actionSwitch.addClass( 'active' );
 
-			self.redraw(); // redraw the element tree
+			self.redraw();
 		},
 
 		/**
 		 * Hide navigator
 		 */
 		hide: function() {
-			var self = this;
-			self.$container.removeClass( 'show' );
-			self.$actionSwitch.removeClass( 'active' );
+			this.$container.removeClass( 'show' );
+			this.$actionSwitch.removeClass( 'active' );
 		},
 
 		/**
@@ -180,7 +177,7 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		_scrollTo: function( id ) {
-			var self = this;
+			const self = this;
 			if (
 				! self.isShow()
 				|| ! $usb.builder.isValidId( id )
@@ -189,14 +186,14 @@
 			}
 
 			var $body = self.$body,
-				$item = $( '[data-for="' + id + '"]', $body );
+				$item = $( `[data-for="${id}"]`, $body );
 
 			if ( ! $item.length ) {
 				return;
 			}
 
 			// If the element is not outside the view, then exit
-			var rect = $ush.$rect( $item[0] );
+			const rect = $ush.$rect( $item[0] );
 			if ( ! ( rect.top < 0 || rect.bottom > ( $body.height() || rect.height ) ) ) {
 				return;
 			}
@@ -212,7 +209,7 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		_showPreloader: function( id ) {
-			var self = this;
+			const self = this;
 			if (
 				! self.isShow()
 				|| ! $usb.builder.doesElmExist( id )
@@ -221,7 +218,7 @@
 			}
 
 			// Get item node and create clone node
-			var $item = $( '[data-for="' + id + '"]', self.$body ),
+			var $item = $( `[data-for="${id}"]`, self.$body ),
 				$duplicateItem = $item.clone()
 					.removeAttr( 'data-for' )
 					.removeClass('expand active')
@@ -243,7 +240,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_expand: function( e ) {
-			var $item = $( e.target ).closest( '[data-for]' );
+			const $item = $( e.target ).closest( '[data-for]' );
 			if ( $item.length ) {
 				$item.toggleClass( 'expand', ! $item.hasClass( 'expand' ) );
 			}
@@ -255,10 +252,10 @@
 		 * @event handler
 		 */
 		_expandAll: function() {
-			var self = this,
-				$action = self.$actionExpandAll,
-				$items = $( '[data-for].has_children', self.$body ).add( $action );
-			// Open or close navigator elements
+			const self = this;
+			const $action = self.$actionExpandAll;
+			const $items = $( '[data-for].has_children', self.$body ).add( $action );
+
 			if ( ! $action.hasClass( 'expand' ) ) {
 				$items.addClass( 'expand' );
 			} else {
@@ -273,8 +270,8 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_selectedElm: function( e ) {
-			var $target = $( e.target ),
-				id = $target.closest( '[data-for]' ).data( 'for' );
+			const $target = $( e.target );
+			const id = $target.closest( '[data-for]' ).data( 'for' );
 
 			// Exit if you click on the expand icon
 			if ( $target.hasClass( 'usb_action_navigator_expand' ) ) {
@@ -283,7 +280,7 @@
 
 			// Scroll to an element if it is outside the preview
 			// Note: Scrolling should work even if the element is already selected
-			$ush.timeout( function() {
+			$ush.timeout( () => {
 				$usb.postMessage( 'doAction', [ 'scrollToOutsideElm', id ] );
 			}, 100 );
 
@@ -301,12 +298,11 @@
 		 * @return {Boolean} Returns false to stop further execution of event handlers
 		 */
 		_duplicateElm: function( e ) {
-			var self = this,
-				id = $( e.target ).closest( '[data-for]' ).data( 'for' );
+			const id = $( e.target ).closest( '[data-for]' ).data( 'for' );
 			if ( ! $usb.builder.doesElmExist( id ) ) {
 				return false;
 			}
-			self.trigger( 'showPreloader', id );
+			this.trigger( 'showPreloader', id );
 			$usb.trigger( 'builder.elmDuplicate', id );
 
 			return false;
@@ -319,8 +315,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_removeElm: function( e ) {
-			var self = this,
-				id = $( e.target ).closest( '[data-for]' ).data( 'for' );
+			const id = $( e.target ).closest( '[data-for]' ).data( 'for' );
 			if ( $usb.builder.doesElmExist( id ) ) {
 				$usb.trigger( 'builder.elmDelete', id );
 			}
@@ -332,14 +327,14 @@
 		 * @param {String} id Shortcode's usbid, e.g. "vc_row:1"
 		 */
 		removeElm: function( id ) {
-			var self = this;
+			const self = this;
 			if (
 				! self.isShow()
 				|| ! $usb.builder.isValidId( id )
 			) {
 				return;
 			}
-			$( '[data-for="' + id + '"]:first', self.$body ).remove();
+			$( `[data-for="${id}"]:first`, self.$body ).remove();
 		},
 
 		/**
@@ -349,7 +344,7 @@
 		 * @param {Boolean} expandParents The expand all parents
 		 */
 		setActive: function( id, expandParents ) {
-			var self = this;
+			const self = this;
 			if (
 				! self.isShow()
 				|| ! $usb.builder.doesElmExist( id )
@@ -359,7 +354,7 @@
 			self.resetActive();
 
 			// Activate the selected item and expand all parents
-			$( '[data-for="' + id + '"]', self.$body )
+			$( `[data-for="${id}"]`, self.$body )
 				.addClass( 'active' )
 				.parents( '[data-for]' )
 				.toggleClass( 'expand', !! expandParents );
@@ -369,10 +364,9 @@
 		 * Reset an active item in navigator
 		 */
 		resetActive: function() {
-			var self = this;
+			const self = this;
 			if ( self.isShow() ) {
-				$( '[data-for].active', self.$body )
-					.removeClass( 'active' );
+				$( '[data-for].active', self.$body ).removeClass( 'active' );
 			}
 		},
 
@@ -390,7 +384,7 @@
 		 * Note: The synchronization method can be called many times, so it must be fast!
 		 */
 		redraw: function() {
-			var self = this;
+			const self = this;
 
 			// Exit if there is no content, will not load iframe or hidden navigator
 			if (
@@ -408,17 +402,17 @@
 			 * @param {Node|DocumentFragment} node The container into which the result will be added
 			 * @return {DocumentFragment|Node} Returns a fragment of the element structure
 			 */
-			var getItems = function( elmsId, node, level ) {
+			const getItems = ( elmsId, node, level ) => {
 				if ( ! Array.isArray( elmsId ) || elmsId.length === 0 ) {
 					return node;
 				}
-				level++; // the current level
-				elmsId.map( function( elmId ) {
-					// Get the element id for the attribute
-					var attrId = $usb.builder.getElmValue( elmId, 'el_id', /* default */'' );
+				level++;
+				elmsId.map( ( elmId ) => {
+
+					const attrId = $usb.builder.getElmValue( elmId, 'el_id', '' );
 
 					// Create a navigator node from a template
-					var $item = $( $usb.buildString( _$tmp.template, {
+					const $item = $( $usb.buildString( _$tmp.template, {
 						attr_id: ( attrId ? '#' + attrId : '' ),
 						elm_icon: $usb.config( 'elm_icons.' + $usb.builder.getElmName( elmId ), 'no-icon' ), // the element icon
 						elm_title: $usb.builder.getElmTitle( elmId ),
@@ -433,12 +427,13 @@
 
 						$item // expand of containers if previously expanded
 							.addClass( 'has_children' )
-							.toggleClass( 'expand', !! $( '[data-for="'+ elmId +'"].expand', self.$body ).length );
+							.toggleClass( 'expand', $( `[data-for="${elmId}"].expand`, self.$body ).length > 0 );
 					}
 
-					$item.addClass( 'level_' + level ); // set item level
-					node.append( $item.get(0) ); // add a item to the node
+					$item.addClass( `level_${level}` );
+					node.append( $item.get(0) );
 				} );
+
 				return node;
 			}
 
@@ -455,7 +450,7 @@
 		 * @event handler
 		 */
 		_panelShowMessage: function() {
-			this.resetActive(); // reset an active element in navigator
+			this.resetActive();
 		},
 
 		/**
@@ -465,17 +460,18 @@
 		 * @event handler
 		 */
 		_shortcodeChanged: function( data ) {
+			const self = this;
+
 			if ( ! $.isPlainObject( data ) ) {
 				return;
 			}
-			var self = this;
+
 			// Reactive update of the id attribute display in the navigator
 			if ( self.isShow() && data.name === 'el_id' ) {
 				if ( data.value ) {
 					data.value = '#' + data.value;
 				}
-				$( '[data-for="' + data.id + '"] .for_attr_id:first', self.$body )
-					.text( data.value );
+				$( `[data-for="${data.id}"] .for_attr_id:first`, self.$body ).text( data.value );
 			}
 		},
 
@@ -485,12 +481,12 @@
 		 * @event handler
 		 */
 		_contentChange: function() {
-			var self = this;
+			const self = this;
 
 			// Disabled/Enable switch navigation button
-			var isEmptyContent = $usb.builder.isEmptyContent();
+			const isEmptyContent = $usb.builder.isEmptyContent();
 			if ( isEmptyContent ) {
-				self.hide(); // hide the navigator
+				self.hide();
 			}
 			self.buttonControl( /* isDisabled */isEmptyContent );
 
@@ -506,15 +502,17 @@
 		 * @event handler
 		 */
 		_iframeReady: function() {
-			var self = this,
-				isEmptyContent = $usb.builder.isEmptyContent();
+			const self = this;
+			const isEmptyContent = $usb.builder.isEmptyContent();
 
-			// After reading the iframe, check the content and activity of the button
 			self.buttonControl( isEmptyContent );
 
-			// Run URL manager after ready
 			if ( ! isEmptyContent ) {
 				self._urlManager( $usb.urlManager.getDataOfChange() );
+			}
+
+			if ( self.isShow() ) {
+				$ush.timeout( self.redraw.bind( self ), 1 );
 			}
 		},
 
@@ -525,9 +523,8 @@
 		 * @param {{}|undefined} state Data object associated with history and current loaction
 		 */
 		_urlManager: function( state ) {
-			var self = this,
-				urlManager = $usb.urlManager;
-			// If the document is not read, exit
+			const self = this;
+
 			if ( ! self.isReady() ) {
 				return;
 			}
@@ -539,7 +536,7 @@
 			}
 
 			// Show or hide "Navigator"
-			if ( urlManager.hasParam( 'navigator', /* value */'show' ) ) {
+			if ( $usb.urlManager.hasParam( 'navigator', 'show' ) ) {
 				self.show();
 			} else {
 				self.hide();

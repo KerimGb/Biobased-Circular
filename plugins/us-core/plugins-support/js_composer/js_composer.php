@@ -880,10 +880,11 @@ function us_vc_is_valid_post_type_be( $result, $type ) {
 	return $result;
 }
 
-// For a text field of `us_text` will replace all hyphenation with tags for correct display in the edit field
-if ( ! function_exists( 'us_vc_form_fields_render_field_us_text_text_param_value' ) ) {
-	add_filter( 'vc_form_fields_render_field_us_text_text_param_value', 'us_vc_form_fields_render_field_us_text_text_param_value', 10, 1 );
-	function us_vc_form_fields_render_field_us_text_text_param_value( $value ) {
+// For correct <br> output in 'us_text' and 'us_btn' shortcodes
+if ( ! function_exists( 'us_wpb_form_fields_render_nl2br' ) ) {
+	add_filter( 'vc_form_fields_render_field_us_text_text_param_value', 'us_wpb_form_fields_render_nl2br', 10, 1 );
+	add_filter( 'vc_form_fields_render_field_us_btn_label_param_value', 'us_wpb_form_fields_render_nl2br', 10, 1 );
+	function us_wpb_form_fields_render_nl2br( $value ) {
 		return nl2br( $value );
 	}
 }
@@ -1371,12 +1372,15 @@ if ( ! function_exists( 'us_vc_single_param_edit_holder_output' ) ) {
 	}
 }
 
-if ( ! function_exists( 'us_output_wpbakery_page_template_custom_js_footer' ) AND class_exists( 'Vc_Custom_Js_Module' ) ) {
+if ( ! function_exists( 'us_output_wpbakery_page_template_custom_js_footer' ) ) {
 	add_action( 'wp_print_footer_scripts', 'us_output_wpbakery_page_template_custom_js_footer', 91 );
 	/**
 	 * Output custom wpbakery JS from Page Settings in Page Template before </body>
 	 */
 	function us_output_wpbakery_page_template_custom_js_footer () {
+		if ( ! class_exists( 'Vc_Custom_Js_Module' ) ) {
+			return;
+		}
 		$page_area_id = us_get_page_area_id( 'content' );
 		if ( ! $page_area_id ) {
 			return;
@@ -1390,7 +1394,7 @@ if ( ! function_exists( 'us_output_wpbakery_page_template_custom_js_footer' ) AN
 	}
 }
 
-if ( ! function_exists( 'us_output_wpbakery_page_template_custom_js_header' ) AND class_exists( 'Vc_Custom_Js_Module' ) ) {
+if ( ! function_exists( 'us_output_wpbakery_page_template_custom_js_header' ) ) {
 	add_filter( 'print_head_scripts', 'us_output_wpbakery_page_template_custom_js_header', 91, 1 );
 	/**
 	 * Output custom wpbakery JS from Page Settings in Page Template before </head>
@@ -1398,7 +1402,7 @@ if ( ! function_exists( 'us_output_wpbakery_page_template_custom_js_header' ) AN
 	 * @return bool
 	 */
 	function us_output_wpbakery_page_template_custom_js_header ( $is_print ) {
-		if ( is_admin() ) {
+		if ( is_admin() OR ! class_exists( 'Vc_Custom_Js_Module' ) ) {
 			return $is_print;
 		}
 		$page_area_id = us_get_page_area_id( 'content' );

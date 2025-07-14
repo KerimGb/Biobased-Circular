@@ -139,7 +139,7 @@
 				return;
 			}
 			let value = self.getCurrentValue(),
-				isVC = self.isVCParamValue(),
+				isVC = self.isWPBakeryParamValue(),
 				isNumericValue = $ush.parseInt( value ) !== 0,
 				$addDesc = $( '.us-grid-layout-desc-add', isVC ? self.$row.parent() : self.$row ),
 				$editLink = $( '.us-grid-layout-desc-edit', isVC ? self.$row.parent() : self.$row );

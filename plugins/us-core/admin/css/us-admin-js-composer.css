@@ -699,7 +699,8 @@
 /* Custom "NEW" badge */
 .vc_add-element-container #us_list_filter:after,
 .vc_add-element-container #us_list_order:after,
-.vc_add-element-container #us_list_search:after {
+.vc_add-element-container #us_list_search:after,
+.vc_add-element-container #us_countdown_timer:after {
 	content: 'NEW';
 	position: absolute;
 	top: 8px;
@@ -1045,10 +1046,14 @@ textarea.wpb_vc_param_value.textarea_raw_html {
 	}
 .edit_form_line > .usof-form-row {
 	padding: 0;
+	width: 100%;
 	}
 .vc_wrapper-param-type-checkbox {
 	margin-top: 5px;
 	}
 .edit_form_line .usof-link-input {
 	box-sizing: border-box;
+	}
+.edit_form_line > .usof-form-row[data-name=time_minute]:before {
+	line-height: 2;
 	}

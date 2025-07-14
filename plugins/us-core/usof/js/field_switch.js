@@ -23,7 +23,7 @@
 				e.target.value = value;
 
 				// Hidden field linked from WPBakery
-				if ( self.isVCParamValue() ) {
+				if ( self.isWPBakeryParamValue() ) {
 					self.$hidden.val( value ).trigger( 'change' )
 				}
 				self.trigger( 'change', [ value ] );
@@ -31,13 +31,13 @@
 		},
 
 		/**
-		 * Determines if a value is a param for Visual Composer
+		 * Determines if a value is a param for WPBakery
 		 * Note: Method overridden because a hidden field is used for the current control
 		 *
 		 * @return {Boolean} True if vc parameter value, False otherwise.
 		 */
-		isVCParamValue: function() {
-			return !! this.$hidden.length;
+		isWPBakeryParamValue: function() {
+			return this.$hidden.length > 0;
 		},
 
 		/**

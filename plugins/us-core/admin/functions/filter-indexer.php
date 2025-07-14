@@ -39,28 +39,29 @@ if ( ! class_exists( 'US_Filter_Indexer' ) ) {
 		 */
 		function __construct() {
 
-			$this->set_table( 'auto' );
-			$this->run_cron();
+			if ( is_admin() OR ( defined( 'DOING_CRON' ) AND DOING_CRON ) ) {
 
-			if ( ! static::is_table_created() ) {
-				$this->create_table();
+				$this->set_table( 'auto' );
+				$this->run_cron();
+
+				$this->check_create_table();
+
+				// Event listeners.
+				if ( us_get_option( 'enable_auto_filter_reindex', FALSE ) ) {
+					add_action( 'save_post', array( $this, 'save_post' ) );
+					add_action( 'delete_post', array( $this, 'delete_post' ) );
+					add_action( 'edited_term', array( $this, 'edit_term' ), 10, 3 );
+					add_action( 'delete_term', array( $this, 'delete_term' ), 10, 3 );
+					add_action( 'set_object_terms', array( $this, 'set_object_terms' ) );
+					add_action( 'wp_insert_post_parent', array( $this, 'is_wp_insert_post' ) );
+				}
+
+				add_action( 'us_filter_indexer_cron', array( $this, 'get_progress' ) );
+				add_action( 'us_filter_indexer_resume_index', array( $this, 'resume_index' ) );
+
+				// Delete index tables
+				register_deactivation_hook( US_CORE_DIR . 'us-core.php', array( $this, 'delete_tables' ) );
 			}
-
-			// Event listeners.
-			if ( us_get_option( 'enable_auto_filter_reindex', FALSE ) ) {
-				add_action( 'save_post', array( $this, 'save_post' ) );
-				add_action( 'delete_post', array( $this, 'delete_post' ) );
-				add_action( 'edited_term', array( $this, 'edit_term' ), 10, 3 );
-				add_action( 'delete_term', array( $this, 'delete_term' ), 10, 3 );
-				add_action( 'set_object_terms', array( $this, 'set_object_terms' ) );
-				add_action( 'wp_insert_post_parent', array( $this, 'is_wp_insert_post' ) );
-			}
-
-			add_action( 'us_filter_indexer_cron', array( $this, 'get_progress' ) );
-			add_action( 'us_filter_indexer_resume_index', array( $this, 'resume_index' ) );
-
-			// Delete index tables
-			register_deactivation_hook( US_CORE_DIR . 'us-core.php', array( $this, 'delete_tables' ) );
 		}
 
 		/**
@@ -109,10 +110,19 @@ if ( ! class_exists( 'US_Filter_Indexer' ) ) {
 		}
 
 		/**
-		 * Create a table.
+		 * Check if the table is created, if not, it will create it.
 		 */
-		private function create_table() {
+		private function check_create_table() {
 			global $wpdb;
+
+			if ( get_option( 'us_filter_index_table_is_created', FALSE ) ) {
+				return;
+			}
+
+			if ( static::is_table_created() ) {
+				update_option( 'us_filter_index_table_is_created', TRUE, TRUE );
+				return;
+			}
 
 			$int = apply_filters( 'us_filter_indexer_use_bigint', FALSE ) ? 'bigint' : 'int';
 
@@ -140,6 +150,8 @@ if ( ! class_exists( 'US_Filter_Indexer' ) ) {
 			}
 
 			dbDelta( $table_structure );
+
+			update_option( 'us_filter_index_table_is_created', TRUE, TRUE );
 		}
 
 		/**
@@ -150,6 +162,8 @@ if ( ! class_exists( 'US_Filter_Indexer' ) ) {
 
 			$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}us_filter_index" );
 			$wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}us_filter_index_temp" );
+
+			delete_option( 'us_filter_index_table_is_created' );
 		}
 
 		/**
@@ -780,6 +794,9 @@ if ( ! class_exists( 'US_Filter_Indexer' ) ) {
 							if ( $val === '' ) {
 								continue;
 							}
+
+							$val = apply_filters( 'us_filter_indexer_meta_value', $val, $source_name );
+
 							$indexes[] = array_merge(
 								$defaults,
 								array(
@@ -824,8 +841,7 @@ if ( ! class_exists( 'US_Filter_Indexer' ) ) {
 		}
 	}
 
-	// Init.
-	US_Filter_Indexer::instance();
+	add_action( 'init', 'US_Filter_Indexer::instance', 501 );
 }
 
 if ( ! function_exists( 'us_define_tables_in_wpdb' ) ) {
@@ -890,7 +906,7 @@ if ( ! function_exists( 'us_index_filters_by_ajax' ) ) {
 			$progress = $us_filter_indexer->get_progress();
 
 			if ( $progress !== -1 ) {
-				$response['message'] = sprintf( __( 'Indexing' ) . ' %s%%', $progress );
+				$response['message'] = sprintf( __( 'Indexing', 'us' ) . ' %s%%', $progress );
 			} else {
 				$response['status'] = 'completed';
 			}

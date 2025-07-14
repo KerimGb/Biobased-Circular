@@ -8,13 +8,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -32,16 +32,14 @@
 	 * @param {String} container The container
 	 */
 	function Notify( container ) {
-		var self = this;
+		const self = this;
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			close: self._close.bind( self )
 		};
 
-		$( function() {
+		$( () => {
 
 			// Elements
 			self.$container = $( container );
@@ -70,13 +68,13 @@
 		 * TODO: Add display multiple notifications as a list!
 		 */
 		add: function( message, type ) {
-			var self = this,
-				// Time after which the notification will be remote
-				delayAutoClose = 4000, // 4s
-				// Get prototype
+			const self = this;
+
+			var delayAutoClose = 4000, // 4s
 				$notification = self.$container
 					.clone()
 					.removeClass( 'hidden' );
+
 			// Set notification type
 			if ( !! type && $usbcore.indexOf( type, _NOTIFY_TYPE_ ) > -1 ) {
 				$notification
@@ -86,7 +84,7 @@
 			if ( type !== _NOTIFY_TYPE_.ERROR ) {
 				$notification
 					.addClass( 'auto_close' )
-					.data( 'handle', $ush.timeout( function() {
+					.data( 'handle', $ush.timeout( () => {
 						$notification
 							.find( '.usb_action_notification_close' )
 							.trigger( 'click' );
@@ -114,7 +112,7 @@
 			if ( !! handle ) {
 				$ush.clearTimeout( handle );
 			}
-			$notification.fadeOut( 'fast', function() {
+			$notification.fadeOut( 'fast', () => {
 				$notification.remove();
 			} );
 		},

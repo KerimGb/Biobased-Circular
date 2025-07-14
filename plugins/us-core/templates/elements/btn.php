@@ -9,7 +9,7 @@
 global $us_grid_item_type;
 
 $_atts['class'] = 'w-btn ' . us_get_btn_class( $style );
-$_atts['class'] .= isset( $classes ) ? $classes : '';
+$_atts['class'] .= $classes ?? '';
 
 if ( ! empty( $el_id ) ) {
 	$_atts['id'] = $el_id;
@@ -47,7 +47,7 @@ if ( ! empty( $icon ) ) {
 
 // Apply filters to button label
 $label = us_replace_dynamic_value( $label );
-$label = trim( strip_tags( $label, '<br>' ) );
+$label = trim( strip_tags( $label, '<br><code><i><small><span><strong><sub><sup>' ) );
 $label = wptexturize( $label );
 
 if ( $label == '' ) {

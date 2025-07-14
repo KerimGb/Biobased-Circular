@@ -52,8 +52,8 @@
 			$self
 				.on( 'click', 'a[href$="#"]', function( e ) { e.preventDefault() } )
 				.on( 'keydown', function( e ) {
-					var keyCode = e.keyCode || e.which;
-					if ( keyCode == 9 ) {
+					const keyCode = e.keyCode || e.which;
+					if ( keyCode == $ush.TAB_KEYCODE ) {
 						var $target = $( e.target ) || {},
 							index = $anchors.index( $target );
 						if ( e.shiftKey ) {
@@ -66,8 +66,7 @@
 							}
 						}
 					}
-					// Close on ESC
-					if ( keyCode == 27 ) {
+					if ( keyCode == $ush.ESC_KEYCODE ) {
 						closeList();
 					}
 				} );

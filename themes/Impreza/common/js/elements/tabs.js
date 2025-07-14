@@ -7,230 +7,231 @@
 	"use strict";
 
 	$us.WTabs = function( container, options ) {
-		this.init( container, options );
+		const self = this;
+
+		const _defaults = {
+			easing: 'cubic-bezier(.78,.13,.15,.86)',
+			duration: 300
+		};
+
+		self.options = $.extend( {}, _defaults, options );
+		self.isRtl = $( '.l-body' ).hasClass( 'rtl' );
+
+		// Elements
+		self.$container = $( container );
+		self.$tabsList = $( '> .w-tabs-list:first', self.$container );
+		self.$tabs = $( '.w-tabs-item', self.$tabsList );
+		self.$sectionsWrapper = $( '> .w-tabs-sections:first', self.$container );
+		self.$sections = $( '> .w-tabs-section', self.$sectionsWrapper );
+		self.$headers = self.$sections.children( '.w-tabs-section-header' );
+		self.$contents = self.$sections.children( '.w-tabs-section-content' );
+		self.$tabsBar = $();
+
+		// Overriding specific to Web Accessibility, it is not allowed to have several identical id and
+		// aria-content, aria-control. http://web-accessibility.carnegiemuseums.org/code/accordions/
+		if ( self.$container.hasClass( 'accordion' ) ) {
+			self.$tabs = self.$headers;
+		}
+
+		// Private "Variables"
+		self.accordionAtWidth = self.$container.data( 'accordion-at-width' );
+		self.align = self.$tabsList.usMod( 'align' );
+		self.count = self.$tabs.length;
+		self.hasScrolling = self.$container.hasClass( 'has_scrolling' ) || false;
+		self.isAccordionAtWidth = $ush.parseInt( self.accordionAtWidth ) !== 0;
+		self.isScrolling = false;
+		self.isTogglable = self.$container.usMod( 'type' ) === 'togglable';
+		self.minWidth = 0; // container width at which we should switch to accordion layout.
+		self.tabHeights = [];
+		self.tabLefts = [];
+		self.tabTops = [];
+		self.tabWidths = [];
+		self.width = 0;
+
+		// If there are no tabs, abort further execution.
+		if ( self.count === 0 ) {
+			return;
+		}
+
+		// Basic layout
+		if ( self.$container.hasClass( 'accordion' ) ) {
+			self.basicLayout = 'accordion';
+
+		} else {
+			self.basicLayout = self.$container.usMod( 'layout' ) || 'hor';
+		}
+
+		// Current active layout (may be switched to 'accordion').
+		self.curLayout = self.basicLayout;
+
+		// Array of active tabs indexes.
+		self.active = [];
+		self.activeOnInit = [];
+		self.definedActive = [];
+
+		// Preparing arrays of jQuery objects for easier manipulating in future.
+		self.tabs = $.map( self.$tabs.toArray(), $ );
+		self.sections = $.map( self.$sections.toArray(), $ );
+		self.headers = $.map( self.$headers.toArray(), $ );
+		self.contents = $.map( self.$contents.toArray(), $ );
+
+		// Do nothing it there are no sections.
+		if ( ! self.sections.length ) {
+			return;
+		}
+
+		$.each( self.tabs, ( index ) => {
+
+			if ( self.sections[ index ].hasClass( 'content-empty' ) ) {
+				self.tabs[ index ].hide();
+				self.sections[ index ].hide();
+			}
+
+			if ( self.tabs[ index ].hasClass( 'active' ) ) {
+				self.active.push( index );
+				self.activeOnInit.push( index );
+			}
+
+			if ( self.tabs[ index ].hasClass( 'defined-active' ) ) {
+				self.definedActive.push( index );
+			}
+
+			self.tabs[ index ]
+				.add( self.headers[ index ] )
+				.on( 'click mouseover', ( e ) => {
+
+					var $link = self.tabs[ index ];
+					if ( ! $link.is( 'a' ) ) {
+						$link = $( 'a', $link );
+					}
+
+					if ( $link.length ) {
+						if ( e.type == 'click' && ! $ush.toString( $link.attr( 'href' ) ) ) {
+							e.preventDefault();
+						}
+					} else {
+						e.preventDefault();
+					}
+
+					if (
+						e.type == 'mouseover'
+						&& (
+							self.$container.hasClass( 'accordion' )
+							|| ! self.$container.hasClass( 'switch_hover' )
+						)
+					) {
+						return;
+					}
+
+					// Toggling accordion sections.
+					if ( self.curLayout === 'accordion' && self.isTogglable ) {
+						self.toggleSection( index ); // cannot toggle the only active item.
+
+						// Setup active tab
+					} else {
+
+						if ( index != self.active[0] ) {
+							self.headerClicked = true;
+							self.openSection( index );
+
+						} else if ( self.curLayout === 'accordion' ) {
+
+							self.contents[ index ]
+								.css( 'display', 'block' )
+								.slideUp( self.options.duration, self._events.contentChanged );
+							self.tabs[ index ]
+								.attr( 'aria-expanded', 'true' )
+								.removeClass( 'active' );
+							self.sections[ index ]
+								.removeClass( 'active' );
+							self.active[0] = _undefined;
+						}
+					}
+				} );
+		} );
+
+		// Bindable events
+		self._events = {
+			resize: self.resize.bind( self ),
+			hashchange: self.hashchange.bind( self ),
+			contentChanged: function() {
+				$.each( self.tabs, ( _, item ) => {
+					var $content = $( item );
+					$content.attr( 'aria-expanded', $content.hasClass( 'active' ) );
+				} )
+				$us.$canvas.trigger( 'contentChange', { elm: self.$container } );
+			},
+			wheel: function() {
+				if ( self.isScrolling ) {
+					$us.$htmlBody.stop( true, false ); // stop animation when scrolling wheel
+				}
+			}
+		};
+
+		// Starting everything.
+		self.switchLayout( self.curLayout );
+
+		$us.$window
+			.on( 'resize', $ush.debounce( self._events.resize, 5 ) )
+			.on( 'hashchange', self._events.hashchange )
+			.on( 'wheel.noPreventDefault', $ush.debounce( self._events.wheel.bind( self ), 5 ) );
+
+		$us.$document.ready( () => {
+			self.resize();
+			$ush.timeout( self._events.resize, 50 );
+			$ush.timeout( () => {
+				// TODO: move to a class function for code reading improvement.
+				// Open tab on page load by hash.
+				if ( window.location.hash ) {
+					var hash = window.location.hash.substr( 1 ),
+						$linkedSection = $( `.w-tabs-section[id="${hash}"]`, self.$sectionsWrapper );
+					if ( $linkedSection.length && ! $linkedSection.hasClass( 'active' ) ) {
+						$( '.w-tabs-section-header', $linkedSection ).trigger( 'click' );
+					}
+				}
+			}, 150 );
+		} );
+
+		// Support for external links to tabs.
+		$.each( self.tabs, ( index ) => {
+			if ( self.headers.length && self.headers[ index ].attr( 'href' ) != _undefined ) {
+				var tabHref = self.headers[ index ].attr( 'href' ),
+					tabHeader = self.headers[ index ];
+				$( `a[href="${tabHref}"]`, self.$container ).on( 'click', function( e ) {
+					e.preventDefault();
+					if ( $( this ).hasClass( 'w-tabs-section-header', 'w-tabs-item' ) ) {
+						return;
+					}
+					if ( ! $( tabHeader ).parent( '.w-tabs-section' ).hasClass( 'active' ) ) {
+						tabHeader.trigger( 'click' );
+					}
+				} );
+			}
+		} );
+
+		self.$container.addClass( 'initialized' );
+
+		// Gets the height of the header after animation.
+		self.headerHeight = 0;
+		$us.header.on( 'transitionEnd', ( header ) => {
+			self.headerHeight = header.getCurrentHeight( /* adminBar */true );
+		} );
+
+		if ( $us.usbPreview() ) {
+
+			const usbContentChange = () => {
+				if ( ! self.isTrendy() || self.curLayout == 'accordion' ) {
+					return;
+				}
+				self.measure();
+				self.setBarPosition( self.active[0] || 0 ); // set bar position for certain element index and current layout
+			};
+
+			self.$container.on( 'usb.contentChange', $ush.debounce( usbContentChange, 1 ) );
+		}
 	};
 
 	$us.WTabs.prototype = {
-
-		init: function( container, options ) {
-			// Setting options
-			var _defaults = {
-				duration: 300,
-				easing: 'cubic-bezier(.78,.13,.15,.86)'
-			};
-			this.options = $.extend( {}, _defaults, options );
-			this.isRtl = $( '.l-body' ).hasClass( 'rtl' );
-
-			// Commonly used dom elements
-			this.$container = $( container );
-			this.$tabsList = $( '> .w-tabs-list:first', this.$container );
-			this.$tabs = $( '.w-tabs-item', this.$tabsList );
-			this.$sectionsWrapper = $( '> .w-tabs-sections:first', this.$container );
-			this.$sections = $( '> .w-tabs-section', this.$sectionsWrapper );
-			this.$headers = this.$sections.children( '.w-tabs-section-header' );
-			this.$contents = this.$sections.children( '.w-tabs-section-content' );
-			this.$tabsBar = $();
-
-			// Overriding specific to Web Accessibility, it is not allowed to have several identical id and
-			// aria-content, aria-control. http://web-accessibility.carnegiemuseums.org/code/accordions/
-			if ( this.$container.hasClass( 'accordion' ) ) {
-				this.$tabs = this.$headers;
-			}
-
-			// Class variables
-			this.accordionAtWidth = this.$container.data( 'accordion-at-width' );
-			this.align = this.$tabsList.usMod( 'align' );
-			this.count = this.$tabs.length;
-			this.hasScrolling = this.$container.hasClass( 'has_scrolling' ) || false;
-			this.isAccordionAtWidth = $ush.parseInt( this.accordionAtWidth ) !== 0;
-			this.isScrolling = false;
-			this.isTogglable = ( this.$container.usMod( 'type' ) === 'togglable' );
-			this.minWidth = 0; // Container width at which we should switch to accordion layout.
-			this.tabHeights = [];
-			this.tabLefts = [];
-			this.tabTops = [];
-			this.tabWidths = [];
-			this.width = 0;
-
-			// If there are no tabs, abort further execution.
-			if ( this.count === 0 ) {
-				return;
-			}
-
-			// Basic layout
-			this.basicLayout = this.$container.hasClass( 'accordion' )
-				? 'accordion'
-				: ( this.$container.usMod( 'layout' ) || 'hor' );
-
-			// Current active layout (may be switched to 'accordion').
-			this.curLayout = this.basicLayout;
-
-			// Array of active tabs indexes.
-			this.active = [];
-			this.activeOnInit = [];
-			this.definedActive = [];
-
-			// Preparing arrays of jQuery objects for easier manipulating in future.
-			this.tabs = $.map( this.$tabs.toArray(), $ );
-			this.sections = $.map( this.$sections.toArray(), $ );
-			this.headers = $.map( this.$headers.toArray(), $ );
-			this.contents = $.map( this.$contents.toArray(), $ );
-
-			// Do nothing it there are no sections.
-			if ( ! this.sections.length ) {
-				return;
-			}
-
-			$.each( this.tabs, function( index ) {
-
-				if ( this.sections[ index ].hasClass( 'content-empty' ) ) {
-					this.tabs[ index ].hide();
-					this.sections[ index ].hide();
-				}
-
-				if ( this.tabs[ index ].hasClass( 'active' ) ) {
-					this.active.push( index );
-					this.activeOnInit.push( index );
-				}
-				if ( this.tabs[ index ].hasClass( 'defined-active' ) ) {
-					this.definedActive.push( index );
-				}
-				this.tabs[ index ]
-					.add( this.headers[ index ] )
-					.on( 'click mouseover', function( e ) {
-						var $link = this.tabs[ index ];
-						if ( ! $link.is( 'a' ) ) {
-							$link = $link.find( 'a' );
-						}
-						if (
-							! $link.length
-							|| (
-								$link.is( '[href]' )
-								&& $link.attr( 'href' ).indexOf( 'http' ) === - 1
-							)
-						) {
-							e.preventDefault();
-						}
-						if (
-							e.type == 'mouseover'
-							&& (
-								this.$container.hasClass( 'accordion' )
-								|| ! this.$container.hasClass( 'switch_hover' )
-							)
-						) {
-							return;
-						}
-						// Toggling accordion sections.
-						if ( this.curLayout === 'accordion' && this.isTogglable ) {
-							// Cannot toggle the only active item.
-							this.toggleSection( index );
-						}
-						// Setting tabs active item.
-						else {
-							if ( index != this.active[ 0 ] ) {
-								this.headerClicked = true;
-								this.openSection( index );
-							} else if ( this.curLayout === 'accordion' ) {
-								this.contents[ index ]
-									.css( 'display', 'block' )
-									.slideUp( this.options.duration, this._events.contentChanged );
-								this.tabs[ index ]
-									.attr( 'aria-expanded', 'true' )
-									.removeClass( 'active' );
-								this.sections[ index ]
-									.removeClass( 'active' );
-								this.active[ 0 ] = _undefined;
-							}
-						}
-					}.bind( this ) );
-			}.bind( this ) );
-
-			// Bindable events
-			this._events = {
-				resize: this.resize.bind( this ),
-				hashchange: this.hashchange.bind( this ),
-				contentChanged: function() {
-					$.each( this.tabs, function( _, item ) {
-						var $content = $( item );
-						$content.attr( 'aria-expanded', $content.is( '.active' ) );
-					} )
-					$us.$canvas.trigger( 'contentChange', { elm: this.$container } );
-				}.bind( this ),
-				wheel: function() {
-					// Stop animation when scrolling wheel.
-					if ( this.isScrolling ) {
-						$us.$htmlBody.stop( true, false );
-					}
-				}
-			};
-
-			// Starting everything.
-			this.switchLayout( this.curLayout );
-
-			$us.$window
-				.on( 'resize', $ush.debounce( this._events.resize, 5 ) )
-				.on( 'hashchange', this._events.hashchange )
-				.on( 'wheel.noPreventDefault', $ush.debounce( this._events.wheel.bind( this ), 5 ) );
-
-			$us.$document.ready( function() {
-				this.resize();
-				$ush.timeout( this._events.resize, 50 );
-				$ush.timeout( function() {
-					// TODO: move to a class function for code reading improvement.
-					// Open tab on page load by hash.
-					if ( window.location.hash ) {
-						var hash = window.location.hash.substr( 1 ),
-							$linkedSection = this.$sectionsWrapper.find( '.w-tabs-section[id="' + hash + '"]' );
-						if ( $linkedSection.length && ( ! $linkedSection.hasClass( 'active' ) ) ) {
-							$linkedSection
-								.find( '.w-tabs-section-header' )
-								.trigger( 'click' );
-						}
-					}
-				}.bind( this ), 150 );
-			}.bind( this ) );
-
-			// Support for external links to tabs.
-			$.each( this.tabs, function( index ) {
-				if ( this.headers.length && this.headers[ index ].attr( 'href' ) != _undefined ) {
-					var tabHref = this.headers[ index ].attr( 'href' ),
-						tabHeader = this.headers[ index ];
-					$( 'a[href="' + tabHref + '"]', this.$container ).on( 'click', function( e ) {
-						e.preventDefault();
-						if ( $( this ).hasClass( 'w-tabs-section-header', 'w-tabs-item' ) ) {
-							return;
-						}
-						if ( ! $( tabHeader ).parent( '.w-tabs-section' ).hasClass( 'active' ) ) {
-							tabHeader.trigger( 'click' );
-						}
-					} );
-				}
-			}.bind( this ) );
-
-			this.$container.addClass( 'initialized' );
-
-			// Gets the height of the header after animation.
-			this.headerHeight = 0;
-			$us.header.on( 'transitionEnd', function( header ) {
-				this.headerHeight = header.getCurrentHeight( /* adminBar */true );
-			}.bind( this ) );
-
-			if ( $us.usbPreview() ) {
-				/**
-				 * Change handler via builder
-				 */
-				var usbContentChange = function() {
-					if ( ! this.isTrendy() || this.curLayout == 'accordion' ) {
-						return;
-					}
-					this.measure();
-					// Set bar position for certain element index and current layout
-					this.setBarPosition( this.active[ 0 ] || 0 );
-				}.bind( this );
-				this.$container // Watches changes in the builder
-					.on( 'usb.contentChange', $ush.debounce( usbContentChange, 1 ) );
-			}
-		},
 
 		/**
 		 * Determines if trendy style (Material style)
@@ -244,10 +245,9 @@
 		hashchange: function() {
 			if ( window.location.hash ) {
 				var hash = window.location.hash.substr( 1 ),
-					$linkedSection = this.$sectionsWrapper.find( '.w-tabs-section[id="' + hash + '"]' );
-				if ( $linkedSection.length && ( ! $linkedSection.hasClass( 'active' ) ) ) {
-					var $header = $linkedSection.find( '.w-tabs-section-header' );
-					$header.click();
+					$linkedSection = $( `.w-tabs-section[id="${hash}"]`, this.$sectionsWrapper );
+				if ( $linkedSection.length && ! $linkedSection.hasClass( 'active' ) ) {
+					$( '.w-tabs-section-header', $linkedSection ).click();
 				}
 			}
 		},
@@ -271,7 +271,7 @@
 				this.$contents.resetInlineCSS( 'height', 'padding-top', 'padding-bottom', 'display', 'opacity' );
 			}
 
-			if ( this.isTrendy() && 'hor|ver'.indexOf( from ) > - 1 ) {
+			if ( this.isTrendy() && [ 'hor', 'ver' ].includes( from ) ) {
 				this.$tabsBar.remove();
 			}
 		},
@@ -282,12 +282,12 @@
 		 * @param to
 		 */
 		prepareLayout: function( to ) {
-			if ( to !== 'accordion' && this.active[ 0 ] === _undefined ) {
-				this.active[ 0 ] = this.activeOnInit[ 0 ];
+			if ( to !== 'accordion' && this.active[0] === _undefined ) {
+				this.active[0] = this.activeOnInit[0];
 				if ( this.active[ 0 ] !== _undefined ) {
-					this.tabs[ this.active[ 0 ] ]
+					this.tabs[ this.active[0] ]
 						.addClass( 'active' );
-					this.sections[ this.active[ 0 ] ]
+					this.sections[ this.active[0] ]
 						.addClass( 'active' );
 				}
 			}
@@ -295,14 +295,14 @@
 			if ( to === 'accordion' ) {
 				this.$container.addClass( 'accordion' );
 				this.$contents.hide();
-				if ( this.curLayout !== 'accordion' && this.active[ 0 ] !== _undefined && this.active[ 0 ] !== this.definedActive[ 0 ] ) {
-					this.headers[ this.active[ 0 ] ]
+				if ( this.curLayout !== 'accordion' && this.active[0] !== _undefined && this.active[0] !== this.definedActive[0] ) {
+					this.headers[ this.active[0] ]
 						.removeClass( 'active' );
-					this.tabs[ this.active[ 0 ] ]
+					this.tabs[ this.active[0] ]
 						.removeClass( 'active' );
-					this.sections[ this.active[ 0 ] ]
+					this.sections[ this.active[0] ]
 						.removeClass( 'active' );
-					this.active[ 0 ] = this.definedActive[ 0 ];
+					this.active[0] = this.definedActive[0];
 
 				}
 				for ( var i = 0; i < this.active.length; i ++ ) {
@@ -319,7 +319,7 @@
 
 			} else if ( to === 'ver' ) {
 				this.$contents.hide();
-				this.contents[ this.active[ 0 ] ]
+				this.contents[ this.active[0] ]
 					.show();
 			}
 
@@ -393,19 +393,15 @@
 					if ( this.isRtl ) {
 						var
 							// Get the width of the first tab
-							firstTabWidth = this.tabWidths[ 0 ],
+							firstTabWidth = this.tabWidths[0],
 							// Get X offsets
 							offset = ( 'none' == this.align )
 								? this.$tabsList.outerWidth( true )
 								: this.tabWidths // Get the total width of all tambours
-									.reduce( function( a, b ) {
-										return a + b
-									}, /* Default */0 );
+									.reduce( ( a, b ) => { return a + b }, /* default */0 );
 						// Calculate position based on offset
 						this.tabLefts = this.tabLefts
-							.map( function( left ) {
-								return Math.abs( left - offset + firstTabWidth )
-							} );
+							.map( ( left ) => Math.abs( left - offset + firstTabWidth ) );
 					}
 				}
 			}
@@ -459,6 +455,7 @@
 			if ( this.sections[ index ] === _undefined ) {
 				return;
 			}
+
 			if ( this.curLayout === 'hor' ) {
 				this.$sections
 					.removeClass( 'active' )
@@ -469,8 +466,8 @@
 						$( this ).addClass( 'active' );
 					} );
 			} else if ( this.curLayout === 'accordion' ) {
-				if ( this.contents[ this.active[ 0 ] ] !== _undefined ) {
-					this.contents[ this.active[ 0 ] ]
+				if ( this.contents[ this.active[0] ] !== _undefined ) {
+					this.contents[ this.active[0] ]
 						.css( 'display', 'block' )
 						.stop( true, false )
 						.slideUp( this.options.duration );
@@ -544,8 +541,8 @@
 				this.sections[ index ]
 					.addClass( 'active' );
 			} else if ( this.curLayout === 'ver' ) {
-				if ( this.contents[ this.active[ 0 ] ] !== _undefined ) {
-					this.contents[ this.active[ 0 ] ]
+				if ( this.contents[ this.active[0] ] !== _undefined ) {
+					this.contents[ this.active[0] ]
 						.css( 'display', 'none' );
 				}
 				this.contents[ index ]
@@ -642,9 +639,7 @@
 		} );
 	};
 
-	$( () => {
-		$( '.w-tabs' ).wTabs();
-	} );
+	$( () => $( '.w-tabs' ).wTabs() );
 
 	// Init in Post\Product List or Grid context
 	$us.$document.on( 'usPostList.itemsLoaded usGrid.itemsLoaded', ( _, $items ) => {

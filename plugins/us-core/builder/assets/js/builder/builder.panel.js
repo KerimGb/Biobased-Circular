@@ -16,19 +16,18 @@
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
 	/**
 	 * @type {RegExp} Regular expression for finding builder IDs
 	 */
-	const REGEXP_USBID_ATTR = /(\s?usbid="([^\"]+)?")/g;
+	const USBID_ATTR_REGEXP = /(\s?usbid="([^\"]+)?")/g;
 
 	/**
 	 * @type {{}} Private temp data
 	 */
-	let _$tmp = {
+	var _$tmp = {
 		elmsFieldset: {}, // fieldset for elements
 		isFieldsetsLoaded: false, // this param will be True when fieldsets are loaded otherwise it will be False
 	};
@@ -61,6 +60,7 @@
 			switchPanel: self._switchPanel.bind( self ),
 			switchTabs: self.$$fieldsets._switchTabs.bind( self ), // specific location
 			urlManager: self._urlManager.bind( self ),
+			clearBody: self.clearBody.bind( self ),
 
 			// Import content
 			changeImportContent: self._changeImportContent.bind( self ),
@@ -125,14 +125,14 @@
 
 		// Private events
 		$usb
-			.on( 'iframeReady', self._events.iframeReady ) // read document in iframe handler
-			.on( 'builder.contentChange', self._events.contentChange ) // сontent change handler
-			.on( 'panel.switch', self._events.switchPanel ) // switch show/hide panel
-			.on( 'panel.showAddElms', self._events.showAddElms ) // handler for show the add elements
-			.on( 'panel.clearBody', self.clearBody.bind( self ) ) // handler for clear panel body
-			.on( 'panel.saveChanges', self._events.saveChanges ) // save changes to the backend
-			.on( 'hotkeys.ctrl+s', self._events.saveChanges ) // save changes by `(command|ctrl)+s`
-			.on( 'urlManager.changed', self._events.urlManager ); // URL history stack change handler
+			.on( 'iframeReady', self._events.iframeReady )
+			.on( 'builder.contentChange', self._events.contentChange )
+			.on( 'panel.switch', self._events.switchPanel )
+			.on( 'panel.showAddElms', self._events.showAddElms )
+			.on( 'panel.clearBody', self._events.clearBody )
+			.on( 'panel.saveChanges', self._events.saveChanges )
+			.on( 'hotkeys.ctrl+s', self._events.saveChanges )
+			.on( 'urlManager.changed', self._events.urlManager );
 	}
 
 	/**
@@ -146,13 +146,13 @@
 		 * Hide all sections in panel
 		 *
 		 * @event handler
-		 * TODO: Debug the panel cleanup
 		 */
 		clearBody: function() {
 			const self = this;
-			self._hideImportContent(); // hide the import content (Paste Row/Section)
-			self._hideAddElms(); // hide the section "Add elements"
-			self._destroyElmFieldset(); // destroy a set of fields for an element
+
+			self._hideImportContent();
+			self._hideAddElms();
+			self._destroyElmFieldset();
 		},
 
 		/**
@@ -161,9 +161,10 @@
 		 * @event handler
 		 */
 		_switchPanel: function() {
-			var isShow = $usb.panel.isShow(),
-				doActionArgs = 'hideEditableHighlight',
-				selectedElmId = $usb.find( 'builder.selectedElmId' );
+			const isShow = $usb.panel.isShow();
+			const selectedElmId = $usb.find( 'builder.selectedElmId' );
+
+			var doActionArgs = 'hideEditableHighlight';
 
 			if ( isShow && selectedElmId ) {
 				doActionArgs = [ 'showEditableHighlight', selectedElmId ];
@@ -179,23 +180,25 @@
 		 * @event handler
 		 */
 		_searchElms: function() {
-			var self = this,
-				$input = self.$searchField,
-				isFoundResult = true,
-				value = $ush.toLowerCase( $input[0].value ).trim();
+			const self = this;
+			const $input = self.$searchField;
+			const value = $ush.toLowerCase( $input[0].value ).trim();
+
+			var isFoundResult = true;
+
 			$input
 				.next( '.usb_action_reset_search_in_panel' )
 				.toggleClass( 'hidden', ! value );
 			self.$searchElms
 				.toggleClass( 'hidden', !! value );
 			if ( value ) {
-				isFoundResult = !! self.$searchElms
-					.filter( '[data-search-text^="' + value + '"], [data-search-text*="' + value + '"]' )
+				isFoundResult = self.$searchElms
+					.filter( `[data-search-text^="${value}"], [data-search-text*="${value}"]` )
 					.removeClass( 'hidden' )
-					.length;
+					.length > 0;
 			}
-			$( '.usb-panel-elms-list', self.$elms ).each( function( _, list ) {
-				var listIsEmpty = ! $( '[data-search-text]:not(.hidden)', list ).length;
+			$( '.usb-panel-elms-list', self.$elms ).each( ( _, list ) => {
+				const listIsEmpty = ! $( '[data-search-text]:not(.hidden)', list ).length;
 				$( list )
 					.toggleClass( 'hidden', listIsEmpty )
 					.prev( '.usb-panel-elms-header' )
@@ -210,7 +213,7 @@
 		 * @event handler
 		 */
 		_resetSearch: function() {
-			let $input = this.$searchField;
+			const $input = this.$searchField;
 			if ( $input.val() ) {
 				$input.val( '' ).trigger( 'input' );
 			}
@@ -224,7 +227,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_submitPreviewChanges: function( e ) {
-			var self = this;
+			const self = this;
 			// Add data before send
 			$( 'textarea[name="post_content"]', e.target )
 				.val( $usb.builder.pageData.content );
@@ -239,7 +242,7 @@
 		 * @event handler
 		 */
 		_saveChanges: function() {
-			var self = this;
+			const self = this;
 			if (
 				$usb.urlManager.hasParam( 'active', 'site_settings' )
 				|| ! $usb.builder.isPageChanged()
@@ -252,7 +255,7 @@
 			$usb.panel.switchSaveButton( /* enable */true, /* isLoading */true );
 
 			// Save page data on the server
-			$usb.builder.savePageData( /* complete */function() {
+			$usb.builder.savePageData( /* complete */() => {
 				$usb.panel.switchSaveButton( /* enable */false );
 			} );
 		},
@@ -284,39 +287,35 @@
 		showAddElms: function() {
 			const self = this;
 
-			let $actionAddElms = self.$actionAddElms;
+			const $actionAddElms = self.$actionAddElms;
+			// TODO: Optimize ".is( ':visible' )"
 			if ( self.$tabElements.is( ':visible' ) ) {
 				return;
 			}
 
-			$usb.trigger( 'panel.clearBody' ); // hide all sections
-			$usb.navigator.resetActive(); // reset an active element in navigator
+			$usb.trigger( 'panel.clearBody' );
+			$usb.navigator.resetActive();
 			$usb.panel.clearBody();
 			$usb.postMessage( 'doAction', 'hideHighlight' );
-			$usb.builder.setMode( 'editor' ); // set editor mode
+			$usb.builder.setMode( 'editor' );
 
-			$actionAddElms // set active class to add button
-				.addClass( 'active' );
+			$actionAddElms.addClass( 'active' );
 
 			$usb.builder.selectedElmId = null;
 
 			// Set focus to search field (Focus does not work when the developer console is open!)
-			$ush.timeout( function() {
+			$ush.timeout( () => {
 				self.$searchField[0].focus();
 			}, 10 );
 
-			self.$tabElements // show all list elements
-				.removeClass('hidden');
+			self.$tabElements.removeClass( 'hidden' );
 
 			// Selected Tab "Elements"
 			if ( ! self.$actionTabAddElms.hasClass( 'active' ) ) {
 				self.$actionTabAddElms.trigger( 'click' );
 			}
 
-			// Set the panel header title
 			$usb.panel.setTitle( /* get action title */$actionAddElms.attr( 'title' ) );
-
-			// Init Drag & Drop
 			$usb.builder.initDragDrop();
 		},
 
@@ -324,16 +323,13 @@
 		 * Hide the section "Add elements"
 		 */
 		_hideAddElms: function() {
-			var self = this;
+			const self = this;
 			if ( ! $usb.panel.isReady() ) {
 				return;
 			}
-			self.$actionAddElms // remove active class from button
-				.removeClass( 'active' );
-			self.$tabElements // hide all elements
-				.addClass('hidden');
+			self.$actionAddElms.removeClass( 'active' );
+			self.$tabElements.addClass('hidden');
 
-			// Destroy Drag & Drop
 			$usb.builder.destroyDragDrop();
 		},
 
@@ -344,9 +340,9 @@
 		 * @param {{}|undefined} state Data object associated with history and current loaction
 		 */
 		_urlManager: function( state ) {
-			var self = this,
-				setParams = state.setParams;
-			// If the document is not read, exit
+			const self = this;
+			const setParams = state.setParams;
+
 			if ( ! $usb.panel.isReady() ) {
 				return;
 			}
@@ -357,9 +353,9 @@
 				&& setParams.action != $usb.config( 'actions.site_settings' )
 			) {
 				self.showAddElms();
-			}
-			// Show "Paste Row/Section"
-			else if ( setParams.active == 'paste_row' ) {
+
+				// Show "Paste Row/Section"
+			} else if ( setParams.active == 'paste_row' ) {
 				self.showImportContent();
 			}
 		}
@@ -374,19 +370,21 @@
 		 */
 		showImportContent: function() {
 			const self = this;
-			self.clearBody(); // hide all sections
-			$usb.builder.setMode( 'editor' ); // set editor mode
-			$usb.navigator.resetActive(); // reset an active element in navigator
+
+			self.clearBody();
+
+			$usb.builder.setMode( 'editor' );
+			$usb.navigator.resetActive();
 			$usb.panel.clearBody();
+
 			self.$importContent.removeClass( 'hidden' );
-			// Clear field and set focus to it
 			self.$importTextarea.val( '' ).removeClass( 'validate_error' );
 			self.$importTextarea[0].focus();
-			// Disable save button
+
 			self.$actionSaveImportContent
 				.prop( 'disabled', true )
 				.addClass( 'disabled' );
-			// Set the header title
+
 			$usb.panel.setTitle( 'paste_row', /* isTranslationKey */true );
 			$usb.builder.selectedElmId = null;
 		},
@@ -404,9 +402,8 @@
 		 * Hide import content
 		 */
 		_hideImportContent: function() {
-			var self = this;
 			if ( $usb.panel.isReady() ) {
-				self.$importContent.addClass( 'hidden' );
+				this.$importContent.addClass( 'hidden' );
 			}
 		},
 
@@ -417,23 +414,21 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_changeImportContent: function( e ) {
-			var self = this;
-			$usb.notify.closeAll(); // close all notifications
+			const self = this;
+
+			$usb.notify.closeAll();
 
 			var target = e.target,
 				pastedContent = target.value.trim();
 
-			// Remove usbid's from pasted content
 			if ( pastedContent.indexOf( 'usbid=' ) !== -1 ) {
-				pastedContent = pastedContent.replace( REGEXP_USBID_ATTR, '' );
+				pastedContent = pastedContent.replace( USBID_ATTR_REGEXP, '' );
 			}
 
-			// Save the cleaned content
 			if ( target.value !== pastedContent ) {
 				target.value = pastedContent;
 			}
 
-			// Remove helper classes
 			$( target ).removeClass( 'validate_error' );
 
 			// Enable save button
@@ -448,15 +443,14 @@
 		 * @event handler
 		 */
 		_saveImportContent: function() {
-			var self = this,
-				// Elements
-				$textarea = self.$importTextarea,
+			const self = this;
+
+			// Elements
+			var $textarea = self.$importTextarea,
 				$saveButton = self.$actionSaveImportContent,
-				// Get pasted content
 				pastedContent = $textarea.val() || '';
 
 			if ( ! pastedContent ) {
-				// Disable save button
 				$saveButton
 					.prop( 'disabled', /* value */true )
 					.addClass( 'disabled' );
@@ -467,7 +461,7 @@
 			pastedContent = $usb.builder.removeHtmlWrap( pastedContent );
 
 			// The check the correctness of the entered shortcode
-			var isValid = ! (
+			const isValid = ! (
 				!/^\[vc_row([\s\S]*)\/vc_row\]$/gim.test( pastedContent )
 				|| pastedContent.indexOf( '[vc_column' ) === -1
 			);
@@ -493,13 +487,13 @@
 
 			// Add a unique usbid for each shortcode
 			var elmId;
-			pastedContent = pastedContent.replace( /\[(\w+)/g, function( match, tag, offset ) {
-				var id = $usb.builder.getSpareElmId( tag );
+			pastedContent = pastedContent.replace( /\[(\w+)/g, ( match, tag, offset ) => {
+				const id = $usb.builder.getSpareElmId( tag );
 				// Save the ID of the first shortcode, which should be `vc_row`
 				if ( 0 === offset ) {
 					elmId = id;
 				}
-				return match + ' usbid="' + id + '"';
+				return match + ` usbid="${id}"`;
 			} );
 
 			// Get default image
@@ -509,10 +503,10 @@
 			pastedContent = pastedContent.replace( /use:placeholder/g, placeholder );
 
 			// Replace images for new design options
-			pastedContent = pastedContent.replace( /css="([^\"]+)"/g, function( matches, match ) {
+			pastedContent = pastedContent.replace( /css="([^\"]+)"/g, ( matches, match ) => {
 				if ( match ) {
 					var jsoncss = ( decodeURIComponent( match ) || '' )
-						.replace( /("background-image":")(.*?)(")/g, function( _, before, id, after ) {
+						.replace( /("background-image":")(.*?)(")/g, ( _, before, id, after ) => {
 							return before + ( $ush.parseInt( id ) || placeholder ) + after;
 						} );
 					return 'css="%s"'.replace( '%s', encodeURIComponent( jsoncss ) );
@@ -521,18 +515,12 @@
 			} );
 
 			// Check the post_type parameter
-			pastedContent = pastedContent.replace( /\s?post_type="(.*?)"/g, function( match, post_type ) {
+			pastedContent = pastedContent.replace( /\s?post_type="(.*?)"/g, ( match, post_type ) => {
 				if ( $usb.config( 'grid_post_types', [] ).indexOf( post_type ) === - 1 ) {
-					return ' post_type="post"'; // default post_type
+					return ' post_type="post"'; // default
 				}
 				return match;
 			} );
-
-			// TODO: Determine the need for this filter
-			// Remove [us_post_content..] if post type is not us_content_template
-			// if ( self.data.post_type !== 'us_content_template' ) {
-			// 	pastedContent = pastedContent.replace( /(\[us_post_content.*?])/g, '' );
-			// }
 
 			// Render pasted content
 			$usb.builder.renderShortcode( '_renderPastedContent', {
@@ -541,12 +529,11 @@
 					isReturnContent: true, // Add content to the result (This can be useful for complex changes)
 				},
 				// Successful request handler
-				success: function( res ) {
+				success: ( res ) => {
 					if ( ! res.success || ! res.data.html ) {
 						return;
 					}
 
-					// Commit to save changes to history
 					$usb.history.commitChange( elmId, _CHANGED_ACTION_.CREATE );
 
 					// Add pasted content to `$usb.builder.pageData.content`
@@ -561,8 +548,8 @@
 					$usb.trigger( 'builder.contentChange' );
 				},
 				// Handler to be called when the request finishes (after success and error callbacks are executed)
-				complete: function( _, textStatus ) {
-					var isSuccess = ( textStatus === 'success' );
+				complete: ( _, textStatus ) => {
+					const isSuccess = ( textStatus === 'success' );
 
 					// Disable the loader and block m or display the button depend on its status
 					$saveButton
@@ -570,7 +557,6 @@
 						.removeClass( 'loading' )
 						.toggleClass( 'disabled', isSuccess );
 
-					// Enable input field
 					$textarea
 						.prop( 'disabled', /* value */false )
 						.removeClass( 'disabled' );
@@ -592,14 +578,12 @@
 		 * @param {String} name The fieldset name
 		 */
 		_loadDeferredFieldsets: function( name ) {
-			var self = this;
+			const self = this;
+			const data = {};
 
 			$usb.$panel.addClass( 'data_loading' );
 
-			var // Data to send the request
-				data = {},
-				// AJAX request ID
-				requestId = 'loadDeferredFieldsets';
+			var requestId = 'loadDeferredFieldsets';
 
 			// Add a name to the data object for the request and change the name
 			// for the request ID to ensure that data is received asynchronously
@@ -610,21 +594,20 @@
 					.addClass( 'show_preloader' );
 			}
 
-			// Load the element and initialize it
-			$usb.ajax( /* request id */requestId, {
+			$usb.ajax( requestId, {
 				data: $.extend( data, {
 					_nonce: $usb.config( '_nonce' ),
 					action: $usb.config( 'action_get_deferred_fieldsets' ),
 				} ),
-				success: function( res ) {
+				success: ( res ) => {
 					if ( ! res.success ) {
 						return;
 					}
-					var fieldsets = $.isPlainObject( res.data )
+					const fieldsets = $.isPlainObject( res.data )
 						? res.data
 						: {};
 
-					for ( var name in fieldsets ) {
+					for ( const name in fieldsets ) {
 						if ( !! _$tmp.elmsFieldset[ name ] ) {
 							continue;
 						}
@@ -632,14 +615,13 @@
 						self.trigger( 'fieldsetLoaded', [ name ] );
 					}
 
-					/*
-					 * `data_loading` - Background data load
-					 * `show_preloader` - Fieldset load pending
-					 */
+					// `data_loading` - Background data load
+					// `show_preloader` - Fieldset load pending
 					var removeClasses = 'data_loading';
 					if ( ! data.name ) {
-						_$tmp.isFieldsetsLoaded = true; // load all fieldsets
+						_$tmp.isFieldsetsLoaded = true;
 						removeClasses += ' show_preloader';
+
 					} else {
 						removeClasses = ' show_preloader';
 					}
@@ -654,8 +636,7 @@
 		 * @event handler
 		 */
 		_iframeReady: function() {
-			const self = this;
-			$ush.timeout( self._loadDeferredFieldsets.bind( self ), 100 );
+			$ush.timeout( this._loadDeferredFieldsets.bind( this ), 100 );
 		},
 
 		/**
@@ -670,16 +651,14 @@
 				return;
 			}
 
-			// Hide all sections in panel
 			$usb.panel.clearBody();
 
-			// Remove the 'active' param if it is set
 			$usb.urlManager.removeParam( 'active' ).push();
 
 			// Get element name
 			var name = $usb.builder.getElmName( id ),
-				elmsSupported = $usb.config( 'elms_supported', /* default */[] ),
-				elmTitle = $usb.config( 'elm_titles.' + name, /* default */name ); // get element title
+				elmsSupported = $usb.config( 'elms_supported', [] ),
+				elmTitle = $usb.config( `elm_titles.${name}`, name );
 
 			// If there is no title, then the element does not support editing with the Live Builder
 			if (
@@ -687,13 +666,11 @@
 				|| $usbcore.indexOf( name, elmsSupported ) < 0
 			) {
 				$usb.builder.selectedElmId = id;
-				// Set shortcode title to panel title
+
 				$usb.panel.setTitle( elmTitle );
-				// Show the panel messages
 				$usb.panel.showMessage( $usb.getTextTranslation( 'editing_not_supported' ) );
-				// Set the active item in navigator
 				$usb.navigator.setActive( id, /* expand parent */true );
-				// Show highlight for editable element
+
 				$usb.postMessage( 'doAction', [ 'showEditableHighlight', id ] );
 				return;
 			}
@@ -701,7 +678,7 @@
 			// Trying to get a fieldset from a document
 			if ( ! _$tmp.elmsFieldset[ name ] ) {
 				$( '#usb-tmpl-fieldsets .usb-panel-fieldset[data-name]', $usb.$panel )
-					.each( function( _, node ) {
+					.each( ( _, node ) => {
 						_$tmp.elmsFieldset[ $( node ).data( 'name' ) ] = node.outerHTML;
 					} )
 					.remove();
@@ -710,17 +687,17 @@
 			// If the fieldsets have not been loaded yet, wait for the load and then show the fieldset
 			if ( ! _$tmp.elmsFieldset[ name ] && ! _$tmp.isFieldsetsLoaded ) {
 				$usb.panel.setTitle( elmTitle );
-				self // Watches the load of fieldsets
-					.one( 'fieldsetLoaded', function( loadedName ) {
-						if ( name !== loadedName ) return;
-						self._showElmFieldset( id );
-					} );
-				// Load a set outside the general stream
+				self.one( 'fieldsetLoaded', ( loadedName ) => {
+					if ( name !== loadedName ) {
+						return;
+					}
+					self._showElmFieldset( id );
+				} );
 				self._loadDeferredFieldsets( name );
 				return;
 			}
 
-			self._showElmFieldset( id ); // show panel edit settings for shortcode
+			self._showElmFieldset( id );
 		},
 
 		/**
@@ -730,30 +707,28 @@
 		 */
 		_showElmFieldset: function( id ) {
 			const self = this;
+
 			if ( ! $usb.builder.doesElmExist( id ) ) {
 				return;
 			}
 
-			// Get element name and for it
-			var name = $usb.builder.getElmName( id );
+			const name = $usb.builder.getElmName( id );
 			if ( ! name ) {
 				return;
 			}
 
-			// Get element values
-			var values = $usb.builder.getElmValues( id ) || {},
-				defaultValues = $usb.config( 'shortcode.default_values.' + name, {} );
+			const values = $usb.builder.getElmValues( id ) || {};
+			const defaultValues = $usb.config( `shortcode.default_values.${name}`, {} );
 
 			// Set default params if there are no sets
 			if ( $.isPlainObject( defaultValues ) ) {
-				for ( var k in defaultValues ) if ( k !== 'content' ) {
+				for ( const k in defaultValues ) if ( k !== 'content' ) {
 					if ( $ush.isUndefined( values[ k ] ) ) {
 						values[ k ] = defaultValues[ k ];
 					}
 				}
 			}
 
-			// Remove the `show_preloader` class if any
 			if ( $usb.$panel.hasClass( 'show_preloader' ) ) {
 				$usb.$panel.removeClass( 'show_preloader' );
 			}
@@ -761,7 +736,7 @@
 			$usb.trigger( 'panel.clearBody' );
 
 			// Load assets required to initialize the code editor
-			if ( $usb.config( 'dynamicFieldsetAssets.codeEditor', [] ).indexOf( name ) > -1 ) {
+			if ( $usb.config( 'dynamicFieldsetAssets.codeEditor', [] ).includes( name ) ) {
 				self._loadAssetsForCodeEditor();
 			}
 
@@ -772,13 +747,13 @@
 			$usb.$panelBody.prepend( self.$activeElmFieldset );
 
 			$usb.builder.selectedElmId = id;
-			self.activeElmFieldset = new $usof.GroupParams( self.$activeElmFieldset );
+			self.activeElmFieldset = new $usof.Form( self.$activeElmFieldset );
 
 			// Set shortcode title to header title
 			$usb.panel.setTitle( $usb.builder.getElmTitle( id ) );
 
 			// Set value to fieldsets
-			self.$activeElmFieldset.addClass( 'inited usof-container' );
+			self.$activeElmFieldset.addClass( 'usof-container' );
 			self.activeElmFieldset.setValues( values, /* quiet mode */true );
 
 			// Set the current responsive screen for $usof fields selected for edit
@@ -789,28 +764,25 @@
 			// Initialization check and watch on field events
 			// Note: The id is passed explicitly as a parameter because the callback function can be
 			// called with a delay, especially when selecting elements quickly `.bind( self, id )`
-			for ( var fieldId in self.activeElmFieldset.fields ) {
-				var field = self.activeElmFieldset.fields[ fieldId ];
-				field
+			for ( const fieldId in self.activeElmFieldset.fields ) {
+				self.activeElmFieldset.fields[ fieldId ]
 					.on( 'change', self._events.changeField.bind( self, id ) ) // TODO:Add debounce
 					.on( 'afterHide', self._events.afterHideField )
 					// The event only exists in the `design_options`
 					.on( 'changeDesignField', self._events.changeDesignField.bind( self, id ) )
 					// Responsive screen change handler in the $usof.field
-					.on( 'syncResponsiveState', function( _, screenName ) {
+					.on( 'syncResponsiveState', ( _, screenName ) => {
 						// Set a responsive screen from $usof the field
 						if ( $usb.find( 'preview' ) ) {
 							$usb.preview.fieldSetResponsiveScreen( screenName );
 						}
 					} )
 					// Delegate an event from the TinyMCE to a built-in handler (keydown comes from the TinyMCE iframe)
-					.on( 'tinyMCE.Keydown', function( /* usofField */_, /* event */e ) {
-						$usb._events.keydown( e );
-					} );
+					.on( 'tinyMCE.Keydown', ( _, e ) => $usb._events.keydown( e ) );
 			}
 
 			// Initialization check and watch on group events
-			for ( var groupName in ( self.activeElmFieldset.groups || {} ) ) {
+			for ( const groupName in ( self.activeElmFieldset.groups || {} ) ) {
 				self.activeElmFieldset.groups[ groupName ]
 				// TODO: There shouldn't be a debounce here, you need to check all events and remove it
 				.on( 'change', $ush.debounce( self._events.changeField.bind( self, id ), 1 ) );
@@ -824,9 +796,7 @@
 				self.$$fieldsets.autoShowingTabs();
 			}
 
-			$usb.builder.trigger( 'panel.afterInitFieldset' ); // trigger of the completed fieldset
-
-			// Show highlight for editable element
+			$usb.builder.trigger( 'panel.afterInitFieldset' );
 			$usb.postMessage( 'doAction', [ 'showEditableHighlight', id ] );
 		},
 
@@ -841,15 +811,15 @@
 			) {
 				return;
 			}
-			// Remove a node
+
 			if ( self.$activeElmFieldset instanceof $ ) {
 				self.$activeElmFieldset.remove();
 			}
-			// Remove all handlers for `$usof.field` objects
+
 			$usb.$document.off( 'usb.syncResponsiveState' );
-			// Hide highlight for editable element
+
 			$usb.postMessage( 'doAction', 'hideEditableHighlight' );
-			// Destroy all data
+
 			$usb.builder.selectedElmId = null;
 			self.activeElmFieldset = null;
 			self.$activeElmFieldset = null;
@@ -859,7 +829,7 @@
 		 * Load assets required to initialize the code editor
 		 */
 		_loadAssetsForCodeEditor: function() {
-			var codeEditorAssets = ( _window.usGlobalData.deferredAssets || {} )[ 'codeEditor' ] || '';
+			const codeEditorAssets = ( _window.usGlobalData.deferredAssets || {} )[ 'codeEditor' ] || '';
 			if ( codeEditorAssets ) {
 				$usb.$body.append( codeEditorAssets );
 				delete _window.usGlobalData.deferredAssets[ 'codeEditor' ];
@@ -908,7 +878,7 @@
 		 * @param {Function} fn The function to be executed
 		 * @type throttled
 		 */
-		__updateOnInstructions_long: $ush.throttle( $ush.fn, 1000/* 1s */ ),
+		__updateOnInstructions_long: $ush.throttle( $ush.fn, 1000 ),
 
 		/**
 		 * Field changes for a fieldsets
@@ -942,7 +912,7 @@
 				return;
 			}
 
-			let // Get new param value
+			var // Get new param value
 				value = usofField.getValue(),
 				// Get field type
 				fieldType = ( isField ? usofField.type : 'group' ),
@@ -954,7 +924,7 @@
 			/**
 			 * @type {{}} The data stack for the current change call
 			 */
-			let _currentData = {
+			var _currentData = {
 				elmType: $usb.builder.getElmType( selectedElmId ), // the element type
 				fieldType: fieldType, // the field type
 				id: selectedElmId, // the ID of selected element
@@ -983,7 +953,7 @@
 						continue;
 					}
 					try {
-						instructions = previewCallbacks[ funcName ]( _currentData.value ) || /* default */true;
+						instructions = previewCallbacks[ funcName ]( _currentData.value ) || true;
 					} catch ( err ) {
 						$usb.log( 'Error executing callback function in instructions', err );
 					}
@@ -1022,9 +992,9 @@
 				const deferred = $.Deferred();
 				const originalId = _currentData.id;
 
-				let isUpdated = false;
+				var isUpdated = false;
 
-				let oldShortcode = $usb.builder.getElmShortcode( originalId );
+				var oldShortcode = $usb.builder.getElmShortcode( originalId );
 				if ( ! oldShortcode || _skipSave ) {
 					return deferred.reject( isUpdated );
 				}
@@ -1040,8 +1010,8 @@
 				);
 				const hasDefaultValue = _currentData.usofField.getDefaultValue() === _currentData.value;
 
-				let shortcodeObj = $usb.builder.parseShortcode( oldShortcode );
-				let atts = $usb.builder.parseAtts( shortcodeObj.atts );
+				var shortcodeObj = $usb.builder.parseShortcode( oldShortcode );
+				var atts = $usb.builder.parseAtts( shortcodeObj.atts );
 
 				// Updating shortcode attributes
 				if ( isContent || hasDefaultValue ) {
@@ -1057,7 +1027,7 @@
 				}
 
 				// Get string shortcode
-				let newShortcode = $usb.builder.buildShortcode( shortcodeObj ),
+				var newShortcode = $usb.builder.buildShortcode( shortcodeObj ),
 					oldParentShortcode; // the parent shortcode for the events of the year, children change, but the parent needs to be updated
 
 				isUpdated = ( oldShortcode !== newShortcode && ! _currentData.isActiveRecoveryTask );
@@ -1120,10 +1090,10 @@
 						preview: $usb.builder.getElmOuterHtml( _currentData.id )
 					} );
 
-					let commitArgs = [ _currentData.id, _CHANGED_ACTION_.UPDATE ];
+					var commitArgs = [ _currentData.id, _CHANGED_ACTION_.UPDATE ];
 
 					// Determining the field type whether the spacing is needed or not
-					commitArgs.push( $usb.config( 'useThrottleForFields', [] ).indexOf( _currentData.usofField.type ) > -1 );
+					commitArgs.push( $usb.config( 'useThrottleForFields', [] ).includes( _currentData.usofField.type ) );
 
 					// Add external end-to-end data
 					if ( oldParentShortcode ) {
@@ -1160,7 +1130,7 @@
 						cache.flush(); // Flushes an instance
 
 						// Gets element ID to reboot
-						let elmId = $usb.builder.getElmParentId( _currentData.id );
+						var elmId = $usb.builder.getElmParentId( _currentData.id );
 						if ( ! $usb.builder.isReloadElm( elmId ) ) {
 							elmId = _currentData.id;
 						}
@@ -1263,10 +1233,10 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_switchTabs: function( e ) {
-			var $target = $( e.currentTarget ),
-				$sections = $target
-					.parents( '.usof-tabs:first' )
-					.find( '> .usof-tabs-sections > *' );
+			const $target = $( e.currentTarget );
+			const $sections = $target
+				.parents( '.usof-tabs:first' )
+				.find( '> .usof-tabs-sections > *' );
 
 			// This is toggle the tab title
 			$target
@@ -1287,14 +1257,14 @@
 		 * Auto show or hidden of tabs for fieldsets
 		 */
 		autoShowingTabs: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.activeElmFieldset || ! self.activeElmFieldset.isGroupParams ) {
 				return;
 			}
-			$.each( self.activeElmFieldset.$tabsSections, function( index, section ) {
+			$.each( self.activeElmFieldset.$tabsSections, ( index, section ) => {
 				var fields = $( '> *', section ).toArray(),
 					isHidden = true;
-				for ( var k in fields ) {
+				for ( const k in fields ) {
 					var $field = $( fields[ k ] ),
 						isShown = $field.data( 'isShown' );
 					if ( $ush.isUndefined( isShown ) ) {

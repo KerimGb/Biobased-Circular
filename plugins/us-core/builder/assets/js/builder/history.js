@@ -9,13 +9,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usof = _window.$usof || {};
 	_window.$usbcore = _window.$usbcore || {};
@@ -60,18 +60,16 @@
 	 * @class History - Functionality for keeping a history of changes on the page, which allows you to undo or restore changes
 	 */
 	function History() {
-		var self = this;
+		const self = this;
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			historyChanged: self._historyChanged.bind( self ),
 			redoChange: self._redoChange.bind( self ),
 			undoChange: self._undoChange.bind( self ),
 		};
 
-		$( function() {
+		$( () => {
 
 			// Actions
 			self.$actionUndo = $( '.usb_action_undo', $usb.$panel );
@@ -79,18 +77,16 @@
 
 			// Events
 			$usb.$panel
-				// Handler for the undo button in the panel
 				.on( 'click', '.usb_action_undo', self._events.undoChange )
-				// Handler for the redo button in the panel
 				.on( 'click', '.usb_action_redo', self._events.redoChange );
 		} );
 
 		// Private events
 		$usb
-			.on( 'hotkeys.ctrl+z', self._events.undoChange ) // for hotkey `(command|ctrl)+z`
-			.on( 'hotkeys.ctrl+shift+z', self._events.redoChange ); // for hotkey `(command|ctrl)+shift+z`
+			.on( 'hotkeys.ctrl+z', self._events.undoChange )
+			.on( 'hotkeys.ctrl+shift+z', self._events.redoChange );
 
-		self.on( 'historyChanged', self._events.historyChanged ); // history change handler
+		self.on( 'historyChanged', self._events.historyChanged );
 
 	}
 
@@ -122,15 +118,13 @@
 		 * @event handler
 		 */
 		_historyChanged: function() {
-			var self = this;
+			const self = this;
 			[ // Controll the operation and display of undo/redo buttons
 				{ $btn: self.$actionUndo, disabled: ! self.getLengthUndo() },
 				{ $btn: self.$actionRedo, disabled: ! self.getLengthRedo() }
-			].map( function( i ) {
+			].map( ( i ) => {
 				i.$btn
-					// Data recovery in process
 					.toggleClass( 'recovery_process', !! self.getLengthTasks() )
-					// Disable or enable buttons
 					.toggleClass( 'disabled', i.disabled )
 					.prop( 'disabled', i.disabled )
 			} );
@@ -170,8 +164,9 @@
 		 * @return {{}} Returns the last data object for the action
 		 */
 		getLastHistoryDataByAction: function( action ) {
+			const self = this;
+
 			var lastData,
-				self = this,
 				undo = _$changesHistory.undo;
 			if (
 				self.getLengthUndo()
@@ -212,7 +207,7 @@
 		 * @param {Function} fn The function to be executed
 		 * @type throttle
 		 */
-		__saveDataToHistory: $ush.throttle( $ush.fn, 2000/* 2s */, /* no_trailing */true ),
+		__saveDataToHistory: $ush.throttle( $ush.fn, 2000, /* no_trailing */true ),
 
 		/**
 		 * Commit to save changes to history
@@ -224,7 +219,7 @@
 		 * @param {{}} extData External end-to-end data
 		 */
 		commitChange: function( id, action, useThrottle, extData ) {
-			var self = this;
+			const self = this;
 			if (
 				! action
 				|| ! $usb.builder.isValidId( id )
@@ -234,10 +229,8 @@
 				return;
 			}
 
-			/**
-			 * @type {Function} Save change data in history
-			 */
-			var saveDataToHistory = function() {
+			// Save change data in history
+			const saveDataToHistory = function() {
 				/**
 				 * @type {{}} The current data of the shortcode before apply the action
 				 */
@@ -326,7 +319,7 @@
 		 * @param {Boolean} useThrottle Using the interval when save data
 		 */
 		commitData: function( customData, callback, useThrottle ) {
-			var self = this;
+			const self = this;
 			if (
 				$ush.isUndefined( customData )
 				|| typeof callback !== 'function'
@@ -334,10 +327,8 @@
 				return;
 			}
 
-			/**
-			 * @type {Function} Save change data in history
-			 */
-			var saveDataToHistory = function() {
+			// Save change data in history
+			const saveDataToHistory = function() {
 				var data = {
 					action: _CHANGED_ACTION_.CALLBACK,
 					callback: callback,
@@ -359,7 +350,7 @@
 				}
 
 				// If the maximum limit is exceeded, then we will delete the old data
-				if ( self.getLengthUndo() >= $ush.parseInt( $usb.config( 'maxDataHistory', /* default */100 ) ) ) {
+				if ( self.getLengthUndo() >= $ush.parseInt( $usb.config( 'maxDataHistory', 100 ) ) ) {
 					_$changesHistory.undo = _$changesHistory.undo.slice( 1 );
 				}
 
@@ -384,7 +375,7 @@
 		 * @param {Number} type Task type, the value can be or greater or less than zero
 		 */
 		_createRecoveryTask: function( type ) {
-			var self = this;
+			const self = this;
 			// Check the correctness of the task type
 			if ( ! type || $usbcore.indexOf( type, [ _HISTORY_TYPE_.UNDO, _HISTORY_TYPE_.REDO ] ) < 0 ) {
 				return;
@@ -421,11 +412,10 @@
 		 * @type debounced
 		 */
 		__startRecoveryTasks: $ush.debounce( function() {
-			var self = this;
+			const self = this;
 			if ( self.isActiveRecoveryTask() ) {
 				return;
 			}
-			// Launch Task Manager
 			_$tmp.isActiveRecoveryTask = true;
 			self._recoveryTaskManager();
 		}, 100 ),
@@ -435,8 +425,9 @@
 		 * Note: Manage and apply tasks from a shared queue for data recovery
 		 */
 		_recoveryTaskManager: function() {
-			var self = this,
-				lengthTasks = self.getLengthTasks(),
+			const self = this;
+
+			var lengthTasks = self.getLengthTasks(),
 				task = _$changesHistory.tasks[ --lengthTasks ]; // get last task
 
 			// Check the availability of the task
@@ -494,7 +485,7 @@
 		 * @param {{}} originalTask Task object from history
 		 */
 		_applyChangesFromTask: function( task, originalTask ) {
-			var self = this;
+			const self = this;
 			if ( $.isEmptyObject( task ) ) {
 				_$tmp.isActiveRecoveryTask = false;
 				return;
@@ -524,6 +515,7 @@
 				// Add new shortcde to preview page
 				$usb.postMessage( 'insertElm', [ insert.parent, insert.position, '' + task.preview ] );
 				$usb.postMessage( 'maybeInitElmJS', [ task.id ] ); // init its JS if needed
+
 				// Update element from task
 			} else if ( task.action === _CHANGED_ACTION_.UPDATE ) {
 				// Shortcode updates
@@ -555,7 +547,6 @@
 				$usb.trigger( 'builder.contentChange' );
 			}
 
-			// Trigger the event to work out the controls parts
 			self.trigger( 'historyChanged' );
 
 			// Call the task manager for further process of the task list

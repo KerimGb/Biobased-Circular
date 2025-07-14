@@ -1038,3 +1038,25 @@ if ( ! function_exists( 'us_override_thumbnail_for_product_terms' ) ) {
 		return $thumbnail_id;
 	}
 }
+
+if ( ! function_exists( 'us_remove_empty_meta_after_product_import' ) ) {
+	add_action( 'woocommerce_product_import_inserted_product_object', 'us_remove_empty_meta_after_product_import', 10, 2 );
+	
+	function us_remove_empty_meta_after_product_import( $product_object, $raw_imported_product_data ) {
+		if ( ! empty( $raw_imported_product_data['meta_data'] ) AND $product_object->get_id() ) {
+			$page_layout_meta_keys = array(
+				'us_header_id',
+				'us_content_id',
+				'us_footer_id',
+			);
+			for ( $i = 0, $meta = $raw_imported_product_data['meta_data']; $i < count( $meta ); $i++ ) {
+				if (
+					in_array( $meta[ $i ]['key'], $page_layout_meta_keys )
+					AND $meta[ $i ]['value'] === ''
+				) {
+					delete_post_meta( $product_object->get_id(), $meta[ $i ]['key'] );
+				}
+			}
+		}
+	}
+}

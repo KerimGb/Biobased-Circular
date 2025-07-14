@@ -9,6 +9,7 @@
 	const min = Math.min;
 	const urlManager = $ush.urlManager();
 	const PREFIX_FOR_URL_PARAM = '_';
+	const FACETED_PARAM = '_f';
 	const RANGE_VALUES_BY_DEFAULT = [ 0, 1000 ];
 	const DELETE_FILTER = null;
 
@@ -27,7 +28,7 @@
 	}
 
 	/**
-	 * @param {Node} container.
+	 * @param {Node|String} container.
 	 */
 	function usListFilter( container ) {
 		const self = this;
@@ -36,14 +37,14 @@
 		self._events = {
 			applyFilterToList: $ush.debounce( self.applyFilterToList.bind( self ), 1 ),
 			checkScreenStates: $ush.debounce( self.checkScreenStates.bind( self ), 10 ),
-			closeMobileFilters: self.closeMobileFilters.bind( self ),
-			getItemValues: self.getItemValues.bind( self ),
+			closeMobileVersion: self.closeMobileVersion.bind( self ),
+			getItemValues: $ush.debounce( self.getItemValues.bind( self ), 0 ),
 			hideItemDropdown: self.hideItemDropdown.bind( self ),
-			openMobileFilters: self.openMobileFilters.bind( self ),
+			openMobileVersion: self.openMobileVersion.bind( self ),
 			resetItemValues: self.resetItemValues.bind( self ),
 			searchItemValues: self.searchItemValues.bind( self ),
-			toggleItemDropdown: self.toggleItemDropdown.bind( self ),
 			toggleItemSection: self.toggleItemSection.bind( self ),
+			navUsingKeyPress: $ush.debounce( self.navUsingKeyPress.bind( self ), 0 ),
 		};
 
 		// Elements
@@ -54,15 +55,19 @@
 			return;
 		}
 
+		self.$titles = $( '.w-filter-item-title', self.$container );
+		self.$listCloser = $( '.w-filter-list-closer', self.$container );
+		self.$opener = $( '.w-filter-opener', self.$container );
+
 		// Private "Variables"
 		self.data = {
 			mobileWidth: 600,
 			listSelectorToFilter: null,
 			ajaxData: {},
 		};
-		self.$filters = {};
+		self.filters = {};
 		self.result = {};
-		self.lastResult; // default value "undefined"
+		self.lastResult; // default value _undefined
 		self.xhr; // XMLHttpRequests instance
 		self.isFacetedFiltering = self.$container.hasClass( 'faceted_filtering' );
 
@@ -71,7 +76,7 @@
 			$.extend( self.data, self.$container[0].onclick() || {} );
 		}
 
-		// Init DatePicker https://api.jqueryui.com/datepicker/
+		// Init DatePicker https://api.jqueryui.com/datepicker
 		$( '.type_date_picker', self.$container ).each( ( _, filter ) => {
 			var $start = $( 'input:eq(0)', filter ),
 				$end = $( 'input:eq(1)', filter ),
@@ -116,14 +121,14 @@
 			}, endOptions ) );
 		} );
 
-		// Init Range Slider https://api.jqueryui.com/slider/
+		// Init Range Slider https://api.jqueryui.com/slider
 		$( '.type_range_slider', self.$container ).each( ( _, filter ) => {
 			function showFormattedResult( _, ui ) {
 				$( '.for_min_value, .for_max_value', filter ).each( ( i, node ) => {
 					$( node ).html( self.numberFormat( ui.values[ i ], opts ) );
 				} );
 			}
-			var $slider = $( '.ui-slider', filter );
+			const $slider = $( '.ui-slider', filter );
 			var opts = {
 				slider: {
 					animate: true,
@@ -149,6 +154,8 @@
 			$slider.removeAttr( 'onclick' )
 				.slider( opts.slider )
 				.fixSlider();
+
+			$( filter ).data( 'opts', opts );
 		} );
 
 		// Setup the UI
@@ -163,7 +170,7 @@
 				if ( compare ) {
 					name += `|${compare}`;
 				}
-				self.$filters[ name ] = $filter;
+				self.filters[ name ] = $filter;
 			});
 			self.setupFields();
 			urlManager.on( 'popstate', () => {
@@ -185,7 +192,7 @@
 			$us.$document.on( 'usPostList.itemsLoaded', self._events.itemsLoaded );
 
 			var listFilters = {};
-			$.each( self.$filters, ( name, $filter ) => {
+			$.each( self.filters, ( name, $filter ) => {
 				listFilters[ name ] = $ush.toString( $filter.usMod( 'type' ) );
 			} );
 			listFilters = JSON.stringify( listFilters );
@@ -194,30 +201,39 @@
 
 			self.$container.addClass( 'loading' );
 
+			const data = $.extend( true,
+				{
+					list_filters: listFilters,
+					_s: urlManager.get( '_s' ), // value from List Search
+ 				},
+				self.firstListData().facetedFilter,
+				self.result,
+				self.data.ajaxData
+			);
+
+			data[ FACETED_PARAM ] = 1;
+
 			self.xhr = $.ajax( {
 				type: 'post',
 				url: $us.ajaxUrl,
 				dataType: 'json',
 				cache: false,
-				data: $.extend( true,
-					{
-						list_filters: listFilters,
-						_s: urlManager.get( '_s' ), // value from List Search
- 					},
-					self.firstListData().facetedFilter,
-					self.result,
-					self.data.ajaxData
-				),
-				success: function( res ) {
+				data: data,
+				success: ( res ) => {
 					if ( ! res.success ) {
 						console.error( res.data.message );
 					}
 					self.setPostCount( res.success ? res.data : {} );
 				},
-				complete: function() {
+				complete: () => {
 					self.$container.removeClass( 'loading' );
 				}
 			} );
+		}
+
+		// Remove "f" param from URL
+		else if ( ! self.isFacetedFiltering && urlManager.has( FACETED_PARAM, '1' ) ) {
+			urlManager.remove( FACETED_PARAM ).push();
 		}
 
 		// Events
@@ -225,16 +241,16 @@
 			.on( 'change', 'input:not([name=search_values]), select', self._events.getItemValues )
 			.on( 'input change', 'input[name=search_values]', self._events.searchItemValues )
 			.on( 'click', '.w-filter-item-reset', self._events.resetItemValues )
-			.on( 'click', '.w-filter-item-title', self._events.toggleItemDropdown )
 			.on( 'click', '.w-filter-item-title', self._events.toggleItemSection );
 		self.$container
-			.on( 'click', '.w-filter-opener', self._events.openMobileFilters )
-			.on( 'click', '.w-filter-list-closer, .w-filter-button-submit', self._events.closeMobileFilters );
-		$us.$window
-			.on( 'resize', self._events.checkScreenStates );
+			.on( 'mouseup', '.w-filter-opener', self._events.openMobileVersion )
+			.on( 'mouseup', '.w-filter-list-closer, .w-filter-button-submit', self._events.closeMobileVersion )
+			.on( 'keydown', self._events.navUsingKeyPress );
+
+		$us.$window.on( 'resize', self._events.checkScreenStates );
 
 		// Hide dropdowns of all items on click outside any item title
-		if ( self.$container.hasClass( 'drop_on_click' ) ) {
+		if ( self.titlesAsDropdowns() ) {
 			$us.$document.on( 'click', self._events.hideItemDropdown );
 		}
 
@@ -254,6 +270,15 @@
 		 */
 		titlesAsToggles: function() {
 			return this.$container.hasClass( 'mod_toggle' );
+		},
+
+		/**
+		 * Titles as dropdowns.
+		 *
+		 * @return {Boolean}
+		 */
+		titlesAsDropdowns: function() {
+			return this.$container.hasClass( 'mod_dropdown' );
 		},
 
 		/**
@@ -279,7 +304,7 @@
 		 */
 		setupFields: function() {
 			const self = this;
-			$.each( self.$filters, ( name, $filter ) => {
+			$.each( self.filters, ( name, $filter ) => {
 				self.resetFields( $filter );
 
 				name = PREFIX_FOR_URL_PARAM + name;
@@ -320,7 +345,7 @@
 
 				$filter
 					.addClass( 'has_value' )
-					.toggleClass( 'expand', self.titlesAsToggles() );
+					.toggleClass( 'expand', self.titlesAsToggles() && self.$container.hasClass( 'layout_ver' ) );
 			} );
 
 			self.showSelectedValues();
@@ -344,7 +369,7 @@
 
 			if ( $filter.hasClass( 'type_radio' ) ) {
 				const $buttonAnyValue = $( '[data-value="*"]:first', $filter );
-				if ( ! $( 'input', $buttonAnyValue ).is(':checked') ) {
+				if ( ! $( 'input', $buttonAnyValue ).is( ':checked' ) ) {
 					$buttonAnyValue
 						.toggleClass( 'hidden', ! $ush.toLowerCase( $buttonAnyValue.text() ).includes( value ) );
 				}
@@ -369,11 +394,12 @@
 		getItemValues: function( e ) {
 			const self = this;
 
-			const $filter = $( e.delegateTarget );
+			const $filter = $( e.target ).closest( '.w-filter-item' );
 			const compare = $filter.data( 'value-compare' );
 
 			var name = PREFIX_FOR_URL_PARAM + $ush.toString( $filter.data( 'name' ) ),
-				value = e.target.value;
+				value = e.target.value,
+				isExpand;
 
 			if ( compare ) {
 				name += `|${compare}`;
@@ -429,9 +455,7 @@
 
 			const hasValue = !! self.result[ name ];
 
-			$filter
-				.toggleClass( 'has_value', hasValue )
-				.toggleClass( 'expand', hasValue && self.titlesAsToggles() );
+			$filter.toggleClass( 'has_value', hasValue );
 
 			if ( self.isFacetedFiltering ) {
 				$filter.siblings().addClass( 'loading' );
@@ -448,6 +472,7 @@
 		 */
 		listToFilter: function() {
 			const self = this;
+
 			var $lists;
 
 			// Multiple lists can be used
@@ -519,15 +544,14 @@
 				data = {};
 			}
 
-			$.each( self.$filters, ( filterName, filter ) => {
+			$.each( self.filters, ( filterName, filter ) => {
 				const $filter = $( filter );
 				const name = $filter.data('name')
 				const currentData = $ush.clone( data[ name ] || {} );
-				const isRadioButtons = $filter.hasClass( 'type_radio' );
-				const isRangeSlider = $filter.hasClass( 'type_range_slider' );
+				const isRangeType = $filter.hasClass( 'type_range_slider' ) || $filter.hasClass( 'type_range_input' );
 
 				// For "Date Values Range" = yearly
-				if ( $filter.hasClass( 'range_by_year' ) ) {
+				if ( $filter.hasClass( 'range_by_year' ) && ! isRangeType ) {
 					for ( const k in currentData ) {
 						const year = $ush.toString( k ).substring( 0, 4 );
 						currentData[ year ] = $ush.parseInt( currentData[ year ] ) + currentData[ k ];
@@ -537,7 +561,7 @@
 				var numActiveValues = 0;
 
 				// TYPE: Checkboxes and Radio buttons
-				if ( $filter.hasClass( 'type_checkbox' ) || isRadioButtons ) {
+				if ( $filter.hasClass( 'type_checkbox' ) || $filter.hasClass( 'type_radio' ) ) {
 					const compare = $filter.data( 'value-compare' );
 
 					$( '[data-value]', filter ).each( ( _, node ) => {
@@ -545,7 +569,7 @@
 						const $node = $( node );
 						const value = $node.data( 'value' );
 
-						if ( isRadioButtons && value === '*' ) {
+						if ( $filter.hasClass( 'type_radio' ) && value === '*' ) {
 							return;
 						}
 
@@ -573,6 +597,9 @@
 							.data( 'post-count', postCount )
 							.find( '.w-filter-item-value-amount' )
 							.text( postCount );
+
+						// For navigation via Tab
+						$( 'input', $node ).prop( 'disabled', postCount === 0 );
 					} );
 
 					// TYPE: Dropdown
@@ -588,18 +615,28 @@
 						$node
 							.text( $ush.toString( $node.data( 'label-template' ) ).replace( '%d', postCount ) )
 							.prop( 'disabled', postCount === 0 )
-							.toggleClass( 'disabled', postCount === 0 )
+							.toggleClass( 'disabled', postCount === 0 );
+
+						// For navigation via Tab
+						$( 'select', $node ).prop( 'disabled', postCount === 0 );
 					} );
 
 					// TYPE: Range Input/Slider
-				} else if ( isRangeSlider || $filter.hasClass( 'type_range_input' ) ) {
+				} else if ( isRangeType ) {
 
 					const minValue = $ush.parseFloat( currentData[0] );
 					const maxValue = $ush.parseFloat( currentData[1] );
 					const newValues = [ minValue, maxValue ];
 					const currentValues = urlManager.get( `_${filterName}` );
 
-					if ( isRangeSlider ) {
+					if ( minValue ) {
+						numActiveValues++;
+					}
+					if ( maxValue ) {
+						numActiveValues++;
+					}
+
+					if ( $filter.hasClass( 'type_range_slider' ) ) {
 
 						$( '.ui-slider', $filter ).slider( 'option', {
 							min: minValue,
@@ -615,16 +652,10 @@
 
 						$( '.for_min_value, .for_max_value', filter ).each( ( i, node ) => {
 							const formattedValue = self.numberFormat( newValues[ i ], opts );
+							const $node = $( node );
 
-							$( node ).attr( 'placeholder', $ush.fromCharCode( formattedValue ) );
+							$node.attr( 'placeholder', $ush.fromCharCode( formattedValue ) );
 						} );
-					}
-
-					if ( minValue ) {
-						numActiveValues++;
-					}
-					if ( maxValue ) {
-						numActiveValues++;
 					}
 
 					// other types
@@ -632,9 +663,24 @@
 					numActiveValues = 1;
 				}
 
+				const $focusableElements = $( 'input,select,button,.ui-slider-handle', filter );
+
+				// Disable focusing from a keyboard when filter item is disabled
+				if ( numActiveValues ) {
+					$focusableElements.each( ( _, node ) => {
+						const $node = $( node );
+						if ( $node.hasClass( 'ui-slider-handle' ) ) {
+							$node.attr( 'tabindex', '0' );
+						} else {
+							$node.removeAttr( 'tabindex' );
+						}
+					} );
+				} else {
+					$focusableElements.attr( 'tabindex', '-1' );
+				}
+
 				$filter.removeClass( 'loading' );
 				$filter.toggleClass( 'disabled', numActiveValues < 1 );
-
 			} );
 		},
 
@@ -650,7 +696,7 @@
 			e.stopPropagation();
 			e.preventDefault();
 
-			const $filter = $( e.delegateTarget );
+			const $filter = $( e.target ).closest( '.w-filter-item' );
 			const compare = $filter.data( 'value-compare' );
 
 			var name = PREFIX_FOR_URL_PARAM + $filter.data( 'name' );
@@ -698,11 +744,11 @@
 				$( '.ui-slider', $filter ).slider( 'values', values.map( $ush.parseFloat ) );
 			}
 
-			if ( self.$container.hasClass( 'mod_dropdown' ) ) {
+			if ( self.titlesAsDropdowns() ) {
 				$( '.w-filter-item-title span', $filter ).text( '' );
 			}
 
-			$filter.removeClass( 'has_value' );
+			$filter.removeClass( 'has_value expand' );
 
 			$( 'input[name="search_values"]', $filter ).val( '' );
 			$( '.w-filter-item-value', $filter ).removeClass( 'hidden' );
@@ -725,8 +771,23 @@
 
 			self.сheckActiveFilters();
 
+			const urlParams = $ush.clone( self.result );
+
+			// Param "f" means that filter has enabled Faceted Filtering
+			if ( self.isFacetedFiltering ) {
+				var f_value = DELETE_FILTER;
+				for ( const k in self.result ) {
+					if ( k !== FACETED_PARAM && self.result[ k ] !== DELETE_FILTER ) {
+						f_value = 1;
+						break;
+					}
+				}
+				urlParams[ FACETED_PARAM ] = f_value;
+				self.result[ FACETED_PARAM ] = 1;
+			}
+
 			if ( self.changeURLParams() ) {
-				urlManager.set( self.result );
+				urlManager.set( urlParams );
 				urlManager.push( {} );
 			}
 
@@ -740,22 +801,16 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		toggleItemSection: function( e ) {
-			if ( this.titlesAsToggles() ) {
+			const self = this;
+			if (
+				e.originalEvent.detail > 0
+				&& self.$container.hasClass( 'drop_on_hover' )
+			) {
+				return;
+			}
+			if ( self.titlesAsToggles() || self.titlesAsDropdowns() ) {
 				const $filter = $( e.delegateTarget );
 				$filter.toggleClass( 'expand', ! $filter.hasClass( 'expand' ) );
-			}
-		},
-
-		/**
-		 * Toggle a filter item section.
-		 *
-		 * @event handler
-		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
-		 */
-		toggleItemDropdown: function( e ) {
-			if ( this.$container.hasClass( 'mod_dropdown' ) ) {
-				const $filter = $( e.delegateTarget );
-				$filter.toggleClass( 'dropped', ! $filter.hasClass( 'dropped' ) );
 			}
 		},
 
@@ -763,11 +818,15 @@
 		 * Open mobile version.
 		 *
 		 * @event handler
-		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		openMobileFilters: function( e ) {
+		openMobileVersion: function() {
+			const self = this;
 			$us.$body.addClass( 'us_filter_open' );
-			this.$container.addClass( 'open_for_mobile' );
+			self.$container.addClass( 'open_for_mobile' ).attr( 'aria-modal', 'true' );
+			self.$opener.attr( 'tabindex', '-1' );
+			if ( self.titlesAsDropdowns() ) {
+				self.$titles.attr( 'tabindex', '-1' );
+			}
 		},
 
 		/**
@@ -776,9 +835,14 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		closeMobileFilters: function() {
+		closeMobileVersion: function() {
+			const self = this;
 			$us.$body.removeClass( 'us_filter_open' );
-			this.$container.removeClass( 'open_for_mobile' );
+			self.$container.removeClass( 'open_for_mobile' ).removeAttr( 'aria-modal' );
+			self.$opener.removeAttr( 'tabindex' );
+			if ( self.titlesAsDropdowns() ) {
+				self.$titles.removeAttr( 'tabindex' );
+			}
 		},
 
 		/**
@@ -786,10 +850,13 @@
 		 */
 		showSelectedValues: function() {
 			const self = this;
-			if ( ! self.$container.hasClass( 'mod_dropdown' ) ) {
+			if ( ! self.titlesAsDropdowns() ) {
 				return;
 			}
 			for ( const key in self.result ) {
+				if ( key === FACETED_PARAM ) {
+					continue; // skip "_f"
+				}
 				const name = ( key.charAt(0) === '_' )
 					? key.substring(1)
 					: key;
@@ -797,16 +864,26 @@
 				if ( ( self.lastResult || {} )[ key ] === value || $ush.isUndefined( value ) ) {
 					continue
 				}
-				const $filter = self.$filters[ name ];
-				const $label = $( '.w-filter-item-title span', $filter );
+				const $filter = self.filters[ name ];
+				const $label = $( '.w-filter-item-title > span', $filter );
 				if ( value === null ) {
 					$label.text( '' );
+					continue;
 
-				} else if ( $filter.hasClass( 'type_dropdown' ) ) {
-					$label.text( ': ' + $( `option[value="${value}"]`, $filter ).text() );
+				} else {
+					value = $ush.rawurldecode( value ); // decode сyrillic symbols
+				}
+				if ( $filter.hasClass( 'type_dropdown' ) ) {
+					$label.text( $( `option[value="${value}"]`, $filter ).text() );
 
 				} else if ( $filter.hasClass( 'type_range_slider' ) || $filter.hasClass( 'type_range_input' ) ) {
-					$label.text( `: ${self.result[ key ]}` );
+
+					const formattedLabel = $ush.toString( self.result[ key ] )
+						.split( '-' )
+						.map( ( v ) => self.numberFormat( v, $filter.data( 'opts' ) ) )
+						.join( ' - ' );
+
+					$label.text( `${$ush.fromCharCode( formattedLabel )}` );
 
 				} else if ( $filter.hasClass( 'type_date_picker' ) ) {
 					const values = [];
@@ -815,35 +892,36 @@
 							values.push( input.value );
 						}
 					} );
-					$label.text( ': ' + values.join( ' - ' ) );
+					$label.text( values.join( ' - ' ) );
 
 				} else {
-					if ( value.includes( ',' ) ) {
+					// In case of several values and the first value length is bigger then 2, use the number of values as the final value
+					if ( value.includes( ',' ) && value.split( ',' )[0].length > 2 ) {
 						value = value.split( ',' ).length;
 					} else {
-						value = $( `[data-value="${value}"] .w-filter-item-value-label`, $filter ).text();
+						value = $( `[data-value="${value}"] .w-filter-item-value-label:first`, $filter ).html() || value;
 					}
-					$label.text( `: ${value}` );
+					$label.text( value );
 				}
 			}
 		},
 
 		/**
-		 * Hide dropped content of every filter item with Dropdown layout.
+		 * Hide expand content of every filter item with Dropdown layout.
 		 *
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		hideItemDropdown: function( e ) {
 			const self = this;
-			const $openedFilters = $( '.w-filter-item.dropped', self.$container );
+			const $openedFilters = $( '.w-filter-item.expand', self.$container );
 			if ( ! $openedFilters.length ) {
 				return;
 			}
 			$openedFilters.each( ( _, node ) => {
 				const $node = $( node );
 				if ( ! $node.is( e.target ) && $node.has( e.target ).length === 0 ) {
-					$node.removeClass( 'dropped' );
+					$node.removeClass( 'expand' );
 				}
 			} );
 		},
@@ -872,8 +950,121 @@
 		сheckActiveFilters: function() {
 			const self = this;
 			self.$container.toggleClass( 'active', $( '.has_value:first', self.$container ).length > 0 );
-		}
+		},
 
+	} );
+
+	$.extend( usListFilter.prototype, {
+
+		/**
+		 * Navigation using key press.
+		 *
+		 * @event handler
+		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
+		 */
+		navUsingKeyPress: function( e ) {
+			const self = this;
+			const keyCode = e.keyCode;
+
+			if ( ! [ $ush.TAB_KEYCODE, $ush.ENTER_KEYCODE, $ush.SPACE_KEYCODE, $ush.ESC_KEYCODE ].includes( keyCode ) ) {
+				return;
+			}
+
+			const focusableSelectors = [
+				'a[href]',
+				'input:not([disabled])',
+				'select:not([disabled])',
+				'textarea:not([disabled])',
+				'button:not([disabled])',
+				'[tabindex]',
+			].join();
+
+			const $target = $( e.target );
+			const $activeElement = $( _document.activeElement ).filter( focusableSelectors );
+			const isOpenMobileVersion = self.$container.hasClass( 'open_for_mobile' );
+
+			function openMobileVersion() {
+				if ( $target.hasClass( 'w-filter-opener' ) ) {
+					self.openMobileVersion();
+					self.$listCloser[0].focus();
+				}
+			}
+
+			function closeMobileVersion() {
+				self.closeMobileVersion();
+				self.$opener[0].focus();
+			}
+
+			if ( keyCode === $ush.ESC_KEYCODE ) {
+
+				$.each( self.filters, ( _, $filter ) => {
+					if ( $filter.hasClass( 'expand' ) ) {
+						$filter.removeClass( 'expand' );
+						$( '.w-filter-item-title', $filter )[0].focus();
+					}
+				} );
+
+				if ( isOpenMobileVersion ) {
+					closeMobileVersion();
+				}
+			}
+
+			if ( [ $ush.ENTER_KEYCODE, $ush.SPACE_KEYCODE ].includes( keyCode ) ) {
+
+				// Reset filter
+				if ( $target.hasClass( 'w-filter-item-reset' ) ) {
+
+					if ( isOpenMobileVersion ) {
+						$( focusableSelectors, $target.closest( '[data-name]' ) )
+						.filter( ':visible:not([tabindex="-1"]):eq(0)' )[0]
+						.focus();
+					} else {
+						$( '.w-filter-item-title', $target.closest( '.w-filter-item' ) )[0].focus();
+						self.resetItemValues( e );
+					}
+				}
+
+				openMobileVersion();
+
+				if ( $target.hasClass( 'w-filter-list-closer' ) || $target.hasClass( 'w-filter-button-submit' ) ) {
+					closeMobileVersion();
+				}
+			}
+
+			if ( keyCode === $ush.TAB_KEYCODE ) {
+
+				const isContainActiveElement = $.contains( self.$container[0], $activeElement[0] );
+
+				// Close dropdowns when navigating outside the filter container
+				if ( self.titlesAsDropdowns() && ! isOpenMobileVersion && ! isContainActiveElement ) {
+					$( '.w-filter-item.expand', self.$container ).removeClass( 'expand' );
+				}
+
+				// Loop navigation for a popup
+				if ( isOpenMobileVersion && ! isContainActiveElement ) {
+					const $focusable = $( focusableSelectors, self.$container )
+						.filter( ':visible:not([tabindex="-1"])' );
+
+					if ( ! $focusable.length ) {
+						e.preventDefault();
+						self.$listCloser[0].focus();
+						return;
+					}
+
+					const firstElement = $focusable.first()[0];
+					const lastElement = $focusable.last()[0];
+
+					if ( e.shiftKey && $target[0] === firstElement ) {
+						e.preventDefault();
+						lastElement.focus();
+
+					} else if ( ! e.shiftKey && $target[0] === lastElement ) {
+						e.preventDefault();
+						firstElement.focus();
+					}
+				}
+			}
+		},
 	} );
 
 	$.fn.usListFilter = function() {

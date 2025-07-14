@@ -9,10 +9,6 @@
  */
 
 return array(
-	'42dot Sans' => array(
-		'variants' => array( '300', '400', '500', '600', '700', '800', ),
-		'fallback' => 'sans-serif',
-	),
 	'ABeeZee' => array(
 		'variants' => array( '400', '400italic', ),
 		'fallback' => 'sans-serif',
@@ -706,7 +702,7 @@ return array(
 		'fallback' => 'serif',
 	),
 	'Baskervville SC' => array(
-		'variants' => array( '400', ),
+		'variants' => array( '400', '500', '600', '700', ),
 		'fallback' => 'serif',
 	),
 	'Battambang' => array(
@@ -840,6 +836,10 @@ return array(
 	'Biryani' => array(
 		'variants' => array( '200', '300', '400', '600', '700', '800', '900', ),
 		'fallback' => 'sans-serif',
+	),
+	'Bitcount Grid Double' => array(
+		'variants' => array( '100', '200', '300', '400', '500', '600', '700', '800', '900', ),
+		'fallback' => 'cursive',
 	),
 	'Bitter' => array(
 		'variants' => array( '100', '200', '300', '400', '500', '600', '700', '800', '900', '100italic', '200italic', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', '900italic', ),
@@ -1232,6 +1232,14 @@ return array(
 	'Chilanka' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'cursive',
+	),
+	'Chiron Hei HK' => array(
+		'variants' => array( '200', '300', '400', '500', '600', '700', '800', '900', '200italic', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', '900italic', ),
+		'fallback' => 'sans-serif',
+	),
+	'Chiron Sung HK' => array(
+		'variants' => array( '200', '300', '400', '500', '600', '700', '800', '900', '200italic', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', '900italic', ),
+		'fallback' => 'serif',
 	),
 	'Chivo' => array(
 		'variants' => array( '100', '200', '300', '400', '500', '600', '700', '800', '900', '100italic', '200italic', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', '900italic', ),
@@ -2346,7 +2354,7 @@ return array(
 		'fallback' => 'sans-serif',
 	),
 	'Hanuman' => array(
-		'variants' => array( '100', '300', '400', '700', '900', ),
+		'variants' => array( '100', '200', '300', '400', '500', '600', '700', '800', '900', ),
 		'fallback' => 'serif',
 	),
 	'Happy Monkey' => array(
@@ -2443,6 +2451,10 @@ return array(
 	),
 	'Hubot Sans' => array(
 		'variants' => array( '200', '300', '400', '500', '600', '700', '800', '900', '200italic', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', '900italic', ),
+		'fallback' => 'sans-serif',
+	),
+	'Huninn' => array(
+		'variants' => array( '400', ),
 		'fallback' => 'sans-serif',
 	),
 	'Hurricane' => array(
@@ -3033,6 +3045,10 @@ return array(
 		'variants' => array( '400', ),
 		'fallback' => 'serif',
 	),
+	'LXGW Marker Gothic' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'sans-serif',
+	),
 	'LXGW WenKai Mono TC' => array(
 		'variants' => array( '300', '400', '700', ),
 		'fallback' => 'monospace',
@@ -3148,6 +3164,14 @@ return array(
 	'Lexend Zetta' => array(
 		'variants' => array( '100', '200', '300', '400', '500', '600', '700', '800', '900', ),
 		'fallback' => 'sans-serif',
+	),
+	'Libertinus Math' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'cursive',
+	),
+	'Libertinus Mono' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'monospace',
 	),
 	'Libre Barcode 128' => array(
 		'variants' => array( '400', ),
@@ -3421,6 +3445,10 @@ return array(
 		'variants' => array( '300', '400', '500', '600', '700', '800', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', ),
 		'fallback' => 'serif',
 	),
+	'Manufacturing Consent' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'cursive',
+	),
 	'Marcellus' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'serif',
@@ -3467,6 +3495,10 @@ return array(
 	),
 	'Marvel' => array(
 		'variants' => array( '400', '400italic', '700', '700italic', ),
+		'fallback' => 'sans-serif',
+	),
+	'Matangi' => array(
+		'variants' => array( '300', '400', '500', '600', '700', '800', '900', ),
 		'fallback' => 'sans-serif',
 	),
 	'Mate' => array(
@@ -3552,6 +3584,10 @@ return array(
 	'Meie Script' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'cursive',
+	),
+	'Menbere' => array(
+		'variants' => array( '100', '200', '300', '400', '500', '600', '700', ),
+		'fallback' => 'sans-serif',
 	),
 	'Meow Script' => array(
 		'variants' => array( '400', ),
@@ -3918,7 +3954,7 @@ return array(
 		'fallback' => 'sans-serif',
 	),
 	'Nokora' => array(
-		'variants' => array( '100', '300', '400', '700', '900', ),
+		'variants' => array( '100', '200', '300', '400', '500', '600', '700', '800', '900', ),
 		'fallback' => 'sans-serif',
 	),
 	'Norican' => array(
@@ -4493,6 +4529,10 @@ return array(
 		'variants' => array( '400', '500', '600', '700', ),
 		'fallback' => 'sans-serif',
 	),
+	'Noto Sans Sunuwar' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'sans-serif',
+	),
 	'Noto Sans Syloti Nagri' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'sans-serif',
@@ -4635,7 +4675,7 @@ return array(
 	),
 	'Noto Serif Dives Akuru' => array(
 		'variants' => array( '400', ),
-		'fallback' => 'sans-serif',
+		'fallback' => 'serif',
 	),
 	'Noto Serif Dogra' => array(
 		'variants' => array( '400', ),
@@ -5012,6 +5052,10 @@ return array(
 	'Paprika' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'cursive',
+	),
+	'Parastoo' => array(
+		'variants' => array( '400', '500', '600', '700', ),
+		'fallback' => 'serif',
 	),
 	'Parisienne' => array(
 		'variants' => array( '400', ),
@@ -6257,6 +6301,10 @@ return array(
 		'variants' => array( '400', ),
 		'fallback' => 'cursive',
 	),
+	'Savate' => array(
+		'variants' => array( '200', '300', '400', '500', '600', '700', '800', '900', '200italic', '300italic', '400italic', '500italic', '600italic', '700italic', '800italic', '900italic', ),
+		'fallback' => 'sans-serif',
+	),
 	'Sawarabi Gothic' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'sans-serif',
@@ -7033,6 +7081,10 @@ return array(
 		'variants' => array( '400', '400italic', '700', '700italic', ),
 		'fallback' => 'serif',
 	),
+	'UoqMunThenKhung' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'serif',
+	),
 	'Updock' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'cursive',
@@ -7124,6 +7176,14 @@ return array(
 	'Vujahday Script' => array(
 		'variants' => array( '400', ),
 		'fallback' => 'cursive',
+	),
+	'WDXL Lubrifont JP N' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'sans-serif',
+	),
+	'WDXL Lubrifont SC' => array(
+		'variants' => array( '400', ),
+		'fallback' => 'sans-serif',
 	),
 	'WDXL Lubrifont TC' => array(
 		'variants' => array( '400', ),

@@ -4,15 +4,15 @@
  * _window.$ush - US Helper Library
  */
 ! function( $, _undefined ) {
-	var _window = window;
 
-	// Check for is set availability objects
+	const _window = window;
+
 	_window.$ush = _window.$ush || {};
 
 	/**
 	 * @type {RegExp} Regular expression for find space.
 	 */
-	const _REGEXP_SPACE_ = /\p{Zs}/u;
+	const SPACE_REGEXP = /\p{Zs}/u;
 
 	/**
 	 * @type {{}} Private storage of all data objects
@@ -25,9 +25,10 @@
 	 */
 	function Data( namespace ) {
 		const self = this;
+
 		// Private "Variables"
-		self._$data = {}; // the data storage location
-		self._namespace = namespace; // the namespace the class belongs to
+		self._$data = {};
+		self._namespace = namespace;
 	};
 
 	/**
@@ -62,9 +63,8 @@
 	 * @return {*} Returns values from cache or `undefined`
 	 */
 	dataPrototype.get = function( key, value ) {
-		var self = this;
+		const self = this;
 		if ( ! self.has( key ) ) {
-			// Get default data from a callback function
 			if ( typeof value === 'function' ) {
 				value = value.call( self );
 			}
@@ -83,16 +83,17 @@
 	 * @return self
 	 */
 	dataPrototype.set = function() {
-		var self = this,
-			values = {},
-			args = $ush.toArray( arguments );
-		// Get values
-		if ( args.length == 2 && typeof args[ /* key */0 ] === 'string' ) {
-			values[ args[ /* key */0 ] ] = args[ /* value */1 ];
-		} else if ( $.isPlainObject( args[ /* data */0 ] ) ) {
-			values = args[ /* plain object */0 ];
+		const self = this;
+		const args = $ush.toArray( arguments );
+
+		var values = {};
+		if ( args.length == 2 && typeof args[0] === 'string' ) {
+			values[ args[0] ] = args[1];
+
+		} else if ( $.isPlainObject( args[0] ) ) {
+			values = args[0];
 		}
-		$.extend( self._$data, values ); // merge values
+		$.extend( self._$data, values );
 		return self;
 	};
 
@@ -112,9 +113,9 @@
 	 * @return self
 	 */
 	dataPrototype.remove = function( key ) {
-		var self = this,
-			args = $ush.toArray( arguments );
-		for ( var i in args ) {
+		const self = this;
+		const args = $ush.toArray( arguments );
+		for ( const i in args ) {
 			if ( self.has( args[ i ] ) ) {
 				delete self._$data[ args[ i ] ];
 			}
@@ -126,7 +127,7 @@
 	 * Flushes an instance from global storage
 	 */
 	dataPrototype.flush = function() {
-		var self = this;
+		const self = this;
 		if ( ! $ush.isUndefined( _$$cache[ self._namespace ] ) ) {
 			delete _$$cache[ self._namespace ];
 		}
@@ -145,13 +146,14 @@
 	 * @return {{}} Returns the difference between two objects
 	 */
 	$usbcore.diffPlainObject = function( objectA, objectB ) {
-		var self = this, result = {};
+		const self = this;
+		const result = {};
 		if ( $ush.comparePlainObject( objectA, objectB ) ) {
 			return result;
 		}
-		for ( var k in objectA ) {
+		for ( const k in objectA ) {
 			if ( $.isPlainObject( objectA[ k ] ) ) {
-				var diff = self.diffPlainObject( objectA[ k ], $.isPlainObject( objectB[ k ] ) ? objectB[ k ] : {} );
+				const diff = self.diffPlainObject( objectA[ k ], $.isPlainObject( objectB[ k ] ) ? objectB[ k ] : {} );
 				if ( ! $.isEmptyObject( diff ) ) {
 					result[ k ] = diff;
 				}
@@ -173,7 +175,7 @@
 	 * @return {{}} Returns a cleaned up new object
 	 */
 	$usbcore.clearPlainObject = function( data, props ) {
-		var self = this;
+		const self = this;
 		if ( ! $.isPlainObject( data ) ) {
 			data = {};
 		}
@@ -187,8 +189,8 @@
 		// Clone data to get rid of object references
 		data = $ush.clone( data );
 		// Remove all specified properties from an object
-		for ( var k in props ) {
-			var prop = props[ k ];
+		for ( const k in props ) {
+			const prop = props[ k ];
 			if ( ! data.hasOwnProperty( prop ) ) {
 				continue;
 			}
@@ -205,7 +207,7 @@
 	 * @return {Boolean} Returns the index of the value on success, otherwise -1
 	 */
 	$usbcore.indexOf = function( value, data ) {
-		var self = this;
+		const self = this;
 		if ( $.isPlainObject( data ) ) {
 			data = Object.values( data );
 		}
@@ -224,30 +226,32 @@
 	 * @return {*}
 	 */
 	$usbcore.deepFind = function( dataObject, path, defaultValue ) {
-		var self = this;
+		const self = this;
+
 		// Remove all characters except the specified ones
 		// Note: Some shortcodes use `-` as separator, example: `[us-name...][us_name...]`
-		path = ( '' + path )
-			.replace( /[^A-z\d\-\_\.]/g, '' )
-			.trim();
+		path = ( '' + path ).replace( /[^A-z\d\-\_\.]/g, '' ).trim();
 		if ( ! path ) {
 			return defaultValue;
 		}
+
 		// Get the path as an array of keys
 		if ( path.indexOf( '.' ) > -1 ) {
-			path = path.split( '.' ); // split string into array of paths
+			path = path.split( '.' );
 		} else {
 			path = [ path ];
 		}
+
 		// Get the result based on an array of keys
 		var result = ( typeof dataObject == 'object' ) ? dataObject : {};
-		for ( k in path ) {
+		for ( const k in path ) {
 			result = result[ path[ k ] ];
 			if ( $ush.isUndefined( result ) ) {
 				return defaultValue;
 			}
 		}
-		return result; // return the final result
+
+		return result;
 	};
 
 	/**
@@ -258,7 +262,7 @@
 	 * @return self
 	 */
 	$usbcore.$addClass = function( node, className ) {
-		var self = this;
+		const self = this;
 		if ( $ush.isNode( node ) && className ) {
 			node.classList.add( className );
 		}
@@ -273,9 +277,9 @@
 	 * @return self
 	 */
 	$usbcore.$removeClass = function( node, className ) {
-		var self = this;
+		const self = this;
 		if ( $ush.isNode( node ) && className ) {
-			( '' + className ).split( _REGEXP_SPACE_ ).map( function( itemClassName ) {
+			( '' + className ).split( SPACE_REGEXP ).map( ( itemClassName ) => {
 				if ( ! itemClassName ) {
 					return;
 				}
@@ -295,7 +299,7 @@
 	 * @return self
 	 */
 	$usbcore.$toggleClass = function( node, className, state ) {
-		var self = this;
+		const self = this;
 		if ( $ush.isNode( node ) && className ) {
 			self[ !! state ? '$addClass' : '$removeClass' ]( node, className );
 		}
@@ -310,16 +314,16 @@
 	 * @return {Boolean} True, if there is at least one class, False otherwise
 	 */
 	$usbcore.$hasClass = function( node, className ) {
-		var self = this;
+		const self = this;
 		if ( $ush.isNode( node ) && className ) {
-			var classList = ( '' + className ).split( _REGEXP_SPACE_ );
-			for ( var i in classList ) {
+			var classList = ( '' + className ).split( SPACE_REGEXP );
+			for ( const i in classList ) {
 				className = '' + classList[ i ];
 				if ( ! className ) {
 					continue;
 				}
 				// Note: node.className can be an object for SVG nodes
-				if ( self.indexOf( className, ( '' + node.className ).split( _REGEXP_SPACE_ ) ) > -1 ) {
+				if ( self.indexOf( className, ( '' + node.className ).split( SPACE_REGEXP ) ) > -1 ) {
 					return true;
 				}
 			}
@@ -336,17 +340,15 @@
 	 * @return {*}
 	 */
 	$usbcore.$attr = function( node, name, value ) {
-		var self = this;
+		const self = this;
 		if ( ! $ush.isNode( node ) || ! name ) {
 			return;
 		}
-		// Set value to attribute.
 		if ( ! $ush.isUndefined( value ) ) {
 			node.setAttribute( name, value );
 			return self;
-		}
-		// Get value in attribute
-		else if ( !! node[ 'getAttribute' ] ) {
+
+		} else if ( !! node[ 'getAttribute' ] ) {
 			return node.getAttribute( name ) || '';
 		}
 		return;
@@ -359,7 +361,7 @@
 	 * @return self
 	 */
 	$usbcore.$remove = function( node ) {
-		var self = this;
+		const self = this;
 		if ( $ush.isNode( node ) ) {
 			node.remove();
 		}
@@ -373,7 +375,7 @@
 	 * @return {Data} Returns the Data class.
 	 */
 	$usbcore.cache = function( namespace ) {
-		var self = this;
+		const self = this;
 		if ( ! $.isPlainObject( _$$cache ) ) {
 			_$$cache = {};
 		}
@@ -394,7 +396,7 @@
 	 */
 	$usbcore.setTextToCaretPosition = function( node, text ) {
 		if ( $ush.isNode( node ) ) {
-			let position = $ush.parseInt( node.selectionStart ),
+			var position = $ush.parseInt( node.selectionStart ),
 				value = node.value;
 			text = $ush.toString( text ).trim();
 			node.value = value.slice( 0, position ) + text + value.slice( position );

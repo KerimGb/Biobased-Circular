@@ -60,13 +60,20 @@ $us_tabs_atts = &$us_tabs_options[ $current_tabs_index ]['us_tabs_atts'];
 $active_tab_indexes = array();
 $section_contents = array();
 
+// Reset the inner content if the data source is set.
+// Content will be populated via the 'us_vc_tta_tabs_content' hook.
+if ( ! empty( $data_source ) AND ! usb_is_preview() ) {
+	$content = '';
+}
+
+$content = apply_filters( 'us_vc_tta_tabs_content', $content, $filled_atts );
+
 /**
  * Removing empty section and parse data
  *
  * @param array $matches
  * @return string
  */
-
 $func_parse_vc_tta_section = function( $matches ) use( &$us_tabs_atts, &$active_tab_indexes, &$section_contents ) {
 
 	// Performing preprocessing of shortcodes, this will allow correct work grid layouts
@@ -134,7 +141,7 @@ if ( ! ( $shortcode_base == 'vc_tta_accordion' AND $toggle ) AND count( $active_
 
 // Pass some of the attributes to the sections
 foreach ( $us_tabs_atts as $index => $tab_atts ) {
-	$us_tabs_atts[ $index ]['title_tag'] = isset( $title_tag ) ? $title_tag : 'div';
+	$us_tabs_atts[ $index ]['title_tag'] = $title_tag ?? 'div';
 
 	// If there is no el_id, then we will generate a new unique el_id
 	if ( empty( $us_tabs_atts[ $index ]['el_id'] ) ) {
@@ -142,9 +149,25 @@ foreach ( $us_tabs_atts as $index => $tab_atts ) {
 	}
 }
 
+// Collect content after forming all parameters
+$content = preg_replace_callback( '/:content:/', function( $matches ) use( &$section_contents ) {
+	reset( $section_contents );
+	$index = key( $section_contents );
+	$return = $section_contents[ $index ];
+	if ( isset( $section_contents[ $index ] ) ) {
+		unset( $section_contents[ $index ] );
+	}
+	return $return;
+}, $content );
+unset( $section_contents );
+
+if ( empty( $content ) AND ! usb_is_preview() ) {
+	return;
+}
+
 // Main element HTML attributes
 $_atts['class'] = 'w-tabs';
-$_atts['class'] .= isset( $classes ) ? $classes : '';
+$_atts['class'] .= $classes ?? '';
 
 // List HTML attributes
 $list_class = '';
@@ -317,21 +340,12 @@ if ( $shortcode_base != 'vc_tta_accordion' ) {
 	$output .= '</div></div>';
 }
 
-// Collecting content after forming all parameters
-$content = preg_replace_callback( '/:content:/', function( $maches ) use( &$section_contents ) {
-	reset( $section_contents );
-	$index = key( $section_contents );
-	$return = $section_contents[ $index ];
-	if ( isset( $section_contents[ $index ] ) ) {
-		unset( $section_contents[ $index ] );
-	}
-	return $return;
-}, $content );
-unset( $section_contents );
-
 $output .= '<div' . us_implode_atts( $sections_atts ) . '>';
+
 $output .= do_shortcode( $content );
-$output .= '</div></div>';
+
+$output .= '</div>'; // w-tabs-sections
+$output .= '</div>'; // w-tabs
 
 // Remove information of current tabs options from global variable after $output is ready
 if ( isset( $us_tabs_options[ $current_tabs_index ] ) ) {

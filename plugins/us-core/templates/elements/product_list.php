@@ -304,7 +304,7 @@ if ( $meta_query_relation != 'none' AND ! empty( $meta_query ) ) {
 		}
 
 		// Force date/time type if the relevant dynamic value is set
-		if ( $_meta['value'] == '{{today_now}}' OR strpos( $_meta['value'], '{{date|') !== FALSE  ) {
+		if ( $_meta['value'] == '{{today_now}}' OR ( strpos( $_meta['value'], '{{date|') !== FALSE AND $_meta['value'] !== '{{date|U}}' ) ) {
 			$_meta['type'] = 'DATETIME';
 		} elseif ( $_meta['value'] == '{{today}}' ) {
 			$_meta['type'] = 'DATE';

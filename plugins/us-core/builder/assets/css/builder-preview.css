@@ -100,7 +100,9 @@ body.usb_preview [data-usbid].w-html,
 body.usb_preview [data-usbid].w-hwrapper,
 body.usb_preview [data-usbid].w-vwrapper,
 body.usb_preview [data-usbid].w-content-carousel,
+body.usb_preview [data-usbid].w-countdown,
 body.usb_preview [data-usbid].w-user-elm,
+body.usb_preview [data-usbid].wpb_raw_js,
 body.usb_preview [data-usbid] .w-tabs-section-content-h,
 body.usb_preview [data-usbid] .vc_column-inner,
 body.usb_preview [data-usbid] .wpb_text_column,
@@ -132,6 +134,7 @@ body.usb_preview [data-usbid].w-hwrapper:empty,
 body.usb_preview [data-usbid].w-vwrapper:empty,
 body.usb_preview [data-usbid].w-content-carousel .owl-carousel:empty,
 body.usb_preview [data-usbid].w-content-carousel .owl-stage:empty,
+body.usb_preview [data-usbid].w-countdown.expired.after_end_hide,
 body.usb_preview [data-usbid] .w-tabs-section-content-h:empty,
 body.usb_preview [data-usbid] .vc_column-inner:empty,
 body.usb_preview [data-usbid] .wpb_wrapper:empty,
@@ -146,6 +149,7 @@ body.usb_preview [data-usbid] .w-scroller:not(.with_dots) {
 	border: 1px dotted;
 	transform: none;
 	}
+body.usb_preview [data-usbid].w-countdown.expired.after_end_hide,
 body.usb_preview [data-usbid] .w-popup-trigger:empty {
 	display: block;
 	}

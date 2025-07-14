@@ -4,7 +4,6 @@
 ! function( $, _undefined ) {
 	"use strict";
 
-	const ENTER_KEY_CODE = 13;
 	const DELETE_FILTER = null;
 	const urlManager = $ush.urlManager();
 	const urlParam = '_s';
@@ -46,7 +45,7 @@
 
 		// Defines enter presses in field
 		$us.$document.on( 'keypress', ( e ) => {
-			if ( self.$input.is( ':focus' ) && e.keyCode === ENTER_KEY_CODE ) {
+			if ( self.$input.is( ':focus' ) && e.keyCode === $ush.ENTER_KEYCODE ) {
 				e.preventDefault();
 				self._events.searchTextChanged( e );
 			}

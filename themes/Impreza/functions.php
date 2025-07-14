@@ -13,12 +13,14 @@ $us_theme_supports = array(
 	'plugins' => array(
 		'advanced-custom-fields' => 'plugins-support/acf.php',
 		'bbpress' => 'plugins-support/bbpress.php',
+		'borlabs' => 'plugins-support/borlabs.php',
 		'contact-form-7' => NULL,
 		'filebird' => 'plugins-support/filebird.php',
 		'gravityforms' => 'plugins-support/gravityforms.php',
 		'js_composer' => 'plugins-support/js_composer/js_composer.php',
 		'post_views_counter' => 'plugins-support/post_views_counter.php',
 		'revslider' => 'plugins-support/revslider.php',
+		'relevanssi' => 'plugins-support/relevanssi.php',
 		'the-events-calendar' => 'plugins-support/the_events_calendar.php',
 		'tiny_mce' => 'plugins-support/tiny_mce.php',
 		'Ultimate_VC_Addons' => 'plugins-support/Ultimate_VC_Addons.php',
@@ -27,7 +29,6 @@ $us_theme_supports = array(
 		'woocommerce-multi-currency' => 'plugins-support/woocommerce-multi-currency.php',
 		'wp_rocket' => 'plugins-support/wp_rocket.php',
 		'yoast' => 'plugins-support/yoast.php',
-		'borlabs' => 'plugins-support/borlabs.php',
 	),
 	// Include plugins that relate to translations and can be used in helpers.php
 	'translate_plugins' => array(

@@ -9,13 +9,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -31,11 +31,9 @@
 	 * @class Page - Functionality for customizing the page, styles or metadata of the edited page
 	 */
 	function Page() {
-		var self = this;
+		const self = this;
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			changePageCustomCss: self._changePageCustomCss.bind( self ),
 			changePostMeta: self._changePostMeta.bind( self ),
@@ -48,7 +46,7 @@
 			urlManager: self._urlManager.bind( self ),
 		};
 
-		$( function() {
+		$( () => {
 
 			// Elements
 			self.$pageSettings = $( '.usb-panel-page-settings', $usb.$panel );
@@ -71,15 +69,15 @@
 
 		// Private events
 		$usb
-			.on( 'iframeReady', self._events.iframeReady ) // read document in iframe handler
-			.on( 'panel.clearBody', self._events.handlerClearBody ) // handler for clear the panel body
-			.on( 'urlManager.changed', self._events.urlManager ); // URL history stack change handler
+			.on( 'iframeReady', self._events.iframeReady )
+			.on( 'panel.clearBody', self._events.handlerClearBody )
+			.on( 'urlManager.changed', self._events.urlManager );
 	}
 
 	/**
 	 * @type {Prototype}
 	 */
-	var prototype = Page.prototype;
+	const prototype = Page.prototype;
 
 	// Private Events
 	$.extend( prototype, $ush.mixinEvents, {
@@ -90,7 +88,7 @@
 		 * @param {{}|undefined} state Data object associated with history and current loaction
 		 */
 		_urlManager: function( state ) {
-			var self = this;
+			const self = this;
 			// If the document is not read, exit
 			if ( ! self.isReady() ) {
 				return;
@@ -115,7 +113,7 @@
 		 * @event handler
 		 */
 		_iframeReady: function() {
-			var self = this;
+			const self = this;
 			// Check if there is a css set the label
 			if ( $usb.builder.pageData.customCss ) {
 				self.$actionShowCustomCss.addClass( 'css_not_empty' );
@@ -128,12 +126,12 @@
 		 * @event handler
 		 */
 		_handlerClearBody: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.isReady() ) {
 				return;
 			}
-			self._hideSettings(); // hide the settings
-			self._hideCustomCss(); // hide the custom css
+			self._hideSettings();
+			self._hideCustomCss();
 		}
 	} );
 
@@ -161,7 +159,7 @@
 		 * Show the page settings.
 		 */
 		showSettings: function () {
-			var self = this;
+			const self = this;
 			// Fields initialization for page fields
 			if ( ! ( _$tmp.pageFieldset.pageFields instanceof $usof.GroupParams ) ) {
 				var pageFields = new $usof.GroupParams( $( '.for_page_fields', self.$pageSettings )[/*first*/0] );
@@ -182,8 +180,8 @@
 			// Set params for fieldsets in page settings
 			self._setParamsForSettings();
 
-			$usb.panel.clearBody(); // clear the panel body
-			$usb.navigator.resetActive(); // reset an active element in navigator
+			$usb.panel.clearBody();
+			$usb.navigator.resetActive();
 			self.$pageSettings.removeClass( 'hidden' );
 			self.$actionShowSettings.addClass( 'active' );
 
@@ -204,11 +202,10 @@
 		 * Set params for fieldsets in page settings.
 		 */
 		_setParamsForSettings: function() {
-			var self = this;
+			const self = this;
 			if ( ! $usb.iframeIsReady ) {
 				$usb.one( 'iframeReady', self._events.setParamsForSettings );
-				self.$pageSettings // add a preloader for loading data
-					.addClass( 'data_loading' );
+				self.$pageSettings.addClass( 'data_loading' );
 				return;
 			}
 
@@ -227,8 +224,7 @@
 				postMeta.setValues( pageData.postMeta, /* quiet mode */true );
 				$.extend( pageData.postMeta, postMeta.getValues() ); // force for data type compatibility
 			}
-			self.$pageSettings
-				.removeClass( 'data_loading' );
+			self.$pageSettings.removeClass( 'data_loading' );
 		},
 
 		/**
@@ -288,8 +284,9 @@
 			if ( ! ( usofField instanceof $usof.field ) ) {
 				return;
 			}
-			var self = this,
-				name = usofField.name;
+
+			const self = this;
+			const name = usofField.name;
 
 			// Check the parameter changes
 			if ( $usb.builder.pageData.postMeta[ name ] === value ) {
@@ -305,9 +302,7 @@
 			}
 
 			// Event for react in extensions
-			$ush.debounce_fn_1ms( function() {
-				$usb.trigger( 'builder.contentChange' );
-			} );
+			$ush.debounce_fn_1ms( () => $usb.trigger( 'builder.contentChange' ) );
 		},
 
 		/**
@@ -323,7 +318,7 @@
 		 * Show the page custom css.
 		 */
 		showCustomCss: function() {
-			var self = this;
+			const self = this;
 			// Load the code editor only after initialize the iframe,
 			// due to load assets on demand from the iframe
 			if ( ! $usb.iframeIsReady ) {
@@ -338,15 +333,15 @@
 
 			// Fields initialization for page_custom_css
 			if ( ! ( _$tmp.pageFieldset.pageCustomCss instanceof $usof.field ) ) {
-				var pageCustomCss = new $usof.field( $( '.type_css', self.$pageCustomCss )[/* first */0] );
+				var pageCustomCss = new $usof.field( $( '.type_css', self.$pageCustomCss )[0] );
 				pageCustomCss.init( pageCustomCss.$row );
 				pageCustomCss.setValue( $usb.builder.pageData.customCss );
 				pageCustomCss.on( 'change', $ush.debounce( self._events.changePageCustomCss, 1 ) );
 				_$tmp.pageFieldset.pageCustomCss = pageCustomCss;
 			}
 
-			$usb.panel.clearBody(); // clear the panel body
-			$usb.navigator.resetActive(); // reset an active element in navigator
+			$usb.panel.clearBody();
+			$usb.navigator.resetActive();
 			self.$pageCustomCss.removeClass( 'hidden' );
 			self.$actionShowCustomCss.addClass( 'active' );
 
@@ -365,7 +360,7 @@
 		 * Hide the page custom css.
 		 */
 		_hideCustomCss: function() {
-			var self = this;
+			const self = this;
 			if ( self.isReady() ) {
 				self.$pageCustomCss.addClass( 'hidden' );
 				self.$actionShowCustomCss.removeClass( 'active' );
@@ -387,7 +382,7 @@
 		 * @param {String} pageCustomCss This is the actual value for any change.
 		 */
 		_changePageCustomCss: function( usofField, pageCustomCss ) {
-			var self = this;
+			const self = this;
 			// If Undo or Redo is used then we will cancel the execution
 			// of the logic, since the built-in history will be used
 			if ( $usb.hotkeys( /* undo */'ctrl+z', /* or redo */ 'ctrl+shift+z' ) ) {
@@ -399,7 +394,7 @@
 			 * @param {{}} originalTask This is a link to an object in history that can be modified
 			 * @type {Function} Set custom styles to the builder and preview
 			 */
-			var setPageCustomCss = function( customCss, originalTask ) {
+			const setPageCustomCss = function( customCss, originalTask ) {
 					if (
 						$.type( customCss ) !== 'string'
 						|| $usb.builder.pageData.customCss == customCss
@@ -418,12 +413,9 @@
 					// Update styles on the preview page
 					$usb.postMessage( 'updatePageCustomCss', customCss );
 					// Event for react in extensions
-					$ush.debounce_fn_1ms( function() {
-						$usb.trigger( 'builder.contentChange' );
-					} );
+					$ush.debounce_fn_1ms( () => $usb.trigger( 'builder.contentChange' ) );
 					// Check if there is a css set the label
-					self.$actionShowCustomCss
-						.toggleClass( 'css_not_empty', !! customCss );
+					self.$actionShowCustomCss.toggleClass( 'css_not_empty', !! customCss );
 				};
 
 			// Save the state before the update
@@ -433,7 +425,7 @@
 			}
 			else {
 				// Reset custom styles input flag after input is complete
-				self.__debounce_2s( function() {
+				self.__debounce_2s( () => {
 					_$tmp.isInputCustomCss = false;
 				} );
 			}

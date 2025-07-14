@@ -38,7 +38,7 @@
 	 * @class URLManager - Functionality for interaction with the address bar
 	 */
 	function URLManager() {
-		var self = this;
+		const self = this;
 
 		// Events
 		// See https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
@@ -97,8 +97,7 @@
 		 * @return {Boolean} True if change, False otherwise
 		 */
 		hasChange: function() {
-			var self = this;
-			return self.getHref() !== self.buildHref();
+			return this.getHref() !== this.buildHref();
 		},
 
 		/**
@@ -145,9 +144,9 @@
 		 * @return self
 		 */
 		setParams: function( params ) {
-			var self = this;
+			const self = this;
 			if ( $.isPlainObject( params ) ) {
-				for ( var k in params ) {
+				for ( const k in params ) {
 					if ( params[ k ] ) {
 						self.setParam( k, params[ k ] );
 					}
@@ -176,9 +175,9 @@
 		 * @return {{}} Returns values for params in '{ key: value }' format
 		 */
 		getParams: function( keys ) {
-			var self = this,
-				result = {};
-			_$url.searchParams.forEach( function( value, key ) {
+			const self = this;
+			const result = {};
+			_$url.searchParams.forEach( ( value, key ) => {
 				if ( Array.isArray( keys ) && keys.indexOf( key ) === -1 ) {
 					return;
 				}
@@ -194,7 +193,7 @@
 		 * @return self
 		 */
 		removeParam: function( key ) {
-			var self = this;
+			const self = this;
 			if ( self.hasParam( key ) ) {
 				_$url.searchParams.delete( key );
 			}
@@ -208,7 +207,7 @@
 		 * @return self
 		 */
 		removeParams: function( keys ) {
-			var self = this;
+			const self = this;
 			if ( Array.isArray( keys ) ) {
 				keys.map( self.removeParam.bind( self ) );
 			}
@@ -221,13 +220,13 @@
 		 * @return {{}} Returns the change data object
 		 */
 		getDataOfChange: function() {
-			var self = this,
-				data = {
-					setParams: {}, // all set params
-					oldParams: {} // old params that have been changed or deleted
-				};
+			const self = this;
+			const data = {
+				setParams: {},
+				oldParams: {}
+			};
 			// Add old params
-			( new URL( _$locationHref ) ).searchParams.forEach( function( value, key ) {
+			( new URL( _$locationHref ) ).searchParams.forEach( ( value, key ) => {
 				if (
 					$usbcore.indexOf( key, _RESERVED_PARAMS_ ) === -1
 					&& ! self.hasParam( key, value )
@@ -236,7 +235,7 @@
 				}
 			} );
 			// Add set params
-			_$url.searchParams.forEach( function( value, key ) {
+			_$url.searchParams.forEach( ( value, key ) => {
 				if (
 					$usbcore.indexOf( key, _RESERVED_PARAMS_ ) === -1
 					|| (
@@ -254,7 +253,7 @@
 		 * Push entry in the browser session history stack
 		 */
 		push: function ( state ) {
-			var self = this;
+			const self = this;
 			if ( ! self.hasChange() ) {
 				return;
 			}

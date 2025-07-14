@@ -90,15 +90,16 @@ function usof_ajax_mega_menu() {
 </div>
 </div>
 <script>
-	jQuery(function ($) {
+	jQuery(function ( $ ) {
+		"use strict";
+
 		$('#TB_window').addClass('usof-container');
 		var $USMMHeader = $('.usof-header'),
 			$saveButton = $USMMHeader.find('.usof-control.for_save'),
 			$saveMessage = $saveButton.find('.usof-control-message'),
 			saveStateTimer = null;
 
-		"use strict";
-		var USMMSave = function(){
+		const USMMSave = () => {
 			$saveButton.usMod('status', 'loading');
 			$saveMessage.html('');
 			$saveButton.off('click', USMMSave);
@@ -111,31 +112,31 @@ function usof_ajax_mega_menu() {
 					action: 'usof_ajax_mega_menu_save_settings',
 					menu: <?php echo $menu_id; ?>,
 					item: <?php echo $item_id; ?>,
-					settings: USMMSettings,
+					settings: window.USMMSettings,
 					security: '<?php echo wp_create_nonce( 'us-menu-dropdown-save' ); ?>'
 				},
-				success: function(result){
+				success: function( result ) {
 					if ( $saveButton.usMod( 'status' ) !== 'loading' ) {
 						return;
 					}
 					$saveMessage.html(result.data.message);
 					$saveButton.usMod('status', 'success');
 					clearTimeout(saveStateTimer);
-					saveStateTimer = setTimeout(function(){
+					saveStateTimer = setTimeout( () =>{
 						$saveMessage.html('');
 						$saveButton.usMod('status', 'clear');
-					}.bind(this), 4000);
+					}, 4000);
 				}
 			});
 		};
 
-		$(document.body).trigger('usof_mm_load');
+		$( document.body ).trigger('usof_mm_load');
 
-		$(document.body).off('usof_mm_save').on('usof_mm_save', function(){
+		$( document.body ).off('usof_mm_save').on('usof_mm_save', () => {
 			clearTimeout(saveStateTimer);
 			$saveButton.usMod('status', 'notsaved');
 			$saveButton.off('click').on('click', USMMSave);
-		})
+		} )
 
 	});
 </script>

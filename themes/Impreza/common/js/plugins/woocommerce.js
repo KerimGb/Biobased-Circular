@@ -1,7 +1,6 @@
 ! ( function( $, _undefined ) {
 
 	const $ush = window.$ush || {};
-	const ENTER_KEY_CODE = 13;
 
 	/**
 	 * UpSolution WooCommerce elements
@@ -138,7 +137,7 @@
 			// correctly, otherwise the form will simply be submitted.
 			const $couponField = $( '.w-wc-coupon-form input', $us.$canvas );
 			$us.$document.on( 'keypress', ( e ) => {
-				if ( e.keyCode === ENTER_KEY_CODE && $couponField.is( ':focus' ) ) {
+				if ( e.keyCode === $ush.ENTER_KEYCODE && $couponField.is( ':focus' ) ) {
 					e.preventDefault();
 				}
 			});
@@ -496,7 +495,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_enterCouponCode: function( e ) {
-			if ( e.keyCode === ENTER_KEY_CODE ) {
+			if ( e.keyCode === $ush.ENTER_KEYCODE ) {
 				$( e.target )
 					.trigger( 'change' )
 					.siblings( 'button:first' )
@@ -637,7 +636,7 @@
 		},
 
 		_loginFieldKeydown: function( e ) {
-			if ( e.keyCode === ENTER_KEY_CODE ) {
+			if ( e.keyCode === $ush.ENTER_KEYCODE ) {
 				e.stopPropagation();
 				e.preventDefault();
 				this._submitLoginForm();

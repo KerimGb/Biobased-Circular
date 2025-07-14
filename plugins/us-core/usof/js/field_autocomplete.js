@@ -17,14 +17,6 @@
 	}
 
 	/**
-	 * @type {{}} Event KeyCodes
-	 */
-	const _KEYCODES_ = {
-		ENTER: 13,
-		ESCAPE: 27
-	};
-
-	/**
 	 * @var {{}} Private temp data.
 	 */
 	var _$temp = {
@@ -318,11 +310,11 @@
 		 */
 		_keyup: function( e ) {
 			var self = this;
-			if ( e.keyCode === _KEYCODES_.ENTER ) {
+			if ( e.keyCode === $ush.ENTER_KEYCODE ) {
 				$( '[data-value]:not(.selected):visible:first', self.$list )
 					.trigger( 'click' );
 			}
-			if ( [ _KEYCODES_.ENTER, _KEYCODES_.ESCAPE ].indexOf( e.keyCode ) > -1 ) {
+			if ( [ $ush.ENTER_KEYCODE, $ush.ESC_KEYCODE ].indexOf( e.keyCode ) > -1 ) {
 				self.$toggle.removeClass( 'show' );
 				self.$search.trigger( 'blur' );
 			}

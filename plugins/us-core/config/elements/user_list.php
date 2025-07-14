@@ -253,7 +253,9 @@ $appearance_params = array(
 		'title' => __( 'Grid Layout', 'us' ),
 		'description' => $misc['desc_grid_layout'],
 		'type' => 'select',
-		'options' => us_get_grid_layouts_for_selection( array( 'user' ) ),
+		'options' => us_is_elm_editing_page()
+			? us_get_grid_layouts_for_selection( array( 'user' ) )
+			: array(),
 		'std' => 'user_1',
 		'classes' => 'for_grid_layouts',
 		'settings' => array(

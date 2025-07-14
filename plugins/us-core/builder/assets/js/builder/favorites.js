@@ -9,12 +9,10 @@
  */
 ! function( $, _undefined ) {
 
-	const ENTER_KEY_CODE = 13;
-
 	/**
 	 * @type {{}} Private temp data
 	 */
-	let _$tmp = {
+	var _$tmp = {
 		deleteSectionId: 0,
 		listIsLoaded: false,
 		sectionContent: '',
@@ -25,11 +23,9 @@
 	 * @param {String} container
 	 */
 	function Favorites( container ) {
-		let self = this;
+		const self = this;
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			changeSectionName: self._changeSectionName.bind( self ),
 			clickTabFavorites: self._clickTabFavorites.bind( self ),
@@ -45,7 +41,7 @@
 			showPopupToGetName: self._showPopupToGetName.bind( self ),
 		};
 
-		$( function() {
+		$( () => {
 			// Elements
 			self.$container = $( container );
 				self.$search = $( '.usb-panel-search', container );
@@ -72,7 +68,7 @@
 				.on( 'click', '.usb_action_show_favorites', self._events.clickTabFavorites );
 
 			// Sorting sections via Drag & Drop
-			let dragDrop = new $usof.dragDrop( self.$list, '.usb-favorites-item', /* checkDraggable */true );
+			const dragDrop = new $usof.dragDrop( self.$list, '.usb-favorites-item', /* checkDraggable */true );
 			dragDrop.on( 'changed', self._events.reorderSections );
 
 			// Popup for get section name
@@ -80,7 +76,7 @@
 				closeOnEsc: true,
 				closeOnBgClick: true,
 				init: function() {
-					let $popup = this.$container;
+					const $popup = this.$container;
 					self.$inputSectionName = $( 'input[name=section_name]', $popup );
 					self.$saveButton = $( '.usb_action_save_to_favorites', $popup );
 					self.$errMessage = $( '.usof-message.status_error', $popup );
@@ -90,12 +86,12 @@
 						.on( 'click', '.usb_action_save_to_favorites', self._events.saveToFavorites )
 						.on( 'click', '.usof-example', self._events.setExampleValueToSectionName );
 				},
-				afterShow: function() {
-					$ush.timeout( function() {
+				afterShow: () => {
+					$ush.timeout( () => {
 						self.$inputSectionName[0].focus();
 					}, 20 );
 				},
-				afterHide: function() {
+				afterHide: () => {
 					self.$inputSectionName
 						.removeClass( 'is_invalid' )
 						.val( '' );
@@ -126,6 +122,7 @@
 		 * @return {Boolean} True if show, False otherwise.
 		 */
 		isShow: function() {
+			// TODO: Optimize ".is( ':visible' )"
 			return this.$container.is( ':visible' );
 		},
 
@@ -146,7 +143,7 @@
 		 * Gets the list on first open.
 		 */
 		_clickTabFavorites: function() {
-			let self = this;
+			const self = this;
 			if ( _$tmp.listIsLoaded || ! $usb.licenseIsRealActivated() ) {
 				self.showList();
 				return;
@@ -157,12 +154,12 @@
 					_nonce: $usb.config( '_nonce' ),
 					action: $usb.config( 'action_get_favorites' ),
 				} ,
-				success: function( res ) {
+				success: ( res ) => {
 					if ( res.success && res.data ) {
 						self.$list.html( res.data );
 					}
 				},
-				complete: function() {
+				complete: () => {
 					$usb.panel.hidePreloader();
 					$ush.timeout( self.showList.bind( self ), 1 );
 					_$tmp.listIsLoaded = true;
@@ -176,11 +173,13 @@
 		 * @event handler
 		 */
 		_search: function() {
-			let self = this,
-				$input = self.$searchField,
-				isFoundResult = true,
-				value = $ush.toLowerCase( $input[0].value ).trim(),
-				$items = $( '.usb-favorites-item', self.$list );
+			const self = this;
+			const $input = self.$searchField;
+			const value = $ush.toLowerCase( $input[0].value ).trim();
+			const $items = $( '.usb-favorites-item', self.$list );
+
+			var isFoundResult = true;
+
 			if ( ! $items.length ) {
 				return;
 			}
@@ -189,10 +188,10 @@
 				.toggleClass( 'hidden', ! value );
 			if ( value ) {
 				$items.addClass( 'hidden' );
-				isFoundResult = !! $items
-					.filter( '[data-search-text^="' + value + '"], [data-search-text*="' + value + '"]' )
+				isFoundResult = $items
+					.filter( `[data-search-text^="${value}"], [data-search-text*="${value}"]` )
 					.removeClass( 'hidden' )
-					.length;
+					.length > 0;
 			} else {
 				$items.removeClass( 'hidden' );
 			}
@@ -205,7 +204,7 @@
 		 * @event handler
 		 */
 		_resetSearch: function() {
-			let $input = this.$searchField;
+			const $input = this.$searchField;
 			if ( $input.val() ) {
 				$input.val( '' ).trigger( 'input' );
 			}
@@ -217,8 +216,8 @@
 		 * @event handler [optional]
 		 */
 		showList: function() {
-			let self = this,
-				listIsEmpty = self.$list.is( ':empty' );
+			const self = this;
+			const listIsEmpty = self.$list.is( ':empty' );
 			self.$confirmDeletion.addClass( 'hidden' );
 			self.$list.toggleClass( 'hidden', listIsEmpty );
 			self.$emptyList.toggleClass( 'hidden', ! listIsEmpty );
@@ -227,7 +226,7 @@
 
 			// Set focus to search field (Focus does not work when the developer console is open!)
 			if ( ! listIsEmpty ) {
-				$ush.timeout( function() {
+				$ush.timeout( () => {
 					self.$searchField[0].focus();
 				}, 10 );
 			}
@@ -240,9 +239,9 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_showConfirmDelete: function( e ) {
-			let self = this,
-				$target = $( e.target ).closest( '.usb-favorites-item' ),
-				name = $( '.usb-favorites-item-title:first', $target ).text();
+			const self = this;
+			const $target = $( e.target ).closest( '.usb-favorites-item' );
+			const name = $( '.usb-favorites-item-title:first', $target ).text();
 			self.$search.addClass( 'hidden' );
 			self.$emptyList.addClass( 'hidden' );
 			self.$list.addClass( 'hidden' );
@@ -260,7 +259,7 @@
 		 * @param {String} id Shortcode's usbid, e.g. "vc_row:1".
 		 */
 		_showPopupToGetName: function( id ) {
-			let self = this;
+			const self = this;
 			if (
 				! self.isReady()
 				|| ! $usb.builder.isValidId( id )
@@ -281,7 +280,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_changeSectionName: function( e ) {
-			let $target = $( e.currentTarget );
+			const $target = $( e.currentTarget );
 			$target.toggleClass( 'is_invalid', ! $target.val() );
 		},
 
@@ -301,8 +300,8 @@
 		 * @event handler
 		 */
 		_saveToFavorites: function() {
-			let self = this,
-				sectionName = self.$inputSectionName.val();
+			const self = this;
+			const sectionName = self.$inputSectionName.val();
 			if ( ! sectionName.trim() ) {
 				self.$inputSectionName.addClass( 'is_invalid' );
 				return;
@@ -316,7 +315,7 @@
 					section_name: sectionName,
 					section_content: _$tmp.sectionContent,
 				} ,
-				success: function( res ) {
+				success: ( res ) => {
 					if ( ! res.success ) {
 						self.$errMessage
 							.text( res.data.message )
@@ -332,7 +331,7 @@
 					self.popup.hide();
 					self.$inputSectionName.val( '' );
 				},
-				complete: function() {
+				complete: () => {
 					self.$saveButton.removeClass( 'loading' );
 				},
 			} );
@@ -345,7 +344,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
 		_saveToFavoritesByPressEnter: function( e ) {
-			if ( e.keyCode === ENTER_KEY_CODE ) {
+			if ( e.keyCode === $ush.ENTER_KEYCODE ) {
 				this._saveToFavorites();
 			}
 		},
@@ -356,7 +355,7 @@
 		 * @event handler
 		 */
 		_deleteSection: function() {
-			let self = this;
+			const self = this;
 			$usb.panel.showPreloader();
 			$usb.ajax( 'favorites.deleteSection', {
 				data: {
@@ -364,12 +363,12 @@
 					action: $usb.config( 'action_delete_from_favorites' ),
 					section_id: _$tmp.deleteSectionId,
 				} ,
-				success: function( res ) {
+				success: ( res ) => {
 					if ( res.success ) {
-						$( '[data-section-id="' + _$tmp.deleteSectionId + '"]', self.$list ).remove();
+						$( `[data-section-id="${_$tmp.deleteSectionId}"]`, self.$list ).remove();
 					}
 				},
-				complete: function() {
+				complete: () => {
 					$usb.panel.hidePreloader();
 					$ush.timeout( self.showList.bind( self ), 1 );
 				},
@@ -382,9 +381,9 @@
 		 * @event handler
 		 */
 		_reorderSections: function() {
-			let self = this,
-				orderedIDs = [];
-			$( '> *', self.$list ).each( function( _, node ) {
+			const self = this;
+			const orderedIDs = [];
+			$( '> *', self.$list ).each( ( _, node ) => {
 				orderedIDs.push( $usbcore.$attr( node, 'data-section-id' ) );
 			} );
 			$usb.panel.showPreloader();
@@ -394,7 +393,7 @@
 					action: $usb.config( 'action_reorder_favorite_sections' ),
 					ordered_ids: orderedIDs,
 				},
-				complete: function() {
+				complete: () => {
 					$usb.panel.hidePreloader();
 				},
 			} );
@@ -408,10 +407,8 @@
 		 * @param {Number} currentIndex Position of the element inside the parent.
 		 */
 		insertSection: function( sectionId, parentId, currentIndex ) {
-			let self = this;
-
-			// Get the insert position
-			var insert = $usb.builder.getInsertPosition( parentId, currentIndex );
+			const self = this;
+			const insert = $usb.builder.getInsertPosition( parentId, currentIndex );
 
 			// Get html shortcode code and set on preview page
 			$usb.postMessage( 'showPreloader', [
@@ -424,7 +421,7 @@
 					section_id: sectionId,
 					isReturnContent: true // returns the content for the page (shortcodes)
 				},
-				success: function( res ) {
+				success: ( res ) => {
 					$usb.postMessage( 'hidePreloader', insert.parent );
 
 					// Check the correctness of the answer and the availability of data
@@ -433,7 +430,7 @@
 					}
 
 					// Update IDs in content
-					let newData = $usb.builder.updateIdsInContent( res.data.content, res.data.html );
+					const newData = $usb.builder.updateIdsInContent( res.data.content, res.data.html );
 
 					// Adds shortcode to content
 					if ( ! $usb.builder._addShortcodeToContent( parentId, currentIndex, newData.content ) ) {
@@ -448,7 +445,12 @@
 						$usb.history.commitChange( newData.firstElmId, _CHANGED_ACTION_.CREATE );
 					}
 
-					$usb.trigger( 'builder.contentChange' ); // event for react in extensions
+					// Note: A timeout is used to release the main thread.
+					$ush.timeout( () => {
+						$usb.builder.updateElementsList();
+					}, 0 );
+
+					$usb.trigger( 'builder.contentChange' );
 				}
 			} );
 		},

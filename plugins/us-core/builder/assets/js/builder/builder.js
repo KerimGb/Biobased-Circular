@@ -17,13 +17,10 @@
 	const abs = Math.abs;
 	const ceil = Math.ceil;
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.usGlobalData = _window.usGlobalData || {};
 
-	/**
-	 * @type {{}} Direction constants
-	 */
+	// Direction constants
 	const _DIRECTION_ = {
 		BOTTOM: 'bottom',
 		TOP: 'top'
@@ -32,17 +29,17 @@
 	/**
 	 * @type {RegExp} Regular expression for check and extract alias from usbid
 	 */
-	const _REGEXP_USBID_ALIAS_ = /^([\w\-]+:\d+)\|([a-z\d\-]+)$/;
+	const USBID_ALIAS_REGEXP = /^([\w\-]+:\d+)\|([a-z\d\-]+)$/;
 
 	/**
 	 * @type {RegExp} Regular expression for find space.
 	 */
-	const _REGEXP_SPACE_ = /\p{Zs}/u;
+	const SPACE_REGEXP = /\p{Zs}/u;
 
 	/**
 	 * @type {RegExp} Regular expression for finding builder IDs
 	 */
-	const _REGEXP_USBID_ATTR_ = /(\s?usbid="([^\"]+)?")/g;
+	const USBID_ATTR_REGEXP = /(\s?usbid="([^\"]+)?")/g;
 
 	/**
 	 *
@@ -53,9 +50,9 @@
 	/**
 	 * @type {{}} Default page data
 	 */
-	var _$defaultPageData = {
-		content: '', // page content
-		customCss: '', // page Custom CSS
+	const _$defaultPageData = {
+		content: '',
+		customCss: '',
 		fields: {}, // page fields post_title, post_status, post_name etc
 		postMeta: {}
 	};
@@ -64,41 +61,18 @@
 	 * @type {{}} Private temp data
 	 */
 	var _$tmp = {
-		generatedIds: [], // list of generated IDs
-		isInitDragDrop: false, // is init drag & drop
+		usedElementIds: [], // list of generated IDs
+		isInitDragDrop: false,
 		isProcessSave: false, // the AJAX process of save data on the backend
-		savedPageData: $ush.clone( _$defaultPageData ), // save the last saved page data
+		savedPageData: $ush.clone( _$defaultPageData ),
 		transit: null,
 		customTransit: null,
 	};
 
 	/**
-	 * @type {{}} Default builder configuration
+	 * @type {[]} List of all element IDs
 	 */
-	/*var _$defaultConfig = {
-		shortcode: {
-			containers: [], // list of container shortcodes (with a close tag)
-			default_values: {}, // list of default values for shortcodes
-			edit_content: {}, // list of shortcodes whose value is content
-			relations: {}, // // list of strict relations between shortcodes
-			reload_parent_element: [], // reload parent element on any changes
-			reload_element: [], // reload entire element on any changes
-		},
-		ajaxArgs: {}, // default arguments for AJAX requests
-		breakpoints: {}, // get screen sizes of responsive states
-		elm_icons: {}, // icons of available elements
-		elm_titles: {}, // available shortcodes and their titles
-		elms_supported: [], // list of elements supported by the builder
-		grid_post_types: [], // post types for selection in Grid element (Used in import shortcodes)
-		keyCustomCss: 'usb_post_custom_css', // default meta_key for post custom css
-		placeholder: '', // default placeholder (Used in import shortcodes)
-		template: {}, // templates shortcodes or html
-		useLongUpdateForFields: [], // list of usof field types for which the update interval is used
-		useThrottleForFields: [], // list of usof field types for which to use throttle
-		className: { // single place for the names of classes that are used in different places in the builder
-			elmLoad: 'usb-elm-loading' // class that indicates that the element is in the state of load from the server
-		}
-	};*/
+	const elementsList = {};
 
 	/**
 	 * @class Page Builder - Builder for edit, remove and add shortcodes to a page
@@ -107,19 +81,15 @@
 	function Builder( container ) {
 		const self = this;
 
-		/**
-		 * The main container that is the root of the current page
-		 */
+		// The main container that is the root of the current page
 		self.mainContainer = 'container';
 
-		/**
-		 * @type {String} Selected element (shortcode) usbid, e.g. 'us_btn:1'
-		 */
+		// Selected element (shortcode) usbid, e.g. 'us_btn:1
 		self.selectedElmId;
 
 		// Private "Variables"
-		self._isReloadPreviewAfterSave = false; // reload preview after save
-		self.pageData = $ush.clone( _$defaultPageData ); // empty default data object
+		self._isReloadPreviewAfterSave = false;
+		self.pageData = $ush.clone( _$defaultPageData );
 
 		/*
 		 * When the user is trying to load another page, or reloads current page
@@ -134,9 +104,7 @@
 			}
 		};
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 
 			// Local handlers
@@ -173,12 +141,12 @@
 		$usb
 			.on( 'iframeReady', self._events.iframeReady )
 			.on( 'builder.modeChanged', self._events.modeChanged )
-			.on( 'builder.endDrag', self._events.endDrag ) // the drag completion handler in the iframe
-			.on( 'builder.elmCopy', self._events.elmCopy ) // copy shortcode to clipboard
-			.on( 'builder.elmPaste', self._events.elmPaste ) // paste shortcode to content
-			.on( 'builder.elmDelete', self._events.elmDelete ) // removes an element
-			.on( 'builder.elmDuplicate', self._events.elmDuplicate ) // creates a duplicate of an element
-			.on( 'builder.elmSelected', self._events.elmSelected ); // selected an element to edit
+			.on( 'builder.endDrag', self._events.endDrag )
+			.on( 'builder.elmCopy', self._events.elmCopy )
+			.on( 'builder.elmPaste', self._events.elmPaste )
+			.on( 'builder.elmDelete', self._events.elmDelete )
+			.on( 'builder.elmDuplicate', self._events.elmDuplicate )
+			.on( 'builder.elmSelected', self._events.elmSelected );
 	};
 
 	/**
@@ -201,13 +169,13 @@
 		 * @event handler
 		 */
 		_iframeReady: function() {
-			var self = this;
+			const self = this;
+
 			if ( ! $usb.iframeIsReady ) {
 				return;
 			}
 
-			// Get iframe window
-			var iframeWindow = $usb.iframe.contentWindow;
+			const iframeWindow = $usb.iframe.contentWindow;
 
 			// If meta parameters are set for preview we ignore data save
 			if ( ( iframeWindow.location.search || '' ).indexOf( '&meta' ) !== -1 ) {
@@ -222,6 +190,9 @@
 			 */
 			self.pageData = $ush.clone( ( iframeWindow.usGlobalData || {} ).pageData || {}, _$defaultPageData );
 			_$tmp.savedPageData = $ush.clone( self.pageData ); // set first saved pageData
+
+			// Note: A timeout is used to release the main thread.
+			$ush.timeout( self.updateElementsList.bind( self ), 0 );
 		},
 
 		/**
@@ -231,7 +202,7 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		_elmSelected: function( id ) {
-			var self = this;
+			const self = this;
 			if (
 				! self.isMode( 'editor' )
 				|| ! self.doesElmExist( id )
@@ -249,10 +220,10 @@
 			if ( self.doesElmExist( id ) ) {
 				if ( $usb.find( 'panel' ) ) {
 					// Reset scroll after fieldset init
-					self.one( 'panel.afterInitFieldset', function() {
+					self.one( 'panel.afterInitFieldset', () => {
 						$usb.panel.resetBodyScroll();
 					} );
-					$usb.builderPanel.initElmFieldset( id ); // show fieldset for element
+					$usb.builderPanel.initElmFieldset( id );
 				}
 			} else {
 				$usb.postMessage( 'doAction', 'hideHighlight' );
@@ -270,7 +241,7 @@
 			if ( ! self.isValidId( id ) ) {
 				return;
 			}
-			let parentId = self.getElmParentId( id ),
+			var parentId = self.getElmParentId( id ),
 				strShortcode = self.getElmShortcode( id ) || '',
 				newElmId; // new spare ID
 
@@ -283,15 +254,17 @@
 					if ( ! newElmId ) {
 						newElmId = elmId;
 					}
-					return 'usbid="'+ elmId +'"';
+					return `usbid="${elmId}"`;
 				} );
 
-			if ( ! strShortcode || ! newElmId ) return;
+			if ( ! strShortcode || ! newElmId ) {
+				return;
+			}
 
 			const siblingsIds = self.getElmSiblingsId( id ) || [];
 
 			// Define index for new shortcode
-			let index = 0;
+			var index = 0;
 			for ( ; index < siblingsIds.length; index++ ) {
 				if ( siblingsIds[ index ] === id ) {
 					index++; // next index
@@ -318,6 +291,9 @@
 			} else {
 				self.addElmToPreview( newElmId, index, parentId, _undefined, newElmId );
 			}
+
+			// Note: A timeout is used to release the main thread.
+			$ush.timeout( self.updateElementsList.bind( self ), 0 );
 		},
 
 		/**
@@ -327,12 +303,12 @@
 		 * @param {String} id Shortcode's usbid, e.g. "vc_row:1".
 		 */
 		_elmCopy: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return;
 			}
 			// Add copied text to buffer
-			var content = $ush.toString( self.getElmShortcode( id ) );
+			const content = $ush.toString( self.getElmShortcode( id ) );
 			$ush.copyTextToClipboard( content.replace( /\susbid="([^\"]+)"/gi, '' ) );
 			// Note: We will save the content in the storage unchanged,
 			// and when adding it to the page, we will update all IDs.
@@ -346,7 +322,7 @@
 		 * @param {String} id Shortcode's usbid, e.g. "vc_row:1".
 		 */
 		_elmPaste: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return;
 			}
@@ -361,17 +337,17 @@
 				// Remove all `el_id` from the design_options
 				.replace( /(\s?el_id="([^\"]+)")/gi, '' )
 				// Replace all ids with current ones
-				.replace( /usbid="([^\"]+)"/gi, function( _, elmId ) {
+				.replace( /usbid="([^\"]+)"/gi, ( _, elmId ) => {
 					elmId = self.getSpareElmId( elmId );
 					if ( ! newElmId ) {
 						newElmId = elmId;
 					}
-					return 'usbid="'+ elmId +'"';
+					return `usbid="${elmId}"`;
 				} );
 
 			// Strict mode is a hard dependency between elements!
 			// The check if the moved element is a TTA elements, section or vc_column(_inner), if so, then enable strict mode.
-			var strictMode = (
+			const strictMode = (
 				self.isElmTTA( id )
 				|| self.isChildElmContainer( id )
 			);
@@ -428,6 +404,8 @@
 			} else {
 				self.addElmToPreview( newElmId, index, parentId );
 			}
+
+			$ush.timeout( self.updateElementsList.bind( self ), 1 );
 		},
 
 		/**
@@ -437,7 +415,7 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		_elmDelete: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return;
 			}
@@ -469,14 +447,14 @@
 		 *     disable it
 		 */
 		_dragstart: function( e ) {
-			return !! $( e.target ).closest( '.media-frame' ).length;
+			return $( e.target ).closest( '.media-frame' ).length > 0;
 		},
 
 		/**
 		 * Init Drag & Drop
 		 */
 		initDragDrop: function() {
-			var self = this;
+			const self = this;
 			if ( _$tmp.isInitDragDrop ) {
 				return;
 			}
@@ -490,8 +468,8 @@
 
 			// Reset all data by default for more reliable operation
 			$usbcore.cache( 'drag' ).set( {
-				startX: 0, // x-axis start position
-				startY: 0 // y-axis start position
+				startX: 0,
+				startY: 0
 			} );
 		},
 
@@ -499,7 +477,7 @@
 		 * Destroy Drag & Drop
 		 */
 		destroyDragDrop: function() {
-			var self = this;
+			const self = this;
 			if ( ! _$tmp.isInitDragDrop ) {
 				return;
 			}
@@ -511,7 +489,7 @@
 				.off( 'mousemove', self._events.maybeDrag )
 				.off( 'mouseup', self._events.endDrag );
 
-			$usbcore.cache( 'drag' ).flush(); // flush data
+			$usbcore.cache( 'drag' ).flush();
 		},
 
 		/**
@@ -520,7 +498,7 @@
 		 * @return {String} The unique id e.g. "us_btn:1"
 		 */
 		getNewElmId: function() {
-			return $usbcore.cache( 'drag' ).get( 'newElmId', /* default */'' );
+			return $usbcore.cache( 'drag' ).get( 'newElmId', '' );
 		},
 
 		/**
@@ -530,25 +508,25 @@
 		 * @return {{}} The event data
 		 */
 		_getEventData: function( e ) {
-			var self = this;
+			const self = this;
 			if ( ! $usb.iframeIsReady ) {
 				return;
 			}
 
 			// Get data on the coordinates of the mouse for iframe and relative to this iframe
-			var rect = $ush.$rect( $usb.iframe ),
-				iframeWindow = $usb.iframe.contentWindow,
-				data = {
-					clientX: e.clientX,
-					clientY: e.clientY,
-					eventX: e.pageX - rect.x,
-					eventY: e.pageY - rect.y,
-					pageX: ( e.pageX + iframeWindow.scrollX ) - rect.x,
-					pageY: ( e.pageY + iframeWindow.scrollY ) - rect.y,
-				};
+			const rect = $ush.$rect( $usb.iframe );
+			const iframeWindow = $usb.iframe.contentWindow;
+			const data = {
+				clientX: e.clientX,
+				clientY: e.clientY,
+				eventX: e.pageX - rect.x,
+				eventY: e.pageY - rect.y,
+				pageX: ( e.pageX + iframeWindow.scrollX ) - rect.x,
+				pageY: ( e.pageY + iframeWindow.scrollY ) - rect.y,
+			};
 			// Additional check of values for errors
-			for ( var prop in data ) {
-				var value = data[ prop ] || NaN;
+			for ( const prop in data ) {
+				const value = data[ prop ] || NaN;
 				if ( isNaN( value ) || value < 0 ) {
 					data[ prop ] = 0;
 				} else {
@@ -573,23 +551,20 @@
 		 * @param {String} type The type element
 		 */
 		showTransit: function( type ) {
-			var self = this;
+			const self = this;
 			if ( ! type ) {
 				return;
 			}
 
-			// The destroy an object if it is set
 			if ( self.hasTransit() ) {
 				self.hideTransit();
 			}
 
-			// If type is an `id` then we get from `id` type
 			if ( self.isValidId( type ) ) {
 				type = self.getElmType( type );
 			}
 
-			// Get a node by attribute type
-			var target = _document.querySelector( '[data-type="'+ type +'"]' );
+			var target = _document.querySelector( `[data-type="${type}"]` );
 
 			// Show custom transit for Templates or Favorite Section
 			var isTemplate = $usb.templates.isTemplate( type ),
@@ -605,37 +580,34 @@
 			}
 
 			// Object with intermediate data for transit
-			var transit = {
+			const transit = {
 				rect: $ush.$rect( target ),
 				scrollAcceleration: 0, // scroll acceleration while drag
 				scrollDirection: _undefined, // scroll directions while drag
 				target: target.cloneNode( /* deep */true ) // copy of target to transit
 			};
 
-			$usbcore // Remove class `hidden` if element is hidden
+			$usbcore
 				.$removeClass( transit.target, 'hidden' );
 
-			// Hide custom transit
 			if ( isTemplate || isFavoriteSection ) {
 				self.hideCustomTransit();
 			}
 
 			// Set the height and width of the transit element
-			[ 'width', 'height' ].map( function( prop ) {
+			[ 'width', 'height' ].map( ( prop ) => {
 				var value = ceil( transit.rect[ prop ] );
 				transit.target.style[ prop ] = value
 					? value + 'px'
 					: 'auto';
 			} );
 
-			$usbcore // Add css class to apply basic styles
+			$usbcore
 				.$addClass( transit.target, 'elm_transit' )
 				.$addClass( transit.target, ! self.isMode( 'drag:add' ) ? 'state_drag_move' : '' );
 
-			// Add transit element to document
 			_document.body.append( transit.target );
 
-			// Save transit to _$tmp
 			_$tmp.transit = transit;
 		},
 
@@ -684,14 +656,14 @@
 		 * @param {Number} pageY The event.pageY
 		 */
 		setTransitPosition: function( pageX, pageY ) {
-			var self = this;
+			const self = this;
 			if (
 				! self.hasTransit()
 				|| ! self.isMode( 'drag:add', 'drag:move' )
 			) {
 				return;
 			}
-			var transit = _$tmp.transit || {};
+			const transit = _$tmp.transit || {};
 			if ( ! $ush.isNode( transit.target ) ) {
 				return;
 			}
@@ -726,7 +698,7 @@
 			}
 
 			// Note: After pass every `step` pixels, the speed will increase by x1 ( speed / scrollAcceleration )
-			var scrollAcceleration = ceil( abs( remainderToEnd / /* acceleration step in px */30 ) );
+			const scrollAcceleration = ceil( abs( remainderToEnd / /* acceleration step in px */30 ) );
 
 			// Transit data updates and scroll control
 			if (
@@ -746,15 +718,15 @@
 		 * Hide the transit
 		 */
 		hideTransit: function() {
-			var self = this,
-				transit = _$tmp.transit || {};
+			const self = this;
+			const transit = _$tmp.transit || {};
 			if (
 				! self.hasTransit()
 				|| ! $ush.isNode( transit.target )
 			) {
 				return;
 			}
-			self.stopDragScrolling(); // stop drag scroll
+			self.stopDragScrolling();
 			$usbcore.$remove( transit.target );
 			delete _$tmp.transit;
 		},
@@ -767,8 +739,8 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_maybeStartDrag: function( e ) {
-			var self = this;
-			// If there is no target, then terminate the method
+			const self = this;
+
 			if (
 				! $usb.iframeIsReady
 				|| ! e.target
@@ -780,7 +752,7 @@
 				iteration = 0,
 				target = e.target;
 			// The check if the goal is a new element
-			while ( ! ( found = !! $usbcore.$attr( target, 'data-type' ) ) && iteration++ < /*max number of iterations*/100 ) {
+			while ( ! ( found = !! $usbcore.$attr( target, 'data-type' ) ) && iteration++ < 100 ) {
 				if ( ! target.parentNode ) {
 					found = false;
 					break;
@@ -789,7 +761,6 @@
 			}
 			// If it was possible to determine the element, then we will save all the data into a temporary variable
 			if ( found ) {
-				// Set drag data to cache
 				$usbcore.cache( 'drag' ).set( {
 					startDrag: true,
 					startX: e.pageX || 0,
@@ -806,16 +777,16 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_maybeDrag: function( e ) {
-			var self = this,
-				dragData = $usbcore.cache( 'drag' ).data(); // get drag data
+			const self = this;
+			const dragData = $usbcore.cache( 'drag' ).data();
 
 			if ( ! dragData.startDrag || ! dragData.target ) {
 				return;
 			}
 
 			// Get offsets from origin along axis X and Y
-			var diffX = abs( dragData.startX - e.pageX ),
-				diffY = abs( dragData.startY - e.pageY );
+			const diffX = abs( dragData.startX - e.pageX );
+			const diffY = abs( dragData.startY - e.pageY );
 
 			// The check the distance of the mouse drag and if it is more than
 			// the specified one, then activate all the necessary methods
@@ -847,7 +818,6 @@
 					}
 				}
 
-				// Set the transit element position
 				self.setTransitPosition( e.pageX, e.pageY );
 			}
 		},
@@ -859,15 +829,14 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_endDrag: function( e ) {
-			var self = this;
+			const self = this;
+
 			if ( ! $usb.iframeIsReady ) {
 				return;
 			}
 
-			// Get drag data
-			var dragData = $usbcore.cache( 'drag' ).data();
+			const dragData = $usbcore.cache( 'drag' ).data();
 
-			// Remove classes
 			if ( $ush.isNode( dragData.target ) ) {
 				$usbcore
 					.$removeClass( dragData.target, 'elm_add_shadow' )
@@ -881,14 +850,12 @@
 				&& $ush.isFirefox
 				&& $usb.preview.getCurrentOffset().x >= e.clientX
 			) {
-				// Clear all asset and cache data to drag:add
 				self._clearDragAssets();
 				return;
 			}
 
-			// Check is parent drag
 			if ( ! self.isParentDragging() ) {
-				$usbcore.cache( 'drag' ).flush(); // flush data
+				$usbcore.cache( 'drag' ).flush();
 				return;
 			}
 
@@ -903,18 +870,18 @@
 
 				// If the target has a template id, then continue processing as a template
 
-				let templateId = $usbcore.$attr( dragData.target, 'data-template-id' ),
+				var templateId = $usbcore.$attr( dragData.target, 'data-template-id' ),
 					favoriteSectionId = $usbcore.$attr( dragData.target, 'data-section-id' );
 				if ( templateId ) {
-					let templateCategoryId = $( dragData.target )
+					var templateCategoryId = $( dragData.target )
 						.closest( '.usb-template' )
 						.data( 'template-category-id' );
 					$usb.templates.insertTemplate( templateCategoryId, templateId, dragData.parentId, currentIndex );
-				}
-				else if ( favoriteSectionId ) {
+
+				} else if ( favoriteSectionId ) {
 					$usb.favorites.insertSection( favoriteSectionId, dragData.parentId, currentIndex );
-				}
-				else {
+
+				} else {
 					// Create and add a new element
 					self.createElm( self.getElmType( dragData.currentId ), dragData.parentId, currentIndex );
 				}
@@ -931,7 +898,6 @@
 				$usb.postMessage( 'onParentEventData', '_endDrag' );
 			}
 
-			// Clear all asset and cache data to drag:add
 			self._clearDragAssets();
 		},
 
@@ -939,12 +905,14 @@
 		 * Clear all asset and cache data to `drag:add`
 		 */
 		_clearDragAssets: function() {
-			var self = this;
-			self.hideTransit(); // hide transit
-			_$tmp.isParentDragging = false; // reset parent drag
-			$usbcore.cache( 'drag' ).flush(); // flush data
-			self.setMode( 'editor' ); // set editor mode
-			// Clear all asset and temporary data to move
+			const self = this;
+
+			self.hideTransit();
+			_$tmp.isParentDragging = false;
+
+			$usbcore.cache( 'drag' ).flush();
+
+			self.setMode( 'editor' );
 			$usb.postMessage( 'doAction', 'clearDragAssets' );
 		},
 
@@ -959,21 +927,57 @@
 		 * Stop a drag scroll
 		 */
 		stopDragScrolling: function() {
-			var self = this,
-				transit = _$tmp.transit || {};
+			const self = this;
 			if (
 				! self.hasDragScrolling // Fix weird missing method error
 				|| ! self.hasDragScrolling()
 			) {
 				return;
 			}
-			self.removeDragScrollData(); // remove a drag scroll data
+			self.removeDragScrollData();
 			$usb.postMessage( 'doAction', '_scrollDragging' );
 		}
 	} );
 
 	// Builder API
 	$.extend( prototype, {
+
+		/**
+		 * Update the linear list of shortcodes.
+		 */
+		updateElementsList: function() {
+			const self = this;
+			const content = $ush.toString( self.pageData.content );
+			const allShortcodesRegexp = self.getShortcodeRegex( '(us|vc)?[\dA-z_]+' );
+
+			const parseShortcode = ( content, parentId, depth ) => {
+				depth = $ush.parseInt( depth );
+
+				if ( ! content || depth > 1000 ) {
+					return;
+				}
+
+				content.matchAll( allShortcodesRegexp ).forEach( ( matches ) => {
+					const shortcodeId = ( matches[4].match( /(\s?usbid="([^\"]+)?")/ ) || [] )[2];
+					const shortcodeContent = $ush.toString( matches[6] );
+
+					if ( ! shortcodeId ) {
+						return;
+					}
+
+					if ( shortcodeContent ) {
+						parseShortcode( shortcodeContent, shortcodeId, depth++ );
+					}
+
+					elementsList[ shortcodeId ] = parentId;
+				} );
+			}
+
+			parseShortcode( content, self.mainContainer );
+
+			return elementsList;
+		},
+
 		/**
 		 * Determines if process save
 		 *
@@ -989,7 +993,7 @@
 		 * @param {Function} complete The complete
 		 */
 		savePageData: function( complete ) {
-			var self = this;
+			const self = this;
 
 			// The page data
 			var data = {
@@ -1006,13 +1010,13 @@
 				data.post_content = self.pageData.content;
 			}
 			if ( self.isPageFieldsChanged() ) {
-				for ( var prop in self.pageData.fields ) {
+				for ( const prop in self.pageData.fields ) {
 					data[ prop ] = self.pageData.fields[ prop ];
  				}
 			}
 			// Add updated meta data
 			if ( self.isPostMetaChanged() ) {
-				for ( var prop in self.pageData.postMeta ) {
+				for ( const prop in self.pageData.postMeta ) {
 					data.postMeta[ prop ] = self.pageData.postMeta[ prop ];
 				}
 			}
@@ -1020,17 +1024,15 @@
 				data.postMeta[ $usb.config( 'keyCustomCss', '' ) ] = self.pageData.customCss;
 			}
 
-			// Set the save execution flag
 			_$tmp.isProcessSave = true;
 
 			// Send data to server
-			$usb.ajax( /* request id */'_savePageData', {
+			$usb.ajax( '_savePageData', {
 				data: $.extend( data, {
 					_nonce: $usb.config( '_nonce' ),
 					action: $usb.config( 'action_save_post' ),
 				} ),
-				// Handler to be called if the request succeeds
-				success: function( res ) {
+				success: ( res ) => {
 					if ( ! res.success ) {
 						return;
 					}
@@ -1043,15 +1045,13 @@
 							|| self.isPostMetaChanged()
 						)
 					) {
-						self._isReloadPreviewAfterSave = false; // reset value after page reload
-						$usb.reloadPreview(); // refresh preview
+						self._isReloadPreviewAfterSave = false;
+						$usb.reloadPreview();
 					}
 
-					// Save the last page data
 					_$tmp.savedPageData = $ush.clone( self.pageData );
 				},
-				// Handler to be called when the request finishes (after success and error callbacks are executed)
-				complete: function() {
+				complete: () => {
 					if ( typeof complete === 'function' ) {
 						complete();
 					}
@@ -1102,7 +1102,7 @@
 		 * @return {Boolean} True if page changed, False otherwise
 		 */
 		isPageChanged: function() {
-			var self = this;
+			const self = this;
 			return (
 				self.isContentChanged()
 				|| self.isPostMetaChanged()
@@ -1127,7 +1127,7 @@
 		 * @return {Boolean} True if the content has been restored, False otherwise
 		 */
 		restoreTempContent: function() {
-			var self = this;
+			const self = this;
 			if ( ! self.isEmptyTempContent() ) {
 				self.pageData.content = ( '' + _$tmp.tempContent ) || self.pageData.content;
 				delete _$tmp.tempContent;
@@ -1165,8 +1165,8 @@
 				return false;
 			}
 			// Get responsive states
-			var states = $usb.config( 'responsiveStates', [] );
-			for ( var i in states ) if ( value.hasOwnProperty( states[ i ] ) ) {
+			const states = $usb.config( 'responsiveStates', [] );
+			for ( const i in states ) if ( value.hasOwnProperty( states[ i ] ) ) {
 				return true;
 			}
 			return false;
@@ -1179,17 +1179,14 @@
 		 * @return {Boolean} True if the specified mode is valid mode, False otherwise
 		 */
 		modeIsValid: function( mode ) {
-			/**
-			 * @type {{}} Available modes
-			 */
-			var _availableModes = [
-				'unknown', // mode disables all of the following
-				'editor', // shortcode editing mode
-				'preview', // preview mode without saving
-				'drag:add', // mode of add a new element
-				'drag:move', // mode of movement of the element
+			const modes = [
+				'unknown',		// mode disables all of the following
+				'editor',		// shortcode editing mode
+				'preview',		// preview mode without saving
+				'drag:add',		// mode of add a new element
+				'drag:move',	// mode of movement of the element
 			];
-			return mode && $usbcore.indexOf( mode, _availableModes ) > -1;
+			return mode && modes.includes( mode );
 		},
 
 		/**
@@ -1200,11 +1197,10 @@
 		 * @return {Boolean} Returns true if there is a mode, otherwise false
 		 */
 		isMode: function() {
-			// Get set modes, example: 'unknown', editor', 'preview', 'drag:add', 'drag:move'
-			var self = this,
-				args = arguments;
-			for ( var i in args ) {
-				if ( self.modeIsValid( args[ i ] ) && _$mode === args[ i ] ) return true;
+			const self = this;
+			const args = arguments;
+			for ( const i in args ) if ( self.modeIsValid( args[ i ] ) && _$mode === args[ i ] ) {
+				return true;
 			}
 			return false;
 		},
@@ -1216,7 +1212,7 @@
 		 * @return {Boolean} True if mode changed successfully, False otherwise
 		 */
 		setMode: function( mode ) {
-			var self = this;
+			const self = this;
 			if (
 				mode
 				&& self.modeIsValid( mode )
@@ -1245,7 +1241,7 @@
 		 * @param {String} tag The shortcode tag "us_btn" or "vc_row|vc_column|..."
 		 * @return {RegExp} The elm shortcode regular expression
 		 */
-		getShortcodePattern: function( tag ) {
+		getShortcodeRegex: function( tag ) {
 			return new RegExp( '\\[(\\[?)(' + tag + ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)', 'g' );
 		},
 
@@ -1256,35 +1252,34 @@
 		 * @return {String}
 		 */
 		removeHtmlWrap: function( content ) {
-			return $ush.toString( content )
-				.replace( /^<[^\[]+|[^\]]+$/gi, '' );
+			return $ush.toString( content ).replace( /^<[^\[]+|[^\]]+$/gi, '' );
 		},
 
 		/**
 		 * Parse shortcode text in parts
 		 *
-		 * @param {String} shortcode The shortcode text
+		 * @param {String} content
 		 * @return {{}}
 		 */
-		parseShortcode: function( shortcode ) {
-			var self = this;
-			if ( ! shortcode ) {
+		parseShortcode: function( content ) {
+			const self = this;
+
+			content = self.removeHtmlWrap( content );
+
+			if ( ! content ) {
 				return {};
 			}
-			// Remove html from start and end of content
-			shortcode = self.removeHtmlWrap( shortcode );
 
-			// Get shortcode parts
-			var firstTag = ( shortcode.match( /^.*?\[([\w\-]+)\s/ ) || [] )[ /* tag name */1 ] || '',
-				result = ( self.getShortcodePattern( firstTag ) ).exec( shortcode );
+			const firstTag = ( content.match( /^.*?\[([\w\-]+)\s/ ) || [] )[1] || '';
+			const matches = ( self.getShortcodeRegex( firstTag ) ).exec( content );
 
-			if ( result ) {
+			if ( matches) {
 				return {
-					tag: result[ 2 ], // the shortcode tag of the current object
-					atts: self._unescapeAttr( result[ 3 ] || '' ), // the a string representation of the shortcode attributes
-					input: result[ 0 ], // the input shortcode text
-					content: result[ 5 ] || '', // the content of the shortcode if there is of course
-					hasClosingTag: !! result[ 6 ] // the need for an close tag
+					tag: matches[2],
+					atts: self._unescapeAttr( matches[3] || '' ),
+					input: matches[0],
+					content: matches[5] || '',
+					hasClosingTag: !! matches[6]
 				};
 			}
 
@@ -1294,29 +1289,33 @@
 		/**
 		 * Convert attributes from string to object
 		 *
-		 * @param {String} atts The string atts
+		 * @param {String} str
 		 * @return {{}}
 		 */
 		parseAtts: function( str ) {
-			var result = {};
+			const result = {};
+
 			if ( ! str ) {
 				return result;
 			}
+
 			// Map zero-width spaces to actual spaces
 			str = str.replace( /[\u00a0\u200b]/g, ' ' );
+
 			// The retrieve attributes from a string
-			( str.match( /[\w-_]+="([^\"]+)?"/g ) || [] ).forEach( function( attribute ) {
+			( str.match( /[\w-_]+="([^\"]+)?"/g ) || [] ).forEach( ( attribute ) => {
 				attribute = attribute.match( /([\w-_]+)="([^\"]+)?"/ );
 				if ( ! attribute ) {
 					return;
 				}
 				// Restoring escaped values from a shortcode attribute
-				var value = $ush.toString( attribute[ /* value */2 ] )
+				const value = $ush.toString( attribute[2] )
 					.replace( /``/g, '"' )
 					.replace( /`{`/g, '[' )
 					.replace( /`}`/g, ']' );
-				result[ attribute[ /* key */1 ] ] = value.trim();
+				result[ attribute[1] ] = value.trim();
 			});
+
 			return result;
 		},
 
@@ -1328,12 +1327,11 @@
 		 * @return {String}
 		 */
 		buildShortcode: function( shortcode, attsDefaults ) {
+			const self = this;
 			if ( $.isEmptyObject( shortcode ) ) {
 				return '';
 			}
-			var self = this,
-				// Create shortcode
-				result = '[' + shortcode.tag;
+			var result = '[' + shortcode.tag;
 			// The add attributes
 			if ( shortcode.atts || attsDefaults ) {
 				if ( ! $.isEmptyObject( attsDefaults ) ) {
@@ -1369,8 +1367,8 @@
 			if ( $.isEmptyObject( defaults ) ) {
 				defaults = {};
 			}
-			var result = [];
-			for ( var k in atts ) {
+			const result = [];
+			for ( const k in atts ) {
 				var value = atts[ k ];
 				// Check the values for correctness, otherwise we will skip the additions
 				if (
@@ -1450,8 +1448,7 @@
 		 * @return {Boolean} True if the specified identifier is outside container, False otherwise
 		 */
 		isOutsideMainContainer: function( id ) {
-			var self = this;
-			return $usbcore.indexOf( self.getElmName( id ), $usb.config( 'elms_outside_main_container', [] ) ) > -1;
+			return $usb.config( 'elms_outside_main_container', [] ).includes( this.getElmName( id ) );
 		},
 
 		/**
@@ -1473,10 +1470,10 @@
 		 * @return {Boolean} True if the specified id is container, False otherwise
 		 */
 		isElmContainer: function( name ) {
-			var self = this;
-				name = self.isValidId( name )
-					? self.getElmName( name )
-					: name;
+			const self = this;
+			if ( self.isValidId( name ) ) {
+				name = self.getElmName( name );
+			}
 			return $usb.config( 'shortcode.containers', [] ).includes( name );
 		},
 
@@ -1488,13 +1485,13 @@
 		 * @return {Boolean} True if the specified id is elm root container, False otherwise
 		 */
 		isRootElmContainer: function( name ) {
-			var self = this;
-				name = self.isValidId( name )
-					? self.getElmName( name )
-					: name;
+			const self = this;
+			if ( self.isValidId( name ) ) {
+				name = self.getElmName( name );
+			}
 			return (
 				self.isElmContainer( name )
-				&& !! $usb.config( 'shortcode.relations.as_parent.' + name + '.only' )
+				&& !! $usb.config( `shortcode.relations.as_parent.${name}.only` )
 			);
 		},
 
@@ -1506,14 +1503,14 @@
 		 * @return {Boolean} True if the specified id is elm root container, False otherwise
 		 */
 		isChildElmContainer: function( name ) {
-			var self = this;
-				name = self.isValidId( name )
-					? self.getElmName( name )
-					: name;
+			const self = this;
+			if ( self.isValidId( name ) ) {
+				name = self.getElmName( name );
+			}
 			return (
 				self.isElmContainer( name )
 				&& ! self.isRootElmContainer( name )
-				&& !! $usb.config( 'shortcode.relations.as_child.' + name + '.only' )
+				&& !! $usb.config( `shortcode.relations.as_child.${name}.only` )
 			);
 		},
 
@@ -1524,7 +1521,7 @@
 		 * @return {Boolean} True if the specified id is elm parent update, False otherwise
 		 */
 		isReloadElm: function( elmId ) {
-			var self = this;
+			const self = this;
 			if ( $ush.isNode( elmId ) ) {
 				elmId = self.getElmId( elmId );
 			}
@@ -1541,7 +1538,7 @@
 		 * @return {Boolean} True if the specified id is elm parent update, False otherwise
 		 */
 		isReloadParentElm: function( elmId ) {
-			var self = this;
+			const self = this;
 			if ( $ush.isNode( elmId ) ) {
 				elmId = self.getElmId( elmId );
 			}
@@ -1560,7 +1557,7 @@
 		 * @return {Boolean} True if the specified name is elm tta, False otherwise.
 		 */
 		isElmTTA: function( name ) {
-			var self = this;
+			const self = this;
 			if ( self.isValidId( name ) ) {
 				name = self.getElmType( name );
 			}
@@ -1574,7 +1571,7 @@
 		 * @return {Boolean} True if the specified id is tabs or tour, False otherwise.
 		 */
 		isElmTab: function( name ) {
-			var self = this;
+			const self = this;
 			if ( self.isValidId( name ) ) {
 				name = self.getElmType( name );
 			}
@@ -1588,7 +1585,7 @@
 		 * @return {Boolean} True if the specified name is tta section, False otherwise.
 		 */
 		isElmSection: function( name ) {
-			var self = this;
+			const self = this;
 			if ( self.isValidId( name ) ) {
 				name = self.getElmType( name );
 			}
@@ -1629,9 +1626,9 @@
 		 * @return {Boolean} True if able to be child of, False otherwise
 		 */
 		canBeChildOf: function( id, parent, strict ) {
-			var self = this,
-				args = arguments,
-				isMainContainer = self.isMainContainer( parent );
+			const self = this;
+			const args = arguments;
+			const isMainContainer = self.isMainContainer( parent );
 			if (
 				self.isMainContainer( id ) // it is forbidden to move the main container!
 				|| ! self.isValidId( id )
@@ -1655,6 +1652,7 @@
 				return true;
 			}
 
+			// TODO:Optimize code
 			// Passing the result through the drag data cache function
 			return self._cacheDragProcessData(
 				function() {
@@ -1737,7 +1735,7 @@
 						}
 
 						// Get a parent for the floated `id`
-						var elmParentId = self.getElmParentId( id );
+						const elmParentId = self.getElmParentId( id );
 
 						// After receive the data, we restore the variable,
 						// this is only necessary for the `drag:move`
@@ -1765,7 +1763,8 @@
 		 * @return {Boolean} True if able to be parent of, False otherwise
 		 */
 		hasSameTypeParent: function( type, parent ) {
-			var self = this;
+			const self = this;
+
 			if (
 				self.isMainContainer( type )
 				|| self.isMainContainer( parent )
@@ -1773,19 +1772,17 @@
 			) {
 				return false;
 			}
-			// Get type
-			type = self.isValidId( type )
-				? self.getElmType( type )
-				: type;
-			// If the type is from the parent of the same type
+			if ( self.isValidId( type ) ) {
+				type = self.getElmType( type );
+			}
 			if ( type === self.getElmType( parent ) ) {
 				return true;
 			}
+
 			// Search all parents
 			var iteration = 0;
 			while( parent !== null || self.isMainContainer( parent ) ) {
-				// After exceede the specified number of iterations, the loop will be stopped
-				if ( iteration++ >= /* max number of iterations */1000 ) {
+				if ( iteration++ >= 1000 ) {
 					break;
 				}
 				parent = self.getElmParentId( parent );
@@ -1803,10 +1800,7 @@
 		 * @return {String} Returns a valid container in any case (on error it's mainContainer)
 		 */
 		getValidContainerId: function( container ) {
-			var self = this;
-			return ! self.isElmContainer( container )
-				? self.mainContainer
-				: container;
+			return this.isElmContainer( container ) ? container : this.mainContainer;
 		},
 
 		/**
@@ -1816,11 +1810,11 @@
 		 * @return {Boolean} True if the specified id is alias usbid, False otherwise
 		 */
 		isAliasElmId: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return false;
 			}
-			return _REGEXP_USBID_ALIAS_.test( id );
+			return USBID_ALIAS_REGEXP.test( id );
 		},
 
 		/**
@@ -1833,11 +1827,11 @@
 		 * @return {String|null} Returns the alias name if any, otherwise null
 		 */
 		getAliasFromId: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return null;
 			}
-			return ( id.match( _REGEXP_USBID_ALIAS_ ) || [] )[ /* alias */2 ] || null;
+			return ( id.match( USBID_ALIAS_REGEXP ) || [] )[2] || null;
 		},
 
 		/**
@@ -1848,8 +1842,8 @@
 		 * @return {String} Returns the id from the appended alias
 		 */
 		addAliasToElmId: function( alias, id ) {
-			var self = this,
-				args = arguments;
+			const self = this;
+			const args = arguments;
 			if ( alias && typeof alias === 'string' && self.isValidId( id ) ) {
 				id += '|' + alias;
 			} else {
@@ -1865,11 +1859,11 @@
 		 * @return {String} Returns id without alias
 		 */
 		removeAliasFromId: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return id;
 			}
-			return ( id.match( _REGEXP_USBID_ALIAS_ ) || [] ) [ /* usbid */1 ] || id;
+			return ( id.match( USBID_ALIAS_REGEXP ) || [] )[1] || id;
 		},
 
 		/**
@@ -1879,13 +1873,11 @@
 		 * @return {String} The elm type
 		 */
 		getElmType: function( id ) {
-			var self = this;
+			const self = this;
 			if ( $ush.isNode( id ) ) {
 				id = self.getElmId( id );
 			}
-			return self.isValidId( id )
-				? id.split(':')[ /* type */0 ] || ''
-				: '';
+			return self.isValidId( id ) ? id.split(':')[0] || '' : '';
 		},
 
 		/**
@@ -1895,17 +1887,8 @@
 		 * @return {String} Returns the name of the element (without index)
 		 */
 		getElmName: function( id ) {
-			var self = this;
-
-			// Passing the result through the drag data cache function
-			return self._cacheDragProcessData(
-				function() {
-					var type = self.getElmType( id );
-					return ( type.match( /us_(.*)/ ) || [] )[ /* name */1 ] || type;
-				},
-				/* key */'getElmName:' + id,
-				/* default value */''
-			);
+			const type = this.getElmType( id );
+			return ( type.match( /us_(.*)/ ) || [] )[1] || type;
 		},
 
 		/**
@@ -1915,12 +1898,12 @@
 		 * @return {String}
 		 */
 		getElmTitle: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return 'Unknown';
 			}
-			var name = self.getElmName( id );
-			return $usb.config( 'elm_titles.' + name ) || name;
+			const name = self.getElmName( id );
+			return $usb.config( `elm_titles.${name}` ) || name;
 		},
 
 		/**
@@ -1930,20 +1913,11 @@
 		 * @return {Boolean} Returns True if id exists, otherwise returns False
 		 */
 		doesElmExist: function( id ) {
-			var self = this;
-			if ( ! self.isValidId( id ) || ! self.pageData.content ) {
+			const self = this;
+			if ( ! self.isValidId( id ) || elementsList.length === 0 ) {
 				return false;
 			}
-
-			// Passing the result through the drag data cache function
-			return self._cacheDragProcessData(
-				function() {
-					return ( new RegExp( '\\['+ self.getElmType( id ) +'[^\\]]+usbid=\\"'+ $ush.escapePcre( id ) +'\\"' ) )
-						.test( '' + self.pageData.content )
-				},
-				/* key */'doesElmExist:' + id,
-				/* default value */false
-			);
+			return ! $ush.isUndefined( elementsList[ id ] );
 		},
 
 		/**
@@ -1954,15 +1928,13 @@
 		 * @return {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 */
 		getElmId: function( node ) {
+			const self = this;
 			if ( ! $ush.isNode( node ) ) {
 				return '';
 			}
 			if ( ! node.hasOwnProperty( '_$$usbid' ) ) {
-				var self = this,
-					id = $usbcore.$attr( node, 'data-usbid' );
-				node._$$usbid = ( self.isValidId( id ) || self.isMainContainer( id ) )
-					? id
-					: '';
+				const id = $usbcore.$attr( node, 'data-usbid' );
+				node._$$usbid = ( self.isValidId( id ) || self.isMainContainer( id ) ) ? id : '';
 			}
 			return node._$$usbid;
 		},
@@ -1974,14 +1946,12 @@
 		 * @return {Number|null} The index of the element (Returns `null` in case of an error)
 		 */
 		getElmIndex: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) ) {
 				return null;
 			}
-			var index = ( self.getElmSiblingsId( id ) || [] ).indexOf( id );
-			return index > -1
-				? index
-				: null;
+			const index = ( self.getElmSiblingsId( id ) || [] ).indexOf( id );
+			return index > -1 ? index : null;
 		},
 
 		/**
@@ -1991,22 +1961,23 @@
 		 * @return {String}
 		 */
 		getSpareElmId: function( type ) {
-			var self = this;
+			const self = this;
+
 			if ( ! type ) {
 				return '';
 			}
-			// If the type has an id, then we get the type
 			if ( self.isValidId( type ) ) {
 				type = self.getElmType( type );
 			}
-			if ( ! _$tmp.generatedIds ) {
-				_$tmp.generatedIds = [];
+			if ( ! Array.isArray( _$tmp.usedElementIds ) ) {
+				_$tmp.usedElementIds = [];
 			}
+
 			for ( var index = 1;; index++ ) {
-				var id = type + ':' + index;
-				if ( ! self.doesElmExist( id ) && _$tmp.generatedIds.indexOf( id ) < 0 ) {
-					_$tmp.generatedIds.push( id );
-					return id;
+				const newElementId = type + ':' + index;
+				if ( ! self.doesElmExist( newElementId ) && ! _$tmp.usedElementIds.includes( newElementId ) ) {
+					_$tmp.usedElementIds.push( newElementId );
+					return newElementId;
 				}
 			}
 		},
@@ -2018,52 +1989,12 @@
 		 * @param {String} id Shortcode's usbid, e.g. "us_btn:1"
 		 * @return {String|Boolean|null} Returns the parent id if successful, otherwise null or False
 		 */
-		getElmParentId: function( id ) {
-			var self = this,
-				parentId = self.mainContainer;
-
-			if ( id === parentId || ! self.doesElmExist( id ) ) {
+		getElmParentId: function ( id ) {
+			const self = this;
+			if ( ! self.doesElmExist( id ) || id === self.mainContainer ) {
 				return null;
 			}
-
-			// Passing the result through the drag data cache function
-			return self._cacheDragProcessData(
-				function() {
-					var result = parentId,
-						content = ( '' + self.pageData.content ),
-						// Get the index of the start of the shortcode
-						elmRegex = new RegExp( '\\['+ self.getElmType( id ) +'[^\\]]+usbid=\\"'+ $ush.escapePcre( id ) +'\\"' ),
-						startPosition = content.search( elmRegex ),
-						// Get content before and after shortcode
-						prevContent = content.slice( 0, startPosition ),
-						nextContent = content.slice( startPosition )
-							// Remove all shortcodes of the set type
-							.replace( self.getShortcodePattern( self.getElmType( id ) ), '' ),
-						closingTags = nextContent.match( /\[\/(\w+)/g ) || [],
-						parentTagMatch, parentTag, parentTagAtts;
-
-					$.each( closingTags, function( index, closingTag ) {
-						closingTag = closingTag.substr( 2 );
-						// Trying to find last open tag in prevContent
-						// TODO: make sure that tags without atts work
-						parentTagMatch = prevContent.match( new RegExp( '\\[' + closingTag + '\\s([^\\]]+)(?!.*\\[\\/' + closingTag + '(\\s|\\]))', 's' ) );
-
-						if ( parentTagMatch !== null ) {
-							// If matches tag found, check if its content has current element
-							parentTagAtts = self.parseAtts( parentTagMatch[ 1 ] );
-							parentTag = self.getElmShortcode( parentTagAtts['usbid'] );
-							if ( parentTag.search( elmRegex ) > -1 ) {
-								result = parentTagAtts['usbid'];
-								return false;
-							}
-						}
-					} );
-
-					return result;
-				},
-				/* key */'getElmParentId:' + id,
-				/* default value */parentId
-			);
+			return elementsList[ id ] || null;
 		},
 
 		/**
@@ -2074,16 +2005,16 @@
 		 * @return {String|null} The element next id or null
 		 */
 		getElmNextId: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) || self.isMainContainer( id ) ) {
 				return null;
 			}
-			var children = self.getElmChildren( self.getElmParentId( id ) ),
-				currentIndex = children.indexOf( id );
-			if ( currentIndex < 0 || children.length === currentIndex ) {
+			const children = self.getElmChildren( self.getElmParentId( id ) );
+			const index = children.indexOf( id );
+			if ( index < 0 || children.length === index ) {
 				return null;
 			}
-			return children[ ++currentIndex ] || null;
+			return children[ ++index ] || null;
 		},
 
 		/**
@@ -2094,16 +2025,16 @@
 		 * @return {String|null} The element previous id or null
 		 */
 		getElmPrevId: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) || self.isMainContainer( id ) ) {
 				return null;
 			}
-			var children = self.getElmChildren( self.getElmParentId( id ) ),
-				currentIndex = children.indexOf( id );
-			if ( currentIndex < 0 || currentIndex === 0 ) {
+			const children = self.getElmChildren( self.getElmParentId( id ) );
+			const index = children.indexOf( id );
+			if ( index < 0 || index === 0 ) {
 				return null;
 			}
-			return children[ --currentIndex ] || null;
+			return children[ --index ] || null;
 		},
 
 		/**
@@ -2113,7 +2044,7 @@
 		 * @return {[]} The element siblings id
 		 */
 		getElmSiblingsId: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) || self.isMainContainer( id ) ) {
 				return [];
 			}
@@ -2128,41 +2059,20 @@
 		 * @return {[]} Returns an array of child IDs
 		 */
 		getElmChildren: function( id ) {
-			var self = this,
-				isMainContainer = self.isMainContainer( id );
+			const self = this;
+			const result = [];
 
-			if ( ! id || ! ( self.isValidId( id ) || isMainContainer ) ) {
-				return [];
+			if ( ! id ) {
+				return result;
 			}
 
-			// Passing the result through the drag data cache function
-			return self._cacheDragProcessData(
-				function() {
-					var content = ! isMainContainer
-						? ( self.parseShortcode( self.getElmShortcode( id ) ) || {} ).content || ''
-						: '' + self.pageData.content;
-					if ( ! content ) {
-						return [];
-					}
-					var i = 0,
-						result = [],
-						firstShortcode;
-					// Get the shortcode siblings ids
-					while ( firstShortcode = self.parseShortcode( content ) ) {
-						if ( i++ > /* max number of iterations */9999 || $.isEmptyObject( firstShortcode ) ) {
-							break;
-						}
-						var usbid = self.parseAtts( firstShortcode.atts )['usbid'] || null;
-						if ( usbid ) {
-							result.push( usbid );
-						}
-						content = content.replace( firstShortcode.input, '' );
-					}
-					return result;
-				},
-				/* key */'getElmChildren:' + id,
-				/* default value */[]
-			);
+			for ( const k in elementsList ) {
+				if ( elementsList[ k ] === id ) {
+					result.push( k );
+				}
+			}
+
+			return result;
 		},
 
 		/**
@@ -2172,29 +2082,32 @@
 		 * @return {[]}
 		 */
 		getElmAllChildren: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.isValidId( id ) || ! self.isElmContainer( id ) ) {
 				return [];
 			}
-			var results = [],
-				args = arguments,
-				childrenIDs = self.getElmChildren( id ),
-				recursionLevel = $ush.parseInt( args[ /* current recursion level */1 ] );
-			for ( var i in childrenIDs ) {
-				var childrenId = childrenIDs[i];
+
+			const args = $ush.toArray( arguments );
+			const childrenIDs = self.getElmChildren( id );
+
+			var depth = $ush.parseInt( args[1] ),
+				result = [];
+
+			for ( const i in childrenIDs ) {
+				const childrenId = childrenIDs[i];
 				if ( ! self.isValidId( childrenId ) ) {
 					continue;
 				}
-				results.push( childrenId );
+				result.push( childrenId );
 				if ( self.isElmContainer( childrenId ) ) {
-					if ( recursionLevel >= /* max number of levels when recursin */20 ) {
+					if ( depth >= 20 ) {
 						$usb.log( 'Notice: Exceeded number of levels in recursion:', args );
 					} else {
-						results = results.concat( self.getElmAllChildren( childrenId, recursionLevel++ ) );
+						result = result.concat( self.getElmAllChildren( childrenId, depth++ ) );
 					}
 				}
 			}
-			return results;
+			return result;
 		},
 
 		/**
@@ -2204,8 +2117,9 @@
 		 * @return {String}
 		 */
 		getElmShortcode: function( id ) {
-			var self = this,
-				content = ( '' + self.pageData.content );
+			const self = this;
+			const content = $ush.toString( self.pageData.content );
+
 			if ( $ush.isUndefined( id ) ) {
 				return content;
 			}
@@ -2213,16 +2127,16 @@
 				return '';
 			}
 
-			// The getting shortcodes
-			var matches = content.match( self.getShortcodePattern( self.getElmType( id ) ) );
+			const  matches = content.match( self.getShortcodeRegex( self.getElmType( id ) ) );
 
 			if ( matches ) {
-				for ( var i in matches ) {
-					if ( matches[ i ].indexOf( 'usbid="' + id + '"' ) !== -1 ) {
+				for ( const i in matches ) {
+					if ( matches[ i ].indexOf( `usbid="${id}"` ) !== -1 ) {
 						return matches[ i ];
 					}
 				}
 			}
+
 			return '';
 		},
 
@@ -2233,7 +2147,7 @@
 		 * @return {null|Node|[Node..]}
 		 */
 		getElmNode: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! $usb.iframeIsReady ) {
 				return null;
 			}
@@ -2247,7 +2161,7 @@
 		 * @return {String}
 		 */
 		getElmOuterHtml: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! $usb.iframeIsReady ) {
 				return '';
 			}
@@ -2261,12 +2175,11 @@
 		 * @return {{}}
 		 */
 		getElmValues: function( id ) {
-			var self = this;
+			const self = this;
 			if ( ! self.doesElmExist( id ) ) {
 				return {};
 			}
-			// The convert attributes from string to object
-			var shortcode = self.parseShortcode( self.getElmShortcode( id ) );
+			const shortcode = self.parseShortcode( self.getElmShortcode( id ) );
 			if ( ! $.isEmptyObject( shortcode ) ) {
 				var result = self.parseAtts( shortcode.atts ),
 					elmName = self.getElmName( id );
@@ -2299,32 +2212,25 @@
 		 * @param {{}} values
 		 */
 		setElmValues: function( id, values ) {
-			var self = this;
+			const self = this;
 			if ( ! self.doesElmExist( id ) || $.isEmptyObject( values ) ) {
 				return;
 			}
 
-			// Get the shortcode object
-			var shortcodeText = self.getElmShortcode( id ),
-				shortcode = self.parseShortcode( shortcodeText );
-			if ( $.isEmptyObject( shortcode ) ) {
+			const shortcode = self.getElmShortcode( id );
+			const shortcodeObj = self.parseShortcode( shortcode );
+
+			if ( $.isEmptyObject( shortcodeObj ) ) {
 				return;
 			}
 
-			// Set new attributes for the shortcode
-			shortcode.atts = ' ' + self.buildAtts( $.extend( self.getElmValues( id ), values ) );
+			shortcodeObj.atts = ' ' + self.buildAtts( $.extend( self.getElmValues( id ), values ) );
 
-			// Apply content changes
-			var newContent = ( self.pageData.content || '' )
-				.replace(
-					// The original shortcode text
-					shortcodeText,
-					// The converts a shortcode object to a shortcode string
-					self.buildShortcode( shortcode )
-				);
-			self.pageData.content = newContent;
+			self.pageData.content = $ush.toString( self.pageData.content ).replace(
+				shortcode,
+				self.buildShortcode( shortcodeObj )
+			);
 
-			// Trigger the content change event
 			$usb.trigger( 'builder.contentChange' );
 		},
 
@@ -2338,7 +2244,7 @@
 		 * @return {*} Returns the result from the cache or the result of a callback function
 		 */
 		_cacheDragProcessData: function( callback, key, defaultValue ) {
-			var self = this;
+			const self = this;
 			if ( typeof callback !== 'function' ) {
 				return defaultValue;
 			}
@@ -2357,7 +2263,7 @@
 		 * @param {{}} settings A set of key/value pairs that configure the Ajax request
 		 */
 		renderShortcode: function( requestId, settings ) {
-			var self = this;
+			const self = this;
 			if ( ! requestId || $.isEmptyObject( settings ) ) {
 				return;
 			}
@@ -2373,9 +2279,9 @@
 			if ( $ush.isUndefined( settings.data.content ) ) {
 				settings.data.content = '';
 			} else {
-				settings.data.content += ''; // to string
+				settings.data.content += '';
 			}
-			// Send a request to the server
+
 			$usb.ajax( requestId, settings );
 		},
 
@@ -2387,12 +2293,14 @@
 		 * @resurn {Boolean} Returns true if rendered, false otherwise.
 		 */
 		_updateColumnsLayout: function( rowId, layout ) {
+			const self = this;
+
 			// Exclusion of custom settings, since we do not change the rows, but only apply `--custom-columns`
 			if ( 'custom' === layout ) {
 				return;
 			}
-			var self = this,
-				columns = self.getElmChildren( rowId ),
+
+			var columns = self.getElmChildren( rowId ),
 				columnsCount = columns.length,
 				renderNeeded = false,
 				columnType = self.isRow( rowId ) ? 'vc_column' : 'vc_column_inner',
@@ -2425,7 +2333,7 @@
 				}
 				// Layout with column that use grid-template-columns
 			} else if ( layout.indexOf( '(' ) === - 1 && layout.indexOf( 'fr' ) > - 1 ) {
-				var customColumns = layout.trim().split( _REGEXP_SPACE_ );
+				var customColumns = layout.trim().split( SPACE_REGEXP );
 				newColumnsCount = 0;
 
 				for ( var i in customColumns ) {
@@ -2452,8 +2360,9 @@
 			// Add new columns if needed
 			if ( columnsCount < newColumnsCount ) {
 				for ( var i = columnsCount; i < newColumnsCount; i ++ ) {
-					var newColumnId = self.getSpareElmId( columnType );
-					self._addShortcodeToContent( rowId, i, '[' + columnType + ' usbid="' + newColumnId + '"][/' + columnType + ']' );
+					const newColumnId = self.getSpareElmId( columnType );
+					self._addShortcodeToContent( rowId, i, `[${columnType} usbid="${newColumnId}"][/${columnType}]` );
+					elementsList[ newColumnId ] = rowId;
 				}
 				columnsCount = newColumnsCount;
 				// Wee need to render newly added columns
@@ -2474,7 +2383,6 @@
 			// Refresh columns list
 			columns = self.getElmChildren( rowId );
 
-			// Event for react in extensions
 			$usb.trigger( 'builder.contentChange' );
 
 			// Set new widths for columns
@@ -2493,26 +2401,31 @@
 		 * @return {{}} Object with new data
 		 */
 		getInsertPosition: function( parent, index ) {
-			var position,
-				self = this,
-				isRootElmContainer = self.isElmContainer( parent );
-			// Index check and position determination
+			const self = this;
+			const isRootElmContainer = self.isElmContainer( parent );
+
+			var position;
+
 			index = $ush.parseInt( index );
 			// Position definitions within any containers
 			if ( self.isMainContainer( parent ) || isRootElmContainer ) {
 				var children = self.getElmChildren( parent );
 				if ( index === 0 || children.length === 0 ) {
 					position = 'prepend'
+
 				} else if ( index > children.length || children.length === 1 ) {
 					index = children.length;
 					position = 'append';
+
 				} else {
 					parent = children[ index - 1 ] || parent;
 					position = 'after';
 				}
+
 			} else {
 				position = ( index < 1 ? 'before' : 'after' );
 			}
+
 			return {
 				position: position,
 				parent: parent
@@ -2529,6 +2442,7 @@
 		 */
 		_addShortcodeToContent: function( parent, index, newShortcode ) {
 			const self = this;
+
 			if (
 				! newShortcode
 				|| ! ( self.isValidId( parent ) || self.isMainContainer( parent ) )
@@ -2545,7 +2459,7 @@
 				: '';
 			const content = $ush.toString( self.pageData.content );
 
-			let oldShortcode = ! isMainContainer
+			var oldShortcode = ! isMainContainer
 				? self.getElmShortcode( parent )
 				: content;
 
@@ -2553,7 +2467,7 @@
 			oldShortcode = self.removeHtmlWrap( oldShortcode );
 
 			// Check the position for the root element, if the position is before or after then add the element to the `prepend`
-			let position = insertPosition.position;
+			var position = insertPosition.position;
 			if ( isMainContainer ) {
 				position = ( position === 'before' || position === 'after' )
 					? 'container:prepend'
@@ -2561,7 +2475,7 @@
 			}
 
 			// Create new shortcode
-			let insertShortcode = '';
+			var insertShortcode = '';
 			if ( position === 'before' || position === 'container:prepend' ) {
 				insertShortcode = newShortcode + oldShortcode;
 
@@ -2596,11 +2510,7 @@
 			const self = this;
 			const shortcodeConfig = $usb.config( 'shortcode', {} );
 
-			/**
-			 * @param {String} type The type
-			 * @return {String} The default content
-			 */
-			const _getDefaultContent = function( type ) {
+			const _getDefaultContent = ( type ) => {
 				var defaultValues = ( shortcodeConfig.default_values || {} )[ type ] || false,
 					editContent = ( shortcodeConfig.edit_content || {} )[ type ] || false;
 				if ( editContent && defaultValues && defaultValues[ editContent ] ) {
@@ -2618,8 +2528,7 @@
 			// Add elements for tab structures
 			if ( self.isElmSection( child ) ) {
 
-				// Get a title template for a section
-				var titleTemplate = $usb.getTextTranslation( 'section' ),
+				const titleTemplate = $usb.getTextTranslation( 'section' ),
 
 				// Get parameters for a template
 				params = {
@@ -2627,11 +2536,11 @@
 					title_2: ( titleTemplate + ' 2' ),
 					vc_column_text: self.getSpareElmId( 'vc_column_text' ),
 					vc_column_text_content: _getDefaultContent( 'vc_column_text' ),
-					vc_tta_section_1: self.getSpareElmId( /* vc_tta_section */child ),
-					vc_tta_section_2: self.getSpareElmId( /* vc_tta_section */child )
+					vc_tta_section_1: self.getSpareElmId( child ),
+					vc_tta_section_2: self.getSpareElmId( child )
 				};
 				// Build shortcode
-				return $usb.buildString( $usb.config( 'template.' + /* vc_tta_section */child, '' ), params );
+				return $usb.buildString( $usb.config( `template.${child}`, '' ), params );
 
 				// Add an empty element with no content
 			} else {
@@ -2653,7 +2562,7 @@
 			if ( ! self.isValidId( elmId ) ) {
 				return;
 			}
-			let insert = self.getInsertPosition( parentId, elmIndex );
+			const insert = self.getInsertPosition( parentId, elmIndex );
 
 			$usb.postMessage( 'showPreloader', [
 				insert.parent,
@@ -2669,13 +2578,11 @@
 				success: ( res ) => {
 					$usb.postMessage( 'hidePreloader', newTargetId || insert.parent );
 					if ( res.success ) {
-						// Add new shortcde to preview page
+
 						$usb.postMessage( 'insertElm', [ insert.parent, insert.position, res.data.html ] );
-						// Init its JS if needed
 						$usb.postMessage( 'maybeInitElmJS', [ elmId ] );
-						// Event for react in extensions
 						$usb.trigger( 'builder.contentChange' );
-						// Commit to save changes to history
+
 						$usb.history.commitChange( elmId, _CHANGED_ACTION_.CREATE );
 					}
 					if ( typeof callback === 'function' ) {
@@ -2708,7 +2615,7 @@
 					$usb.postMessage( 'hidePreloader', elmId );
 					$usb.postMessage( 'doAction', [ 'removeHighlights', /*force*/true ] );
 					if ( res.success ) {
-						let html = $ush
+						var html = $ush
 							.toString( res.data.html )
 							.replace( /(us_animate_this)/g, "$1 start" );
 						// Reload element in preview
@@ -2717,7 +2624,7 @@
 					if ( typeof callback === 'function' ) {
 						callback.call( self, elmId );
 					}
-					$usb.trigger( 'builder.contentChange' ); // for react in extensions
+					$usb.trigger( 'builder.contentChange' );
 				}
 			} );
 		},
@@ -2733,9 +2640,9 @@
 		 * @return {*}
 		 */
 		createElm: function( type, parentId, elmIndex, values, callback ) {
-			var self = this,
-				args = arguments,
-				isMainContainer = self.isMainContainer( parentId );
+			const self = this;
+			const args = arguments;
+			const isMainContainer = self.isMainContainer( parentId );
 
 			if (
 				! type
@@ -2752,7 +2659,6 @@
 				return;
 			}
 
-			// The hide all highlights
 			$usb.postMessage( 'doAction', 'hideHighlight' );
 
 			// Index check and position determination
@@ -2765,17 +2671,12 @@
 			}
 
 			var elmId = self.getSpareElmId( type ),
-				// Get name from ID
-				elmName = self.getElmName( elmId ),
-				// Get insert position
-				insert = self.getInsertPosition( parentId, elmIndex );
+				elmName = self.getElmName( elmId );
 
-			// Validate Values
 			if ( ! $.isPlainObject( values ) ) {
 				values = {};
 			}
 
-			// Create shortcode string
 			var buildShortcode = self.buildShortcode({
 				tag: type,
 				atts: self.buildAtts( $.extend( { usbid: elmId }, values ) ),
@@ -2801,7 +2702,6 @@
 				);
 			}
 
-			// Added shortcode to content
 			if ( ! self._addShortcodeToContent( parentId, elmIndex, buildShortcode ) ) {
 				return false;
 			}
@@ -2816,6 +2716,8 @@
 				self.addElmToPreview( elmId, elmIndex, parentId, callback );
 			}
 
+			self.updateElementsList();
+
 			return elmId;
 		},
 
@@ -2828,13 +2730,14 @@
 		 * @return {Boolean}
 		 */
 		moveElm: function( moveId, newParentId, newIndex ) {
-			var self = this,
-				args = arguments;
+			const self = this;
+			const args = arguments;
+
 			if ( self.isMainContainer( moveId ) ) {
 				$usb.log( 'Error: Cannot move the container', args );
 				return false;
 			}
-			var isMainContainer = self.isMainContainer( newParentId );
+			const isMainContainer = self.isMainContainer( newParentId );
 
 			// Check parents and prohibit invest in yourself
 			if ( self.hasSameTypeParent( moveId, newParentId ) ) {
@@ -2858,12 +2761,10 @@
 				return false;
 			}
 
-			var oldParentId = self.getElmParentId( moveId );
+			const oldParentId = self.getElmParentId( moveId );
 
-			// Index check and position determination
 			newIndex = $ush.parseInt( newIndex );
 
-			// The hide all highlights
 			$usb.postMessage( 'doAction', 'hideHighlight' );
 
 			// If there is no newParentId element, add the element to the `container`
@@ -2876,19 +2777,17 @@
 			$usb.history.commitChange( moveId, _CHANGED_ACTION_.MOVE );
 
 			// Get old shortcode and remove in content
-			var oldShortcode = self.getElmShortcode( moveId );
+			const oldShortcode = self.getElmShortcode( moveId );
 			self.pageData.content = $ush.toString( self.pageData.content )
 				.replace( oldShortcode, '' );
 
-			// Get parent position
-			var insert = self.getInsertPosition( newParentId, newIndex );
+			const insert = self.getInsertPosition( newParentId, newIndex );
 
 			// Added shortcode to content
 			if ( ! self._addShortcodeToContent( newParentId, newIndex, oldShortcode ) ) {
 				return false;
 			}
 
-			// Move element on preview page
 			$usb.postMessage( 'moveElm', [ insert.parent, insert.position, moveId ] );
 
 			// Reload element in preview
@@ -2899,7 +2798,8 @@
 				self.reloadElmInPreview( newParentId );
 			}
 
-			// Event for react in extensions
+			self.updateElementsList();
+
 			$usb.trigger( 'builder.contentChange' );
 
 			return true;
@@ -2912,27 +2812,28 @@
 		 * @return {Boolean}
 		 */
 		removeElm: function( removeId ) {
-			var self = this;
+			const self = this;
+
 			if ( ! self.isValidId( removeId ) ) {
 				return false;
 			}
-			// Remove element from preview
-			$usb.postMessage( 'removeHtmlById', removeId );
-			var selectedElmId = self.selectedElmId,
-				allChildren = self.getElmAllChildren( removeId ),
-				rootContainerId = self.getElmParentId( removeId );
 
-			// Commit to save changes to history
+			$usb.postMessage( 'removeHtmlById', removeId );
+
+			const selectedElmId = self.selectedElmId;
+			const rootContainerId = self.getElmParentId( removeId );
+
+			var children = self.getElmAllChildren( removeId );
+
 			$usb.history.commitChange( removeId, _CHANGED_ACTION_.REMOVE );
 
-			// Remove shortcode from content
-			self.pageData.content = $ush.toString( self.pageData.content )
+			self.pageData.content = $ush
+				.toString( self.pageData.content )
 				.replace( self.getElmShortcode( removeId ), '' );
 
-			$usb.trigger( 'builder.contentChange' ); // for react in extensions
+			$usb.trigger( 'builder.contentChange' );
 
 			if ( self.isColumn( removeId ) ) {
-				// Handler is called every time the column/column_inner in change
 				$usb.postMessage( 'vcColumnChanged', /* row|row_inner id */rootContainerId );
 			}
 
@@ -2945,14 +2846,18 @@
 				selectedElmId
 				&& (
 					removeId == selectedElmId // for current element
-					|| allChildren.includes( selectedElmId ) // for parent element
+					|| children.includes( selectedElmId ) // for parent element
 				)
 			) {
-				// Show the section "Add elements"
 				$usb.trigger( 'panel.showAddElms' );
 			}
 
-			// Remove an elm via navigator if it is there
+			children.push( removeId );
+
+			for ( const k in children ) {
+				delete elementsList[ children[ k ] ];
+			}
+
 			$usb.navigator.removeElm( removeId );
 
 			return true;
@@ -2966,26 +2871,25 @@
 		 * @return {{}}
 		 */
 		updateIdsInContent: function( content, html ) {
-			let self = this,
-				firstElmId, // first shortcode usbid (should be a vc_row)
+			const self = this;
+			var firstElmId, // first shortcode usbid (should be a vc_row)
 				customPrefix = $usb.config( 'designOptions.customPrefix', 'usb_custom_' );
 			html = $ush.toString( html );
-			content = $ush.toString( content ); // page content (shortcodes)
+			content = $ush.toString( content );
 			// Replace all usbid's in content and html
-			content = content.replace( _REGEXP_USBID_ATTR_, function( match, input, elmId ) {
-				// Gets a new usbid of the same type
-				var newElmId = self.getSpareElmId( elmId );
+			content = content.replace( USBID_ATTR_REGEXP, ( match, input, elmId ) => {
+				// Get a new usbid of the same type
+				const newElmId = self.getSpareElmId( elmId );
 				if ( ! firstElmId ) {
 					firstElmId = newElmId; // get first shortcode usbid (should be a vc_row)
 				}
 				if ( html ) {
 					html = html
 						// Replace all usbid's in attributes (Note: )
-						.replace( new RegExp( 'data-(for|usbid)="'+ elmId +'"', 'g' ), 'data-$1="'+ newElmId +'"' )
+						.replace( new RegExp( `data-(for|usbid)="${elmId}"`, 'g' ), `data-$1="${newElmId}"` )
 						// Replace all custom element classes, old mask: `{customPrefix}{type}{index}`
 						.replace( new RegExp( customPrefix + elmId.replace( ':', '' ), 'g' ), $ush.uniqid( customPrefix ) );
 				}
-				// Return a new shortcode usbid
 				return input.replace( elmId, newElmId );
 			} );
 			return {

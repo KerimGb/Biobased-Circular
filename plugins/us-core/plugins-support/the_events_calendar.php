@@ -181,7 +181,14 @@ if ( ! function_exists( 'us_get_page_area_id_for_events_calendar' ) ) {
 
 			// Archive: Events
 			if ( get_queried_object() instanceof WP_Post_Type ) {
-				$area_id = us_get_option( $area . '_tax_tribe_events_id', '__defaults__' );
+
+				// #4769 reset content area if the "Default Events Templates" is set
+				if ( $area == 'content' AND tribe_get_option( 'tribeEventsTemplate' ) != 'default' ) {
+					$area_id = '';
+				} else {
+					$area_id = us_get_option( $area . '_tax_tribe_events_id', '__defaults__' );
+				}
+
 			} else {
 				$area_id = us_get_option( $area . '_tax_tribe_events_cat_id', '__defaults__' );
 			}

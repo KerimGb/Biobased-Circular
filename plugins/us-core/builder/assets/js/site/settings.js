@@ -9,13 +9,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -32,7 +32,7 @@
 	 * @class Site Settings - Site settings functionality (Theme Settings)
 	 */
 	function SiteSettings( container ) {
-		var self = this;
+		const self = this;
 
 		/**
 		 * @type {String} Selected setting group id
@@ -56,10 +56,7 @@
 			};
 		}
 
-		/**
-		 * @type {{}} Bondable events
-		 * @param {String} container The container
-		 */
+		// Bondable events
 		self._events = {
 			changeField: self._changeField.bind( self ),
 			clickGoToBack: self._clickGoToBack.bind( self ),
@@ -71,7 +68,7 @@
 			urlManager: self._urlManager.bind( self ),
 		};
 
-		$( function() {
+		$( () => {
 
 			// Elements
 			self.$container = $( container );
@@ -89,11 +86,8 @@
 
 			// Events
 			$usb.$panel
-				// Handler for show settings
 				.on( 'click', '[data-group-id]', self._events.clickGroupId )
-				// Handler for back to the general menu
 				.on( 'click', '.usb_action_go_to_back', self._events.clickGoToBack )
-				// Handler for confirm exit without save changes
 				.on( 'click', 'a:not([target=_blank])', self._events.confirmExit );
 
 			// Run URL manager after ready
@@ -103,16 +97,16 @@
 		// Private events
 		$usb
 			.on( 'iframeReady', self._events.iframeReady )
-			.on( 'panel.clearBody', self._events.handlerClearBody ) // handler for clear the panel body
-			.on( 'panel.saveChanges', self._events.saveChanges ) // save changes to the backend
-			.on( 'hotkeys.ctrl+s', self._events.saveChanges ) // save changes by `(command|ctrl)+s`
-			.on( 'urlManager.changed', self._events.urlManager ); // URL history stack change handler
+			.on( 'panel.clearBody', self._events.handlerClearBody )
+			.on( 'panel.saveChanges', self._events.saveChanges )
+			.on( 'hotkeys.ctrl+s', self._events.saveChanges )
+			.on( 'urlManager.changed', self._events.urlManager );
 	}
 
 	/**
 	 * @type {Prototype}
 	 */
-	var prototype = SiteSettings.prototype;
+	const prototype = SiteSettings.prototype;
 
 	// Private events
 	$.extend( prototype, {
@@ -123,9 +117,9 @@
 		 * @param {{}|undefined} state Data object associated with history and current loaction
 		 */
 		_urlManager: function( state ) {
-			var self = this,
-				_siteSettings = $usb.config( 'actions.site_settings' );
-			// If the document is not read, exit
+			const self = this;
+			var _siteSettings = $usb.config( 'actions.site_settings' );
+
 			if ( ! self.isReady() ) {
 				return;
 			}
@@ -168,7 +162,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_confirmExit: function( e ) {
-			var message = $usb.getTextTranslation( 'page_leave_warning' );
+			const message = $usb.getTextTranslation( 'page_leave_warning' );
 			if ( this.isChanged() && ! confirm( message ) ) {
 				e.preventDefault();
 				return;
@@ -181,7 +175,7 @@
 		 * @event handler
 		 */
 		_iframeReady: function() {
-			var self = this;
+			const self = this;
 			if (
 				! $usb.iframeIsReady
 				|| ! $usb.urlManager.hasParam( 'action', $usb.config( 'actions.site_settings' ) )
@@ -189,8 +183,7 @@
 				return;
 			}
 
-			// Get iframe window
-			var iframeWindow = $usb.iframe.contentWindow;
+			const iframeWindow = $usb.iframe.contentWindow;
 
 			/**
 			 * @type {{}} Current site settings (import from iframe)
@@ -212,9 +205,8 @@
 		 * @event handler
 		 */
 		_handlerClearBody: function() {
-			var self = this;
-			self._destroyFieldset(); // destroy initialized fieldset
-			$usb.postMessage( 'clearCookies' ); // clear cookie data for previews
+			this._destroyFieldset();
+			$usb.postMessage( 'clearCookies' );
 		}
 	} );
 
@@ -252,16 +244,16 @@
 		 * Show the general menu of setup groups
 		 */
 		showGeneralMenu: function() {
-			var self = this;
-			// If the document is not read, exit
+			const self = this;
+
 			if ( ! self.isReady() ) {
 				return;
 			}
 
 			// Panel preparation
 			$usb.panel.setTitle( 'site_settings', /* isTranslationKey */true );
-			$usb.trigger( 'panel.clearBody' ); // clear the panel body
-			self.$menu.removeClass( 'hidden' ); // show menu
+			$usb.trigger( 'panel.clearBody' );
+			self.$menu.removeClass( 'hidden' );
 		},
 
 		/**
@@ -271,7 +263,7 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_clickGroupId: function( e ) {
-			var groupId = $usbcore.$attr( e.currentTarget, 'data-group-id' );
+			const groupId = $usbcore.$attr( e.currentTarget, 'data-group-id' );
 			if ( groupId ) {
 				$usb.urlManager.setParam( 'group', groupId ).push();
 			}
@@ -292,14 +284,14 @@
 		 * @param {String} groupId The group id
 		 */
 		initFieldset: function( groupId ) {
-			var self = this;
+			const self = this;
 			if ( $ush.isUndefined( _$tmp.fieldsets[ groupId ] ) ) {
 				return;
 			}
-			self.$menu.addClass( 'hidden' ); // hide menu
+			self.$menu.addClass( 'hidden' );
 
 			// Set shortcode title to header title
-			var groupTitle = $usb.config( 'site.group_titles.' + groupId );
+			var groupTitle = $usb.config( `site.group_titles.${groupId}` );
 			if ( groupTitle ) {
 				$usb.panel.setTitle( groupTitle );
 			}
@@ -322,7 +314,7 @@
 				self.activeFieldset.fields[ fieldId ]
 					.on( 'change', self._events.changeField )
 					// Responsive screen change handler in the $usof.field
-					.on( 'syncResponsiveState', function( _, screenName ) {
+					.on( 'syncResponsiveState', ( _, screenName ) => {
 						// Set a responsive screen from $usof the field
 						if ( $usb.find( 'preview' ) ) {
 							$usb.preview.fieldSetResponsiveScreen( screenName );
@@ -335,19 +327,18 @@
 		 * Destroy initialized fieldset
 		 */
 		_destroyFieldset: function() {
-			var self = this;
+			const self = this;
+
 			if ( ! self.selectedGroupId ) {
 				return;
 			}
 
-			// Remove a node
 			if ( self.$activeFieldset instanceof $ ) {
 				self.$activeFieldset.remove();
 			}
 
-			self.$menu.addClass( 'hidden' ); // hide menu
+			self.$menu.addClass( 'hidden' );
 
-			// Remove handlers for `$usof.field` objects
 			self.activeFieldset = null;
 			self.selectedGroupId = null;
 		},
@@ -360,7 +351,7 @@
 		 * @param {*} _ The usofField value
 		 */
 		_changeField: function( usofField ) {
-			var self = this;
+			const self = this;
 
 			// If the param does not exist, then exit
 			if ( $ush.isUndefined( self.liveOptions[ usofField.name ] ) ) {
@@ -419,7 +410,7 @@
 			}
 
 			// Switch for enable/disable save button
-			$ush.debounce_fn_10ms( function() {
+			$ush.debounce_fn_10ms( () => {
 				$usb.panel.switchSaveButton( /* enable */self.isChanged() );
 			} );
 		},
@@ -430,7 +421,7 @@
 		 * @event handler
 		 */
 		_saveChanges: function() {
-			var self = this;
+			const self = this;
 			if (
 				self.isProcessSave()
 				|| ! self.isChanged()
@@ -441,7 +432,7 @@
 
 			// Disable button and enable load
 			$usb.panel.switchSaveButton( /* enable */true, /* isLoading */true );
-			_$tmp.isProcessSave = true; // set the save execution flag
+			_$tmp.isProcessSave = true;
 
 			// Send data to server
 			$usb.ajax( /* request id */'_saveLiveOptions', {
@@ -450,21 +441,17 @@
 					action: $usb.config( 'action_save_live_options' ),
 					live_options: JSON.stringify( self.liveOptions )
 				},
-				// Handler to be called if the request succeeds
-				success: function( res ) {
+				success: ( res ) => {
 					if ( ! res.success ) {
 						return;
 					}
 					$usb.notify.add( $usb.getTextTranslation( 'site_settings_updated' ), _NOTIFY_TYPE_.SUCCESS );
 
-					// Clear cookie data for previews
 					$usb.postMessage( 'clearCookies' );
 
-					// Save the last site settings
 					_$tmp.savedLiveOptions = $ush.clone( self.liveOptions );
 				},
-				// Handler to be called when the request finishes (after success and error callbacks are executed)
-				complete: function() {
+				complete: () => {
 					_$tmp.isProcessSave = false;
 					$usb.panel.switchSaveButton( /* enable */false );
 				}

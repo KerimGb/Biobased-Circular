@@ -57,6 +57,8 @@ if (
 	$bg_img_sources += (array) us_acf_get_fields( /* type */'image', /* to_list */TRUE );
 }
 
+$image_sizes_list = us_is_elm_editing_page() ? us_get_image_sizes_list() : array();
+
 return array(
 
 	// Supported elements
@@ -151,7 +153,7 @@ return array(
 				'title' => __( 'Image Size', 'us' ),
 				'description' => $misc['desc_img_sizes'],
 				'type' => 'select',
-				'options' => us_get_image_sizes_list(),
+				'options' => $image_sizes_list,
 				'std' => 'large',
 			),
 			'bg_img_size' => array(

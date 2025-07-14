@@ -36,6 +36,7 @@ if ( us_get_option( 'enable_testimonials', 1 ) ) {
 // Defined image types for show_if conditions
 $image_fields = array( 'us_tile_additional_image' );
 $repeater_fields = array( '' ); // empty string is needed for correct "show_if" execution
+$checkbox_fields = array( '' );
 
 // Get options from "Advanced Custom Fields" plugin
 $acf_custom_fields = array();
@@ -89,6 +90,11 @@ if ( function_exists( 'us_acf_get_fields' ) ) {
 			// Add Repeater types for show_if conditions
 			if ( in_array( $field['type'], array( 'repeater', 'flexible_content' ) ) ) {
 				$repeater_fields[] = $field['name'];
+			}
+			
+			// Add Checkbox types for show_if conditions
+			if ( $field['type'] == 'checkbox' ) {
+				$checkbox_fields[] = $field['name'];
 			}
 		}
 
@@ -201,7 +207,7 @@ return array(
 				'title' => __( 'Image Size', 'us' ),
 				'description' => $misc['desc_img_sizes'],
 				'type' => 'select',
-				'options' => us_get_image_sizes_list(),
+				'options' => us_is_elm_editing_page() ? us_get_image_sizes_list() : array(),
 				'std' => 'large',
 				'show_if' => array( 'key', '=', $image_fields + $repeater_fields ),
 				'usb_preview' => TRUE,
@@ -211,6 +217,19 @@ return array(
 				'switch_text' => __( 'Hide this element if its value is empty', 'us' ),
 				'std' => 0,
 				'show_if' => array( 'key', '!=', 'us_testimonial_rating' ),
+			),
+			'list_display_options' => array(
+				'title' => __( 'Display as', 'us' ),
+				'type' => 'select',
+				'options' => array(
+					'comma_separated' => __( 'Comma separated values', 'us' ),
+					'unordered_list' => __( 'Unordered list', 'us' ),
+					'ordered_list' => __( 'Ordered list', 'us' ),
+					'separate_divs' => __( 'Each value in separate <div>', 'us' ),
+				),
+				'std' => 'comma_separated',
+				'show_if' => array( 'key', '=', $checkbox_fields ),
+				'usb_preview' => TRUE,
 			),
 			'link' => array(
 				'title' => us_translate( 'Link' ),
@@ -248,7 +267,7 @@ return array(
 				'type' => 'select',
 				'options' => $misc['html_tag_values'],
 				'std' => 'div',
-				'show_if' => array( 'key', '!=', $image_fields ),
+				'show_if' => array( 'key', '!=', $image_fields + $checkbox_fields ),
 				'group' => us_translate( 'Appearance' ),
 				'usb_preview' => array(
 					'attr' => 'tag',

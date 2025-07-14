@@ -38,7 +38,7 @@
 		self.$pagination = $( 'nav.pagination', container );
 		self.$none = self.$container.next( '.w-grid-none' );
 
-		// Gets element settings
+		// Get element settings
 		const $elmSettings = $( '.w-grid-list-json:first', container );
 		if ( $elmSettings.is( '[onclick]' ) ) {
 			$.extend( self.data, $elmSettings[0].onclick() || {} );
@@ -396,8 +396,8 @@
 			self.setPostInPopup( $( e.target ).closest( '.w-grid-item' ).index() );
 
 			// Show popup
-			$us.$html.addClass( 'usoverlay_fixed' );
 			self.$popup.addClass( 'active' );
+			$us.$document.trigger( 'usPopupOpened' );
 			$ush.timeout( () => {
 				self.$popupBox.addClass( 'show' );
 			}, 25 );
@@ -419,8 +419,7 @@
 			}
 			self.$container.on( 'keyup', checkEscape );
 
-			$( 'body', self.$popupFrame.contents() )
-				.one( 'keyup.usCloseLightbox', checkEscape );
+			$( 'body', self.$popupFrame.contents() ).one( 'keyup.usCloseLightbox', checkEscape );
 		},
 
 		/**
@@ -481,15 +480,15 @@
 		 */
 		closePostInPopup: function() {
 			const self = this;
+			self.$popup.removeClass( 'active' );
 			self.$popupBox
 				.removeClass( 'show' )
 				.one( 'transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', () => {
-					self.$popup.removeClass( 'active' );
 					self.$popupFrame.attr( 'src', 'about:blank' );
 					self.$popupToPrev.addClass( 'hidden' );
 					self.$popupToNext.addClass( 'hidden' );
 					self.$popupPreloader.show();
-					$us.$html.removeClass( 'usoverlay_fixed' );
+					$us.$document.trigger( 'usPopupClosed' );
 				} );
 
 			// Restore original URL

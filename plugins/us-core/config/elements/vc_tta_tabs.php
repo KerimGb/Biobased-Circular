@@ -7,6 +7,10 @@
 $misc = us_config( 'elements_misc' );
 $design_options_params = us_config( 'elements_design_options' );
 
+$source_options = array(
+	'' => '– ' . us_translate( 'Default' ) . ' –',
+);
+
 $general_params = array(
 
 	// Tabs
@@ -140,6 +144,33 @@ $general_params = array(
 		'std' => '',
 		'group' => us_translate( 'Accordion', 'js_composer' ),
 		'usb_preview' => TRUE,
+	),
+
+	// Data Source
+	'data_source' => array(
+		'title' => __( 'Data Source', 'us' ),
+		'type' => 'select',
+		'options' => apply_filters( 'us_tta_source_options', $source_options ),
+		'std' => '',
+		'group' => __( 'Data Source', 'us' ),
+	),
+	'title_source' => array(
+		'title' => __( 'Title Field', 'us' ),
+		'description' => __( 'Set the name of sub field.', 'us' ) . ' ' . __( 'Examples:', 'us' ) . ' <span class="usof-example">question</span>, <span class="usof-example">sub_field_1</span>',
+		'type' => 'text',
+		'std' => 'question',
+		'cols' => 2,
+		'show_if' => array( 'data_source', '!=', '' ),
+		'group' => __( 'Data Source', 'us' ),
+	),
+	'content_source' => array(
+		'title' => __( 'Content Field', 'us' ),
+		'description' => __( 'Set the name of sub field.', 'us' ) . ' ' . __( 'Examples:', 'us' ) . ' <span class="usof-example">answer</span>, <span class="usof-example">sub_field_2</span>',
+		'type' => 'text',
+		'std' => 'answer',
+		'cols' => 2,
+		'show_if' => array( 'data_source', '!=', '' ),
+		'group' => __( 'Data Source', 'us' ),
 	),
 );
 

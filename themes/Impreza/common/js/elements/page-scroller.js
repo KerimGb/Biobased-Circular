@@ -112,7 +112,7 @@
 
 		is_popup: function() {
 			// Detect popup not to trigger extra events.
-			return $us.$html.hasClass( 'usoverlay_fixed' );
+			return $us.$html.hasClass( 'us_popup_is_opened' );
 		},
 
 		/**

@@ -4,6 +4,10 @@
  * Simple Menu element
  */
 
+if ( empty( $source ) ) {
+	$source = key( us_get_nav_menus() );
+}
+
 if (
 	! is_nav_menu( $source )
 	AND ! usb_is_post_preview()
@@ -12,7 +16,7 @@ if (
 }
 
 $_atts['class'] = 'w-menu';
-$_atts['class'] .= isset( $classes ) ? $classes : '';
+$_atts['class'] .= $classes ?? '';
 
 // Force horizontal layout for element in header
 if ( $us_elm_context == 'header' ) {

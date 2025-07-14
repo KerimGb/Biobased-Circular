@@ -165,7 +165,7 @@
 		},
 	} );
 
-	$.fn.USOF_InputFieldPreview = function() {
+	$.fn.USOF_FieldPreview = function() {
 		return this.each( function() {
 			$( this ).data( 'usof.InputFieldPreview', new InputFieldPreview( this ) );
 		} );

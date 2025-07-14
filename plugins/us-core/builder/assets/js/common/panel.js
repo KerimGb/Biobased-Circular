@@ -8,13 +8,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -54,8 +54,7 @@
 		} );
 
 		// Private events
-		$usb
-			.on( 'urlManager.changed', self._events.urlManager );
+		$usb.on( 'urlManager.changed', self._events.urlManager );
 	}
 
 	// Panel API
@@ -82,9 +81,8 @@
 		 * Hide all sections in panel
 		 */
 		clearBody: function() {
-			var self = this;
-			self.hideMessage(); // hide section "Messages"
-			$usb.trigger( 'panel.clearBody' ); // clear the panel body
+			this.hideMessage();
+			$usb.trigger( 'panel.clearBody' );
 		},
 
 		/**
@@ -101,7 +99,7 @@
 		 * @param {Boolean} isTranslationKey Is the key to translation
 		 */
 		setTitle: function ( title, isTranslationKey ) {
-			var self = this;
+			const self = this;
 			if ( self.isReady() && title ) {
 				// Get text translation by key
 				if ( isTranslationKey ) {
@@ -117,23 +115,19 @@
 		 * @param {String} text The message text
 		 */
 		showMessage: function( text ) {
-			var self = this;
-			self.clearBody(); // hide all sections
+			const self = this;
+			self.clearBody();
 			$usb.trigger( 'panel.showMessage', text );
-			self.$messages
-				.removeClass( 'hidden' )
-				.html( text );
+			self.$messages.removeClass( 'hidden' ).html( text );
 		},
 
 		/**
 		 * Hide the message
 		 */
 		hideMessage: function() {
-			var self = this;
+			const self = this;
 			if ( self.isReady() ) {
-				self.$messages
-					.addClass( 'hidden' )
-					.html( '' );
+				self.$messages.addClass( 'hidden' ).html( '' );
 			}
 		},
 
@@ -143,11 +137,11 @@
 		 * @event handler
 		 */
 		_switch: function() {
-			var self = this;
-			// Show/Hide all sidebars (Panel and Navigator)
+			const self = this;
+
 			$usb.$body.toggleClass( 'hide_sidebars', self.isShow() );
 			$usb.trigger( 'panel.switch', self.isShow() );
-			$usb.postMessage( 'changeSwitchPanel' ); // send message about change the panel display
+			$usb.postMessage( 'changeSwitchPanel' );
 		},
 
 		/**
@@ -174,7 +168,7 @@
 			this.$actionSaveChanges
 				.prop( 'disabled', ! enable )
 				.toggleClass( 'disabled', ! enable )
-				.toggleClass( 'loading', isLoading === true ? enable : false ); // switch for show/hide loading
+				.toggleClass( 'loading', isLoading === true ? enable : false );
 		},
 
 		/**
@@ -185,11 +179,12 @@
 		 */
 		_urlManager: function( state ) {
 			const self = this;
-			// If the document is not read, exit
+
 			if ( ! self.isReady() ) {
 				return;
 			}
-			var _siteSettings = $usb.config( 'actions.site_settings' );
+
+			const _siteSettings = $usb.config( 'actions.site_settings' );
 			if ( state.setParams.action === _siteSettings ) {
 				$( '.usb_action_show_add_elms', self.$header ).addClass( 'hidden' );
 				$( '.usb_action_go_to_back', self.$header ).removeClass( 'hidden' );

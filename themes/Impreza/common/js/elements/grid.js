@@ -162,14 +162,18 @@
 					owlCarousel.$element.find( '.owl-next' ).attr( 'aria-label', carouselOptions.aria_labels.next );
 				}
 
-				// Toggle class 'autoheight' for responsive
-				let currentOwlResponsiveValue = self.$list.attr( 'class' ).match( /owl-responsive-(\d+)/ )[1];
-				let carouselOptionsResponsive = carouselOptions.responsive || {};
+				const currentOwlResponsiveValue = self.$list.attr( 'class' ).match( /owl-responsive-(\d+)/ )[1];
+				const carouselOptionsResponsive = carouselOptions.responsive || {};
+				const currentOptionsResponsive = carouselOptionsResponsive[ currentOwlResponsiveValue ];
 
-				if ( carouselOptionsResponsive[currentOwlResponsiveValue] && carouselOptionsResponsive[currentOwlResponsiveValue].items === 1 ) {
-					self.$list.toggleClass(
-						'autoheight', carouselOptionsResponsive[currentOwlResponsiveValue].autoHeight
-					)
+				// Toggle classes for responsive
+				if ( currentOptionsResponsive ) {
+					// 'autoheight' class
+					if ( currentOptionsResponsive.items === 1 ) {
+						self.$list.toggleClass( 'autoheight', currentOptionsResponsive.autoHeight );
+					}
+					// 'with_dots' class
+					self.$list.toggleClass( 'with_dots', currentOptionsResponsive.dots );
 				}
 			}
 
@@ -787,19 +791,6 @@
 			}
 		},
 		// Lightbox Functions.
-		_hasScrollbar: function() {
-			return _document.documentElement.scrollHeight > _document.documentElement.clientHeight;
-		},
-		_getScrollbarSize: function() {
-			if ( $us.scrollbarSize === _undefined ) {
-				var scrollDiv = _document.createElement( 'div' );
-				scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;';
-				_document.body.appendChild( scrollDiv );
-				$us.scrollbarSize = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-				_document.body.removeChild( scrollDiv );
-			}
-			return $us.scrollbarSize;
-		},
 		openLightboxItem: function( itemUrl, $item ) {
 			this.showLightbox();
 
@@ -887,17 +878,10 @@
 			clearTimeout( this.lightboxTimer );
 			this.$popup.addClass( 'active' );
 			this.lightboxOpened = true;
+			$us.$document.trigger( 'usPopupOpened' );
 
 			this.$popupContentPreloader.css( 'display', 'block' );
-			$us.$html.addClass( 'usoverlay_fixed' );
 
-			if ( ! $.isMobile ) {
-				// Storing the value for the whole popup visibility session
-				this.windowHasScrollbar = this._hasScrollbar();
-				if ( this.windowHasScrollbar && this._getScrollbarSize() ) {
-					$us.$html.css( 'margin-right', this._getScrollbarSize() );
-				}
-			}
 			this.lightboxTimer = setTimeout( function() {
 				this.afterShowLightbox();
 			}.bind( this ), 25 );
@@ -921,6 +905,7 @@
 			clearTimeout( this.lightboxTimer );
 			this.lightboxOpened = false;
 			this.$popupBox.removeClass( 'show' );
+			this.$popup.removeClass( 'active' );
 
 			// Replace window location back to original URL
 			if ( history.replaceState ) {
@@ -934,15 +919,9 @@
 		afterHideLightbox: function() {
 			this.$container.off( 'keyup' );
 			clearTimeout( this.lightboxTimer );
-			this.$popup.removeClass( 'active' );
 
 			this.$popupContentFrame.attr( 'src', 'about:blank' );
-			$us.$html.removeClass( 'usoverlay_fixed' );
-			if ( ! $.isMobile ) {
-				if ( this.windowHasScrollbar ) {
-					$us.$html.css( 'margin-right', '' );
-				}
-			}
+			$us.$document.trigger( 'usPopupClosed' );
 		},
 		/**
 		 * Overloadable function for themes.

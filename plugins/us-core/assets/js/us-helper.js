@@ -16,7 +16,7 @@
 	const pow = Math.pow;
 
 	// If the object exists, then exit
-	// Note: this is important for iframe pages, e.g. builder
+	// Note: this is important for iframe pages, e.g. Live Builder
 	if ( $.isPlainObject( _window.$ush ) ) {
 		return;
 	}
@@ -24,19 +24,20 @@
 	// Export API
 	_window.$ush = {};
 
-	var
-		/**
-		 * @type {String} Get the current userAgent
-		 */
-		ua = _navigator.userAgent.toLowerCase(),
-		/**
-		 * @type {String} Characters to encode and decode a string base64
-		 */
-		base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-		/**
-		 * @type {Function} The method returns a string created from the specified sequence of UTF-16 code units
-		 */
-		fromCharCode = String.fromCharCode;
+	// Key codes used
+	$ush.TAB_KEYCODE = 9;
+	$ush.ENTER_KEYCODE = 13;
+	$ush.ESC_KEYCODE = 27;
+	$ush.SPACE_KEYCODE = 32;
+
+	// Get the current userAgent
+	const ua = _navigator.userAgent.toLowerCase();
+
+	// Characters to encode and decode a string base64
+	const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+	// The method returns a string created from the specified sequence of UTF-16 code units
+	const fromCharCode = String.fromCharCode;
 
 	/**
 	 * Current userAgent
@@ -58,7 +59,7 @@
 	 *
 	 * @return {Boolean} True if firefox, False otherwise
 	 */
-	$ush.isFirefox = ua.indexOf( 'firefox' ) > -1;
+	$ush.isFirefox = ua.includes( 'firefox' );
 
 	/**
 	 * Detect Safari
@@ -82,7 +83,7 @@
 	$ush.safariVersion = function() {
 		const self = this;
 		if ( self.isSafari ) {
-			return self.parseInt( ( ua.match( /version\/([\d]+)/i ) || [] )[ 1 ] /* base-10 */ );
+			return self.parseInt( ( ua.match( /version\/([\d]+)/i ) || [] )[1] );
 		}
 		return 0;
 	}
@@ -114,7 +115,7 @@
 	 * @return {Boolean} True if rtl, False otherwise.
 	 */
 	$ush.isRtl = function() {
-		return this.toString( _document.body.className ).split( /\p{Zs}/u ).indexOf( 'rtl' ) > -1;
+		return this.toString( _document.body.className ).split( /\p{Zs}/u ).includes( 'rtl' );
 	};
 
 	/**
@@ -124,7 +125,7 @@
 	 * @return {Boolean} True if the specified elm is node type, False otherwise.
 	 */
 	$ush.isNode = function( node ) {
-		return !! node && node.nodeType;
+		return !! ( node && node.nodeType );
 	};
 
 	/**
@@ -475,7 +476,7 @@
 	 * @return {Number} Returns an number from the given string, or 0 instead of NaN
 	 */
 	$ush.parseInt = function( value ) {
-		value = parseInt( value, /*base-10*/ );
+		value = parseInt( value, /* base */10 );
 		return ! isNaN( value ) ? value : 0;
 	};
 
@@ -695,7 +696,7 @@
 	};
 
 	/**
-	 * Get a dedicated storage instance.
+	 * Get dedicated storage instance.
 	 *
 	 * Note: User agents may restrict access to the localStorage objects
 	 * to scripts originating at the domain of the active document of the

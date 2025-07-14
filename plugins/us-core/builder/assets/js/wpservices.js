@@ -3,6 +3,7 @@
  * Example: edit lock, autosave, notifications, etc.
  */
 ! function( $, _undefined ) {
+
 	const _window = window;
 
 	_window.wp = _window.wp || {};
@@ -60,13 +61,14 @@
 		 */
 		_tick_refreshLock: function( e, data ) {
 			const $dialog = $( '#post-lock-dialog' );
-			if ( ! data['wp-refresh-post-lock'] || ! $dialog.length ) {
+			if ( ! data['wp-refresh-post-lock'] || $dialog.length === 0 ) {
 				return;
 			}
 			var received = data['wp-refresh-post-lock'];
 			if ( received.lock_error ) {
 
 				// Avatar updates
+				// TODO: Optimize ".is( ':visible' )"
 				if ( received.lock_error.avatar_src && ! $dialog.is( ':visible' ) ) {
 					const $avatar = $( '<img />', {
 						'class': 'avatar avatar-64 photo',
@@ -88,8 +90,8 @@
 
 				$dialog.removeClass( 'hidden' ).show();
 				$( '.wp-tab-first', $dialog ).trigger( 'focus' );
-			}
-			else if ( received.new_lock ) {
+
+			} else if ( received.new_lock ) {
 				// Reloading the page, because when the output
 				// is blocked, the functionality is turned off
 				if ( $dialog.is( ':visible' ) ) {

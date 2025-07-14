@@ -6,7 +6,7 @@
  * 
  * To avoid compatibility notices the version below needs to be up to date with the main woocommerce file.
  * To check that compatibility you need to compare with the \us-core\templates\elements\checkout_payment.php instead of current file
- * @version 8.1.0
+ * @version 9.8.0
  */
 
 if ( $post = get_post( (int) wc_get_page_id( 'checkout' ) ) ) {

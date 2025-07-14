@@ -25,7 +25,7 @@ $js_data = array(
 	'buttonLabel' => __( 'Index filter items', 'us' ),
 	'stopButtonLabel' => __( 'Stop indexing', 'us' ),
 	'message' => array(
-		'indexing' => __( 'Indexing' ) . ' 1%',
+		'indexing' => __( 'Indexing', 'us' ) . ' 1%',
 	),
 	'ajaxData' => array(
 		'action' => 'us_index_filters',
@@ -34,7 +34,7 @@ $js_data = array(
 );
 
 if ( ( $progress = $us_filter_indexer->get_progress() ) !== -1 ) {
-	$js_data['message']['progress'] = sprintf( __( 'Indexing' ) . ' %s%%', $progress );
+	$js_data['message']['progress'] = sprintf( __( 'Indexing', 'us' ) . ' %s%%', $progress );
 }
 
 $button_atts['onclick'] = us_pass_data_to_js( $js_data, /*onclick*/FALSE );

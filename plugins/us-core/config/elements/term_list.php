@@ -35,6 +35,8 @@ $orderby_options = array(
 	'custom' => __( 'Custom Field', 'us' ),
 );
 
+$image_sizes_list = us_is_elm_editing_page() ? us_get_image_sizes_list() : array();
+
 // General
 $general_params = array(
 
@@ -254,7 +256,9 @@ $appearance_params = array(
 		'title' => __( 'Grid Layout', 'us' ),
 		'description' => $misc['desc_grid_layout'],
 		'type' => 'select',
-		'options' => us_get_grid_layouts_for_selection( array( 'blog', 'tile', 'text', 'side', 'portfolio' ) ),
+		'options' => us_is_elm_editing_page()
+			? us_get_grid_layouts_for_selection( array( 'blog', 'tile', 'text', 'side', 'portfolio' ) )
+			: array(),
 		'std' => 'blog_1',
 		'classes' => 'for_grid_layouts',
 		'settings' => array(
@@ -358,9 +362,7 @@ $appearance_params = array(
 		'title' => __( 'Post Image Size', 'us' ),
 		'description' => $misc['desc_img_sizes'],
 		'type' => 'select',
-		'options' => us_array_merge(
-			array( 'default' => __( 'As in Grid Layout', 'us' ) ), us_get_image_sizes_list()
-		),
+		'options' => array( 'default' => __( 'As in Grid Layout', 'us' ) ) + $image_sizes_list,
 		'std' => 'default',
 		'cols' => 2,
 		'group' => us_translate( 'Appearance' ),

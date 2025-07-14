@@ -730,7 +730,7 @@ $template_vars = array(
 
 // Check if some Grid Filter shortcode is assigned for the current Grid
 $has_assigned_grid_filter = FALSE;
-$page_content = us_get_page_content( $current_post_id );
+$page_content = us_get_page_content_for_grid( $current_post_id );
 if ( preg_match( '/' . get_shortcode_regex( array( 'us_grid_filter' ) ) . '/', $page_content, $matches ) ) {
 	$grid_filter_atts = shortcode_parse_atts( $matches[/* text_atts */3] );
 	$use_grid = us_arr_path( $grid_filter_atts, 'use_grid', /* default */'first' );

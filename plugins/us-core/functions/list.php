@@ -5,6 +5,7 @@
  */
 
 if ( ! function_exists( 'us_get_list_filter_params' ) ) {
+
 	/**
 	 * Generate params for filtering with unique names (used in URL)
 	 */
@@ -108,6 +109,7 @@ if ( ! function_exists( 'us_get_list_filter_params' ) ) {
 }
 
 if ( ! function_exists( 'us_get_list_orderby_params' ) ) {
+
 	/**
 	 * Generate params for sorting with unique names (used in URL)
 	 */
@@ -180,6 +182,7 @@ if ( ! function_exists( 'us_get_list_orderby_params' ) ) {
 }
 
 if ( ! function_exists( 'us_get_filter_params_from_request' ) ) {
+
 	/**
 	 * Get List Filter params from request
 	 *
@@ -193,6 +196,9 @@ if ( ! function_exists( 'us_get_filter_params_from_request' ) ) {
 		}
 
 		$global_filter_params = us_get_list_filter_params();
+
+		// Allow the 'f' param that indicates the enabled Faceted Filtering
+		$global_filter_params['f'] = '';
 
 		foreach ( (array) $_REQUEST as $name => $values ) {
 			if ( strpos( $name, '_' ) !== 0 ) {
@@ -210,6 +216,7 @@ if ( ! function_exists( 'us_get_filter_params_from_request' ) ) {
 }
 
 if ( ! function_exists( 'us_apply_filtering_to_list_query' ) ) {
+
 	/**
 	 * Apply the List Filter params to the provided query_args.
 	 */
@@ -222,6 +229,11 @@ if ( ! function_exists( 'us_apply_filtering_to_list_query' ) ) {
 		$global_filter_params = us_get_list_filter_params();
 
 		foreach ( $list_filter as $name => $values ) {
+
+			// Skip "f" param, it only indicates that Faceted Filtering is ON
+			if ( $name == 'f' ) {
+				continue;
+			}
 
 			$values = rawurldecode( $values );
 			$values = explode( ',', $values ); // transform to array in all cases
@@ -251,6 +263,27 @@ if ( ! function_exists( 'us_apply_filtering_to_list_query' ) ) {
 			$source_name = $global_filter_params[ $name ]['source_name'] ?? '';
 			$value_type = $global_filter_params[ $name ]['value_type'] ?? '';
 
+			// Param "f" means that filter has enabled Faceted Filtering
+			if ( ! empty( $list_filter['f'] ) ) {
+
+				$post_ids = us_get_post_ids_from_filter_index( $name, $values, $value_compare, $value_type );
+
+				if ( ! empty( $query_args['post__in'] ) ) {
+					$query_args['post__in'] = array_intersect( $post_ids, $query_args['post__in'] );
+				} else {
+					$query_args['post__in'] = $post_ids;
+				}
+
+				// Use the non-existing id to get no results, because empty 'post__in' is ignored by query
+				if ( empty( $query_args['post__in'] ) ) {
+					$query_args['post__in'] = array( 0 );
+				}
+
+				// Skip further 'query_args' changes
+				continue;
+			}
+
+			// All conditions below applied only when Faceted Filtering is OFF
 			if ( $source_type == 'post' ) {
 				if ( $source_name == 'type' ) {
 					$query_args['post_type'] = $values;
@@ -525,6 +558,7 @@ if ( ! function_exists( 'us_apply_filtering_to_list_query' ) ) {
 }
 
 if ( ! function_exists( 'us_apply_orderby_to_list_query' ) ) {
+
 	/**
 	 * Apply the orderby params to the provided query_args.
 	 */
@@ -583,7 +617,9 @@ if ( ! function_exists( 'us_apply_orderby_to_list_query' ) ) {
 }
 
 if ( ! function_exists( 'us_list_filter_for_current_wp_query' ) ) {
+
 	add_action( 'pre_get_posts', 'us_list_filter_for_current_wp_query', 501 );
+
 	/**
 	 * Applies "List Filter" query to the global wp_query.
 	 */
@@ -603,7 +639,9 @@ if ( ! function_exists( 'us_list_filter_for_current_wp_query' ) ) {
 }
 
 if ( ! function_exists( 'us_list_order_for_current_wp_query' ) ) {
+
 	add_action( 'pre_get_posts', 'us_list_order_for_current_wp_query', 501 );
+
 	/**
 	 * Applies "List Order" query to the global wp_query.
 	 */
@@ -623,7 +661,9 @@ if ( ! function_exists( 'us_list_order_for_current_wp_query' ) ) {
 }
 
 if ( ! function_exists( 'us_list_search_for_current_wp_query' ) ) {
+
 	add_action( 'pre_get_posts', 'us_list_search_for_current_wp_query', 501 );
+
 	/**
 	 * Applies "List Search" query to the global wp_query.
 	 */
@@ -643,6 +683,7 @@ if ( ! function_exists( 'us_list_search_for_current_wp_query' ) ) {
 }
 
 if ( ! function_exists( 'us_ajax_output_list_pagination' ) ) {
+
 	/**
 	 * Filters a page HTML to return the div with the "for_current_wp_query" class.
 	 *
@@ -676,6 +717,7 @@ if ( ! function_exists( 'us_ajax_output_list_pagination' ) ) {
 }
 
 if ( ! function_exists( 'us_sort_terms_hierarchically' ) ) {
+
 	/**
 	 * Sort terms taking into account their hierarchy
 	 *
@@ -702,6 +744,7 @@ if ( ! function_exists( 'us_sort_terms_hierarchically' ) ) {
 }
 
 if ( ! function_exists( 'us_get_faceted_filter_post_ids' ) ) {
+
 	/**
 	 * Get only post ids by provided query and applied filters
 	 *
@@ -800,16 +843,27 @@ if ( ! function_exists( 'us_list_filter_get_post_count' ) ) {
 
 		global $wpdb;
 
-		$filter_names = $filters_with_ranges = array();
+		$filter_names = array();
+		$filters_with_range_selection = array();
+		$filters_with_date_values = array();
+
+		$global_filter_params = us_get_list_filter_params();
 
 		foreach ( $list_filters as $filter_name => $filter_type ) {
 			$name = strtok( $filter_name, '|' );
 
 			if (
+				us_arr_path( $global_filter_params, $name . '.value_type' ) == 'date'
+				OR us_arr_path( $global_filter_params, $name . '.value_type' ) == 'date_time'
+			) {
+				$filters_with_date_values[] = $name;
+			}
+
+			if (
 				$filter_type == 'range_slider'
 				OR $filter_type == 'range_input'
 			) {
-				$filters_with_ranges[] = $name;
+				$filters_with_range_selection[] = $name;
 			}
 
 			// Escape values for using in SQL
@@ -831,8 +885,8 @@ if ( ! function_exists( 'us_list_filter_get_post_count' ) ) {
 
 				$filter_name = $row->filter_name;
 
-				// For Date Ranges
-				if ( in_array( $filter_name, array( 'post_date', 'post_modified' ) ) ) {
+				// Change all date values into a single format: 2024-01
+				if ( in_array( $filter_name, $filters_with_date_values ) ) {
 					$filter_value = wp_date( 'Y-m', (int) strtotime( $filter_value ) );
 				}
 
@@ -856,7 +910,7 @@ if ( ! function_exists( 'us_list_filter_get_post_count' ) ) {
 				$post_count = count( $post_ids );
 
 				// Filters with range values don't need post count, but need all values to define their min and max
-				if ( in_array( $filter_name, $filters_with_ranges ) ) {
+				if ( in_array( $filter_name, $filters_with_range_selection ) ) {
 					if ( $post_count ) {
 						$results[ $filter_name ][] = (float) $filter_value;
 					}
@@ -868,7 +922,7 @@ if ( ! function_exists( 'us_list_filter_get_post_count' ) ) {
 		}
 
 		// Collect min and max values for filters with range values
-		foreach ( $filters_with_ranges as $filter_name ) {
+		foreach ( $filters_with_range_selection as $filter_name ) {
 			if ( ! isset( $results[ $filter_name ] ) ) {
 				$results[ $filter_name ] = array( 0, 0 );
 				continue;
@@ -880,5 +934,140 @@ if ( ! function_exists( 'us_list_filter_get_post_count' ) ) {
 		}
 
 		return $results;
+	}
+}
+
+
+if ( ! function_exists( 'us_get_post_ids_from_filter_index' ) ) {
+
+	/**
+	 * Get post ids from 'us_filter_index' database table by provided values
+	 */
+	function us_get_post_ids_from_filter_index( $filter_name, $values, $value_compare, $value_type ) {
+
+		if ( empty( $values ) ) {
+			return array();
+		}
+
+		// Escape vars for SQL queries below
+		$filter_name = esc_sql( $filter_name );
+		$values = esc_sql( $values );
+
+		$post_ids = array();
+
+		global $wpdb;
+		$sql = "
+			SELECT DISTINCT post_id
+			FROM {$wpdb->us_filter_index}
+			WHERE filter_name = '{$filter_name}'";
+
+		// First process the "Date" values.
+		// They can have all selection types and compare types.
+		// All possible URL cases (spaces added for better understanding):
+		// _date = 2024
+		// _date = 2024-01
+		// _date = 2024-01-01
+		// _date = 2023-02, 2024-01, 2025-12
+		// _date = 2020, 2024, 2025
+		// _date|after = 2024-01-01
+		// _date|before = 2024-01-01
+		// _date|between = 2024-01-01, 2025-12-31
+		// _date|between = 2024-01-01,
+		// _date|between = , 2025-12-31
+		// _date|between = 2023-2025
+		if ( $value_type == 'date' OR $value_type == 'date_time' ) {
+
+			$min = ! empty( $values[0] ) ? $values[0] : FALSE;
+			$max = ! empty( $values[1] ) ? $values[1] : FALSE;
+
+			if ( $value_compare == 'after' ) {
+				$max = FALSE;
+
+			} elseif ( $value_compare == 'before' ) {
+				$max = $min;
+				$min = FALSE;
+
+			} elseif ( $value_compare == 'between' AND count( $values ) === 1 ) {
+				$values = explode( '-', $values[0] );
+
+			} elseif ( $value_compare == '' ) {
+				$max = $min;
+			}
+
+			// Date value may have formats: '2024' or '2024-01' or '2024-01-01'
+			// Also, there can be more than 2 values, so we use foreach()
+			foreach ( $values as $value ) {
+
+				if ( empty( $value ) ) {
+					continue;
+				}
+
+				if ( strlen( $value ) === 4 ) {
+					$min = $value . '-01-01';
+					$max = $value . '-12-31';
+
+				} elseif ( strlen( $value ) === 7 ) {
+					$min = $value . '-01';
+					$max = $value . '-31';
+				}
+
+				$sql_where = '';
+
+				if ( $min !== FALSE ) {
+					$sql_where .= " AND LEFT(filter_value, 10) >= '$min'";
+				}
+				if ( $max !== FALSE ) {
+					$sql_where .= " AND LEFT(filter_value, 10) <= '$max'";
+				}
+
+				$result = $wpdb->get_col( $sql . $sql_where );
+
+				$post_ids = array_merge( $post_ids, $result );
+			}
+
+			// Can be used in all selection type
+			// Available URL cases (spaces added for better understanding):
+			// _param|between = 33-222
+			// _param|between = 0-100, 200-300, 400-500
+		} elseif ( $value_compare == 'between' ) {
+			foreach ( $values as $value ) {
+
+				$minmax = explode( '-', $value );
+				$min = $minmax[0] ?? -999999999999;
+				$max = $minmax[1] ?? 999999999999;
+
+				$result = $wpdb->get_col( $sql . " AND (filter_value + 0) >= '$min' AND (filter_value + 0) <= '$max'" );
+
+				$post_ids = array_merge( $post_ids, $result );
+			}
+
+			// Used in "checkboxes" selection type
+			// Available URL cases (spaces added for better understanding):
+			// _param|and = first
+			// _param|and = first, second, third
+		} elseif ( $value_compare == 'and' ) {
+
+			foreach ( $values as $i => $value ) {
+
+				$result = $wpdb->get_col( $sql . " AND filter_value IN ('$value')" );
+
+				$post_ids = ( $i > 0 ) ? array_intersect( $post_ids, $result ) : $result;
+
+				if ( empty( $post_ids ) ) {
+					break;
+				}
+			}
+
+			// Available URL cases (spaces added for better understanding):
+			// _param = 1
+			// _param = first
+			// _param = first, second, third
+		} else {
+			$values = implode( "','", $values );
+
+			$post_ids = $wpdb->get_col( $sql . " AND filter_value IN ('$values')" );
+		}
+
+		return $post_ids;
 	}
 }

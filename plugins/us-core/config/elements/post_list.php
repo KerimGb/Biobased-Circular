@@ -19,7 +19,7 @@ $source_options = array(
 	'current_wp_query' => __( 'Posts of the current query (archives and search results)', 'us' ),
 );
 
-$orderby_options = $post_type_options = array();
+$orderby_options = $post_type_options = $image_sizes_list = array();
 
 if ( us_is_elm_editing_page() ) {
 	$_group = '';
@@ -33,6 +33,8 @@ if ( us_is_elm_editing_page() ) {
 
 	$post_type_options = us_grid_available_post_types( TRUE );
 	unset( $post_type_options['attachment'] );
+
+	$image_sizes_list = us_get_image_sizes_list();
 }
 
 $orderby_options += array(
@@ -514,7 +516,7 @@ $appearance_params = array(
 		'title' => __( 'Grid Layout', 'us' ),
 		'description' => $misc['desc_grid_layout'],
 		'type' => 'select',
-		'options' => us_get_grid_layouts_for_selection(),
+		'options' => us_is_elm_editing_page() ? us_get_grid_layouts_for_selection() : array(),
 		'std' => 'blog_1',
 		'classes' => 'for_grid_layouts',
 		'settings' => array(
@@ -640,9 +642,7 @@ $appearance_params = array(
 		'title' => __( 'Post Image Size', 'us' ),
 		'description' => $misc['desc_img_sizes'],
 		'type' => 'select',
-		'options' => us_array_merge(
-			array( 'default' => __( 'As in Grid Layout', 'us' ) ), us_get_image_sizes_list()
-		),
+		'options' => array( 'default' => __( 'As in Grid Layout', 'us' ) ) + $image_sizes_list,
 		'std' => 'default',
 		'cols' => 2,
 		'group' => us_translate( 'Appearance' ),

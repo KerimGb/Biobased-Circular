@@ -153,7 +153,7 @@ $func_get_depth = function ( $parent, $terms_parent ) {
 
 // Find appropriate grids in the page content
 $grids_found = array();
-$page_content = us_get_page_content( us_get_current_id() );
+$page_content = us_get_page_content_for_grid( us_get_current_id() );
 
 if ( preg_match_all( '/' . get_shortcode_regex( array( 'us_grid' ) ) . '/', $page_content, $matches ) ) {
 	foreach( $matches[/* shortcode atts */3] as $i => $text_atts ) {
@@ -501,8 +501,11 @@ foreach ( $filter_items as $filter_item ) {
 
 			// Add a unique ID to the item name and source
 			$filter_item['source'] = strtolower( $filter_item['source'] . '_' . $acf_field['ID'] );
+
 			$item_name .= '_' . $acf_field['ID'];
 			$source .= '_' . $acf_field['ID'];
+
+			$item_atts['data-source'] = $source; // required for correct work with ACF fields
 
 			// Define Title from ACF field
 			if ( empty( $item_title ) ) {

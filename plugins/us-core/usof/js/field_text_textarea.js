@@ -26,24 +26,19 @@
 			self._events = {
 				blurField: self._blurField.bind( self ),
 				// Note: debounce is used to get the correct value when paste text.
-				changeField: $ush.debounce( self._changeField.bind( self ) ),
-				setExampleValue: self._setExampleValue.bind( self ),
-				syncCurrentValue: self._syncCurrentValue.bind( self ),
+				changeField: $ush.debounce( self.changeField.bind( self ), 1 ),
+				setExampleValue: self.setExampleValue.bind( self ),
+				syncCurrentValue: self.syncCurrentValue.bind( self ),
 			};
 
-			// Initializes the dynamic value
 			self.initDynamicValue();
 
 			// Events
 			self.$row
-				// Handler for set the value from the example
 				.on( 'click', '.usof-example', self._events.setExampleValue )
-				// Handler for changes in the current text field
 				.on( 'change paste keyup', 'input[type=text]', self._events.changeField )
-				// Handler for blur in the current text field
 				.on( 'blur', 'input[type=text]', self._events.blurField );
 
-			// Sync value for current screen
 			if ( self.hasResponsive() ) {
 				self.on( 'setResponsiveState', self._events.syncCurrentValue );
 			}
@@ -55,7 +50,7 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_setExampleValue: function( e ) {
+		setExampleValue: function( e ) {
 			const self = this;
 			const value = $( e.target ).closest( '.usof-example' ).html() || '';
 
@@ -69,8 +64,8 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_changeField: function( e ) {
-			this.setCurrentValue( e.currentTarget.value );
+		changeField: function( e ) {
+			this.setCurrentValue( e.target.value );
 		},
 
 		/**
@@ -88,11 +83,8 @@
 		 *
 		 * @event handler
 		 */
-		_syncCurrentValue: function() {
-			const self = this;
-			const value = self.getCurrentValue();
-
-			self.$text.val( value );
+		syncCurrentValue: function() {
+			this.$text.val( this.getCurrentValue() );
 		},
 
 		/**
@@ -104,11 +96,9 @@
 		setValue: function( value, quiet ) {
 			const self = this;
 
-			// Set current value
-			self.parentSetValue( '' + value, quiet );
-			self._syncCurrentValue();
+			self.parentSetValue( value, quiet );
+			self.syncCurrentValue();
 
-			// Set dynamic value if active
 			if ( self.popupId ) {
 				self.setDynamicValue( value );
 			}
@@ -126,8 +116,8 @@
 
 			// Bondable events.
 			$.extend( self._events, {
-				selectDynamicVariable: self._selectDynamicValue.bind( self ),
-				removeDynamicValue: self._removeDynamicValue.bind( self ),
+				selectDynamicVariable: self.selectDynamicValue.bind( self ),
+				removeDynamicValue: self.removeDynamicValue.bind( self ),
 			} )
 
 			// Elements
@@ -161,7 +151,7 @@
 						// Set or remove active class
 						$( '[data-dynamic-value]', /*popup*/this.$container ).removeClass( 'active' );
 						var value = $ush.toString( self.$text.val() );
-						if ( self.isDynamicVariable( value ) ){
+						if ( self.isDynamicVariable( value ) ) {
 							$( `[data-dynamic-value="${value}"]`, /*popup*/this.$container ).addClass( 'active' );
 						}
 					}
@@ -178,7 +168,7 @@
 				// Handler for remove the dynamic value
 				.on( 'click', '.action_remove_dynamic_value', self._events.removeDynamicValue );
 
-			if ( self.isVCParamValue() ) {
+			if ( self.isWPBakeryParamValue() ) {
 				self.setValue( self.$input.val() );
 			}
 		},
@@ -189,15 +179,13 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_selectDynamicValue: function( e ) {
+		selectDynamicValue: function( e ) {
 			const self = this;
 
 			e.preventDefault();
 
-			// Set the dynamic value
 			self.setDynamicValue( $( e.target ).data( 'dynamic-value' ) );
 
-			// Hide a popup by its id
 			if ( self.popupId ) {
 				$usof.hidePopup( $ush.toString( self.popupId ) );
 			}
@@ -243,7 +231,7 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_removeDynamicValue: function( e ) {
+		removeDynamicValue: function( e ) {
 			e.preventDefault();
 			e.stopPropagation();
 			this.setDynamicValue( '' );
@@ -252,6 +240,7 @@
 
 	// TODO: Add support for responsive values
 	$usof.field[ 'textarea' ] = {
+
 		/**
 		 * Initializes the object.
 		 */
@@ -259,7 +248,7 @@
 			const self = this;
 
 			// Events
-			self.$row.on( 'click', '.usof-example', self._setExampleValue.bind( self ) );
+			self.$row.on( 'click', '.usof-example', self.setExampleValue.bind( self ) );
 
 			// Note: debounce is used to get the correct value when paste text
 			self.$input.on( 'change paste keyup', $ush.debounce( () => {
@@ -273,7 +262,7 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
-		_setExampleValue: function( e ) {
+		setExampleValue: function( e ) {
 			this.setValue( $( e.target ).closest( '.usof-example' ).html() || '' );
 		}
 	};

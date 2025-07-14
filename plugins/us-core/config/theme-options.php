@@ -78,6 +78,15 @@ foreach ( us_get_public_post_types( /* exclude */array( 'page', 'product' ) ) as
 		$type = 'portfolio';
 	}
 
+	// Skip Events settings if the "Default Events Templates" is set
+	if (
+		$type == 'tribe_events'
+		AND function_exists( 'tribe_get_option' )
+		AND tribe_get_option( 'tribeEventsTemplate' ) != 'default'
+	) {
+		continue;
+	}
+
 	// Events Calendar separate option
 	$tribe_events_full_event_template = array();
 	if ( $type == 'tribe_events' AND class_exists( 'Tribe__Events__Query' ) ) {
@@ -193,11 +202,24 @@ foreach ( us_get_public_post_types( /* exclude */array( 'page', 'product' ) ) as
 }
 
 // Generate 'Archives Layout' options
-$archives_layout_config = array();
+$archives_layout_config = $tribe_archive_default = array();
 $public_taxonomies = us_get_taxonomies( TRUE, FALSE, 'woocommerce_exclude' );
 $custom_post_type_archives = (array) us_get_public_post_types( array( 'page', 'post', 'product' ), /* archive_only */TRUE );
 
 foreach ( ( $custom_post_type_archives + $public_taxonomies ) as $type => $title ) {
+
+	if ( $type == 'tribe_events' ) {
+
+		// Skip Events settings if the "Default Events Templates" is set
+		if ( function_exists( 'tribe_get_option' ) AND tribe_get_option( 'tribeEventsTemplate' ) != 'default' ) {
+			continue;
+
+			// Additional "Default Events Template" for archive
+		} else {
+			$tribe_archive_default[''] = '&ndash; ' . us_translate( 'Default Events Template', 'the-events-calendar' ) . ' &ndash;';
+		}
+	}
+
 	$archives_layout_config = array_merge(
 		$archives_layout_config, array(
 			'h_tax_' . $type => array(
@@ -243,7 +265,7 @@ foreach ( ( $custom_post_type_archives + $public_taxonomies ) as $type => $title
 				'options' => us_array_merge(
 					array(
 						'__defaults__' => '&ndash; ' . __( 'As in Archives', 'us' ) . ' &ndash;',
-					), $us_content_templates_list
+					), $tribe_archive_default, $us_content_templates_list
 				),
 				'std' => '__defaults__',
 			),
@@ -740,78 +762,6 @@ $theme_options_config = array(
 				'type' => 'wrapper_end',
 			),
 
-			// Keyboard Accessibility
-			'keyboard_accessibility' => array(
-				'title' => __( 'Keyboard Accessibility', 'us' ),
-				'title_pos' => 'side',
-				'type' => 'switch',
-				'switch_text' => __( 'Highlight clickable elements on focus', 'us' ),
-				'std' => 1,
-				'disabled' => 1,
-			),
-			'wrapper_keyboard_accessibility_start' => array(
-				'type' => 'wrapper_start',
-				'classes' => 'force_right',
-			),
-			'focus_outline_width' => array(
-				'title' => __( 'Line Thickness', 'us' ),
-				'type' => 'slider',
-				'std' => '2px',
-				'options' => array(
-					'px' => array(
-						'min' => 1,
-						'max' => 10,
-					),
-					'em' => array(
-						'min' => 0.1,
-						'max' => 1.0,
-						'step' => 0.1,
-					),
-				),
-				'cols' => 2,
-			),
-			'focus_outline_style' => array(
-				'title' => us_translate( 'Style' ),
-				'type' => 'select',
-				'options' => array(
-					'solid' => __( 'Solid', 'us' ),
-					'dashed' => __( 'Dashed', 'us' ),
-					'dotted' => __( 'Dotted', 'us' ),
-					'double' => __( 'Double', 'us' ),
-				),
-				'std' => 'solid',
-				'cols' => 2,
-			),
-			'focus_outline_offset' => array(
-				'title' => __( 'Line Offset', 'us' ),
-				'type' => 'slider',
-				'std' => '2px',
-				'options' => array(
-					'px' => array(
-						'min' => -2,
-						'max' => 10,
-					),
-					'em' => array(
-						'min' => -0.2,
-						'max' => 1.0,
-						'step' => 0.1,
-					),
-				),
-				'cols' => 2,
-			),
-			'focus_outline_color' => array(
-				'title' => us_translate( 'Color' ),
-				'type' => 'color',
-				'with_gradient' => FALSE,
-				'clear_pos' => 'left',
-				'exclude_dynamic_colors' => 'custom_field',
-				'std' => '_content_primary',
-				'cols' => 2,
-			),
-			'wrapper_keyboard_accessibility_end' => array(
-				'type' => 'wrapper_end',
-			),
-
 			// Back to Top
 			'back_to_top' => array(
 				'title' => sprintf( __( '"%s" Button', 'us' ), __( 'Back to Top', 'us' ) ),
@@ -904,7 +854,7 @@ $theme_options_config = array(
 				'show_if' => array( 'cookie_notice', '=', 1 ),
 			),
 			'cookie_message' => array(
-				'title' => us_translate( 'Message' ),
+				'title' => __( 'Message', 'us' ),
 				'type' => 'textarea',
 				'std' => 'This website uses cookies to improve your experience. If you continue to use this site, you agree with it.',
 				'classes' => 'desc_3',
@@ -953,6 +903,144 @@ $theme_options_config = array(
 				'description' => __( 'Applies to Map and Video Player elements.', 'us' ),
 				'std' => 0,
 				'classes' => 'desc_3',
+			),
+
+			// Keyboard Accessibility
+			'h_keyboard_accessibility' => array(
+				'title' => __( 'Keyboard Accessibility', 'us' ),
+				'type' => 'heading',
+				'classes' => 'with_separator sticky',
+			),
+			'wrapper_focus_outline_start' => array(
+				'title' => __( 'Outline for clickable elements', 'us' ),
+				'type' => 'wrapper_start',
+				'classes' => 'force_right',
+			),
+			'focus_outline_width' => array(
+				'title' => __( 'Line Thickness', 'us' ),
+				'type' => 'slider',
+				'std' => '2px',
+				'options' => array(
+					'px' => array(
+						'min' => 1,
+						'max' => 10,
+					),
+					'em' => array(
+						'min' => 0.1,
+						'max' => 1.0,
+						'step' => 0.1,
+					),
+				),
+				'cols' => 2,
+			),
+			'focus_outline_style' => array(
+				'title' => us_translate( 'Style' ),
+				'type' => 'select',
+				'options' => array(
+					'solid' => __( 'Solid', 'us' ),
+					'dashed' => __( 'Dashed', 'us' ),
+					'dotted' => __( 'Dotted', 'us' ),
+					'double' => __( 'Double', 'us' ),
+				),
+				'std' => 'solid',
+				'cols' => 2,
+			),
+			'focus_outline_offset' => array(
+				'title' => __( 'Line Offset', 'us' ),
+				'type' => 'slider',
+				'std' => '2px',
+				'options' => array(
+					'px' => array(
+						'min' => -2,
+						'max' => 10,
+					),
+					'em' => array(
+						'min' => -0.2,
+						'max' => 1.0,
+						'step' => 0.1,
+					),
+				),
+				'cols' => 2,
+			),
+			'focus_outline_color' => array(
+				'title' => us_translate( 'Color' ),
+				'type' => 'color',
+				'with_gradient' => FALSE,
+				'clear_pos' => 'left',
+				'exclude_dynamic_colors' => 'custom_field',
+				'std' => '_content_primary',
+				'cols' => 2,
+			),
+			'wrapper_focus_outline_end' => array(
+				'type' => 'wrapper_end',
+			),
+
+			'skip_to_content_btn' => array(
+				'title' => sprintf( __( '"%s" Button', 'us' ), __( 'Skip to main content', 'us' ) ),
+				'title_pos' => 'side',
+				'type' => 'switch',
+				'switch_text' => __( 'Show button to skip page header', 'us' ),
+				'std' => 0,
+			),
+			'wrapper_skip_to_content_btn_start' => array(
+				'type' => 'wrapper_start',
+				'classes' => 'force_right',
+				'show_if' => array( 'skip_to_content_btn', '=', 1 ),
+			),
+			'skip_to_content_btn_label' => array(
+				'title' => __( 'Button Label', 'us' ),
+				'type' => 'text',
+				'std' => __( 'Skip to main content', 'us' ),
+				'cols' => 2,
+			),
+			'skip_to_content_btn_style' => array(
+				'title' => __( 'Button Style', 'us' ),
+				'description' => '<a href="' . admin_url() . 'admin.php?page=us-theme-options#buttons">' . __( 'Edit Button Styles', 'us' ) . '</a>',
+				'type' => 'select',
+				'options' => us_array_merge(
+					array(
+						'' => '&ndash; ' . us_translate( 'Default' ) . ' &ndash;',
+					), us_get_btn_styles()
+				),
+				'std' => '',
+				'cols' => 2,
+			),
+			'wrapper_skip_to_content_btn_end' => array(
+				'type' => 'wrapper_end',
+			),
+
+			'skip_to_footer_btn' => array(
+				'title' => sprintf( __( '"%s" Button', 'us' ), __( 'Skip to footer', 'us' ) ),
+				'title_pos' => 'side',
+				'type' => 'switch',
+				'switch_text' => __( 'Show button to skip page header and content', 'us' ),
+				'std' => 0,
+			),
+			'wrapper_skip_to_footer_btn_start' => array(
+				'type' => 'wrapper_start',
+				'classes' => 'force_right',
+				'show_if' => array( 'skip_to_footer_btn', '=', 1 ),
+			),
+			'skip_to_footer_btn_label' => array(
+				'title' => __( 'Button Label', 'us' ),
+				'type' => 'text',
+				'std' => __( 'Skip to footer', 'us' ),
+				'cols' => 2,
+			),
+			'skip_to_footer_btn_style' => array(
+				'title' => __( 'Button Style', 'us' ),
+				'description' => '<a href="' . admin_url() . 'admin.php?page=us-theme-options#buttons">' . __( 'Edit Button Styles', 'us' ) . '</a>',
+				'type' => 'select',
+				'options' => us_array_merge(
+					array(
+						'' => '&ndash; ' . us_translate( 'Default' ) . ' &ndash;',
+					), us_get_btn_styles()
+				),
+				'std' => '',
+				'cols' => 2,
+			),
+			'wrapper_skip_to_footer_btn_end' => array(
+				'type' => 'wrapper_end',
 			),
 		),
 	),

@@ -8,7 +8,8 @@ $misc = us_config( 'elements_misc' );
 $conditional_params = us_config( 'elements_conditional_options' );
 $design_options_params = us_config( 'elements_design_options' );
 $effect_options_params = us_config( 'elements_effect_options' );
-$nav_menus = us_get_nav_menus();
+
+$nav_menus = us_is_elm_editing_page() ? us_get_nav_menus() : array();
 
 /**
  * @return array

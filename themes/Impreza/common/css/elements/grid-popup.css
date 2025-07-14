@@ -2,21 +2,6 @@
  * Grid Popup
  */
 
-html.usoverlay_fixed {
-	overflow: hidden;
-	}
-
-html[style*="hidden"] .header_hor .l-header.pos_fixed,
-html.usoverlay_fixed .header_hor .l-header.pos_fixed {
-	overflow-y: scroll;
-	}
-/* Safari fix for mobile menu */
-@media not all and (min-resolution: 0.001dpcm) {
-	html[style*="hidden"] .header_hor .l-header.pos_fixed,
-	html.usoverlay_fixed .header_hor .l-header.pos_fixed {
-		overflow-y: hidden;
-		}
-	}
 .l-popup-overlay {
 	display: none;
 	position: fixed;
@@ -26,7 +11,7 @@ html.usoverlay_fixed .header_hor .l-header.pos_fixed {
 	bottom: 0;
 	z-index: 1001;
 	background: rgba(0,0,0,0.8);
-	transition: opacity 0.3s;
+	transition: opacity .3s;
 	opacity: 0;
 	}
 .l-popup.active .l-popup-overlay {
@@ -55,7 +40,7 @@ html.usoverlay_fixed .header_hor .l-header.pos_fixed {
 		padding: 2rem 5rem;
 		transform: scale(0.5);
 		opacity: 0;
-		transition: opacity 0.3s, transform 0.3s;
+		transition: opacity .3s, transform .3s;
 		}
 	.l-popup-box.show {
 		transform: scale(1);
@@ -65,7 +50,7 @@ html.usoverlay_fixed .header_hor .l-header.pos_fixed {
 			cursor: default;
 			height: 100%;
 			width: 100%;
-			transition: height 0.2s;
+			transition: height .2s;
 			-webkit-overflow-scrolling: touch;
 			overflow-y: auto;
 			background: var(--color-content-bg-grad);
@@ -97,12 +82,12 @@ html.usoverlay_fixed .header_hor .l-header.pos_fixed {
 		margin-top: -7.5rem;
 		cursor: pointer;
 		color: #fff;
-		transition: opacity 0.3s, background 0.3s;
+		transition: opacity .3s, background .3s;
 		opacity: 1;
 		will-change: transform, opacity, background;
 		}
 	.l-popup.active .l-popup-box ~ .l-popup-arrow {
-		opacity: 0.5;
+		opacity: .5;
 		}
 	.no-touch .l-popup.active .l-popup-box ~ .l-popup-arrow:hover {
 		background: rgba(0,0,0,0.5);
@@ -130,19 +115,19 @@ html.usoverlay_fixed .header_hor .l-header.pos_fixed {
 		position: fixed;
 		transform: translateZ(0); /* render fix for webkit browsers */
 		top: 0;
-		right: 0;
+		inset-inline-end: 0;
 		text-align: center;
 		font-size: 2rem;
 		line-height: 5rem;
 		width: 5rem;
 		cursor: pointer;
 		color: #fff;
-		transition: opacity 0.3s;
+		transition: opacity .3s;
 		opacity: 1;
 		mix-blend-mode: difference;
 		}
 	.l-popup.active .l-popup-box ~ .l-popup-closer {
-		opacity: 0.5;
+		opacity: .5;
 		}
 		.l-popup-closer:before {
 			content: '\f00d';

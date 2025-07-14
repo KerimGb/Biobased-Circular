@@ -89,7 +89,7 @@ $output .= '<div class="w-filter-list">';
 
 if ( ! empty( $mobile_width ) ) {
 	$output .= '<div class="w-filter-list-title">' . strip_tags( $mobile_button_label ) . '</div>';
-	$output .= '<button class="w-filter-list-closer" type="button" title="' . esc_attr( us_translate( 'Close' ) ) . '" aria=label="' . esc_attr( us_translate( 'Close' ) ) . '">';
+	$output .= '<button class="w-filter-list-closer" type="button" title="' . esc_attr( us_translate( 'Close' ) ) . '" aria-label="' . esc_attr( us_translate( 'Close' ) ) . '">';
 	$output .= '</button>';
 }
 
@@ -132,10 +132,19 @@ $global_filter_params = us_get_list_filter_params();
 
 $output_items = '';
 
+$used_sources = array();
+
 foreach ( $items as $i => $filter_item ) {
 
 	if ( empty( $filter_item['source'] ) ) {
 		continue;
+	}
+
+	// Do not output the same source
+	if ( in_array( $filter_item['source'], $used_sources ) ) {
+		continue;
+	} else {
+		$used_sources[] = $filter_item['source'];
 	}
 
 	$source_type = us_arr_path( $global_filter_params, $filter_item['source'] . '.source_type', '' );
@@ -173,6 +182,12 @@ foreach ( $items as $i => $filter_item ) {
 		}
 	}
 
+	// Needed for range selection types
+	$minmax = array(
+		'min' => 0,
+		'max' => 0,
+	);
+
 	// First check if the current filterable param has predefined values for selection, to prevent parse values from database
 	// - ACF Checkbox
 	// - ACF Radio
@@ -188,6 +203,10 @@ foreach ( $items as $i => $filter_item ) {
 
 		// Source: Post Type
 	} elseif ( $source_type == 'post' AND $source_name == 'type' AND ! is_post_type_archive() ) {
+
+		if ( ! in_array( $selection_type, array( 'checkbox', 'radio', 'dropdown' ) ) ) {
+			continue;
+		}
 
 		if ( ! empty( $filter_item['post_type'] ) ) {
 			$_specified_post_types = explode( ',', $filter_item['post_type'] );
@@ -206,6 +225,10 @@ foreach ( $items as $i => $filter_item ) {
 
 		// Source: Post Author
 	} elseif ( $source_type == 'post' AND $source_name == 'author' AND ! is_author() ) {
+
+		if ( ! in_array( $selection_type, array( 'checkbox', 'radio', 'dropdown' ) ) ) {
+			continue;
+		}
 
 		$author_args = array(
 			'has_published_posts' => TRUE,
@@ -332,7 +355,7 @@ foreach ( $items as $i => $filter_item ) {
 			$terms = us_sort_terms_hierarchically( $terms, $start_parent );
 		}
 
-		$term_parents = array();
+		$term_parents = $term_numeric_values = array();
 
 		foreach( $terms as $term ) {
 			$selector_vars['item_values'][] = array(
@@ -347,6 +370,8 @@ foreach ( $items as $i => $filter_item ) {
 			if ( $_include_term_depth ) {
 				$term_parents[ $term->term_id ] = $term->parent;
 			}
+
+			$term_numeric_values[] = (float) $term->name;
 		}
 
 		// Calculate depth for every term based on their hierarchy
@@ -356,9 +381,20 @@ foreach ( $items as $i => $filter_item ) {
 			}
 		}
 
+		// Set the min and max values for range types
+		if ( $term_numeric_values AND in_array( $selection_type, array( 'range_input', 'range_slider' ) ) ) {
+			$minmax['min'] = min( $term_numeric_values );
+			$minmax['max'] = max( $term_numeric_values );
+		}
+
 		// Sources with bool value
 		// - ACF True/False
 	} elseif ( $value_type == 'bool' ) {
+
+		if ( ! in_array( $selection_type, array( 'checkbox', 'radio', 'dropdown' ) ) ) {
+			continue;
+		}
+
 		$selector_vars['item_values'][] = array(
 			'label' => ! empty( $filter_item['bool_value_label'] )
 				? $filter_item['bool_value_label']
@@ -481,6 +517,8 @@ foreach ( $items as $i => $filter_item ) {
 					LIMIT {$_values_output_limit}";
 			}
 
+			$_years = array();
+
 			foreach( $wpdb->get_results( $_query ) as $_result ) {
 				$selector_vars['item_values'][] = array(
 					'label' => ( $date_values_range == 'monthly' )
@@ -491,6 +529,15 @@ foreach ( $items as $i => $filter_item ) {
 						? sprintf( '%s-%s', $_result->year, zeroise( $_result->month, 2 ) )
 						: $_result->year,
 				);
+
+				$_years[] = $_result->year;
+			}
+
+			// Set the min and max values for range types
+			if ( $_years AND in_array( $selection_type, array( 'range_input', 'range_slider' ) ) ) {
+				$minmax['min'] = min( $_years );
+				$minmax['max'] = max( $_years );
+				$filter_item['num_step_size'] = 1; // force year selection by one
 			}
 		}
 
@@ -535,30 +582,10 @@ foreach ( $items as $i => $filter_item ) {
 					}
 				}
 			}
+		}
 
-			// Range input/slider
-			if ( in_array( $selection_type, array( 'range_input', 'range_slider' ) ) ) {
-
-				$min_value = (string) us_arr_path( $filter_item, 'num_min_value' );
-				if ( $min_value === '' ) {
-					$min_value = (float) $minmax['min'];
-				}
-
-				$max_value = (string) us_arr_path( $filter_item, 'num_max_value' );
-				if ( $max_value === '' ) {
-					$max_value = (float) $minmax['max'];
-				}
-
-				$selector_vars['item_values'] = array(
-					'min_value' => $min_value,
-					'max_value' => $max_value,
-					'step_size' => us_arr_path( $filter_item, 'num_step_size' ),
-				);
-			}
-
-			if ( ! empty( $selector_vars['item_values'] ) ) {
-				$item_atts['data-value-compare'] = 'between';
-			}
+		if ( ! empty( $selector_vars['item_values'] ) ) {
+			$item_atts['data-value-compare'] = 'between';
 		}
 
 		// If no values get all existing values of specific custom field from database
@@ -583,6 +610,28 @@ foreach ( $items as $i => $filter_item ) {
 
 			$selector_vars['item_values'] = $meta_values;
 		}
+	}
+
+	// Range input/slider can be used for all sources
+	if ( in_array( $selection_type, array( 'range_input', 'range_slider' ) ) ) {
+
+		$min_value = (string) us_arr_path( $filter_item, 'num_min_value' );
+		if ( $min_value === '' ) {
+			$min_value = (float) $minmax['min'];
+		}
+
+		$max_value = (string) us_arr_path( $filter_item, 'num_max_value' );
+		if ( $max_value === '' ) {
+			$max_value = (float) $minmax['max'];
+		}
+
+		$selector_vars['item_values'] = array(
+			'min_value' => $min_value,
+			'max_value' => $max_value,
+			'step_size' => us_arr_path( $filter_item, 'num_step_size' ),
+		);
+
+		$item_atts['data-value-compare'] = 'between';
 	}
 
 	if ( in_array( $selection_type, array( 'radio', 'dropdown' ) ) AND ! empty( $filter_item['first_value_label'] ) ) {
@@ -617,27 +666,28 @@ foreach ( $items as $i => $filter_item ) {
 	$selector_vars['item_title'] = $item_title;
 
 	// Output single item
+	$item_title_tag = 'div';
 	$item_title_atts = array(
 		'class' => 'w-filter-item-title' . $_dropdown_field_class,
-		'type' => 'button',
 	);
-	if ( $item_layout == 'default' ) {
-		$item_title_atts['tabindex'] = '-1';
+	if ( $item_layout == 'toggle' OR $item_layout == 'dropdown' ) {
+		$item_title_tag = 'button';
+		$item_title_atts['type'] = 'button';
 	}
 	$output_items .= '<div' . us_implode_atts( $item_atts ) . '>';
-	$output_items .= '<button' . us_implode_atts( $item_title_atts ) . '>';
+	$output_items .= '<' . $item_title_tag . us_implode_atts( $item_title_atts ) . '>';
 	$output_items .= strip_tags( $item_title );
 
 	// When filter has togglable appearance, the "Reset" link shoud be inside the item title
 	if ( $item_layout == 'toggle' ) {
-		$output_items .= ' <span class="w-filter-item-reset" role="button">' . strip_tags( __( 'Reset', 'us' ) ) . '</span>';
+		$output_items .= ' <span class="w-filter-item-reset" tabindex="0" role="button">' . strip_tags( __( 'Reset', 'us' ) ) . '</span>';
 
 		// Use empty span for the "Dropdown" layout to indicate selected values
 	} elseif ( $item_layout == 'dropdown' ) {
 		$output_items .= '<span></span>';
 	}
 
-	$output_items .= '</button>'; // w-filter-item-title
+	$output_items .= '</' . $item_title_tag . '>'; // w-filter-item-title
 
 	if ( $item_layout != 'toggle' ) {
 		$output_items .= '<a class="w-filter-item-reset' . $_dropdown_field_class . '" href="#" title="' . esc_attr( __( 'Reset', 'us' ) ) . '">';

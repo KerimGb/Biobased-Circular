@@ -1,0 +1,795 @@
+# Translation of Plugins - WP Migrate Lite &#8211; WordPress Migration Made Easy - Stable (latest release) in Dutch
+# This file is distributed under the same license as the Plugins - WP Migrate Lite &#8211; WordPress Migration Made Easy - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-07-05 16:15:59+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: nl\n"
+"Project-Id-Version: Plugins - WP Migrate Lite &#8211; WordPress Migration Made Easy - Stable (latest release)\n"
+
+#: class/Common/Queue/Connection.php:72
+msgid "An invalid item was found in the queue of files to be transferred."
+msgstr "Er is een ongeldig item gevonden in de wachtrij van bestanden die moeten worden overgedragen."
+
+#: class/Free/Plugin/PluginManager.php:167
+msgid "Feedback"
+msgstr "Feedback"
+
+#: class/Free/Plugin/PluginManager.php:157
+msgid "Documentation"
+msgstr "Documentatie"
+
+#. translators: %1$s is a link to WP Migrate's website, and %2$s is a link to
+#. WP Engine's website.
+#: class/Common/Plugin/PluginManagerBase.php:491
+msgid "%1$s is developed and maintained by %2$s."
+msgstr "%1$s is ontwikkeld en wordt onderhouden door %2$s."
+
+#: class/Common/Multisite/Multisite.php:223
+msgid "It looks like the remote site is a %s install and this install is a %s. %s"
+msgstr "Het lijkt erop dat de externe site een %s installatie is en deze installatie is een %s. %s"
+
+#: class/Common/Multisite/Multisite.php:173
+msgid "Learn more about replacing a multisite network with a single site"
+msgstr "Meer informatie over het vervangen van een multisite netwerk door één site"
+
+#: class/Common/Multisite/Multisite.php:172
+msgid "Learn more about replacing a single site with a multisite network"
+msgstr "Meer informatie over het vervangen van een enkele site door een multisite netwerk"
+
+#: class/Common/Multisite/Multisite.php:164
+msgid "Multisite Tools upgrade"
+msgstr "Multisite gereedschappen upgrade"
+
+#: class/Free/Plugin/PluginManager.php:160
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "Support"
+msgstr "Ondersteuning"
+
+#: class/Common/Transfers/Files/Util.php:761
+msgid "File transfer error - Unable to delete file using PHP's unlink() function. (%s)"
+msgstr "Fout bij bestandsoverdracht - kan bestand niet verwijderen met PHP's unlink() functie. (%s)"
+
+#: class/Common/Transfers/Files/Util.php:750
+msgid "File transfer error - Unable to move file to the correct location using PHP's rename() function. (%s)"
+msgstr "Fout bij bestandsoverdracht - kan bestand niet naar de juiste locatie verplaatsen met PHP's rename() functie. (%s)"
+
+#: class/Common/Transfers/Files/Util.php:740
+msgid "File transfer error - Unable to update file contents using using PHP's file_put_contents() function. (%s)"
+msgstr "Fout bij bestandsoverdracht - kan inhoud van bestand niet updaten met behulp van PHP's file_put_contents() functie. (%s)"
+
+#: class/Common/Transfers/Files/Util.php:730
+msgid "File transfer error - Unable to create a PHP file on the server. (%s)"
+msgstr "Bestandsoverdracht fout - kan geen PHP bestand aanmaken op de server. (%s)"
+
+#: class/Common/Transfers/Files/Util.php:716
+msgid "File transfer error - Unable to create a temporary folder. (%s)"
+msgstr "Fout bij bestand overdracht - kan geen tijdelijke map aanmaken. (%s)"
+
+#: class/Common/Transfers/Files/Util.php:618
+msgid "Failed to parse manifest file."
+msgstr "Mislukt om manifest bestand te parsen."
+
+#: class/Common/Transfers/Files/Util.php:612
+msgid "Failed to load manifest file."
+msgstr "Mislukt om manifest bestand te laden."
+
+#: class/Common/Transfers/Files/Util.php:321
+msgid "Unable to create the transfer manifest file. Verify the web server can write to this file/folder: `%s`"
+msgstr "Kan het manifest voor overdracht niet aanmaken. Controleer of de webserver naar dit bestand/deze map kan schrijven: `%s`"
+
+#: class/Common/Transfers/Files/Util.php:314
+msgid "Unable to create folder for file transfers: %s"
+msgstr "Kan geen map aanmaken voor bestand overdracht: %s"
+
+#: class/Common/Transfers/Files/Util.php:272
+msgid "The following files failed to transfer: <br> %s"
+msgstr "De volgende bestanden zijn niet overgedragen: <br> %s"
+
+#: class/Common/Transfers/Files/PluginHelper.php:236
+msgid "Saving queue status to remote failed."
+msgstr "Opslaan van wachtrij status op remote is mislukt."
+
+#: class/Common/Transfers/Files/PluginHelper.php:150
+msgid "Could not validate $_POST data."
+msgstr "Kon $_POST gegevens niet valideren."
+
+#: class/Common/Transfers/Files/FileProcessor.php:329
+msgid "File %s does not exist"
+msgstr "Bestand %s bestaat niet"
+
+#: class/Common/TPF/TransferCheck.php:75
+msgid "More Details »"
+msgstr "Meer details »"
+
+#: class/Common/TPF/TransferCheck.php:73
+msgid "Unfortunately it looks like we can't migrate your themes or plugins. However, running a migration without themes and plugins should work. Please uncheck the Themes checkbox, uncheck the Plugins checkbox, and try your migration again."
+msgstr "Helaas lijkt het erop dat we uw thema's of plugins niet kunnen migreren. Een migratie zonder thema's en plugins zou echter wel moeten werken. Verwijder het vinkje bij thema's, verwijder het vinkje bij plugins en probeer uw migratie opnieuw."
+
+#: class/Common/TPF/TransferCheck.php:58
+msgid "A problem occurred starting the Themes & Plugins migration."
+msgstr "Er is een probleem opgetreden bij de migratie van thema's & plugins."
+
+#: class/Common/TPF/ThemePluginFilesLocal.php:194
+msgid "Invalid folder list supplied (invalid array)"
+msgstr "Ongeldige mappenlijst geleverd (ongeldige array)"
+
+#: class/Common/TPF/ThemePluginFilesFinalize.php:319
+msgid "Unable to verify file migration, %s does not exist."
+msgstr "Kan bestand migratie niet verifiëren, %s bestaat niet."
+
+#: class/Common/TPF/ThemePluginFilesFinalize.php:232
+msgid "Unable to move file into place when finalizing Theme & Plugin Files migration. Source: %s | Destination: %s"
+msgstr "Kan bestand niet verplaatsen bij het voltooien van de migratie van thema & plugin bestanden. Bron: %s | bestemming: %s"
+
+#: class/Common/TPF/ThemePluginFilesFinalize.php:216
+msgid "Unable to overwrite destination file when finalizing Theme & Plugin Files migration: %s"
+msgstr "Kan doelbestand niet overschrijven bij migratie van thema & plugin bestanden: %s"
+
+#: class/Common/TPF/ThemePluginFilesFinalize.php:208
+msgid "Temporary file not found when finalizing %s Files migration: %s "
+msgstr "Tijdelijk bestand niet gevonden bij het afronden van de migratie van %s files: %s "
+
+#: class/Common/TPF/ThemePluginFilesFinalize.php:138
+msgid "Unable to determine folder name for theme %s"
+msgstr "Kan mapnaam voor thema niet bepalen %s"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:183
+msgid "Transferring: "
+msgstr "Overdragen: "
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:182
+msgid "Loading transfer queue"
+msgstr "Wachtrij voor overdracht laden"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:181
+msgid "Themes & Plugins Transfer Error"
+msgstr "Thema's & plugins overdrachtsfout"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:180
+msgid "Failed to transfer file."
+msgstr "Mislukt om bestand over te dragen."
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:179
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "local"
+msgstr "lokaal"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:178
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "remote"
+msgstr "extern"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:177
+msgid "Please select plugins for migration."
+msgstr "Selecteer plugins voor migratie."
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:176
+msgid "Please select themes for migration."
+msgstr "Selecteer thema's voor de migratie."
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:175
+msgid "(active)"
+msgstr "(actief)"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:174
+msgid "Themes & Plugins"
+msgstr "Thema's & plugins"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:173
+#: frontend/build-free/static/js/85.c22b20bfe320.chunk.js:1
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "Plugins"
+msgstr "Plugins"
+
+#: class/Common/TPF/ThemePluginFilesAddon.php:172
+#: frontend/build-free/static/js/85.c22b20bfe320.chunk.js:1
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "Themes"
+msgstr "Thema's"
+
+#: class/Common/Sql/Table.php:1748
+msgid "Error moving SQL file into ZIP archive"
+msgstr "Fout bij het verplaatsen van SQL bestand naar ZIP archief"
+
+#: class/Common/Queue/QueueHelper.php:179
+#: class/Common/TPF/ThemePluginFilesLocal.php:178
+msgid "Error: empty folder list supplied."
+msgstr "Fout: lege mappenlijst geleverd."
+
+#: class/Common/Queue/QueueHelper.php:58
+msgid "File list empty or incomplete. Please contact support."
+msgstr "Bestandslijst leeg of onvolledig. Neem contact op met ondersteuning."
+
+#: class/Common/Queue/Cron.php:86
+msgid "Every %d Minutes"
+msgstr "Elke %d minuten"
+
+#: class/Common/MF/MediaFilesLocal.php:191
+msgid "Invalid folder path supplied."
+msgstr "Ongeldig map pad opgegeven."
+
+#: class/Common/MF/MediaFilesAddon.php:97
+#: class/Common/TPF/ThemePluginFilesAddon.php:184
+msgid "Uploading files"
+msgstr "Bestanden uploaden"
+
+#: class/Common/MF/MediaFilesAddon.php:96
+#: class/Common/TPF/ThemePluginFilesAddon.php:185
+msgid "Downloading files"
+msgstr "Download bestanden"
+
+#: class/Common/FullSite/FullSiteExport.php:179
+msgid " ZIP Archive %s could not be deleted"
+msgstr " ZIP archief %s kon niet worden verwijderd"
+
+#: class/Common/FullSite/FullSiteExport.php:174
+msgid " ZIP Archive %s does not exist"
+msgstr " ZIP archief %s bestaat niet"
+
+#: class/Common/FullSite/FullSiteExport.php:86
+msgid "Could not add %s to ZIP Archive"
+msgstr "Kon %s niet toevoegen aan ZIP archief"
+
+#: class/Common/FullSite/FullSiteExport.php:44
+msgid "Could not create ZIP Archive"
+msgstr "Kan geen ZIP archief aanmaken"
+
+#: class/Common/Addon/AddonsFacade.php:106
+msgid "Legacy addons cannot be activated alongside WP Migrate version 2.3.0 or above. These features have been moved to WP Migrate."
+msgstr "Verouderde add-ons kunnen niet worden geactiveerd naast WP Migrate versie 2.3.0 of hoger. Deze functies zijn verplaatst naar WP Migrate."
+
+#: class/Common/Addon/AddonAbstract.php:122
+msgid "The version of %1$s you have installed requires version %2$s of WP Migrate. You currently have %3$s installed. <strong><a href=\"%4$s\">Update Now</a></strong>"
+msgstr "De versie van %1$s die u heeft geïnstalleerd vereist versie %2$s van WP Migrate. U heeft nu %3$s geïnstalleerd. <strong><a href=\"%4$s\">Nu updaten</a></strong>"
+
+#. Author URI of the plugin
+#: wp-migrate-db.php
+msgid "https://deliciousbrains.com/wp-migrate-db-pro/?utm_source=plugin-header&utm_medium=plugin&utm_campaign=plugin-author&utm_content=wp-migrate-author"
+msgstr "https://deliciousbrains.com/wp-migrate-db-pro/?utm_source=plugin-header&utm_medium=plugin&utm_campaign=plugin-author&utm_content=wp-migrate-author"
+
+#. Author of the plugin
+#: wp-migrate-db.php
+msgid "WP Engine"
+msgstr "WP Engine"
+
+#. Description of the plugin
+#: wp-migrate-db.php
+msgid "Migrate your database. Export full sites including media, themes, and plugins. Find and replace content with support for serialized data."
+msgstr "Migreer uw database. Exporteer volledige sites inclusief media, thema's en plugins. Zoek en vervang inhoud met ondersteuning voor geserialiseerde gegevens."
+
+#: class/Common/Plugin/Menu.php:95 class/Common/Plugin/Menu.php:134
+#: class/Common/Plugin/PluginManagerBase.php:388 php-checker.php:70
+msgid "WP Migrate"
+msgstr "WP Migrate"
+
+#. Plugin Name of the plugin
+#: wp-migrate-db.php class/Free/Plugin/PluginManager.php:68 php-checker.php:70
+msgid "WP Migrate Lite"
+msgstr "WP Migrate Lite"
+
+#: class/Free/Plugin/PluginManager.php:51
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "Migrate"
+msgstr "Migreer"
+
+#: class/Common/Cli/Cli.php:840 class/Common/Cli/Cli.php:856
+msgid "Missing case sensitive find and replace values."
+msgstr "Ontbrekende hoofdlettergevoelige zoek en vervang waarden."
+
+#: class/Common/Cli/Cli.php:822 class/Common/Cli/Cli.php:832
+msgid "Missing Regex find and replace values."
+msgstr "Ontbrekende Regex vind en vervang waarden."
+
+#: class/Common/Cli/Cli.php:818
+msgid "Please make sure Regular Expression find & replace pattern is valid"
+msgstr "Controleer of reguliere expressie vind & vervang patroon geldig is"
+
+#: template/options-page-outdated-wp.php:13
+msgid "This version of %1$s requires WordPress %2$s+. We recommend updating WordPress, but if that's not an option you can download version 1.9.x of WP Migrate from <a href=\"%3$s\">My Account</a>."
+msgstr "Deze versie van %1$s vereist WordPress %2$s+. We raden u aan WordPress te updaten, maar als dat geen optie is, kunt u versie 1.9.x van WP Migrate downloaden via <a href=\"%3$s\">Mijn account</a>."
+
+#: class/Common/Http/WPMDBRestAPIServer.php:26
+msgid "Only authenticated users can access endpoint."
+msgstr "Alleen geauthenticeerde gebruikers hebben toegang tot endpoint."
+
+#: class/Common/Http/Helper.php:106
+msgid "Invalid Request. Did you pass the correct nonce?"
+msgstr "Ongeldige aanvraag. Bent u geslaagd voor de juiste nonce?"
+
+#: class/Common/Http/Http.php:90
+msgid "An error occurred - JSON response: %s"
+msgstr "Er is een fout opgetreden - JSON reactie: %s"
+
+#: class/Common/Profile/ProfileManager.php:531
+msgid "Failed to %s profile, state data is empty."
+msgstr "Mislukt om %s profiel, statusgegeven is leeg."
+
+#: class/Common/Profile/ProfileManager.php:448
+#: class/Common/Profile/ProfileManager.php:489
+msgid "Profile saved"
+msgstr "Profiel opgeslagen"
+
+#: class/Common/Profile/ProfileManager.php:414
+msgid "Profile removed"
+msgstr "Profiel verwijderd"
+
+#: class/Common/Profile/ProfileManager.php:401
+#: class/Common/Profile/ProfileManager.php:434
+#: class/Common/Profile/ProfileManager.php:468
+#: class/Common/Profile/ProfileManager.php:679
+#: class/Common/Profile/ProfileManager.php:691
+msgid "Profile not found."
+msgstr "Profiel niet gevonden."
+
+#: class/Common/Profile/ProfileManager.php:375
+msgid "No recent migrations"
+msgstr "Geen recente migraties"
+
+#: class/Common/Plugin/PluginManagerBase.php:369
+msgid "AJAX request failed"
+msgstr "Ajax aanvraag is mislukt"
+
+#: class/Common/Plugin/PluginManagerBase.php:187
+msgid "<strong>Uploads directory not writable</strong> &mdash; the following directory is not writable: <code>%s</code>. Update the file permissions for this folder to enable backups and export migrations. <a href=\"https://deliciousbrains.com/wp-migrate-db-pro/doc/uploads-folder-permissions/\" target=\"_blank\">More information</a>.<br><br>"
+msgstr "<strong>Upload folder niet schrijfbaar</strong> &mdash; de volgende folder is niet schrijfbaar: <code>%s</code>. Werk de bestandsmachtigingen voor deze map bij om back-ups en exportmigraties mogelijk te maken. <a href=\"https://deliciousbrains.com/wp-migrate-db-pro/doc/uploads-folder-permissions/\" target=\"_blank\">Meer informatie</a>.<br><br>"
+
+#: class/Common/Multisite/Multisite.php:207
+msgid "Upgrade your license"
+msgstr "Upgrade uw licentie"
+
+#: class/Common/Multisite/Multisite.php:204
+msgid "Install"
+msgstr "Installeer"
+
+#: class/Common/Multisite/Multisite.php:190
+msgid "It looks like the remote site is a %s install and this install is a %s. To run this type of migration you'll need the %s activated on the <strong>remote</strong> site."
+msgstr "Het lijkt erop dat de externe site een %s installatie is en deze installatie een %s. Om dit type migratie uit te voeren, moet u de %s activeren op de <strong>externe</strong> site."
+
+#: class/Common/Multisite/Multisite.php:188
+msgid "Activate"
+msgstr "Activeren"
+
+#: class/Common/Multisite/Multisite.php:179
+msgid "It looks like the file you are trying to import is from a single site install and this install is a multisite. This type of migration isn't currently supported. <a href=\"%s\" target=\"_blank\">Learn more »</a>"
+msgstr "Het lijkt erop dat het bestand dat u probeert te importeren afkomstig is van een installatie op een enkele site en dat deze installatie een multisite is. Dit type migratie wordt momenteel niet ondersteund. <a href=\"%s\" target=\"_blank\">Kom meer te weten </a>"
+
+#: class/Common/Multisite/Multisite.php:166
+msgid "It looks like the file you are trying to import is from a multisite install and this install is a single site. To run this type of import you'll need to use the %s to export a subsite as a single site. <a href=\"%s\" target=\"_blank\">Learn more »</a>"
+msgstr "Het lijkt erop dat het bestand dat u probeert te importeren afkomstig is van een installatie op meerdere locaties en deze installatie is een enkele site. Om dit type import uit te voeren, moet u de %s gebruiken om een subsite als een enkele site te exporteren. <a href=\"%s\" target=\"_blank\">Kom meer te weten </a>"
+
+#: class/Common/Multisite/Multisite.php:156
+#: class/Common/Multisite/Multisite.php:177
+msgid "multisite"
+msgstr "multisite"
+
+#: class/Common/Multisite/Multisite.php:155
+#: class/Common/Multisite/Multisite.php:178
+msgid "single site"
+msgstr "enkele site"
+
+#: class/Common/Migration/FinalizeMigration.php:108
+msgid "Unable to finalize the migration, migration state empty."
+msgstr "De migratie kan niet worden afgerond, de migratiestatus is leeg."
+
+#: class/Common/Properties/Properties.php:123
+msgid " Remote URL: %s "
+msgstr " Externe URL: %s "
+
+#: class/WPMDBDI_Config.php:38
+msgid "Classmap could not be generated."
+msgstr "Klasse map kan niet worden gegenereerd."
+
+#: class/Common/Sanitize.php:49
+msgid "Sanitization Error: `%1$s` method was expecting %2$s for the `%3$s` field, but got something else: \"%4$s\""
+msgstr "Opschoning fout: `%1$s` methode verwachtte %2$s voor het `%3$s` veld, maar verkreeg iets anders: \"%4$s\""
+
+#: class/Free/Plugin/PluginManager.php:55
+#: frontend/build-free/static/js/481.cdfec70d88f5.chunk.js:1
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "Upgrade"
+msgstr "Upgrade"
+
+#: class/Common/Cli/Cli.php:794
+msgid "--"
+msgstr "--"
+
+#: php-checker.php:71
+msgid "requires PHP version %s or higher to run and has been deactivated. You are currently running version %s. <a href=\"%s\">Learn More »</a>"
+msgstr "PHP versie %s of hoger is vereist. Plugin is gedeactiveerd. U gebruikt nu versie %s. <a href=\"%s\">Lees meer »</a>"
+
+#: class/Common/Settings/Settings.php:46
+msgid "Setting does not exist"
+msgstr "Instelling bestaat niet"
+
+#: class/Common/Cli/Cli.php:427
+msgid "Performing backup"
+msgstr "Back-up aan het uitvoeren"
+
+#: template/common/muplugin-failed-update-warning.php:4
+msgid "We could not update the Compatibility Mode plugin because the mu-plugins folder is not writable. Please update the permissions of the mu-plugins folder to enable Compatibility Mode. "
+msgstr "We konden de compatibiliteit modus plugin niet updaten, omdat de map mu plugins niet schrijfbaar is. Werk de machtigingen van de map mu plugins bij om de compatibiliteitsmodus in te schakelen. "
+
+#: template/common/muplugin-failed-update-warning.php:3
+msgid "<strong>Compatibility Plugin Update Failed</strong> &mdash; "
+msgstr "<strong>Updaten Compatibility plugin Mislukt</strong> &mdash; "
+
+#: class/Common/Filesystem/Filesystem.php:827
+msgid "<h3>Output prevented download. </h3> %s"
+msgstr "<h3>Output verhindert downloaden. </h3> %s"
+
+#: class/Common/Plugin/Assets.php:82
+msgid "Importing data from %s"
+msgstr "Gegevens importeren uit %s"
+
+#: class/Common/Plugin/Assets.php:81
+msgid "Please select an SQL export file above to continue."
+msgstr "Selecteer hierboven een SQL-exportbestand om door te gaan."
+
+#: class/Common/Plugin/Assets.php:80
+msgid "The selected file does not have a recognized file type. Please upload a valid SQL file to continue."
+msgstr "Het geselecteerde bestand heeft geen herkend bestandstype. Upload een geldig SQL bestand om door te gaan."
+
+#: class/Common/Sql/Table.php:1178
+msgid "The table `%1s` contains characters which are invalid in the target database. See&nbsp;<a href=\"%2s\" target=\"_blank\">our documentation</a> for more information."
+msgstr "De tabel `%1s` bevat tekens die ongeldig zijn in de doeldatabase. Zie <a href=\"%2s\" target=\"_blank\">onze documentatie</a> voor meer informatie."
+
+#: class/Common/Sql/Table.php:1175
+msgid "The imported table `%1s` contains characters which are invalid in the target schema.<br><br>If this is a WP Migrate export file, ensure that the `Compatible with older versions of MySQL` setting under `Advanced Options` is unchecked and try exporting again.<br><br> See&nbsp;<a href=\"%2s\">our documentation</a> for more information."
+msgstr "De geïmporteerde tabel `%1s` bevat karakters die ongeldig zijn in het doelschema.<br><br>Als dit een WP Migrate exportbestand is, zorg er dan voor dat de `Compatibel met oudere versies van MySQL` instelling onder `Geavanceerde opties` is uitgevinkt en probeer opnieuw te exporteren.<br><br>Zie&nbsp;<a href=\"%2s\">onze documentatie</a> voor meer informatie."
+
+#: class/Common/Compatibility/CompatibilityManager.php:235
+msgid "The compatibility plugin could not be deactivated because your mu-plugin directory is currently not writable.  Please update the permissions of the mu-plugins folder: %s"
+msgstr "De compatibiliteit plugin kan niet worden gedeactiveerd omdat uw mu-plugin folder momenteel niet schrijfbaar is.  Werk de rechten van de map mu plugins bij: %s"
+
+#: class/Common/Compatibility/CompatibilityManager.php:202
+msgid "The compatibility plugin could not be activated because your mu-plugin directory is currently not writable.  Please update the permissions of the mu-plugins folder:  %s"
+msgstr "De compatibiliteit plugin kan niet worden geactiveerd omdat uw mu-plugin folder momenteel niet schrijfbaar is.  Update de rechten van de mu-plugins:  %s"
+
+#: class/Common/Cli/Cli.php:876
+msgid "Replace value is required."
+msgstr "Vervangingswaarde is vereist."
+
+#: class/Common/Cli/Cli.php:869
+msgid "Find value is required."
+msgstr "Vind waarde is vereist."
+
+#: class/Common/Cli/Cli.php:201
+msgid "Missing path to import file. Use --import-file=/path/to/import.sql.gz"
+msgstr "Ontbrekend pad om bestand te importeren. Gebruik --import-file=/pad/naar/import.sql.gz"
+
+#: class/Common/Http/RemotePost.php:297
+msgid "Unable to connect to the remote server, the remote server responded with: %s %s (scope: %s)"
+msgstr "Kan geen verbinding maken met de externe server, de externe server reageerde met: %s %s (bereik: %s)"
+
+#: class/Common/Migration/InitiateMigration.php:333
+msgid "<p><strong>Export Failed</strong> — We can't save your export to the following folder:<br><strong>%s</strong></p><p>Please adjust the permissions on this folder. <a href=\"%s\" target=\"_blank\">See our documentation for more information »</a></p>"
+msgstr "<p><strong>Export mislukt</strong> - We kunnen uw export niet opslaan in de volgende map:<br><strong>%s</strong></p><p>Pas de rechten voor deze map aan. <a href=\"%s\" target=\"_blank\">Zie onze documentatie voor meer informatie »</a></p>"
+
+#: class/Common/Util/Util.php:257
+msgid "WPMDB Error: Data cannot be unserialized. %s"
+msgstr "WPMDB fout: gegevens kunnen niet worden genegeerd. %s"
+
+#: template/options-tools-subsite.php:11
+msgid "%1$s only runs at the Network Admin level. As there is no Tools menu in the Network Admin, the %2$s menu item is located under Settings."
+msgstr "%1$s wordt alleen uitgevoerd op het niveau van de netwerkbeheerder. Omdat er geen menu Gereedschap is in de netwerkbeheerder, staat het %2$s menu-item onder instellingen."
+
+#: class/Common/Sql/Table.php:841
+msgid "Error creating temporary table. Table \"%s\" does not exist."
+msgstr "Fout bij maken van tijdelijke tabel. Tabel \"%s\" bestaat niet."
+
+#: class/Common/Util/Util.php:256
+msgid "Scope: %s()."
+msgstr "Toepassingsgebied: %s()."
+
+#: class/Common/Cli/Command.php:218
+msgid "Find & Replace complete"
+msgstr "Zoek & vervangen afgerond"
+
+#: class/Common/Cli/Cli.php:866
+msgid "Missing find and replace values."
+msgstr "Ontbrekende zoek- en vervangwaarden."
+
+#: class/Common/Cli/Cli.php:424
+msgid "Running find & replace"
+msgstr "Zoeken & vervangen uitvoeren"
+
+#: class/Common/Http/RemotePost.php:284
+msgid "<strong>HTTPS Connection Error:</strong>  (#121 - scope: %s) This typically means that the version of OpenSSL that your local site is using to connect to the remote is incompatible or, more likely, being rejected by the remote server because it's insecure. <a href=\"%s\" target=\"_blank\">See our documentation</a> for possible solutions."
+msgstr "<strong>HTTPS Verbindingsfout:</strong>  (# 121 - scope: %s) Dit betekent doorgaans dat de versie van OpenSSL die uw lokale site gebruikt om verbinding te maken met de remote, incompatibel is of, waarschijnlijker, wordt afgewezen door de externe server omdat het onzeker is. <a href=\"%s\" target=\"_blank\">Zie onze documentatie</a> voor mogelijke oplossingen."
+
+#: class/Common/Http/RemotePost.php:278
+msgid "Couldn't connect over HTTPS. You might want to try regular HTTP instead. (#121 - scope: %s)"
+msgstr "Kan geen verbinding maken via HTTPS. U kunt in plaats daarvan gewone HTTP proberen. (# 121 - bereik: %s)"
+
+#: class/Common/Plugin/Assets.php:79
+msgid "Hey, this is the first time activating your license, nice! Your migrations are about to get awesome! If you haven’t already, you should check out our <a href=\"%1$s\" target=\"_blank\">Quick Start Guide</a> and <a href=\"%2$s\" target=\"_blank\">Videos</a>. If you run into any trouble at all, use the <strong>Help tab</strong> above to submit a support request."
+msgstr "Hé, dit is de eerste keer dat u uw licentie activeert, leuk! Uw migraties staan ​​op het punt geweldig te worden! Als u dat nog niet heeft gedaan, bekijk dan onze <a href=\"%1$s\" target=\"_blank\">Quick Start Guide</a> en <a href=\"%2$s\" target=\"_blank\">Video's</a>. Als u überhaupt problemen ondervindt, gebruikt u de bovenstaande <strong>Help tab</strong> om een ​​ondersteuningsaanvraag in te dienen."
+
+#: class/Common/Plugin/Assets.php:78
+msgid "Welcome to WP Migrate! &#127881;"
+msgstr "Welkom bij WP Migrate! &#127881;"
+
+#: class/Common/Plugin/Assets.php:77
+msgid "The migration has been stopped and all temporary files and data have been cleaned up."
+msgstr "De migratie is gestopt en alle tijdelijke bestanden en gegevens zijn opgeschoond."
+
+#: class/Common/Cli/Cli.php:785
+msgid "unknown %s parameter"
+msgstr "onbekende %s parameter"
+
+#: class/Common/Cli/Cli.php:783
+msgid "Parameter errors: "
+msgstr "Parameter fouten: "
+
+#: class/Common/Cli/Cli.php:174
+msgid "Profile not found or unable to be generated from params."
+msgstr "Profiel niet gevonden of kan niet worden gegenereerd op basis van parameters."
+
+#. Plugin URI of the plugin
+#: wp-migrate-db.php
+msgid "https://deliciousbrains.com/"
+msgstr "https://deliciousbrains.com/"
+
+#: template/options.php:12
+msgid "<strong>PHP Function Disabled</strong> &mdash; The <code>set_time_limit()</code> function is currently disabled on your server. We use this function to ensure that the migration doesn't time out. We haven't disabled the plugin however, so you're free to cross your fingers and hope for the best. You may want to contact your web host to enable this function."
+msgstr "<strong>PHP Functie uitgeschakeld</strong> & mdash; de functie <code>set_time_limit()</code> is momenteel uitgeschakeld op uw server. We gebruiken deze functie om ervoor te zorgen dat de migratie niet verloopt. We hebben de plugin echter niet uitgeschakeld, dus u kunt uw vingers kruisen en er het beste van hopen. U kunt contact opnemen met uw webhost om deze functie in te schakelen."
+
+#: template/options.php:14
+msgid "Your current PHP run time limit is set to %s seconds."
+msgstr "Uw huidige limiet voor PHP runtime is ingesteld op %s seconden."
+
+#: class/Common/UI/TemplateBase.php:212
+msgid "You can read more about this in <a href=\"%s\">our documentation</a>, proceed with caution."
+msgstr "U kunt hierover meer lezen in <a href=\"%s\">onze documentatie</a> , ga voorzichtig te werk."
+
+#: class/Common/UI/TemplateBase.php:210
+#: frontend/build-free/static/js/main.88fae384cc00.js:1
+msgid "As a result, uppercase characters in table names will be converted to lowercase during the migration."
+msgstr "Als gevolg hiervan worden hoofdletters in tabelnamen tijdens de migratie omgezet in kleine letters."
+
+#: class/Common/UI/TemplateBase.php:207
+msgid "Whoa! We've detected that your <b>remote</b> site has the MySQL setting <code>lower_case_table_names</code> set to <code>1</code>."
+msgstr "We hebben vastgesteld dat uw <b>remote</b> site de MySQL instelling <code>lower_case_table_names</code> heeft ingesteld op <code>1</code>."
+
+#: class/Common/UI/TemplateBase.php:205
+msgid "Whoa! We've detected that your <b>local</b> site has the MySQL setting <code>lower_case_table_names</code> set to <code>1</code>."
+msgstr "We hebben vastgesteld dat uw <b>local</b> site de MySQL instelling <code>lower_case_table_names</code> heeft ingesteld op <code>1</code>."
+
+#: class/Common/UI/TemplateBase.php:202
+msgid "Warning: Mixed Case Table Names"
+msgstr "Waarschuwing:tabelnamen met verschillende hoofdletters"
+
+#: class/Common/Sql/TableHelper.php:140
+msgid "The source site supports utf8mb4 data but the target does not, aborting migration to avoid possible data corruption. Please see %1$s for more information. (#148)"
+msgstr "De bronsite ondersteunt utf8mb4 gegevens, maar het doel niet, waardoor de migratie wordt afgebroken om mogelijke gegevensbeschadiging te voorkomen. Zie %1$s voor meer informatie. (# 148)"
+
+#: class/Common/Plugin/PluginManagerBase.php:278
+msgid "WP Migrate Lite and WP Migrate cannot both be active. We've automatically deactivated WP Migrate Lite."
+msgstr "WP Migrate Lite en WP Migrate kunnen niet beide actief zijn. We hebben WP Migrate Lite automatisch gedeactiveerd."
+
+#: class/Common/Plugin/PluginManagerBase.php:280
+msgid "WP Migrate Lite and WP Migrate cannot both be active. We've automatically deactivated WP Migrate."
+msgstr "WP Migrate Lite en WP Migrate kunnen niet beide actief zijn. We hebben WP Migrate automatisch gedeactiveerd."
+
+#: class/Common/BackupExport.php:91
+msgid "Could not delete the MySQL export file."
+msgstr "Kan het MySQL export bestand niet verwijderen."
+
+#: class/Common/BackupExport.php:87
+msgid "MySQL export file not found."
+msgstr "MySQL exportbestand niet gevonden."
+
+#: class/Common/Filesystem/Filesystem.php:830
+msgid "Could not find the file to download:"
+msgstr "Kan het te downloaden bestand niet vinden:"
+
+#: class/Common/Plugin/Assets.php:76
+msgctxt "The migration has been cancelled"
+msgid "Migration cancelled"
+msgstr "Migratie geannuleerd"
+
+#: class/Common/Plugin/Assets.php:75
+msgid "Looks like your remote secret key is the same as the secret key for this site. To fix this, go to the <a href=\"#settings\">Settings tab</a> and click \"Reset Secret Key\""
+msgstr "Het lijkt erop dat uw externe geheime sleutel dezelfde is als de geheime sleutel voor deze site. Om dit op te lossen, gaat u naar de <a href=\"#settings\">Settings tab</a> en klikt u op \"Geheime sleutel resetten"
+
+#: class/Common/Plugin/Assets.php:74
+msgid "It appears you've entered the URL for this website, you need to provide the URL of the remote website instead."
+msgstr "Het lijkt erop dat u de URL voor deze site heeft ingevoerd, u moet in plaats daarvan de URL van de externe site opgeven."
+
+#: class/Common/Plugin/Assets.php:73
+msgid "The secret key on the second line appears to be invalid. It should be a 40 character string that consists of letters, numbers and special characters only."
+msgstr "De geheime sleutel op de tweede regel lijkt ongeldig te zijn. Het moet een string van 40 tekens zijn die alleen uit letters, cijfers en speciale tekens bestaat."
+
+#: class/Common/Plugin/Assets.php:72
+msgid "The URL on the first line appears to be invalid, please check it and try again."
+msgstr "De URL op de eerste regel lijkt ongeldig te zijn. Controleer het en probeer opnieuw."
+
+#: class/Common/Plugin/Assets.php:71
+msgid "The connection information appears to be missing, please enter it to continue."
+msgstr "De verbindingsinformatie lijkt te ontbreken. Voer deze in om door te gaan."
+
+#: class/Common/Sql/Table.php:1103
+msgid "Failed to write the SQL data to the file. (#128)"
+msgstr "Het schrijven van de SQL gegevens naar het bestand is mislukt. (# 128)"
+
+#: class/Common/Sql/Table.php:1096
+msgid "Failed to write the gzipped SQL data to the file. (#127)"
+msgstr "Het schrijven van de gzip SQL gegevens naar het bestand is mislukt. (# 127)"
+
+#: class/Common/Sql/Table.php:1972
+msgid "Database: %s"
+msgstr "Database: %s"
+
+#: class/Common/Sql/Table.php:1971
+msgid "Hostname: %s"
+msgstr "Hostnaam: %s"
+
+#: class/Common/Sql/Table.php:1970
+msgid "Generated: %s"
+msgstr "Gegenereerd: %s"
+
+#: class/Common/Sql/Table.php:1968
+msgid "WordPress MySQL database migration"
+msgstr "WordPress MySQL database migratie"
+
+#: class/Common/Sql/Table.php:1843
+msgid "End of data contents of table %s"
+msgstr "Einde van de gegevensinhoud van de tabel %s"
+
+#: class/Common/Sql/Table.php:969
+msgid "Data contents of table %s"
+msgstr "Gegevensinhoud van tabel %s"
+
+#: class/Common/Sql/Table.php:911
+msgid "Failed to generate the create table query, please ensure your database is online. (#126)"
+msgstr "Het genereren van de query voor het maken van een tabel is mislukt. Zorg ervoor dat u database online is. (# 126)"
+
+#: class/Common/Sql/Table.php:903
+msgid "Table structure of table %s"
+msgstr "Tabelstructuur van tabel %s"
+
+#: class/Common/Sql/Table.php:892
+msgid "Delete any existing table %s"
+msgstr "Verwijder een bestaande tabel %s"
+
+#: class/Common/Sql/Table.php:746
+msgid "Failed to retrieve table structure for table '%s', please ensure your database is online. (#125)"
+msgstr "Het ophalen van de tabelstructuur voor tabel '%s' is mislukt. Zorg ervoor dat uw database online is. (# 125)"
+
+#: class/Common/Sanitize.php:181
+msgid "Unknown sanitization rule \"%1$s\" supplied by %2$s"
+msgstr "Onbekende zuiveringsregel \"%1$s\" geleverd door %2$s"
+
+#: class/Common/Sanitize.php:72
+msgid "%1$s was not expecting data to be an array."
+msgstr "%1$s verwachtte niet dat de gegevens een array zouden zijn."
+
+#: class/Common/Replace.php:733
+msgid "Failed attempting to do the recursive unserialize replace. Please contact support."
+msgstr "Het is mislukt om de recursieve unserialize vervanging uit te voeren. Neem contact op met ondersteuning."
+
+#: class/Common/Cli/Command.php:215
+msgid "Export saved to: %s"
+msgstr "Export opgeslagen naar: %s"
+
+#: class/Common/Cli/Command.php:207
+msgid "WP Migrate CLI class not available."
+msgstr "WP Migrate CLI klasse niet beschikbaar."
+
+#: class/Common/Cli/Cli.php:927
+msgid "Cannot write to file \"%1$s\". Please ensure that the specified directory exists and is writable."
+msgstr "Kan niet schrijven naar bestand \"%1$s\". Zorg ervoor dat de opgegeven map bestaat en beschrijfbaar is."
+
+#: class/Common/Cli/Cli.php:881
+msgid "%1$s and %2$s must contain the same number of values"
+msgstr "%1$s en %2$s moeten hetzelfde aantal waarden bevatten"
+
+#: class/Common/Cli/Cli.php:799
+msgid "Missing action parameter"
+msgstr "Ontbrekende actie parameter"
+
+#: class/Common/Cli/Command.php:83
+msgid "You must provide a destination filename."
+msgstr "U moet een bestemming bestandsnaam opgeven."
+
+#: class/Common/Cli/Cli.php:713
+msgid "Unable to move exported file."
+msgstr "Kan geëxporteerd bestand niet verplaatsen."
+
+#: class/Common/Cli/Cli.php:616
+msgid "Cleaning up..."
+msgstr "Opschonen..."
+
+#: class/Common/Cli/Cli.php:509
+msgid "No tables selected for migration."
+msgstr "Geen tabellen geselecteerd voor migratie."
+
+#: class/Common/Cli/Cli.php:421
+msgid "Exporting tables"
+msgstr "Tabellen exporteren"
+
+#: class/Common/Cli/Cli.php:365
+msgid "Initiating migration..."
+msgstr "Migratie initiëren..."
+
+#: class/Common/Cli/Cli.php:306
+msgid "We were expecting a JSON response, instead we received: %2$s (function name: %1$s)"
+msgstr "We verwachtten een JSON reactie, in plaats daarvan ontvingen we: %2$s (functienaam: %1$s)"
+
+#: class/Common/Cli/Cli.php:238
+msgid "The following table(s) do not exist in the %1$s database: %2$s"
+msgstr "De volgende tabel (len) bestaan ​​niet in de %1$s database: %2$s"
+
+#: class/Common/MigrationState/MigrationStateManager.php:124
+msgid "Failed to retrieve migration state. Please contact support."
+msgstr "Ophalen van migratiestatus is mislukt. Neem contact op met ondersteuning."
+
+#: class/Common/MigrationState/MigrationStateManager.php:90
+msgid "Failed to save migration state. Please contact support."
+msgstr "Migratiestatus opslaan is mislukt. Neem contact op met ondersteuning."
+
+#: class/Common/Http/Http.php:139
+msgid "Access denied for: %s"
+msgstr "Toegang geweigerd voor: %s"
+
+#: class/Common/Http/Http.php:132
+msgid "Invalid nonce for: %s"
+msgstr "Ongeldige nonce voor: %s"
+
+#: class/Free/Plugin/PluginManager.php:52
+msgctxt "Plugin configuration and preferences"
+msgid "Settings"
+msgstr "Instellingen"
+
+#: class/Common/Http/RemotePost.php:312 class/Common/Sql/TableHelper.php:140
+msgid "our documentation"
+msgstr "onze documentatie"
+
+#: class/Common/Http/RemotePost.php:312
+msgid "A response was expected from the remote, instead we got nothing. (#146 - scope: %1$s) Please review %2$s for possible solutions."
+msgstr "Er werd een reactie verwacht van de remote, in plaats daarvan kregen we niets. (# 146 - scope: %1$s) Bekijk %2$s voor mogelijke oplossingen."
+
+#: class/Common/Http/RemotePost.php:307
+msgid "WP Migrate does not seem to be installed or active on the remote site. (#131 - scope: %s)"
+msgstr "WP Migrate lijkt niet geïnstalleerd of actief te zijn op de externe site. (#131 - bereik: %s)"
+
+#: class/Common/Http/RemotePost.php:302
+msgid "Unable to connect to the remote server, please check the connection details - %1$s %2$s (#129 - scope: %3$s)"
+msgstr "Kan geen verbinding maken met de externe server, controleer de verbindingsdetails - %1$s %2$s (# 129 - bereik: %3$s)"
+
+#: class/Common/Http/RemotePost.php:292
+msgid "The remote site is protected with Basic Authentication. Please enter the username and password above to continue. (401 Unauthorized)"
+msgstr "De externe site is beveiligd met basisverificatie. Voer de gebruikersnaam en het wachtwoord hierboven in om door te gaan. (401 ongeautoriseerd)"
+
+#: class/Common/Http/RemotePost.php:265
+msgid "The connection failed, an unexpected error occurred, please contact support. (#121 - scope: %s)"
+msgstr "De verbinding is mislukt, er is een onverwachte fout opgetreden. Neem contact op met ondersteuning. (# 121 - bereik: %s)"
+
+#: class/Common/Http/RemotePost.php:254
+msgid "We've detected that <code>WP_HTTP_BLOCK_EXTERNAL</code> is enabled and the host <strong>%1$s</strong> has not been added to <code>WP_ACCESSIBLE_HOSTS</code>. Please disable <code>WP_HTTP_BLOCK_EXTERNAL</code> or add <strong>%1$s</strong> to <code>WP_ACCESSIBLE_HOSTS</code> to continue. <a href=\"%2$s\" target=\"_blank\">More information</a>. (#147 - scope: %3$s)"
+msgstr "We hebben vastgesteld dat <code>WP_HTTP_BLOCK_EXTERNAL</code> is ingeschakeld en dat de host <strong>%1$s</strong> niet is toegevoegd aan <code>WP_ACCESSIBLE_HOSTS</code>. Schakel <code>WP_HTTP_BLOCK_EXTERNAL</code> uit of voeg <strong>%1$s</strong> toe aan <code>WP_ACCESSIBLE_HOSTS</code> om door te gaan. <a href=\"%2$s\" target=\"_blank\">Meer informatie</a>. (# 147 - bereik: %3$s)"
+
+#: class/Common/Http/RemotePost.php:481
+msgid "It appears that you might be trying to push to a local environment. This will not work if <u>this</u> website happens to be located on a remote server, it would be impossible for this server to contact your local environment."
+msgstr "Het lijkt erop dat u probeert te pushen naar een lokale omgeving. Dit zal niet werken als <u>deze</u> site zichzelf op een externe server bevindt, het zou voor deze server onmogelijk zijn om contact op te nemen met uw lokale omgeving."
+
+#: class/Common/Http/RemotePost.php:479
+msgid "It appears that you might be trying to pull from a local environment. This will not work if <u>this</u> website happens to be located on a remote server, it would be impossible for this server to contact your local environment."
+msgstr "Het lijkt erop dat u probeert te putten uit een lokale omgeving. Dit zal niet werken als de <u>this</u> site jezelf op een externe server bevindt, het zou voor deze server onmogelijk zijn om contact op te nemen met uw lokale omgeving."
+
+#: class/Common/Http/RemotePost.php:472
+msgid "We could not find: %s. Are you sure this is the correct URL?"
+msgstr "We konden het volgende niet vinden: %s. Weet u zeker dat dit de juiste URL is?"
+
+#: class/Common/Http/RemotePost.php:270
+msgid "The connection to the remote server has timed out, no changes have been committed. (#134 - scope: %s)"
+msgstr "De verbinding met de externe server is verlopen, er zijn geen wijzigingen doorgevoerd. (# 134 - bereik: %s)"
+
+#: class/Common/Properties/Properties.php:123
+msgid "Invalid content verification signature, please verify the connection information on the remote site and try again."
+msgstr "Ongeldige handtekening voor inhoudsverificatie. Controleer de verbindingsinformatie op de externe site en probeer het opnieuw."

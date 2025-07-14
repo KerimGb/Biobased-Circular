@@ -528,7 +528,15 @@ function us_create_post_types() {
 	if ( $us_ajax_list_pagination ) {
 		remove_all_actions( 'wp_head' );
 		remove_all_actions( 'wp_footer' );
-		add_filter( 'us_content_template_the_content', 'us_ajax_output_list_pagination', PHP_INT_MAX );
+
+		if ( us_get_page_area_id( 'content' ) ) {
+			add_filter( 'us_content_template_the_content', 'us_ajax_output_list_pagination', PHP_INT_MAX );
+
+			// Search page without Page Template
+		} else if ( isset( $_GET['s'] ) ) {
+			add_filter( 'the_content', 'us_ajax_output_list_pagination', PHP_INT_MAX );
+		}
+
 	}
 }
 

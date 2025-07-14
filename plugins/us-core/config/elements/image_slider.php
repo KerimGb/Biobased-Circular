@@ -105,7 +105,7 @@ return array(
 				'title' => __( 'Image Size', 'us' ),
 				'description' => $misc['desc_img_sizes'],
 				'type' => 'select',
-				'options' => us_get_image_sizes_list(),
+				'options' => us_is_elm_editing_page() ? us_get_image_sizes_list() : array(),
 				'std' => 'large',
 				'cols' => 2,
 				'usb_preview' => TRUE,

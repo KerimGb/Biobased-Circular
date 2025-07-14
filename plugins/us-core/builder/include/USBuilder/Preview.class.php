@@ -11,7 +11,9 @@ final class USBuilder_Preview {
 	function __construct() {
 
 		// Hide admin bar
-		add_filter( 'show_admin_bar', '__return_false' );
+		if ( ! defined( 'US_DEV_ENABLE_QM_IN_LIVE_BUILDER' ) ) {
+			add_filter( 'show_admin_bar', '__return_false' );
+		}
 
 		// Add styles and scripts on the preview
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_preview_assets' ) );
@@ -40,8 +42,9 @@ final class USBuilder_Preview {
 			// This is an instance of the class for working with shortcodes
 			$shortcode = USBuilder_Shortcode::instance();
 
-			// Set post content in Live Builder
-			add_action( 'wp', array( $shortcode, 'set_post_content' ), 1 );
+			// Set post content in Live Builder.
+			// This action is required to prevent deleting unsupported WPBakery shortcodes, such as [wpb_raw_js]
+			add_action( 'template_redirect', array( $shortcode, 'set_post_content' ), 501 );
 
 			// Add data-usbid attribute to html when output shortcode result
 			add_filter( 'do_shortcode_tag', array( $shortcode, 'add_usbid_to_html' ), 9999, 3 );

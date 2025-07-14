@@ -73,7 +73,7 @@
 		 * @var {{}} Bondable events.
 		 */
 		self._events = {
-			changeFilter: self._changeFilter.bind( self ),
+			changeFilter: self.changeFilter.bind( self ),
 			closeMobileFilters: self._closeMobileFilters.bind( self ),
 			openMobileFilters: self._openMobileFilters.bind( self ),
 			hideItemDropdown: self._hideItemDropdown.bind( self ),
@@ -85,6 +85,7 @@
 			changeItemAtts: self._changeItemAtts.bind( self ),
 			updateItemsAmount: self._updateItemsAmount.bind( self ),
 			woocommerceOrdering: self._woocommerceOrdering.bind( self ),
+			navUsingKeyPress: self.navUsingKeyPress.bind( self ),
 		};
 
 		// Set class to define the grid is used by Grid Filter
@@ -114,14 +115,7 @@
 			$( _document ).on( 'mouseup', self._events.hideItemDropdown );
 		}
 
-		// Hide all filters on ESC keyup
-		$us.$document.keyup( function( e ) {
-			// ESC key code
-			if ( e.keyCode == 27 ) {
-				// Passing empty event object to close all filters
-				this._hideItemDropdown( {} );
-			}
-		}.bind( self ) );
+		$us.$document.on( 'keydown', self._events.navUsingKeyPress );
 
 		// Add filter options to Woocommerce ordering
 		$( 'form.woocommerce-ordering', $us.$canvas )
@@ -191,6 +185,8 @@
 		if ( self.$container.hasClass( 'togglable' ) ) {
 			self.$filtersItem.on( 'click', '.w-filter-item-title', self._events.toggleItemSection );
 		}
+
+		self.setupTabindex();
 	};
 
 	// Export API
@@ -211,11 +207,11 @@
 		 * @event handler
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
 		 */
-		_changeFilter: function( e ) {
-			var self = this,
-				$target = $( e.currentTarget ),
-				$item = $target.closest( '.w-filter-item' ),
-				type = $ush.toString( $item.usMod( 'type' ) );
+		changeFilter: function( e ) {
+			const self = this;
+			const $target = $( e.target );
+			const $item = $target.closest( '.w-filter-item' );
+			const type = $ush.toString( $item.usMod( 'type' ) );
 
 			// Locked filters
 			$item.removeClass( 'loading' );
@@ -223,7 +219,7 @@
 				.not( $item )
 				.addClass( 'loading' );
 
-			if ( [ 'radio', 'checkbox' ].indexOf( type ) > -1 ) {
+			if ( [ 'radio', 'checkbox' ].includes( type ) ) {
 				// Reset All
 				if ( type === 'radio' ) {
 					$( '.w-filter-item-value', $item )
@@ -370,9 +366,9 @@
 				if ( self.options.layout == 'hor' ) {
 					var title = '';
 					if ( $selected.length === 1 ) {
-						title += ': ' + $selected.nextAll( '.w-filter-item-value-label:first' ).text();
+						title += $selected.nextAll( '.w-filter-item-value-label:first' ).text();
 					} else if( $selected.length > 1 ) {
-						title += ': ' + $selected.length;
+						title += $selected.length;
 					}
 				}
 			}
@@ -388,7 +384,7 @@
 				var value = $( 'input[type="hidden"]:first', $item ).val();
 				hasValue = value;
 				if ( self.options.layout == 'hor' && value ) {
-					title += ': ' + value;
+					title += value;
 				}
 			}
 			if ( type === 'range_slider' ) {
@@ -592,6 +588,8 @@
 					self.checkItemValues();
 				}, 100 );
 			}
+
+			self.setupTabindex();
 		},
 
 		/**
@@ -663,7 +661,54 @@
 				search = search.slice( 0, -1 );
 			}
 			history.replaceState( _document.title, _document.title, url + search + params );
+		},
+
+		/**
+		 * Navigation using key press.
+		 *
+		 * @event handler
+		 * @param {Event} e The Event interface represents an event which takes place in the DOM.
+		 */
+		navUsingKeyPress: function( e ) {
+			const self = this;
+			const keyCode = e.keyCode;
+
+			if ( keyCode == $ush.ESC_KEYCODE ) {
+				self._hideItemDropdown( {} );
+			}
+
+			if (
+				keyCode === $ush.ENTER_KEYCODE
+				&& $.contains( self.$container[0], e.target )
+			) {
+				const $target = $( e.target );
+				if ( $target.hasClass( 'w-filter-item-value' ) ) {
+					$( 'input[type=radio], input[type=checkbox]', $target ).trigger( 'click' );
+				}
+			}
+		},
+
+		/**
+		 * Setup tabindex for horizontal layout and switch style
+		 */
+		setupTabindex: function() {
+			const self = this;
+			if ( self.options.layout === 'hor' && /\sstyle_switch_/.test( self.$container[0].className ) ) {
+				self.$filtersItem.each( ( _, filter ) => {
+					if ( filter.classList.contains( 'type_radio' ) || filter.classList.contains( 'type_checkbox' ) ) {
+						$( '.w-filter-item-value', filter ).each( ( _,  itemValue ) => {
+							const $itemValue = $( itemValue );
+							if ( $itemValue.hasClass( 'disabled' ) ) {
+								$itemValue.removeAttr( 'tabindex' );
+							} else {
+								$itemValue.attr( 'tabindex', 0 );
+							}
+						} );
+					}
+				} );
+			}
 		}
+
 	} );
 
 	$.fn.usGridFilter = function ( options ) {
@@ -672,8 +717,6 @@
 		} );
 	};
 
-	$( function() {
-		$( '.w-filter.for_grid', $us.$canvas ).usGridFilter();
-	} );
+	$( () => $( '.w-filter.for_grid', $us.$canvas ).usGridFilter() );
 
 }( jQuery );

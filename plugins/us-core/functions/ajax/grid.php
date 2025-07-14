@@ -129,7 +129,7 @@ function us_ajax_grid() {
 
 	if ( $post_id = us_get_current_id() AND is_array( $us_page_args ) ) {
 		// Note: Update post_ID to include archive pages.
-		if ( ! $page_content = us_get_page_content( array_merge( $us_page_args, array( 'post_ID' => $post_id ) ) ) ) {
+		if ( ! $page_content = us_get_page_content_for_grid( array_merge( $us_page_args, array( 'post_ID' => $post_id ) ) ) ) {
 			wp_send_json_error();
 		}
 

@@ -3,7 +3,7 @@
 /**
  * Advanced Custom Fields
  *
- * @link https://www.advancedcustomfields.com/
+ * @link https://www.advancedcustomfields.com
  *
  * TODO: Globally replace the architecture of storing and working fields,
  * use an identifier instead of a name, since now there is a problem if fields in
@@ -17,6 +17,9 @@ if ( ! class_exists( 'ACF' ) ) {
 // Register Google Maps API key
 // https://www.advancedcustomfields.com/resources/google-map/
 if ( ! function_exists( 'us_acf_google_map_api' ) ) {
+
+	add_filter( 'acf/fields/google_map/api', 'us_acf_google_map_api' );
+
 	function us_acf_google_map_api( $api ) {
 		// Get the Google Maps API key from the Theme Options
 		$gmaps_api_key = trim( esc_attr( us_get_option('gmaps_api_key', '') ) );
@@ -30,12 +33,13 @@ if ( ! function_exists( 'us_acf_google_map_api' ) ) {
 
 		return $api;
 	}
-
-	add_filter( 'acf/fields/google_map/api', 'us_acf_google_map_api' );
 }
 
 // Removing custom plugin messages for ACF Pro
 if ( ! function_exists( 'us_acf_pro_remove_update_message' ) ) {
+
+	add_action( 'init', 'us_acf_pro_remove_update_message', 30 );
+
 	function us_acf_pro_remove_update_message() {
 		if ( class_exists( 'ACF_Updates' ) ) {
 			$class = new ACF_Updates();
@@ -50,8 +54,6 @@ if ( ! function_exists( 'us_acf_pro_remove_update_message' ) ) {
 			remove_all_actions( 'in_plugin_update_message-' . $acf_basename );
 		}
 	}
-
-	add_action( 'init', 'us_acf_pro_remove_update_message', 30 );
 }
 
 if ( ! function_exists( 'us_acf_get_fields' ) ) {
@@ -134,17 +136,25 @@ if ( ! function_exists( 'us_acf_get_fields' ) ) {
 }
 
 if ( ! function_exists( 'us_acf_get_custom_field' ) ) {
-	add_filter( 'us_get_custom_field', 'us_acf_get_custom_field', 2, 4 );
+
+	add_filter( 'us_get_custom_field', 'us_acf_get_custom_field', 2, 5 );
+
 	/**
 	 * Filters a custom field value to apply the ACF return format
 	 *
-	 * @param mixed $value The meta value
-	 * @param string $name The field name
-	 * @param int|string $current_id The current id
-	 * @param string|null $meta_type The meta type
+	 * @param mixed $value
+	 * @param string $name
+	 * @param int|string $current_id
+	 * @param string|null $meta_type
+	 * @param bool $acf_format Applies the ACF "Return Format" to the returned value, if FALSE - the function returns the raw value
+	 *
 	 * @return mixed Returns a value given specific fields
 	 */
-	function us_acf_get_custom_field( $value, $name, $current_id, $meta_type = NULL ) {
+	function us_acf_get_custom_field( $value, $name, $current_id, $meta_type = NULL, $acf_format = TRUE ) {
+
+		if ( $acf_format === FALSE ) {
+			return $value;
+		}
 
 		// Built-in fields where the name starts with us_ are returned unchanged
 		if ( strpos( $name, 'us_' ) === 0 ) {
@@ -180,7 +190,9 @@ if ( ! function_exists( 'us_acf_get_custom_field' ) ) {
 }
 
 if ( ! function_exists( 'us_acf_link_dynamic_values' ) ) {
+
 	add_filter( 'us_link_dynamic_values', 'us_acf_link_dynamic_values' );
+
 	/**
 	 * Append ACF predefined field types to link dynamic values
 	 *
@@ -211,8 +223,10 @@ if ( ! function_exists( 'us_acf_link_dynamic_values' ) ) {
 }
 
 if ( ! function_exists( 'us_acf_dynamic_values' ) ) {
+
 	add_filter( 'us_text_dynamic_values', 'us_acf_dynamic_values' );
 	add_filter( 'us_image_dynamic_values', 'us_acf_dynamic_values' );
+
 	/**
 	 * Append ACF predefined field types to text dynamic values
 	 *
@@ -244,7 +258,9 @@ if ( ! function_exists( 'us_acf_dynamic_values' ) ) {
 }
 
 if ( ! function_exists( 'us_acf_color_dynamic_values' ) ) {
+
 	add_filter( 'usof_get_color_vars', 'us_acf_color_dynamic_values', 1, 1 );
+
 	/**
 	 * Append ACF predefined field types to color dynamic values
 	 *
@@ -272,7 +288,9 @@ if ( ! function_exists( 'us_acf_color_dynamic_values' ) ) {
 }
 
 if ( ! function_exists( 'us_add_acf_orderby_params' ) ) {
+
 	add_filter( 'us_get_list_orderby_params', 'us_add_acf_orderby_params', 101 );
+
 	/**
 	 * Append ACF predefined field types to List Orderby options
 	 */
@@ -322,7 +340,9 @@ if ( ! function_exists( 'us_add_acf_orderby_params' ) ) {
 }
 
 if ( ! function_exists( 'us_add_acf_filter_params' ) ) {
+
 	add_filter( 'us_get_list_filter_params', 'us_add_acf_filter_params' );
+
 	/**
 	 * Append ACF predefined field types to List Filter
 	 */
@@ -446,7 +466,9 @@ if ( ! function_exists( 'us_add_acf_filter_params' ) ) {
 }
 
 if ( ! function_exists( 'us_acf_post_list_element_config' ) ) {
+
 	add_filter( 'us_config_elements/post_list', 'us_acf_post_list_element_config', 501, 1 );
+
 	/**
 	 * Extends the configuration of the "Post List" element to output posts from ACF.
 	 *
@@ -538,5 +560,135 @@ if ( ! function_exists( 'us_acf_posts_from_custom_field' ) ) {
 			$query_args['post__in'] = (array) $post_ids;
 		}
 		return $query_args;
+	}
+}
+
+if ( ! function_exists( 'us_acf_tta_source_options' ) ) {
+
+	add_filter( 'us_tta_source_options', 'us_acf_tta_source_options' );
+
+	/**
+	 * Add the sources into Accordion/Tabs/Vertical Tabs elements to output data from ACF Repeater.
+	 *
+	 * @return array Returns the options.
+	 */
+	function us_acf_tta_source_options( $options ) {
+
+		foreach ( us_acf_get_fields( array( 'repeater' ), TRUE ) as $field ) {
+			$group_label = (string) us_arr_path( $field, '__group_label__' );
+			foreach ( $field as $field_key => $field_name ) {
+				if ( $field_key !== '__group_label__' ) {
+					$options[ $field_key ] = $group_label . ': ' . $field_name;
+				}
+			}
+		}
+
+		return $options;
+	}
+}
+
+if ( ! function_exists( 'us_acf_tta_content' ) ) {
+
+	add_filter( 'us_vc_tta_tabs_content', 'us_acf_tta_content', 10, 2 );
+
+	/**
+	 * Change the content of Accordion/Tabs/Vertical Tabs to output data from ACF Repeater.
+	 *
+	 * @return string Returns the content.
+	 */
+	function us_acf_tta_content( $content, $atts ) {
+
+		if ( empty( $atts['data_source'] ) ) {
+			return $content;
+		}
+
+		// Check if the value has "option|" prefix
+		if ( strpos( $atts['data_source'], 'option|' ) === 0 ) {
+			$option = strtok( $atts['data_source'], '|' );
+			$field_name = strtok( '|' );
+		} else {
+			$option = FALSE;
+			$field_name = $atts['data_source'];
+		}
+
+		if ( $rows = get_field( $field_name, $option ) AND is_array( $rows ) ) {
+			$content = '';
+
+			$title_source = $atts['title_source'] ?? '';
+			$content_source = $atts['content_source'] ?? '';
+
+			foreach( $rows as $row ) {
+
+				$section_title = $row[ trim( $title_source ) ] ?? '';
+				if ( ! is_scalar( $section_title ) ) {
+					$section_title = 'Unsupported format';
+				}
+
+				$section_content = $row[ trim( $content_source ) ] ?? '';
+				if ( ! is_scalar( $section_content ) ) {
+					$section_content = 'Unsupported format';
+				}
+
+				$section_content = apply_filters( 'us_acf_tta_section_content', $section_content, $row );
+
+				$content .= sprintf( '[vc_tta_section title="%s"]%s[/vc_tta_section]', $section_title, $section_content );
+			}
+		}
+
+		return $content;
+	}
+}
+
+if ( ! function_exists( 'us_conditions_custom_field_acf_format' ) ) {
+
+	add_filter( 'us_conditions_custom_field_acf_format', 'us_conditions_custom_field_acf_format', 10, 3 );
+
+	/**
+	 * Disable the ACF value format for specific field types
+	 *
+	 * @param bool $acf_format format is on or off
+	 * @param string $meta_key The meta key
+	 *
+	 * @return bool $acf_format format is on or off
+	 */
+	function us_conditions_custom_field_acf_format( $acf_format, $meta_key, $current_id ) {
+		if (
+			$field_object = get_field_object( $meta_key, $current_id )
+			AND isset( $field_object['type'] )
+			AND in_array( $field_object['type'], array( 'date_picker', 'date_time_picker', 'time_picker' ) )
+		) {
+			$acf_format = FALSE;
+		}
+		return $acf_format;
+	}
+}
+
+if ( ! function_exists( 'us_change_acf_date_format' ) ) {
+
+	add_filter( 'us_filter_indexer_meta_value', 'us_change_acf_date_format', 10, 2 );
+
+	/**
+	 * Format dates from YYYYMMDD to YYYY-MM-DD
+	 */
+	function us_change_acf_date_format( $value, $meta_key ) {
+
+		$date_picker_fields = array();
+
+		foreach ( (array) acf_get_field_groups() as $group ) {
+			foreach ( (array) acf_get_fields( $group['ID'] ) as $field ) {
+				if ( $field['type'] == 'date_picker' ) {
+					$date_picker_fields[] = $field['name'];
+				}
+			}
+		}
+
+		if (
+			in_array( $meta_key, $date_picker_fields )
+			AND strlen( $value ) == 8
+			AND ctype_digit( $value )
+		) {
+			$value = substr( $value, 0, 4 ) . '-' . substr( $value, 4, 2 ) . '-' . substr( $value, 6, 2 );
+		}
+		return $value;
 	}
 }

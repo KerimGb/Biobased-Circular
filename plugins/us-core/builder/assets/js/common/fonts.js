@@ -7,16 +7,13 @@
  *
  */
 ! function( $, undefined ) {
-	var _window = window,
-		isUndefined = $ush.isUndefined,
-		isEmptyObject = $.isEmptyObject,
-		isPlainObject = $.isPlainObject;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 
 	/**
@@ -33,14 +30,17 @@
 		 * @param {{}} themeOptions The theme options
 		 */
 		setGoogleFonts: function( themeOptions ) {
+			const self = this;
+
 			if ( ! $usb.iframeIsReady ) {
 				return;
 			}
-			var self = this,
-				$node = $( 'link[id=' + $usb.config( 'typography.fonts_id' ) + ']', $usb.iframe.contentDocument );
+
+			const $node = $( 'link[id=' + $usb.config( 'typography.fonts_id' ) + ']', $usb.iframe.contentDocument );
 
 			if ( $node.length ) {
 				$node.attr( 'href', self._getGoogleEndpoint( themeOptions ) );
+
 			} else {
 				$( 'head', $usb.iframe.contentDocument ).append(
 					'<link id="' + $usb.config( 'typography.fonts_id' )
@@ -58,38 +58,39 @@
 		 * @return {String} Returns the endpoint for connecting Google Fonts
 		 */
 		_getGoogleEndpoint: function( themeOptions ) {
-			var self = this,
-				usedFonts = {}, // all used fonts
-				config = $usb.config( 'typography', {} ), // typography Configurations
-				googleFonts = config.googleFonts || {}; // list of available Google Fonts
+			const self = this;
+
+			var usedFonts = {},
+				config = $usb.config( 'typography', {} ),
+				googleFonts = config.googleFonts || {};
 
 			var tags = config.tags || []; // tags for typography
-			for ( var i in tags ) {
+			for ( const i in tags ) {
 				var tag = tags[ i ], tagProps = themeOptions[ tag ];
-				if ( ! isPlainObject( tagProps ) ) {
+				if ( ! $.isPlainObject( tagProps ) ) {
 					continue;
 				}
 				// Get font family
 				var fontFamily = tagProps[ 'font-family' ];
-				if ( isUndefined( fontFamily ) ) {
+				if ( $ush.isUndefined( fontFamily ) ) {
 					continue;
 				}
 				// Check if the name is in the list of Google fonts
-				if ( isUndefined( googleFonts[ fontFamily ] ) ) {
+				if ( $ush.isUndefined( googleFonts[ fontFamily ] ) ) {
 					continue;
 				}
 				// Define italic and inherit family
 				var _fontFamily = $ush.rawurlencode( fontFamily );
 
 				// In any case, let's add the font to the list
-				if ( fontFamily !== 'inherit' && isUndefined( usedFonts[ _fontFamily ] ) ) {
+				if ( fontFamily !== 'inherit' && $ush.isUndefined( usedFonts[ _fontFamily ] ) ) {
 					usedFonts[ _fontFamily ] = $ush.toString( googleFonts[ fontFamily ] ).split( ',' );
 				}
 			}
 
 			// Create inline fonts `Name:100,200,400italic...`
 			var inlineFonts = [];
-			for ( var fontFamily in usedFonts ) {
+			for ( const fontFamily in usedFonts ) {
 				var font = fontFamily,
 					weights = usedFonts[ fontFamily ];
 				if ( weights.length ) {
@@ -99,8 +100,8 @@
 			}
 
 			// Create endpoint to connect Google Fonts
+			// see https://developers.google.com/fonts/docs/getting_started
 			if ( inlineFonts.length ) {
-				// see https://developers.google.com/fonts/docs/getting_started
 				return config.googleapis + '?family=' + inlineFonts.join( '|' ) + '&display=' + config.font_display;
 			}
 			return '';

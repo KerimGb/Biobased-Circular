@@ -21,6 +21,8 @@ if ( us_get_option( 'enable_additional_settings', 1 ) ) {
 	$us_tile_values = array();
 }
 
+$image_sizes_list = us_is_elm_editing_page() ? us_get_image_sizes_list() : array();
+
 // Fetching the available taxonomies for selection
 $taxonomies_params = $filter_taxonomies_params = $available_taxonomies = array();
 
@@ -50,9 +52,7 @@ foreach ( $known_post_type_taxonomies as $post_type => $taxonomy_slugs ) {
 			$filter_taxonomies_params[ 'filter_' . $post_type ] = array(
 				'title' => __( 'Filter by', 'us' ),
 				'type' => 'select',
-				'options' => array_merge(
-					array( '' => '– ' . us_translate( 'None' ) . ' –' ), $filter_values
-				),
+				'options' => array( '' => '– ' . us_translate( 'None' ) . ' –' ) + $filter_values,
 				'std' => '',
 				'show_if' => array( 'post_type', '=', $post_type ),
 				'exclude_for_us_carousel' => TRUE,
@@ -393,7 +393,7 @@ $general_params = array_merge(
 			'options' => array(
 				'message' => __( 'Show the message', 'us' ),
 				'page_block' => __( 'Show the Reusable Block', 'us' ),
-				'hide_grid' => __( 'Hide this Grid', 'us' ),
+				'hide_grid' => __( 'Hide this element', 'us' ),
 			),
 			'std' => 'message',
 			'usb_preview' => TRUE,
@@ -513,7 +513,7 @@ $appearance_params = array(
 		'title' => __( 'Grid Layout', 'us' ),
 		'description' => $misc['desc_grid_layout'],
 		'type' => 'select',
-		'options' => us_get_grid_layouts_for_selection(),
+		'options' => us_is_elm_editing_page() ? us_get_grid_layouts_for_selection() : array(),
 		'std' => 'blog_1',
 		'classes' => 'for_grid_layouts',
 		'settings' => array(
@@ -628,9 +628,7 @@ $appearance_params = array(
 		'title' => __( 'Post Image Size', 'us' ),
 		'description' => $misc['desc_img_sizes'],
 		'type' => 'select',
-		'options' => array_merge(
-			array( 'default' => __( 'As in Grid Layout', 'us' ) ), us_get_image_sizes_list()
-		),
+		'options' => array( 'default' => __( 'As in Grid Layout', 'us' ) ) + $image_sizes_list,
 		'std' => 'default',
 		'cols' => 2,
 		'group' => us_translate( 'Appearance' ),

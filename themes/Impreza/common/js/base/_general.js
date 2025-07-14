@@ -19,15 +19,11 @@ var _document = document,
 */
 jQuery.easing.jswing=jQuery.easing.swing;var pow=Math.pow;jQuery.extend(jQuery.easing,{def:"easeOutExpo",easeInExpo:function(a){return 0===a?0:pow(2,10*a-10)},easeOutExpo:function(a){return 1===a?1:1-pow(2,-10*a)},easeInOutExpo:function(a){return 0===a?0:1===a?1:.5>a?pow(2,20*a-10)/2:(2-pow(2,-20*a+10))/2}});
 
-// Check for is set objects
-_window.$ush = _window.$ush || {};
-
-/**
- * UpSolution Theme Core JavaScript Code
- *
- * @requires jQuery
- */
+// UpSolution Theme Core
 _window.$us = _window.$us || {};
+
+// UpSolution Helper Library
+_window.$ush = _window.$ush || {};
 
 /**
  * Determines if the device is iOS
@@ -67,7 +63,7 @@ $us.header = {};
 	'isTransparent',
 	'isVertical',
 	'on'
-].map( function( name ) {
+].map( ( name ) => {
 	// External functions that can be called in other scripts
 	$us.header[ name ] = jQuery.noop;
 } );
@@ -79,15 +75,15 @@ $us.header = {};
  * @returns {String|self}
  */
 jQuery.fn.usMod = function( mod, value ) {
-	var self = this;
+	const self = this;
 	if ( self.length == 0 ) return self;
 	// Retrieve modificator (The modifier will only be obtained from the first node)
 	if ( value === _undefined ) {
-		var pcre = new RegExp( '^.*?' + mod + '\_([a-zA-Z0-9\_\-]+).*?$' );
+		const pcre = new RegExp( '^.*?' + mod + '\_([a-zA-Z0-9\_\-]+).*?$' );
 		return ( pcre.exec( self.get( 0 ).className ) || [] )[ 1 ] || false;
 	}
 	// Set/Remove class modificator
-	self.each( function( _, item ) {
+	self.each( ( _, item ) => {
 		// Remove class modificator
 		item.className = item.className.replace( new RegExp( '(^| )' + mod + '\_[a-zA-Z0-9\_\-]+( |$)' ), '$2' );
 		if ( value !== false ) {
@@ -122,7 +118,7 @@ $us.mixins.Events = {
 	 * @param {Function} handler A function to execute each time the event is triggered
 	 */
 	on: function( eventType, handler ) {
-		var self = this;
+		const self = this;
 		if ( self.$$events === _undefined ) {
 			self.$$events = {};
 		}
@@ -139,7 +135,7 @@ $us.mixins.Events = {
 	 * @chainable
 	 */
 	off: function( eventType, handler ) {
-		var self = this;
+		const self = this;
 		if ( self.$$events === _undefined || self.$$events[ eventType ] === _undefined ) {
 			return self;
 		}
@@ -160,7 +156,7 @@ $us.mixins.Events = {
 	 * @chainable
 	 */
 	trigger: function( eventType, extraParameters ) {
-		var self = this;
+		const self = this;
 		if ( self.$$events === _undefined || self.$$events[ eventType ] === _undefined || self.$$events[ eventType ].length == 0 ) {
 			return self;
 		}
@@ -204,14 +200,15 @@ jQuery.isMobile = (
 	 *
 	 * @return {Boolean} True if context of Live Builder, False otherwise.
 	 */
-	$us.usbPreview = function() {
+	$us.usbPreview = () => {
 		return _document.body.className.includes( 'usb_preview' );
 	};
 
-	// Add a class to define touch devices
+	// Add class to define touch devices
 	if ( $us.iOS ) {
 		// For all iOS devices
 		$us.$html.removeClass( 'no-touch' ).addClass( 'ios-touch' );
+
 	} else if ( $.isMobile || $ush.isTouchend ) {
 		// For all mobile or supported touch devices
 		$us.$html.removeClass( 'no-touch' ).addClass( 'touch' );
@@ -230,8 +227,8 @@ jQuery.isMobile = (
 	 *
 	 * @return {String} Returns the current state (default|laptops|tablets|mobiles).
 	 */
-	$us.getCurrentState = function() {
-		return '' + $us.$body.usMod( 'state' );
+	$us.getCurrentState = () => {
+		return $ush.toString( $us.$body.usMod( 'state' ) );
 	};
 
 	/**
@@ -240,14 +237,14 @@ jQuery.isMobile = (
 	 * @param {String|[]} state State to be compared with.
 	 * @return {Boolean} True if the state matches, False otherwise.
 	 */
-	$us.currentStateIs = function( state ) {
+	$us.currentStateIs = ( state ) => {
 		if ( ! state ) {
 			return false;
 		}
 		if ( ! Array.isArray( state ) ) {
-			state = [ '' + state ];
+			state = [ $ush.toString( state ) ];
 		}
-		return $.inArray( $us.getCurrentState(), state ) !== - 1;
+		return state.includes( $us.getCurrentState() );
 	};
 
 	/**
@@ -255,7 +252,7 @@ jQuery.isMobile = (
 	 *
 	 * @return {Number} Returns the height of the admin bar if it exists.
 	 */
-	$us.getAdminBarHeight = function() {
+	$us.getAdminBarHeight = () => {
 		return ( _document.getElementById('wpadminbar') || {} ).offsetHeight || 0;
 	};
 } ( jQuery );
@@ -268,14 +265,14 @@ jQuery.isMobile = (
  * TODO: Check all data that is linked from `$us.header` and use the functionality
  * of object `$us.header` and clear the current object.
  */
-! function( $, undefined ) {
+! function( $ ) {
 	"use strict";
 
 	function USCanvas( options ) {
-		var self = this;
+		const self = this;
 
 		// Setting options
-		var defaults = {
+		const defaults = {
 			disableEffectsWidth: 900,
 			backToTopDisplay: 100
 		};
@@ -309,14 +306,9 @@ jQuery.isMobile = (
 		// If in iframe...
 		if ( $us.$body.hasClass( 'us_iframe' ) ) {
 			// change links so they lead to main window
-			$( 'a:not([target])' ).each( function() {
-				$( this ).attr( 'target', '_parent' )
-			} );
+			$( 'a:not([target])' ).each( ( _, node ) => $( node ).attr( 'target', '_parent' ) );
 			// hide preloader
-			$( function( $ ) {
-				var $framePreloader = $( '.l-popup-box-content .g-preloader', _window.parent.document );
-				$framePreloader.hide();
-			} );
+			$( () => $( '.l-popup-box-content .g-preloader', _window.parent.document ).hide() );
 		}
 
 		// Class assignments for adjusting header position via css.
@@ -356,8 +348,7 @@ jQuery.isMobile = (
 		 * @return {Boolean} True if sticky section, False otherwise.
 		 */
 		isStickySection: function() {
-			var self = this;
-			return !! self.$stickySections.length;
+			return this.$stickySections.length > 0;
 		},
 
 		/**
@@ -366,7 +357,7 @@ jQuery.isMobile = (
 		 * @return {Boolean} True if sticky section, False otherwise.
 		 */
 		hasStickySection: function () {
-			var self = this;
+			const self = this;
 			if ( self.isStickySection() ) {
 				return self.$stickySections.hasClass( 'is_sticky' );
 			}
@@ -379,11 +370,11 @@ jQuery.isMobile = (
 		 * @return {Boolean} True if position sticky sections, False otherwise.
 		 */
 		hasPositionStickySections: function() {
-			var self = this;
+			const self = this;
 			if ( self.isStickySection() ) {
 				return self.$stickySections
-					.filter( function() { return $( this ).css( 'position' ) == 'sticky' } )
-					.length;
+					.filter( ( _, node ) => { return $( node ).css( 'position' ) == 'sticky' } )
+					.length > 0;
 			}
 			return false;
 		},
@@ -394,8 +385,8 @@ jQuery.isMobile = (
 		 * @return {Number} The height first sticky section.
 		 */
 		getStickySectionHeight: function() {
-			var self = this,
-				stickySectionHeight = 0;
+			const self = this;
+			var stickySectionHeight = 0;
 			if ( self.isStickySection() ) {
 				var header = $us.header,
 					$stickySection = self.$stickySections.first();
@@ -415,8 +406,8 @@ jQuery.isMobile = (
 		 * @return {boolean} True if first sticky section, False otherwise.
 		 */
 		hasStickyFirstSection: function() {
-			var self = this,
-				$first = self.$stickySections.first();
+			const self = this;
+			const $first = self.$stickySections.first();
 			return self.isStickySection() && $first.index() === 0 && $first.hasClass( 'is_sticky' );
 		},
 
@@ -428,7 +419,7 @@ jQuery.isMobile = (
 		 */
 		isAfterStickySection: function( node ) {
 			var $node = $( node );
-			if ( ! $node.length ) {
+			if ( $node.length == 0 ) {
 				return false;
 			}
 			if ( ! $node.hasClass( 'l-section' ) ) {
@@ -443,7 +434,7 @@ jQuery.isMobile = (
 		 * @return {number} The height first section.
 		 */
 		getHeightFirstSection: function() {
-			return this.$firstSection.length
+			return this.$firstSection.length > 0
 				? parseFloat( this.$firstSection.outerHeight( true ) )
 				: 0;
 		},
@@ -458,8 +449,8 @@ jQuery.isMobile = (
 			 * @event handler
 			 */
 			scroll: function() {
-				var self = this,
-					scrollTop = parseInt( $us.$window.scrollTop() );
+				const self = this;
+				const scrollTop = parseInt( $us.$window.scrollTop() );
 
 				// Show/hide go to top link
 				self.$topLink
@@ -470,7 +461,7 @@ jQuery.isMobile = (
 						$ush.clearTimeout( self.pid );
 					}
 					self.isScrolling = true;
-					self.pid = $ush.timeout( function() {
+					self.pid = $ush.timeout( () => {
 						self.isScrolling = false;
 					}, 100 );
 				}
@@ -482,7 +473,7 @@ jQuery.isMobile = (
 			 * @event handler
 			 */
 			resize: function() {
-				var self = this;
+				const self = this;
 
 				// Window dimensions
 				self.winHeight = parseInt( $us.$window.height() );
@@ -512,18 +503,15 @@ jQuery.isMobile = (
 			 * @event handler
 			 */
 			toggleClassIsSticky: function() {
-				var self = this;
+				const self = this;
 				if ( ! self.isStickySection() ) {
 					return;
 				}
-				self.$stickySections.each( function( _, section ) {
-					var $section = $( section ),
-						offsetTop = section.getBoundingClientRect().top - parseInt( $section.css( 'top' ) );
+				self.$stickySections.each( ( _, section ) => {
+					const $section = $( section );
+					const offsetTop = section.getBoundingClientRect().top - parseInt( $section.css( 'top' ) );
 					$section
-						.toggleClass( 'is_sticky', (
-							parseInt( offsetTop ) === 0
-							&& $section.css( 'position' ) == 'sticky'
-						) );
+						.toggleClass( 'is_sticky', ( parseInt( offsetTop ) === 0 && $section.css( 'position' ) == 'sticky' ) );
 				} );
 			}
 		}
@@ -544,21 +532,21 @@ jQuery.isMobile = (
 	 * Usage: `$node.resetInlineCSS( 'height', 'width' )` or `$node.resetInlineCSS( [ 'height', 'width' ] )`
 	 */
 	$.fn.resetInlineCSS = function() {
-		var self = this,
-			args = [].slice.call( arguments );
-		if ( args.length && Array.isArray( args[0] ) ) {
+		const self = this;
+		var args = [].slice.call( arguments );
+		if ( args.length > 0 && Array.isArray( args[0] ) ) {
 			args = args[0];
 		}
-		for ( var index = 0; index < args.length; index ++ ) {
+		for ( var index = 0; index < args.length; index++ ) {
 			self.css( args[ index ], '' );
 		}
 		return self;
 	};
 
 	$.fn.clearPreviousTransitions = function() {
-		var self = this,
-			// Stopping previous events, if there were any
-			prevTimers = ( self.data( 'animation-timers' ) || '' ).split( ',' );
+		const self = this;
+		// Stopping previous events, if there were any
+		const prevTimers = ( self.data( 'animation-timers' ) || '' ).split( ',' );
 		if ( prevTimers.length >= 2 ) {
 			self.resetInlineCSS( 'transition' );
 			prevTimers.map( clearTimeout );
@@ -576,15 +564,17 @@ jQuery.isMobile = (
 	 * @param {Number} delay in milliseconds
 	 */
 	$.fn.performCSSTransition = function( css, duration, onFinish, easing, delay ) {
+		const self = this;
+
+		var transition = [];
+
 		duration = duration || 250;
 		delay = delay || 25;
 		easing = easing || 'ease';
-		var self = this,
-			transition = [];
 
 		self.clearPreviousTransitions();
 
-		for ( var attr in css ) {
+		for ( const attr in css ) {
 			if ( ! css.hasOwnProperty( attr ) ) {
 				continue;
 			}
@@ -596,11 +586,8 @@ jQuery.isMobile = (
 		} );
 
 		// Starting the transition with a slight delay for the proper application of CSS transition properties
-		var timer1 = setTimeout( function() {
-			self.css( css );
-		}, delay );
-
-		var timer2 = setTimeout( function() {
+		const timer1 = setTimeout( () => self.css( css ), delay );
+		const timer2 = setTimeout( () => {
 			self.resetInlineCSS( 'transition' );
 			if ( typeof onFinish === 'function' ) {
 				onFinish();
@@ -612,16 +599,16 @@ jQuery.isMobile = (
 
 	// Height animations
 	$.fn.slideDownCSS = function( duration, onFinish, easing, delay ) {
-		var self = this;
+		const self = this;
 		if ( self.length == 0 ) {
 			return;
 		}
 		self.clearPreviousTransitions();
 		// Grabbing paddings
 		self.resetInlineCSS( 'padding-top', 'padding-bottom' );
-		var timer1 = setTimeout( function() {
-			var paddingTop = parseInt( self.css( 'padding-top' ) ),
-				paddingBottom = parseInt( self.css( 'padding-bottom' ) );
+		const timer1 = setTimeout( () => {
+			const paddingTop = parseInt( self.css( 'padding-top' ) );
+			const paddingBottom = parseInt( self.css( 'padding-bottom' ) );
 			// Grabbing the "auto" height in px
 			self.css( {
 				visibility: 'hidden',
@@ -644,7 +631,7 @@ jQuery.isMobile = (
 				height: height + paddingTop + paddingBottom,
 				'padding-top': paddingTop,
 				'padding-bottom': paddingBottom
-			}, duration, function() {
+			}, duration, () => {
 				self.resetInlineCSS( 'overflow' ).css( 'height', 'auto' );
 				if ( typeof onFinish == 'function' ) {
 					onFinish();
@@ -655,7 +642,7 @@ jQuery.isMobile = (
 	};
 
 	$.fn.slideUpCSS = function( duration, onFinish, easing, delay ) {
-		var self = this;
+		const self = this;
 		if ( self.length == 0 ) {
 			return;
 		}
@@ -671,10 +658,12 @@ jQuery.isMobile = (
 			opacity: 0,
 			'padding-top': 0,
 			'padding-bottom': 0
-		}, duration, function() {
-			self.resetInlineCSS( 'overflow', 'padding-top', 'padding-bottom' ).css( {
-				display: 'none'
-			} );
+		}, duration, () => {
+			self.resetInlineCSS( 'overflow', 'padding-top', 'padding-bottom' ).css(
+				{
+					display: 'none'
+				}
+			);
 			if ( typeof onFinish == 'function' ) {
 				onFinish();
 			}
@@ -683,7 +672,7 @@ jQuery.isMobile = (
 
 	// Opacity animations
 	$.fn.fadeInCSS = function( duration, onFinish, easing, delay ) {
-		var self = this;
+		const self = this;
 		if ( self.length == 0 ) {
 			return;
 		}
@@ -693,19 +682,20 @@ jQuery.isMobile = (
 	};
 
 	$.fn.fadeOutCSS = function( duration, onFinish, easing, delay ) {
-		var self = this;
+		const self = this;
 		if ( self.length == 0 ) {
 			return;
 		}
 		self.performCSSTransition( {
 			opacity: 0
-		}, duration, function() {
+		}, duration, () => {
 			self.css( 'display', 'none' );
 			if ( typeof onFinish === 'function' ) {
 				onFinish();
 			}
 		}, easing, delay );
 	};
+
 }( jQuery );
 
 jQuery( function( $ ) {
@@ -718,9 +708,9 @@ jQuery( function( $ ) {
 		$us.$document .on( 'click', '#us-set-cookie', ( e ) => {
 			e.preventDefault();
 			e.stopPropagation();
-			var d = new Date();
+			const d = new Date();
 			d.setFullYear( d.getFullYear() + 1 );
-			_document.cookie = 'us_cookie_notice_accepted=true; expires=' + d.toUTCString() + '; path=/;';
+			_document.cookie = `us_cookie_notice_accepted=true; expires=${d.toUTCString()}; path=/;`;
 			if ( location.protocol === 'https:' ) {
 				_document.cookie += ' secure;';
 			}
@@ -743,38 +733,37 @@ jQuery( function( $ ) {
 	} );
 
 	// Force popup opening on links with ref
-	var USPopupLink = function( context, options ) {
-		var $links = $( 'a[ref=magnificPopup][class!=direct-link]:not(.inited)', context || _document ),
-			defaultOptions = {
-				fixedContentPos: true,
-				mainClass: 'mfp-fade',
-				removalDelay: 300,
-				type: 'image'
-			};
-		if ( $links.length ) {
+	function usPopupLink( context, opts ) {
+		const $links = $( 'a[ref=magnificPopup][class!=direct-link]:not(.inited)', context || _document );
+		const defaultOptions = {
+			fixedContentPos: true,
+			mainClass: 'mfp-fade',
+			removalDelay: 300,
+			type: 'image'
+		};
+		if ( $links.length > 0 ) {
 			$links
 				.addClass( 'inited' )
-				.magnificPopup( $.extend( {}, defaultOptions, options || {} ) );
+				.magnificPopup( $.extend( {}, defaultOptions, opts || {} ) );
 		}
 	};
-	$.fn.wPopupLink = function( options ) {
+	$.fn.wPopupLink = function( opts ) {
 		return this.each( function() {
-			$( this ).data( 'wPopupLink', new USPopupLink( this, options ) );
+			$( this ).data( 'usPopupLink', new usPopupLink( this, opts ) );
 		} );
 	};
 
-	// Init wPopupLink
-	$us.$document.wPopupLink();
+	$( () => $us.$document.wPopupLink() );
 
+	// Footer Reveal handler
 	( function() {
-		// Footer Reveal handler
-		var $footer = $( '.l-footer' );
+		const $footer = $( '.l-footer' );
 
-		if ( $us.$body.hasClass( 'footer_reveal' ) && $footer.length && $footer.html().trim().length ) {
-			var usFooterReveal = function() {
+		if ( $us.$body.hasClass( 'footer_reveal' ) && $footer.length > 0 && $footer.html().trim().length > 0 ) {
+			function usFooterReveal() {
 				var footerHeight = $footer.innerHeight();
-				if ( _window.innerWidth > parseInt( $us.canvasOptions.columnsStackingWidth ) - 1 ) {
-					$us.$canvas.css( 'margin-bottom', Math.round( footerHeight ) - 1 );
+				if ( _window.innerWidth > parseInt( $us.canvasOptions.columnsStackingWidth ) -1 ) {
+					$us.$canvas.css( 'margin-bottom', Math.round( footerHeight ) -1 );
 				} else {
 					$us.$canvas.css( 'margin-bottom', '' );
 				}
@@ -786,9 +775,9 @@ jQuery( function( $ ) {
 	} )();
 
 	/* YouTube/Vimeo background */
-	var $usYTVimeoVideoContainer = $( '.with_youtube, .with_vimeo' );
-	if ( $usYTVimeoVideoContainer.length ) {
-		$us.$window.on( 'resize load', function() {
+	const $usYTVimeoVideoContainer = $( '.with_youtube, .with_vimeo' );
+	if ( $usYTVimeoVideoContainer.length > 0 ) {
+		$us.$window.on( 'resize load', () => {
 			$usYTVimeoVideoContainer.each( function() {
 				var $container = $( this ),
 					$frame = $container.find( 'iframe' ).first(),
@@ -817,11 +806,11 @@ jQuery( function( $ ) {
 /**
  * $us.waypoints
  */
-;( function( $, undefined ) {
+;( function( $ ) {
 	"use strict";
 
 	function USWaypoints() {
-		var self = this;
+		const self = this;
 
 		// Waypoints that will be called at certain scroll position
 		self.waypoints = [];
@@ -832,6 +821,7 @@ jQuery( function( $ ) {
 		$us.$window
 			.on( 'resize load', self._events.resize.bind( self ) )
 			.on( 'scroll scroll.waypoints', self._events.scroll.bind( self ) );
+
 		$ush.timeout( self._events.resize.bind( self ), 75 );
 		$ush.timeout( self._events.scroll.bind( self ), 75 );
 	}
@@ -845,8 +835,8 @@ jQuery( function( $ ) {
 			 * Scroll handler
 			 */
 			scroll: function() {
-				var self = this,
-					scrollTop = parseInt( $us.$window.scrollTop() );
+				const self = this;
+				var scrollTop = parseInt( $us.$window.scrollTop() );
 
 				// Safari negative scroller fix
 				scrollTop = ( scrollTop >= 0 ) ? scrollTop : 0;
@@ -864,9 +854,9 @@ jQuery( function( $ ) {
 			 * Resize handler
 			 */
 			resize: function() {
-				var self = this;
+				const self = this;
 				// Delaying the resize event to prevent glitches
-				$ush.timeout( function() {
+				$ush.timeout( () => {
 					self._countAll.call( self );
 					self._events.scroll.call( self );
 				}, 150 );
@@ -882,7 +872,7 @@ jQuery( function( $ ) {
 		 * @param {Function} fn The function that will be called
 		 */
 		add: function( $node, offset, fn ) {
-			var self = this;
+			const self = this;
 			$node = ( $node instanceof $ ) ? $node : $( $node );
 			if ( $node.length == 0 ) {
 				return;
@@ -908,7 +898,7 @@ jQuery( function( $ ) {
 		 * @param {{}} waypoint
 		 */
 		_count: function( waypoint ) {
-			var elmTop = waypoint.$node.offset().top, winHeight = $us.$window.height();
+			const elmTop = waypoint.$node.offset().top, winHeight = $us.$window.height();
 			if ( typeof waypoint.offset == 'number' ) {
 				// Offset is defined in pixels
 				waypoint.scrollPos = elmTop - winHeight + waypoint.offset;
@@ -921,7 +911,7 @@ jQuery( function( $ ) {
 		 * Count all targets for proper scrolling
 		 */
 		_countAll: function() {
-			var self = this;
+			const self = this;
 			// Counting waypoints
 			for ( var i = 0; i < self.waypoints.length; i ++ ) {
 				self._count( self.waypoints[ i ] );
@@ -932,27 +922,23 @@ jQuery( function( $ ) {
 })( jQuery );
 
 ;( function() {
-	var lastTime = 0,
-		vendors = ['ms', 'moz', 'webkit', 'o'];
+	var lastTime = 0;
+	const vendors = ['ms', 'moz', 'webkit', 'o'];
 	for ( var x = 0; x < vendors.length && ! _window.requestAnimationFrame; ++ x ) {
 		_window.requestAnimationFrame = _window[ vendors[ x ] + 'RequestAnimationFrame' ];
 		_window.cancelAnimationFrame = _window[ vendors[ x ] + 'CancelAnimationFrame' ] || _window[ vendors[ x ] + 'CancelRequestAnimationFrame' ];
 	}
 	if ( ! _window.requestAnimationFrame ) {
-		_window.requestAnimationFrame = function( callback, element ) {
-			var currTime = new Date().getTime(),
-				timeToCall = Math.max( 0, 16 - ( currTime - lastTime ) ),
-				id = _window.setTimeout( function() {
-					callback( currTime + timeToCall );
-				}, timeToCall );
+		_window.requestAnimationFrame = ( callback, element ) => {
+			const currTime = new Date().getTime();
+			const timeToCall = Math.max( 0, 16 - ( currTime - lastTime ) );
+			const id = _window.setTimeout( () => callback( currTime + timeToCall ), timeToCall );
 			lastTime = currTime + timeToCall;
 			return id;
 		};
 	}
 	if ( ! _window.cancelAnimationFrame ) {
-		_window.cancelAnimationFrame = function( id ) {
-			clearTimeout( id );
-		};
+		_window.cancelAnimationFrame = ( id ) => clearTimeout( id );
 	}
 }() );
 
@@ -960,20 +946,17 @@ jQuery( function( $ ) {
  * Remove empty space before content for video post type with active preview
  */
 if ( $us.$body.hasClass( 'single-format-video' ) ) {
-	figure = $us.$body.find( 'figure.wp-block-embed div.wp-block-embed__wrapper' );
-	if ( figure.length ) {
-		figure.each( function() {
-			if ( this.firstElementChild === null ) {
-				this.remove();
-			}
-		} );
-	}
+	$( 'figure.wp-block-embed div.wp-block-embed__wrapper', $us.$body ).each( ( _, node ) => {
+		if ( node.firstElementChild === null ) {
+			node.remove();
+		}
+	} );
 }
 
 /*
  * With "Show More" link, used in Text Block and Post Content elements
  */
-! function( $, undefined ) {
+! function( $ ) {
 	"use strict";
 
 	function usCollapsibleContent( container ) {
@@ -996,7 +979,7 @@ if ( $us.$body.hasClass( 'single-format-video' ) ) {
 			.on( 'click', '.collapsible-content-more, .collapsible-content-less', self._events.showContent );
 
 		// Init if not in Owl Carousel context
-		if ( ! self.$container.closest( '.owl-carousel' ).length ) {
+		if ( self.$container.closest( '.owl-carousel' ).length == 0 ) {
 			self.setHeight.call( self );
 		}
 	};
@@ -1063,10 +1046,10 @@ if ( $us.$body.hasClass( 'single-format-video' ) ) {
 	/**
 	 * Additional event validation for scanned Owl Carousel items
 	 */
-	if ( $( '.owl-carousel', $us.$canvas ).length ) {
-		$us.$canvas.on( 'click', '.collapsible-content-more, .collapsible-content-less', function( e ) {
-			var $target = $( e.target ),
-				$container = $target.closest( '[data-content-height]' );
+	if ( $( '.owl-carousel', $us.$canvas ).length > 0 ) {
+		$us.$canvas.on( 'click', '.collapsible-content-more, .collapsible-content-less', ( e ) => {
+			const $target = $( e.target );
+			const $container = $target.closest( '[data-content-height]' );
 			if ( ! $container.data( 'usCollapsibleContent' ) ) {
 				$container.usCollapsibleContent();
 				$target.trigger( 'click' );
@@ -1080,13 +1063,69 @@ if ( $us.$body.hasClass( 'single-format-video' ) ) {
  * Will fire the original resize event so that the video element
  * recalculates the width and height of the player in WPopup
  */
-! function( $, undefined ) {
-	$us.$window.on( 'us.wpopup.afterShow', function( _, WPopup ) {
-		if ( WPopup instanceof $us.WPopup && $( 'video.wp-video-shortcode', WPopup.$box ).length ) {
-			var handle = $ush.timeout( function() {
+! function( $ ) {
+	$us.$window.on( 'us.wpopup.afterShow', ( _, WPopup ) => {
+		if ( WPopup instanceof $us.WPopup && $( 'video.wp-video-shortcode', WPopup.$box ).length > 0 ) {
+			const handle = $ush.timeout( () => {
 				$ush.clearTimeout( handle );
 				_window.dispatchEvent( new Event( 'resize' ) );
 			}, 1 );
+		}
+	} );
+}( jQuery );
+
+/**
+ * Scrollbar settings for all popups
+ */
+! function( $ ) {
+	"use strict";
+
+	$us.scrollbarWidth = function( force ) {
+		const self = this;
+		if ( $ush.isUndefined( self.width ) || force ) {
+			const scrollDiv = _document.createElement( 'div' );
+			scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;';
+			_document.body.appendChild( scrollDiv );
+			self.width = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+			_document.body.removeChild( scrollDiv );
+		}
+		return self.width;
+	};
+
+	if ( $.magnificPopup ) {
+
+		// Override MagnificPopup methods
+		const origMfpOpen = $.magnificPopup.proto.open;
+		const origMfpClose = $.magnificPopup.proto.close;
+
+		$.magnificPopup.proto.open = function() {
+			const result = origMfpOpen.apply( this, arguments );
+			$us.$html.removeAttr( 'style' );
+			$us.$document.trigger( 'usPopupOpened', this );
+			return result;
+		};
+
+		$.magnificPopup.proto.close = function() {
+			const result = origMfpClose.apply( this, arguments );
+			$us.$document.trigger( 'usPopupClosed', this );
+			return result;
+		};
+	}
+
+	$us.$document.on( 'usPopupOpened', () => {
+		$us.$html.addClass( 'us_popup_is_opened' );
+		if ( ! $.isMobile && $us.$html[0].scrollHeight > $us.$html[0].clientHeight ) {
+			const scrollbarWidth = $us.scrollbarWidth();
+			if ( scrollbarWidth ) {
+				$us.$html.css( '--scrollbar-width', scrollbarWidth + 'px' );
+			}
+		}
+	} );
+
+	$us.$document.on( 'usPopupClosed', () => {
+		$us.$html.removeClass( 'us_popup_is_opened' );
+		if ( ! $.isMobile ) {
+			$us.$html.css( '--scrollbar-width', '' );
 		}
 	} );
 }( jQuery );

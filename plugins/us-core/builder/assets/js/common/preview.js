@@ -8,17 +8,16 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
 
-	// Math API
-	var ceil = Math.ceil,
-		max = Math.max;
+	const _window = window;
+
+	const ceil = Math.ceil;
+	const max = Math.max;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -40,11 +39,9 @@
 	 * @param {String} container The container
 	 */
 	function Preview( container ) {
-		var self = this;
+		const self = this;
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			endResize: self._endResize.bind( self ),
 			hideToolbar: self._hideToolbar.bind( self ),
@@ -55,7 +52,7 @@
 			urlManager: self._urlManager.bind( self ),
 		};
 
-		$( function() {
+		$( () => {
 
 			// Elements
 			self.$container = $( container );
@@ -95,7 +92,7 @@
 			.on( 'urlManager.changed', self._events.urlManager ); // URL history stack change handler
 
 		// Handler for screen synchronization in $usof objects
-		self.on( 'document.syncResponsiveState', function( screenName ) {
+		self.on( 'document.syncResponsiveState', ( screenName ) => {
 			if ( self.isScreenName( screenName ) ) {
 				$usb.triggerDocument( 'syncResponsiveState', screenName );
 			}
@@ -105,7 +102,7 @@
 	/**
 	 * @type {Prototype}
 	 */
-	var prototype = Preview.prototype;
+	const prototype = Preview.prototype;
 
 	// Responsive API
 	$.extend( prototype, $ush.mixinEvents, {
@@ -157,7 +154,7 @@
 		 * @return {{}} Returns the offset along the X and Y axes
 		 */
 		getCurrentOffset: function() {
-			var rect = $ush.$rect( $usb.iframe );
+			const rect = $ush.$rect( $usb.iframe );
 			return {
 				y: rect.y || 0,
 				x: rect.x || 0
@@ -171,10 +168,10 @@
 		 * @param {{}|undefined} state Data object associated with history and current loaction
 		 */
 		_urlManager: function( state ) {
-			var self = this,
-				currentScreen = state.setParams.screen;
+			const self = this;
+			const currentScreen = state.setParams.screen;
+
 			if (
-				// If the document is not read, exit
 				! self.isReady()
 				// If the screen has not changed and show, exit
 				|| (
@@ -184,12 +181,11 @@
 			) {
 				return;
 			}
-			// Show toolbar
+
 			if ( currentScreen ) {
 				self.showToolbar( currentScreen );
-			}
-			// Hide toolbar
-			else if ( state.oldParams.screen ) {
+
+			} else if ( state.oldParams.screen ) {
 				self.hideToolbar();
 			}
 		},
@@ -200,22 +196,22 @@
 		 * @param {String} screen The screen name
 		 */
 		showToolbar: function( screen ) {
-			var self = this;
-			self.$container.addClass( 'responsive_mode' ); // hide toolbar
-			self.$actionSwitchToolbar.addClass( 'active' ); // deactivate button
-			self.setResponsiveScreen( screen || _DEFAULT_RESPONSIVE_SCREEN_ ); // set default responsive screen
+			const self = this;
+			self.$container.addClass( 'responsive_mode' );
+			self.$actionSwitchToolbar.addClass( 'active' );
+			self.setResponsiveScreen( screen || _DEFAULT_RESPONSIVE_SCREEN_ );
 		},
 
 		/**
 		 * Hide toolbar controls
 		 */
 		hideToolbar: function() {
-			var self = this;
-			self.$container.removeClass( 'responsive_mode' ); // hide toolbar
-			self.$actionSwitchToolbar.removeClass( 'active' ); // deactivate button
-			self.setResponsiveScreen( _DEFAULT_RESPONSIVE_SCREEN_ ); // set default responsive screen
-			self.$screen.removeAttr( 'style').removeData( '_width' ); // reset for screen
-			$usb.$iframe.removeAttr( 'style' ); // reset for iframe
+			const self = this;
+			self.$container.removeClass( 'responsive_mode' );
+			self.$actionSwitchToolbar.removeClass( 'active' );
+			self.setResponsiveScreen( _DEFAULT_RESPONSIVE_SCREEN_ );
+			self.$screen.removeAttr( 'style').removeData( '_width' );
+			$usb.$iframe.removeAttr( 'style' );
 		},
 
 		/**
@@ -233,8 +229,8 @@
 		 * @event handler
 		 */
 		_switchToolbar: function() {
-			var self = this,
-				urlManager = $usb.urlManager;
+			const self = this;
+			const urlManager = $usb.urlManager;
 			if ( ! self.isShow() ) {
 				urlManager.setParam( 'screen', _DEFAULT_RESPONSIVE_SCREEN_ );
 			} else {
@@ -250,8 +246,8 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_switchResponsiveScreen: function( e ) {
-			var screen = $usbcore.$attr( e.target, 'data-responsive-state' );
-			this.setResponsiveScreen( screen ); // set responsive screen
+			const screen = $usbcore.$attr( e.target, 'data-responsive-state' );
+			this.setResponsiveScreen( screen );
 			$usb.urlManager.setParam( 'screen', screen ).push();
 		},
 
@@ -261,14 +257,11 @@
 		 * @param {Number} Width The width
 		 */
 		_setScreenWidth: function( width ) {
-			var self = this,
-				// Get controls width (Sum of left and right)
-				resizeControlWidth = _$tmp.resizeControlWidth * 2,
-				// Get breakpoint settings
-				breakpoint = $usb.config( 'breakpoints.' + _$tmp.currentResponsiveScreen, /* default */{} ),
-				// Maximum width for the current screen
+			const self = this;
+
+			var resizeControlWidth = _$tmp.resizeControlWidth * 2,
+				breakpoint = $usb.config( 'breakpoints.' + _$tmp.currentResponsiveScreen, {} ),
 				maxWidth = $ush.parseInt( breakpoint.max_width ) + resizeControlWidth,
-				// Minimum width for the current screen
 				minWidth = max( $ush.parseInt( breakpoint.min_width ), $ush.parseInt( $usb.config( 'preview.minHeight' ) ) ) + resizeControlWidth;
 
 			// Check and get width within valid range
@@ -290,13 +283,12 @@
 		 * @param {String} screen The screen name
 		 */
 		setResponsiveScreen: function( screen ) {
-			var self = this;
-			// Check if the screen name is correct
+			const self = this;
+
 			if ( ! self.isScreenName( screen ) ) {
 				return;
 			}
 
-			// Set current mod
 			self.$wrapper.usMod( 'responsive_state', screen );
 
 			// Screen synchronization in $usof objects
@@ -305,14 +297,13 @@
 			// Activate button in the toolbar controls
 			$( '[data-responsive-state]', self.$container )
 				.removeClass( 'active' )
-				.filter( '[data-responsive-state="' + screen + '"]' )
+				.filter( `[data-responsive-state="${screen}"]` )
 				.addClass( 'active' );
 
 			// Save current screen name
 			_$tmp.currentResponsiveScreen = screen;
 
-			// Get control width
-			var resizeControlWidth = _$tmp.resizeControlWidth;
+			const resizeControlWidth = _$tmp.resizeControlWidth;
 
 			// If there is no value, set the default screen height
 			if ( ! self.$inputHeight.val() ) {
@@ -321,7 +312,7 @@
 
 			// Get screen width
 			var containerWidth = $ush.parseInt( self.$container.width() ),
-				width = ( $usb.config( 'breakpoints.' + screen + '.breakpoint' ) || containerWidth ) + ( resizeControlWidth * 2 );
+				width = ( $usb.config( `breakpoints.${screen}.breakpoint` ) || containerWidth ) + ( resizeControlWidth * 2 );
 			if ( width >= containerWidth ) {
 				width = containerWidth;
 			}
@@ -338,9 +329,10 @@
 		 * @type debounced
 		 */
 		setFieldResponsiveScreen: $ush.debounce( function() {
-			var self = this;
+			const self = this;
+
+			// Screen synchronization in $usof objects
 			if ( self.isShow() ) {
-				// Screen synchronization in $usof objects
 				self.trigger( 'document.syncResponsiveState', _$tmp.currentResponsiveScreen );
 			}
 		}, 100 ),
@@ -352,12 +344,12 @@
 		 * @param {String} screen The screen name
 		 */
 		fieldSetResponsiveScreen: function( screen ) {
-			var self = this;
+			const self = this;
 			// Show toolbar
 			if ( ! self.isShow() ) {
 				self.showToolbar( screen );
 			} else {
-				self.setResponsiveScreen( screen ); // set responsive screen
+				self.setResponsiveScreen( screen );
 			}
 			$usb.urlManager.setParam( 'screen', screen ).push();
 		},
@@ -369,13 +361,14 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_maybeStartResize: function( e ) {
-			var self = this;
-			// Determines if hide responsive toolbar
+			const self = this;
+
 			if ( ! self.isShow() ) {
 				return;
 			}
-			// Save the start data
-			var $screen = self.$screen;
+
+			const $screen = self.$screen;
+
 			$usbcore.cache( 'temp' ).set( 'resizeData', {
 				resizeControl: $usbcore.$attr( e.target, 'data-resize-control' ),
 				startHeight: $ush.parseInt( $screen.height() ),
@@ -383,7 +376,7 @@
 				startPageX: e.pageX,
 				startPageY: e.pageY
 			} );
-			$screen.addClass( 'resizable' ); // enable screen resize mode
+			$screen.addClass( 'resizable' );
 		},
 
 		/**
@@ -393,11 +386,12 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_maybeResize: function( e ) {
-			var self = this;
-			// Determines if hide responsive toolbar
+			const self = this;
+
 			if ( ! self.isShow() ) {
 				return;
 			}
+
 			// Get resize data
 			var resizeData = $usbcore.cache( 'temp' ).data().resizeData; // object reference
 			if ( $.isEmptyObject( resizeData || {} ) ) {
@@ -427,7 +421,7 @@
 				// emulate an offset based on the screen width to the maximum width
 				var currentResponsiveScreen = _$tmp.currentResponsiveScreen;
 				if ( currentResponsiveScreen == _DEFAULT_RESPONSIVE_SCREEN_ ) {
-					var maxWidth = $ush.parseInt( $usb.config( 'breakpoints.' + currentResponsiveScreen + '.max_width' ) ),
+					var maxWidth = $ush.parseInt( $usb.config( `breakpoints.${currentResponsiveScreen}.max_width` ) ),
 						windowWidth = ( _window.innerWidth - 1 );
 					if (
 						maxWidth
@@ -454,7 +448,7 @@
 				var height = resizeData.startHeight - ( resizeData.startPageY - e.pageY );
 
 				// Check allowed minimum height for screen (add control width to exclude it)
-				var minHeight = $usb.config( 'preview.minHeight', /* default */320 ) + resizeControlWidth;
+				var minHeight = $usb.config( 'preview.minHeight', 320 ) + resizeControlWidth;
 				if ( height < minHeight ) {
 					height = minHeight;
 				}
@@ -477,14 +471,14 @@
 		 * @event handler
 		 */
 		_endResize: function() {
-			var self = this;
-			// Determines if hide responsive toolbar
+			const self = this;
+
 			if ( ! self.isShow() ) {
 				return;
 			}
-			// Disable screen resize mode
+
 			self.$screen.removeClass( 'resizable' );
-			$usbcore.cache( 'temp' ).remove( 'resizeData' ); // remove data from the cache
+			$usbcore.cache( 'temp' ).remove( 'resizeData' );
 		}
 	} );
 

@@ -1153,8 +1153,6 @@ if ( ! function_exists( 'us_admin_bar_menu' ) ) {
 					'nopaging' => TRUE,
 					'post__in' => $page_block_ids,
 					'post_type' => array( 'us_page_block', 'us_content_template' ),
-					'update_post_meta_cache' => FALSE,
-					'update_post_term_cache' => FALSE,
 				);
 				foreach ( get_posts( $query_args ) as $post ) {
 					// Recursive get of all Reusable Blocks

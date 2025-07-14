@@ -77,6 +77,7 @@ return array(
 			'markers' => array(
 				'type' => 'group',
 				'show_controls' => TRUE,
+				'is_sortable' => TRUE,
 				'is_accordion' => TRUE,
 				'accordion_title' => 'marker_address',
 				'params' => array(

@@ -394,6 +394,7 @@
 		display: block;
 		position: static;
 		transform: none;
+		visibility: visible;
 		}
 	.header_hor .w-search.layout_simple.elm_in_header .w-search-form,
 	.header_hor .w-search.layout_modern.elm_in_header .w-search-form {
@@ -449,6 +450,10 @@
 		display: block;
 		margin-inline-end: 1rem;
 		transform: translateY(-50%);
+		}
+	.header_hor .w-search.layout_simple.elm_in_header.active .w-search-close,
+	.header_hor .w-search.layout_modern.elm_in_header.active .w-search-close {
+		visibility: visible;
 		}
 .w-search.layout_fullwidth input,
 .w-search.layout_fullscreen input {

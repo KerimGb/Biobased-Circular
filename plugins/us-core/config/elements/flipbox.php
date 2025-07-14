@@ -9,6 +9,8 @@ $conditional_params = us_config( 'elements_conditional_options' );
 $design_options_params = us_config( 'elements_design_options' );
 $effect_options_params = us_config( 'elements_effect_options' );
 
+$image_sizes_list = us_is_elm_editing_page() ? us_get_image_sizes_list() : array();
+
 /**
  * @return array
  */
@@ -108,7 +110,7 @@ return array(
 				'title' => __( 'Image Size', 'us' ),
 				'description' => $misc['desc_img_sizes'],
 				'type' => 'select',
-				'options' => us_get_image_sizes_list(),
+				'options' => $image_sizes_list,
 				'std' => 'large',
 				'cols' => 2,
 				'show_if' => array( 'front_bgimage', '!=', '' ),
@@ -314,7 +316,7 @@ return array(
 				'title' => __( 'Image Size', 'us' ),
 				'description' => $misc['desc_img_sizes'],
 				'type' => 'select',
-				'options' => us_get_image_sizes_list(),
+				'options' => $image_sizes_list,
 				'std' => 'large',
 				'cols' => 2,
 				'show_if' => array( 'back_bgimage', '!=', '' ),

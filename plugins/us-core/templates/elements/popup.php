@@ -57,7 +57,7 @@ if ( $show_on == 'image' ) {
 		'class' => 'w-popup-trigger type_load',
 	);
 	if ( usb_is_preview() ) {
-		$trigger_atts[ 'title' ] = __( 'Popup', 'us' );
+		$trigger_atts['title'] = __( 'Popup', 'us' );
 	}
 	$trigger_options = array(
 		'delay' => (int) $show_delay,
@@ -150,8 +150,19 @@ if ( $popup_width == '100%' ) {
 	$layout = 'fullscreen';
 }
 
+$close_btn_atts = array(
+	'aria-label' => us_translate( 'Close' ),
+	'class' => 'w-popup-closer',
+	'type' => 'button',
+);
+
 // The Popup itself
-$_popup_wrap_atts['class'] = 'w-popup-wrap layout_' . $layout;
+$_popup_wrap_atts = array(
+	'class' => 'w-popup-wrap layout_' . $layout,
+	'role' => 'dialog',
+	'aria-modal' => 'true',
+	'aria-label' => $btn_atts['aria-label'],
+);
 $_popup_wrap_atts['style'] = '--title-color:' . us_get_color( $title_textcolor ) . ';';
 $_popup_wrap_atts['style'] .= '--title-bg-color:' . us_get_color( $title_bgcolor, /* Gradient */ TRUE ) . ';';
 $_popup_wrap_atts['style'] .= '--content-color:' . us_get_color( $content_textcolor ) . ';';
@@ -170,8 +181,19 @@ if ( $popup_padding ) {
 }
 
 $output .= '<div' . us_implode_atts( $_popup_wrap_atts ) . '>';
+
+// Close Button when Outside Popup
+if ( $closer_pos === 'outside' ) {
+	$output .= '<button' . us_implode_atts( $close_btn_atts ) . '></button>';
+}
+
 $output .= '<div class="w-popup-box' . $popup_class . '">';
 $output .= '<div class="w-popup-box-h">';
+
+// Close Button when Inside Popup
+if ( $closer_pos === 'inside' ) {
+	$output .= '<button' . us_implode_atts( $close_btn_atts ) . '></button>';
+}
 
 $output .= $popup_title;
 
@@ -185,20 +207,8 @@ if ( $use_page_block === 'none' ) {
 }
 
 $output .= '</div>'; // .w-popup-box-content
-
-// Close Button when Inside Popup
-if ( $closer_pos === 'inside' ) {
-	$output .= '<div class="w-popup-closer"></div>';
-}
-
 $output .= '</div>'; // .w-popup-box-h
 $output .= '</div>'; // .w-popup-box
-
-// Close Button when Outside Popup
-if ( $closer_pos === 'outside' ) {
-	$output .= '<div class="w-popup-closer"></div>';
-}
-
 $output .= '</div>'; // .w-popup-wrap
 
 if ( us_amp() ) {

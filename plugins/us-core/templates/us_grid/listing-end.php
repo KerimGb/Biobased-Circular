@@ -387,7 +387,7 @@ if ( $type == 'carousel' ) {
 			'center' => ( $responsive_data['items'] == 'auto' ) ? FALSE : (bool) $responsive_data['center_item'],
 			'dots' => (bool) $responsive_data['dots'],
 			'items' => (int) $responsive_data['items'],
-			'loop' => $_disable_loop ? FALSE : (bool) $responsive_data['loop'],
+			'loop' => $items_count <= $responsive_data['items'] ? FALSE : (bool) $responsive_data['loop'],
 			'nav' => (bool) $responsive_data['arrows'],
 			'stagePadding' => (int) $responsive_data['items_offset'],
 			'slideBy' => $responsive_data['items'] == 'auto' ? 'page' : '1',

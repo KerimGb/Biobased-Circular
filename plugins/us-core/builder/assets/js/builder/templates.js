@@ -8,13 +8,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _window = window;
+
+	const _window = window;
 
 	if ( ! _window.$usb ) {
 		return;
 	}
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || {};
 	_window.$usbcore = _window.$usbcore || {};
 
@@ -31,20 +31,18 @@
 	 * @param {String} container The container
 	 */
 	function Templates( container ) {
-		var self = this;
+		const self = this;
 
 		// Private "Variables"
 		self.name = 'templates';
 
-		/**
-		 * @type {{}} Bondable events
-		 */
+		// Bondable events
 		self._events = {
 			clickTabTemplates: self._clickTabTemplates.bind( self ),
 			expandCategory: self._expandCategory.bind( self ),
 		}
 
-		$( function() {
+		$( () => {
 
 			// Elements
 			self.$container = $( container );
@@ -53,9 +51,7 @@
 
 			// Events
 			$usb.$panel
-				// Switch categories
 				.on( 'click', '.usb-template-title', self._events.expandCategory )
-				// Show and loading templates
 				.on( 'click', '.usb_action_show_templates', self._events.clickTabTemplates );
 		} );
 	}
@@ -77,6 +73,7 @@
 		 * @return {Boolean} True if show, False otherwise
 		 */
 		isShow: function() {
+			// TODO: Optimize ".is( ':visible' )"
 			return this.$container.is( ':visible' );
 		},
 
@@ -87,7 +84,7 @@
 		 * @return {Boolean} True if the specified id is template, False otherwise
 		 */
 		isTemplate: function( id ) {
-			var self = this;
+			const self = this;
 			if ( $usb.builder.isValidId( id ) ) {
 				id = $usb.builder.getElmType( id );
 			}
@@ -120,14 +117,7 @@
 		 * @return {Boolean} Returns true if the category templates are loaded, otherwise false
 		 */
 		templateIsLoaded: function( categoryId ) {
-			var self = this;
-			if (
-				self.categoryIsLoaded( categoryId )
-				&& _$tmp.isLoaded[ categoryId ]
-			) {
-				return true;
-			}
-			return false;
+			return this.categoryIsLoaded( categoryId ) && _$tmp.isLoaded[ categoryId ];
 		},
 
 		/**
@@ -136,7 +126,7 @@
 		 * @event handler
 		 */
 		_clickTabTemplates: function() {
-			var self = this;
+			const self = this;
 			// Load the config if it is not loaded
 			if ( ! self.configIsLoaded() ) {
 				self._loadConfig();
@@ -160,8 +150,8 @@
 		 * @param {Event} e The Event interface represents an event which takes place in the DOM
 		 */
 		_expandCategory: function( e ) {
-			var self = this,
-				categoryId = $( e.currentTarget ).parent().data( 'template-category-id' );
+			const self = this;
+			const categoryId = $( e.currentTarget ).parent().data( 'template-category-id' );
 			// If it was not possible to load the category id, then exit the method
 			if ( ! categoryId ) {
 				return;
@@ -171,7 +161,7 @@
 				self._loadTemplates( categoryId );
 			}
 			// If click on an expand category, then collapse the category
-			var $activeTemplate = $( '.usb-template.expand', self.$container );
+			const $activeTemplate = $( '.usb-template.expand', self.$container );
 			if ( $activeTemplate.data( 'template-category-id' ) === categoryId ) {
 				$activeTemplate.removeClass( 'expand' );
 				return;
@@ -184,7 +174,7 @@
 			function showSectionById( categoryId ) {
 				$( '.usb-template', self.$container )
 					.removeClass( 'expand' )
-					.filter( '[data-template-category-id="'+ categoryId +'"]' )
+					.filter( `[data-template-category-id="${categoryId}"]` )
 					.addClass( 'expand' );
 			};
 			// After load show category templates
@@ -199,24 +189,21 @@
 		 * Load templates config
 		 */
 		_loadConfig: function() {
-			var self = this;
+			const self = this;
 
 			if ( self.configIsLoaded() ) {
 				return;
 			}
 
-			// Show the preloader
 			$usb.panel.showPreloader();
 
-			// Load template sections
-			$usb.ajax( /*request id*/'templates.loadConfig', {
+			$usb.ajax( 'templates.loadConfig', {
 				data: {
 					_nonce: $usb.config( '_nonce' ),
 					action: $usb.config( 'action_get_templates_config' ),
 				},
-				success: function( res ) {
+				success: ( res ) => {
 					if ( ! res.success || ! $.isPlainObject( res.data ) ) {
-						// Show template loading error
 						self.$error.addClass( 'active' );
 						return;
 					}
@@ -228,18 +215,17 @@
 						}
 
 						// Get category section
-						var categorySection = res.data[ categoryId ];
+						const categorySection = res.data[ categoryId ];
 						if ( categorySection ) {
 							self.$container.append( categorySection );
 							_$tmp.$categorySections[ categoryId ] = $( categorySection );
 						}
 					}
 
-					// Triggering an event to complete the configuration loaded
 					self.trigger( 'configLoaded' );
 				},
-				complete: function() {
-					$usb.panel.hidePreloader(); // hide the preloader
+				complete: () => {
+					$usb.panel.hidePreloader();
 				},
 			} );
 		},
@@ -250,7 +236,7 @@
 		 * @param {String} categoryId The category id
 		 */
 		_loadTemplates: function( categoryId ) {
-			var self = this;
+			const self = this;
 
 			if (
 				$ush.isUndefined( categoryId )
@@ -260,14 +246,13 @@
 				return;
 			}
 
-			$usb.ajax( /* request id */'templates.loadTemplates', {
-				// Request data
+			$usb.ajax( 'templates.loadTemplates', {
 				data:{
 					_nonce: $usb.config( '_nonce' ),
 					action: $usb.config( 'action_preload_template_category' ),
 					template_category_id: categoryId,
 				},
-				success: function( res ) {
+				success: ( res ) => {
 					// Saved the result in any case, to understand whether there was a download or not
 					_$tmp.isLoaded[ categoryId ] = res.success;
 
@@ -290,7 +275,7 @@
 		 * @param {Number} currentIndex Position of the element inside the parent.
 		 */
 		insertTemplate: function( categoryId, templateId, parentId, currentIndex ) {
-			var self = this;
+			const self = this;
 
 			// Check if the templates category id is correct
 			if ( ! categoryId ) {
@@ -310,13 +295,12 @@
 				return;
 			}
 
-			// Get the insert position
-			var insert = $usb.builder.getInsertPosition( parentId, currentIndex );
+			const insert = $usb.builder.getInsertPosition( parentId, currentIndex );
 
 			/**
 			 * @type {Function} Get template data
 			 */
-			var _getTemplateData = function() {
+			const _getTemplateData = function() {
 				// Get html shortcode code and set on preview page
 				$usb.postMessage( 'showPreloader', [
 					insert.parent,
@@ -329,7 +313,7 @@
 						template_id: templateId,
 						isReturnContent: true // returns the content for the page (shortcodes)
 					},
-					success: function( res ) {
+					success: ( res ) => {
 						$usb.postMessage( 'hidePreloader', insert.parent );
 
 						// Check the correctness of the answer and the availability of data
@@ -338,7 +322,7 @@
 						}
 
 						// Update IDs in content
-						let newData = $usb.builder.updateIdsInContent( res.data.content, res.data.html );
+						const newData = $usb.builder.updateIdsInContent( res.data.content, res.data.html );
 
 						// Adds shortcode to content
 						if ( ! $usb.builder._addShortcodeToContent( parentId, currentIndex, newData.content ) ) {
@@ -354,7 +338,12 @@
 							$usb.history.commitChange( newData.firstElmId, _CHANGED_ACTION_.CREATE );
 						}
 
-						$usb.trigger( 'builder.contentChange' ); // event for react in extensions
+						// Note: A timeout is used to release the main thread.
+						$ush.timeout( () => {
+							$usb.builder.updateElementsList();
+						}, 0 );
+
+						$usb.trigger( 'builder.contentChange' );
 					}
 				} );
 			};
@@ -362,9 +351,9 @@
 			// Determines if current category shortcodes loaded
 			if ( ! self.templateIsLoaded( categoryId ) ) {
 				self.off( 'templatesLoaded' )
-					.one( 'templatesLoaded', function( _categoryId ) {
+					.one( 'templatesLoaded', ( _categoryId ) => {
 						if ( categoryId == _categoryId ) {
-							_getTemplateData(); // get template data
+							_getTemplateData();
 						}
 					} );
 				if ( self.categoryIsLoaded( categoryId ) ) {
@@ -372,7 +361,7 @@
 				}
 				return;
 			}
-			_getTemplateData(); // get template data
+			_getTemplateData();
 		}
 	} );
 

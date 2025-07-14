@@ -56,8 +56,15 @@ if ( ! function_exists( 'us_cookie_notice_output' ) ) {
 				$output .= '<div class="l-cookie pos_' . us_get_option( 'cookie_message_pos', 'bottom' ) . '">';
 				$output .= '<div class="l-cookie-message">' . $cookie_message . '</div>';
 
+				$cookie_btn_atts = array(
+					'class' => 'w-btn ' . us_get_btn_class( us_get_option( 'cookie_btn_style', '1' ) ),
+					'id' => 'us-set-cookie',
+				);
+
+				$cookie_btn_atts = apply_filters( 'us_cookie_notice_btn_atts', $cookie_btn_atts );
+
 				// Accept button
-				$output .= '<button class="w-btn ' . us_get_btn_class( us_get_option( 'cookie_btn_style', '1' ) ) . ' " id="us-set-cookie">';
+				$output .= '<button' . us_implode_atts( $cookie_btn_atts ) . '>';
 				$output .= '<span>' . strip_tags( us_get_option( 'cookie_btn_label', 'Ok' ) ) . '</span>';
 				$output .= '</button>';
 

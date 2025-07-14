@@ -1163,10 +1163,35 @@ input.screen-reader-text:focus { /* needed for correct checkboxes appearance whe
 		min-width: 1em;
 		}
 
+/* Skip links for keyboard accessibility */
+.w-skip-btn {
+	position: absolute;
+	top: calc( 1rem + var(--wp-admin--admin-bar--height, 0px) );
+	inset-inline-start: 1rem;
+	padding: .25em .5em;
+	border-radius: .2em;
+	background: var(--color-content-bg-alt);
+	transform: translateY( calc( -1rem - 101% ) ) !important;
+	z-index: 1000 !important;
+	}
+.w-skip-btn:focus {
+	transform: translateY(0) !important;
+	}
+
 /* Hide elements overflow with defined border-radius */
 .wpb_raw_html.has_border_radius {
 	overflow: hidden;
 	transform: translateZ(0); /* overflow fix for Safari */
+	}
+
+/* Styles when some popup is opened */
+html.us_popup_is_opened {
+	scrollbar-width: none;
+	margin-right: var(--scrollbar-width, 0px);
+	}
+html[style*="hidden"] .header_hor .l-header.pos_fixed,
+html.us_popup_is_opened .header_hor .l-header.pos_fixed {
+	padding-right: var(--scrollbar-width, 0px);
 	}
 
 /* Reset background-attachment on Safari iOS */
@@ -1316,6 +1341,7 @@ blockquote.is-style-large,
 /* Rounded Corners
    ========================================================================== */
 .rounded_none .w-header-show,
+.rounded_none .w-skip-link,
 .rounded_none .w-toplink {
 	border-radius: 0 !important;
 	}

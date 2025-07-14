@@ -10,13 +10,13 @@
  * Note: Double underscore `__funcname` is introduced for functions that are created through `$ush.debounce(...)`.
  */
 ! function( $, undefined ) {
-	var _document = document,
-		_window = window;
+
+	const _document = document;
+	const _window = window;
 
 	// Get parent window
 	var parent = _window.parent || {};
 
-	// Check for is set availability objects
 	_window.$ush = _window.$ush || parent.$ush || {};
 
 	// If there is no parent window object, we will complete the execute script
@@ -39,7 +39,7 @@
 	 * @class USBSite Preview - The class displays changes to the site settings
 	 */
 	var USBSitePreview = function() {
-		var self = this;
+		const self = this;
 
 		// Duplicate identification parameters from the referral to the current link,
 		// to be able to identify previews after clicking on links within a frame
@@ -56,7 +56,7 @@
 		_window.onmessage = $usb._onMessage.bind( self );
 
 		// Set the 'show_preloader' class before load the document
-		_window.onbeforeunload = function() {
+		_window.onbeforeunload = () => {
 			if ( ! $usb.iframeIsReady ) {
 				return;
 			}
@@ -66,9 +66,7 @@
 		// Elements
 		self.$document = $( _document );
 
-		/**
-		 * @type {{}} Bondable dddevents
-		 */
+		// Bondable dddevents
 		self._events = {
 			clearCookies: self._clearCookies.bind( self ),
 			onPreviewChange: self._onPreviewChange.bind( self ),
@@ -76,7 +74,6 @@
 
 		// Events
 		self.$document
-			// Capture keyboard shortcuts
 			.on( 'keydown', $usb._events.keydown );
 
 		// Private event
@@ -134,16 +131,14 @@
 		 * @param {String} data The additional data
 		 */
 		_onPreviewChange: function( instructions, value, fieldType, data ) {
-			var self = this,
-				isUndefined = $ush.isUndefined,
-				isPlainObject = $.isPlainObject;
+			const self = this;
 
 			// Get additional data
 			var _data = {
 				changed: '', // changed data relative to saved options
 				liveOptions: '', // the current live options
 			};
-			if ( isPlainObject( data ) ) {
+			if ( $.isPlainObject( data ) ) {
 				$.extend( /* deep */true, _data, data );
 			}
 
@@ -162,14 +157,14 @@
 				return;
 			}
 
-			if ( isUndefined( instructions[ 0 ] ) ) {
+			if ( $ush.isUndefined( instructions[0] ) ) {
 				instructions = [ instructions || {} ];
 			}
 
 			// Apply the instructions to the elements
 			for ( var i in instructions ) {
 				var instruction = instructions[ i ];
-				if ( isUndefined( instruction[ 'elm' ] ) ) {
+				if ( $ush.isUndefined( instruction[ 'elm' ] ) ) {
 					continue;
 				}
 
@@ -180,7 +175,7 @@
 				}
 
 				// Change the class modifier of an element
-				if ( ! isUndefined( instruction[ 'mod' ] ) ) {
+				if ( ! $ush.isUndefined( instruction[ 'mod' ] ) ) {
 					var mod = '' + instruction[ 'mod' ],
 						// Expression for remove classes
 						pcre = new RegExp( '((^|\\s)'+ $ush.escapePcre( mod ) + '[a-zA-Z0-9\_\-]+)', 'g' );
@@ -192,7 +187,7 @@
 
 					// If the value is not responsive, check for a set and turn it into an array
 					value = Array.isArray( value ) ? value : ( '' + value ).split( ',' );
-					$.each( value || [], function( _, value ) {
+					$.each( value || [], ( _, value ) => {
 						if ( value ) {
 							$elm.addClass( mod + '_' + value );
 						}
@@ -200,7 +195,7 @@
 				}
 
 				// Change the inline parameter
-				if ( ! isUndefined( instruction[ 'css' ] ) ) {
+				if ( ! $ush.isUndefined( instruction[ 'css' ] ) ) {
 					// Get url to image by id
 					if (
 						fieldType === 'upload'
@@ -213,25 +208,25 @@
 				}
 
 				// Change the typography options
-				if ( ! isUndefined( instruction[ 'typography' ] ) ) {
-					$ush.debounce_fn_1ms( function() {
+				if ( ! $ush.isUndefined( instruction[ 'typography' ] ) ) {
+					$ush.debounce_fn_1ms( () => {
 						var liveOptions = $ush.toPlainObject( _data.liveOptions );
 						if ( $.isEmptyObject( liveOptions ) ) {
 							return;
 						}
 						// Create a collection for css compilation
 						var collections = {};
-						$.each( $usb.config('typography.tags', [] ), function( _, tagName ) {
+						$.each( $usb.config('typography.tags', [] ), ( _, tagName ) => {
 							var options = liveOptions[ tagName ];
-							if ( isUndefined( options ) ) {
+							if ( $ush.isUndefined( options ) ) {
 								return;
 							}
 
-							$.each( $usb.config( 'breakpoints', {} ), function( screen, _ ) {
-								if ( ! isPlainObject( collections[ screen ] ) ) {
+							$.each( $usb.config( 'breakpoints', {} ), ( screen, _ ) => {
+								if ( ! $.isPlainObject( collections[ screen ] ) ) {
 									collections[ screen ] = { ':root': {} };
 								}
-								$.each( options, function( key, value ) {
+								$.each( options, ( key, value ) => {
 									key = ( tagName == 'body' )
 										? '--' + key // global options do not have a tagName prefix
 										: '--' + tagName + '-' + key;
@@ -248,10 +243,10 @@
 								} );
 							} );
 						} );
-						// Set google fonts
+
 						$usb.fonts.setGoogleFonts( liveOptions );
-						// Set new generated styles based on collection
 						$elm.text( $usb.cssGenerator( collections ) );
+
 					} );
 				}
 			}

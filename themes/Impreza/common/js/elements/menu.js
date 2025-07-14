@@ -129,7 +129,7 @@
 
 				// Close mobile menu on ESC
 				if (
-					e.keyCode === 27
+					e.keyCode === $ush.ESC_KEYCODE
 					&& this.type === 'mobile'
 					&& this.isMobileMenuOpened
 				) {
@@ -138,7 +138,7 @@
 
 				// Close sub menus, when navigating outside the menu
 				if (
-					e.keyCode === 9
+					e.keyCode === $ush.TAB_KEYCODE
 					&& this.type === 'desktop'
 					&& ! $( e.target ).closest( '.w-nav' ).length
 				) {
@@ -204,7 +204,7 @@
 
 					// Desktop menu handlers
 					if ( this.type !== 'mobile' ) {
-						if ( ( keyCode === 13 || keyCode === 32 ) && $target.is( this.$arrows ) ) {
+						if ( ( keyCode === $ush.ENTER_KEYCODE || keyCode === $ush.SPACE_KEYCODE ) && $target.is( this.$arrows ) ) {
 							e.preventDefault();
 
 							// Close on click outside menu
@@ -228,7 +228,7 @@
 							}
 						}
 
-						if ( keyCode === 27 ) {
+						if ( keyCode === $ush.ESC_KEYCODE ) {
 							if ( $mainItem.hasClass( 'opened' ) ) {
 								$mainItem.find( '.w-nav-arrow' ).first().focus();
 							}
@@ -237,12 +237,12 @@
 
 						// Mobile menu handlers
 					} else {
-						if ( ( keyCode === 13 || keyCode === 32 ) && $target.is( this.$arrows ) ) {
+						if ( ( keyCode === $ush.ENTER_KEYCODE || keyCode === $ush.SPACE_KEYCODE ) && $target.is( this.$arrows ) ) {
 							e.stopPropagation();
 							e.preventDefault();
 							this._events.toggleMobileSubMenu( $item, ! $item.hasClass( 'opened' ) );
 						}
-						if ( keyCode === 9 ) {
+						if ( keyCode === $ush.TAB_KEYCODE ) {
 							let i = this.$anchors.index( $target );
 							if ( e.shiftKey && i === 0 ) {
 								this._events.closeMobileMenu();

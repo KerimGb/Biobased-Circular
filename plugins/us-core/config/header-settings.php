@@ -20,6 +20,7 @@ $elements = array(
 	'popup',
 	'color_scheme_switch',
 	'favs_counter',
+	'countdown_timer',
 );
 if ( class_exists( 'woocommerce' ) ) {
 	$elements[] = 'cart';

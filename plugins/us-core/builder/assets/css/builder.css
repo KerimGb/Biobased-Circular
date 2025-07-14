@@ -218,6 +218,11 @@ button {
 				height: 100%;
 				width: 100%;
 				}
+			/* Fade the preview area after changing Page Layout settings and saving */
+			.usb-preview-wrapper.show_preloader iframe {
+				opacity: .5;
+				pointer-events: none;
+				}
 
 /* Resize controls */
 .usb-preview-resize-control {
@@ -1109,6 +1114,7 @@ body.action_us-site-settings .usof-form,
 .usb-panel-elms-item[data-type=us_list_filter]:before,
 .usb-panel-elms-item[data-type=us_list_order]:before,
 .usb-panel-elms-item[data-type=us_list_search]:before,
+.usb-panel-elms-item[data-type=us_countdown_timer]:before,
 .usb-panel-header-menu-list > .usb_action_to_site_settings span:after {
 	content: 'NEW';
 	display: inline-block;
@@ -1124,7 +1130,8 @@ body.action_us-site-settings .usof-form,
 	}
 .usb-panel-elms-item[data-type=us_list_filter]:before,
 .usb-panel-elms-item[data-type=us_list_order]:before,
-.usb-panel-elms-item[data-type=us_list_search]:before {
+.usb-panel-elms-item[data-type=us_list_search]:before,
+.usb-panel-elms-item[data-type=us_countdown_timer]:before {
 	position: absolute;
 	top: 7px;
 	left: 50%;

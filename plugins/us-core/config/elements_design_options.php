@@ -582,6 +582,22 @@ return array(
 				'group' => 'Overflow',
 			),
 
+			// Transformation
+			'transform' => array(
+				'title' => 'Transform',
+				'description' => __( 'Examples:', 'us' ) . sprintf(
+					' <span class="usof-example">%s</span>, <span class="usof-example">%s</span>, <span class="usof-example">%s</span>, <span class="usof-example">%s</span>, <span class="usof-example">%s</span>',
+					'translateY(-50%)',
+					'translate(100px, 50px)',
+					'scaleX(0.5)',
+					'scale(1.2)',
+					'rotate(90deg) skewX(-10deg)'
+				),
+				'type' => 'text',
+				'std' => '',
+				'group' => __( 'Transformation', 'us' ),
+			),
+
 			// Animation
 			'animation-name' => array(
 				'description' => __( 'Will be applied to this element, when it enters into the browsers viewport.', 'us' ),

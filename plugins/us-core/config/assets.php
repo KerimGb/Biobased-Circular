@@ -1284,6 +1284,25 @@ return array(
 		),
 		'dependencies' => 'buttons',
 	),
+	'countdown_timer' => array(
+		'title' => __( 'Countdown Timer', 'us' ),
+		'css' => '/common/css/elements/countdown-timer.css',
+		'js' => '/common/js/elements/countdown-timer.js',
+		'auto_optimize_callback' => array(
+			/**
+			 * @return bool
+			 */
+			'shortcodes' => function ( $shortcode_name, $atts, $post ) {
+				return strpos( $post->post_content, '[us_countdown_timer' ) !== FALSE;
+			},
+			/**
+			 * @return bool
+			 */
+			'headers_or_grid_layouts' => function ( $element_name, $atts, $post ) {
+				return ( $element_name === 'countdown_timer' );
+			},
+		),
+	),
 
 	// Plugins
 	'gravityforms' => array(

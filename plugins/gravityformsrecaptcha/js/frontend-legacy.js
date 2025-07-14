@@ -84,6 +84,14 @@ var _this = this;
         formIds: self.getFormIds()
       };
       self.addEventListeners();
+      grecaptcha.ready(function () {
+        if (strings.disable_badge) {
+          var badge = document.querySelector('.grecaptcha-badge');
+          if (badge) {
+            badge.style.visibility = 'hidden';
+          }
+        }
+      });
     };
 
     /**
@@ -128,7 +136,7 @@ var _this = this;
   $(document).ready(function () {
     gfRecaptcha();
   });
-})(jQuery, gform, grecaptcha, gforms_recaptcha_recaptcha_strings);
+})(jQuery, window.gform || {}, grecaptcha, gforms_recaptcha_recaptcha_strings);
 
 /***/ })
 
